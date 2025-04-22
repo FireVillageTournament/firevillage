@@ -1,0 +1,3759 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Fire Village Tournament</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <style>
+        :root {
+            --primary: #FF4D4D;
+            --secondary: #1A1A2E;
+            --accent: #FACC15;
+            --dark: #111827;
+            --light: #F3F4F6;
+        }
+        
+        body {
+            background: linear-gradient(135deg, var(--secondary), var(--dark));
+            min-height: 100vh;
+            color: white;
+        }
+        
+        .sidebar {
+            background: rgba(26, 26, 46, 0.95);
+            backdrop-filter: blur(10px);
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .stat-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .data-table th, .data-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .data-table th {
+            background: rgba(255, 77, 77, 0.2);
+            font-weight: 600;
+        }
+        
+        .data-table tr:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+        
+        .status-badge {
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .status-active {
+            background: rgba(34, 197, 94, 0.2);
+            color: #22C55E;
+        }
+        
+        .status-pending {
+            background: rgba(234, 179, 8, 0.2);
+            color: #EAB308;
+        }
+        
+        .status-completed {
+            background: rgba(99, 102, 241, 0.2);
+            color: #6366F1;
+        }
+        
+        .edit-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .edit-modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .modal-content {
+            background: var(--secondary);
+            border-radius: 10px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        /* Mobile Responsive Styles */
+        @media (max-width: 768px) {
+            .sidebar {
+                position: fixed;
+                left: -100%;
+                top: 0;
+                height: 100vh;
+                z-index: 50;
+                transition: left 0.3s ease;
+                background: var(--secondary);
+            }
+
+            .sidebar.active {
+                left: 0;
+            }
+
+            .mobile-header {
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                z-index: 40;
+                background: var(--secondary);
+                padding: 1rem;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            .main-content {
+                margin-top: 4rem;
+                padding: 1rem;
+            }
+
+            .stat-card {
+                padding: 1rem;
+            }
+
+            .data-table {
+                display: block;
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+
+            .modal-content {
+                width: 95%;
+                margin: 1rem;
+                max-height: 90vh;
+            }
+
+            .chart-container {
+                padding: 1rem;
+                margin-bottom: 1rem;
+            }
+
+            .quick-actions {
+                flex-wrap: wrap;
+            }
+
+            .quick-action-btn {
+                width: 100%;
+                margin-bottom: 0.5rem;
+            }
+        }
+
+        /* Mobile Menu Button */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: block;
+            }
+        }
+
+        /* Mobile Navigation */
+        .mobile-nav {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--secondary);
+            padding: 0.5rem;
+            z-index: 40;
+        }
+
+        @media (max-width: 768px) {
+            .mobile-nav {
+                display: flex;
+                justify-content: space-around;
+            }
+        }
+
+        .mobile-nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: white;
+            text-decoration: none;
+            font-size: 0.8rem;
+            padding: 0.5rem;
+        }
+
+        .mobile-nav-item i {
+            font-size: 1.2rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .mobile-nav-item.active {
+            color: var(--accent);
+        }
+
+        /* Edit Section Styles */
+        .edit-section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .edit-section-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--accent);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .edit-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+
+        .edit-item {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            padding: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .edit-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .edit-item-title {
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            color: white;
+        }
+
+        .edit-item-description {
+            font-size: 0.875rem;
+            color: #9CA3AF;
+            margin-bottom: 1rem;
+        }
+
+        .quick-actions {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .quick-action-btn {
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .quick-action-btn.primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .quick-action-btn.secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .quick-action-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        @media (max-width: 768px) {
+            .edit-section {
+                padding: 1rem;
+            }
+
+            .edit-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .quick-actions {
+                flex-direction: column;
+            }
+
+            .quick-action-btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        /* Mobile Edit Styles */
+        .mobile-edit-container {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--secondary);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 1rem;
+            z-index: 100;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .mobile-edit-container.active {
+            transform: translateY(0);
+        }
+
+        .mobile-edit-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .mobile-edit-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--accent);
+        }
+
+        .mobile-edit-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.2rem;
+            padding: 0.5rem;
+        }
+
+        .mobile-edit-content {
+            max-height: 70vh;
+            overflow-y: auto;
+            padding-bottom: 1rem;
+        }
+
+        .mobile-edit-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .mobile-edit-input {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            padding: 0.75rem;
+            color: white;
+            font-size: 1rem;
+        }
+
+        .mobile-edit-input:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        .mobile-edit-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .mobile-edit-btn {
+            flex: 1;
+            padding: 0.75rem;
+            border-radius: 8px;
+            font-weight: 500;
+            text-align: center;
+            transition: all 0.2s ease;
+        }
+
+        .mobile-edit-btn.primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .mobile-edit-btn.secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .edit-section {
+                margin-bottom: 5rem;
+            }
+        }
+
+        /* Edit Button Styles */
+        .section-edit-btn {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: white;
+            padding: 0.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .section-edit-btn:hover {
+            background: var(--accent);
+            color: black;
+        }
+
+        .section-header {
+            position: relative;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        /* Tournament Management Styles */
+        .tournament-card {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .tournament-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-color: var(--accent);
+        }
+
+        .tournament-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .tournament-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--accent);
+        }
+
+        .tournament-status {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .tournament-status.upcoming {
+            background: rgba(234, 179, 8, 0.2);
+            color: #EAB308;
+        }
+
+        .tournament-status.ongoing {
+            background: rgba(34, 197, 94, 0.2);
+            color: #22C55E;
+        }
+
+        .tournament-status.completed {
+            background: rgba(99, 102, 241, 0.2);
+            color: #6366F1;
+        }
+
+        .tournament-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .detail-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .detail-label {
+            font-size: 0.875rem;
+            color: #9CA3AF;
+        }
+
+        .detail-value {
+            font-weight: 500;
+            color: white;
+        }
+
+        .tournament-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .tournament-btn {
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.2s ease;
+        }
+
+        .tournament-btn.primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .tournament-btn.secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .tournament-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Tournament Edit Styles */
+        .tournament-edit-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .tournament-edit-card {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 12px;
+            padding: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .tournament-edit-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .tournament-edit-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--accent);
+        }
+
+        .tournament-edit-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .form-label {
+            font-size: 0.875rem;
+            color: #9CA3AF;
+        }
+
+        .form-input {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            padding: 0.75rem;
+            color: white;
+            font-size: 0.875rem;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        .form-select {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            padding: 0.75rem;
+            color: white;
+            font-size: 0.875rem;
+            cursor: pointer;
+        }
+
+        .form-select:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        .form-textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .edit-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .edit-btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .edit-btn.primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .edit-btn.secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .edit-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Team Management Styles */
+        .team-edit-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .team-edit-card {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 12px;
+            padding: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .team-edit-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .team-edit-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--accent);
+        }
+
+        .team-edit-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .team-member-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .team-member-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 6px;
+        }
+
+        .team-member-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+        }
+
+        .team-member-info {
+            flex: 1;
+        }
+
+        .team-member-name {
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .team-member-role {
+            font-size: 0.75rem;
+            color: #9CA3AF;
+        }
+
+        .team-member-actions {
+            display: flex;
+            gap: 0.25rem;
+        }
+
+        .team-member-btn {
+            padding: 0.25rem;
+            border-radius: 4px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .team-member-btn.edit {
+            background: rgba(59, 130, 246, 0.2);
+        }
+
+        .team-member-btn.remove {
+            background: rgba(239, 68, 68, 0.2);
+        }
+
+        .team-member-btn:hover {
+            transform: translateY(-1px);
+        }
+
+        .add-member-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem;
+            background: rgba(34, 197, 94, 0.2);
+            border-radius: 6px;
+            color: #22C55E;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .add-member-btn:hover {
+            background: rgba(34, 197, 94, 0.3);
+        }
+
+        /* Player Verification Styles */
+        .player-edit-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .player-edit-card {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 12px;
+            padding: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .player-edit-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .player-edit-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--accent);
+        }
+
+        .player-edit-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .verification-status {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem;
+            border-radius: 6px;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .verification-status.pending {
+            background: rgba(234, 179, 8, 0.2);
+            color: #EAB308;
+        }
+
+        .verification-status.verified {
+            background: rgba(34, 197, 94, 0.2);
+            color: #22C55E;
+        }
+
+        .verification-status.rejected {
+            background: rgba(239, 68, 68, 0.2);
+            color: #EF4444;
+        }
+
+        .player-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .player-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 6px;
+            transition: all 0.2s ease;
+        }
+
+        .player-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .player-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+        }
+
+        .player-info {
+            flex: 1;
+        }
+
+        .player-name {
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .player-details {
+            font-size: 0.75rem;
+            color: #9CA3AF;
+        }
+
+        .player-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .player-btn {
+            padding: 0.5rem;
+            border-radius: 6px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .player-btn.verify {
+            background: rgba(34, 197, 94, 0.2);
+            color: #22C55E;
+        }
+
+        .player-btn.reject {
+            background: rgba(239, 68, 68, 0.2);
+            color: #EF4444;
+        }
+
+        .player-btn.view {
+            background: rgba(59, 130, 246, 0.2);
+            color: #3B82F6;
+        }
+
+        .player-btn:hover {
+            transform: translateY(-1px);
+            filter: brightness(1.1);
+        }
+
+        .filter-bar {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .filter-btn.active {
+            background: var(--accent);
+            color: black;
+        }
+
+        .filter-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .filter-btn.active:hover {
+            background: var(--accent);
+            opacity: 0.9;
+        }
+
+        /* Registration Management Styles */
+        .registration-edit-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .registration-edit-card {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 12px;
+            padding: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .registration-edit-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .registration-edit-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--accent);
+        }
+
+        .registration-edit-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .registration-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .registration-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .registration-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .registration-info {
+            flex: 1;
+        }
+
+        .registration-title {
+            font-size: 1rem;
+            font-weight: 500;
+            color: white;
+        }
+
+        .registration-details {
+            font-size: 0.875rem;
+            color: #9CA3AF;
+            margin-top: 0.25rem;
+        }
+
+        .registration-meta {
+            display: flex;
+            gap: 1rem;
+            margin-top: 0.5rem;
+            font-size: 0.75rem;
+            color: #9CA3AF;
+        }
+
+        .registration-status {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .registration-status.pending {
+            background: rgba(234, 179, 8, 0.2);
+            color: #EAB308;
+        }
+
+        .registration-status.approved {
+            background: rgba(34, 197, 94, 0.2);
+            color: #22C55E;
+        }
+
+        .registration-status.rejected {
+            background: rgba(239, 68, 68, 0.2);
+            color: #EF4444;
+        }
+
+        .registration-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .registration-btn {
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.2s ease;
+        }
+
+        .registration-btn.approve {
+            background: rgba(34, 197, 94, 0.2);
+            color: #22C55E;
+        }
+
+        .registration-btn.reject {
+            background: rgba(239, 68, 68, 0.2);
+            color: #EF4444;
+        }
+
+        .registration-btn.view {
+            background: rgba(59, 130, 246, 0.2);
+            color: #3B82F6;
+        }
+
+        .registration-btn:hover {
+            transform: translateY(-1px);
+            filter: brightness(1.1);
+        }
+
+        .registration-filters {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .registration-filter {
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 0.875rem;
+        }
+
+        .registration-filter.active {
+            background: var(--accent);
+            color: black;
+        }
+
+        .registration-filter:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .registration-filter.active:hover {
+            background: var(--accent);
+            opacity: 0.9;
+        }
+
+        .registration-search {
+            width: 100%;
+            padding: 0.75rem;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            margin-bottom: 1rem;
+        }
+
+        .registration-search:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        /* Payment Processing Styles */
+        .payment-edit-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .payment-edit-card {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 12px;
+            padding: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .payment-edit-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .payment-edit-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--accent);
+        }
+
+        .payment-edit-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .payment-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .payment-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .payment-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .payment-info {
+            flex: 1;
+        }
+
+        .payment-title {
+            font-size: 1rem;
+            font-weight: 500;
+            color: white;
+        }
+
+        .payment-details {
+            font-size: 0.875rem;
+            color: #9CA3AF;
+            margin-top: 0.25rem;
+        }
+
+        .payment-meta {
+            display: flex;
+            gap: 1rem;
+            margin-top: 0.5rem;
+            font-size: 0.75rem;
+            color: #9CA3AF;
+        }
+
+        .payment-status {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .payment-status.pending {
+            background: rgba(234, 179, 8, 0.2);
+            color: #EAB308;
+        }
+
+        .payment-status.completed {
+            background: rgba(34, 197, 94, 0.2);
+            color: #22C55E;
+        }
+
+        .payment-status.failed {
+            background: rgba(239, 68, 68, 0.2);
+            color: #EF4444;
+        }
+
+        .payment-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .payment-btn {
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.2s ease;
+        }
+
+        .payment-btn.process {
+            background: rgba(34, 197, 94, 0.2);
+            color: #22C55E;
+        }
+
+        .payment-btn.refund {
+            background: rgba(239, 68, 68, 0.2);
+            color: #EF4444;
+        }
+
+        .payment-btn.view {
+            background: rgba(59, 130, 246, 0.2);
+            color: #3B82F6;
+        }
+
+        .payment-btn:hover {
+            transform: translateY(-1px);
+            filter: brightness(1.1);
+        }
+
+        .payment-filters {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .payment-filter {
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 0.875rem;
+        }
+
+        .payment-filter.active {
+            background: var(--accent);
+            color: black;
+        }
+
+        .payment-filter:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .payment-filter.active:hover {
+            background: var(--accent);
+            opacity: 0.9;
+        }
+
+        .payment-search {
+            width: 100%;
+            padding: 0.75rem;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            margin-bottom: 1rem;
+        }
+
+        .payment-search:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        .payment-amount {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--accent);
+        }
+
+        .payment-date {
+            font-size: 0.875rem;
+            color: #9CA3AF;
+        }
+
+        .payment-method {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+            color: #9CA3AF;
+        }
+
+        .payment-method i {
+            font-size: 1.25rem;
+        }
+    </style>
+</head>
+<body class="flex">
+    <!-- Mobile Header -->
+    <header class="mobile-header lg:hidden">
+        <button class="mobile-menu-btn" id="mobileMenuBtn">
+            <i class="fas fa-bars"></i>
+        </button>
+        <img src="/images/logo.png" alt="Fire Village Logo" class="h-8">
+        <div class="flex items-center space-x-2">
+            <button class="p-2 rounded-lg hover:bg-gray-700">
+                <i class="fas fa-bell text-xl"></i>
+                <span class="notification-badge absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full"></span>
+            </button>
+            <button class="p-2 rounded-lg hover:bg-gray-700">
+                <i class="fas fa-cog text-xl"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Sidebar -->
+    <aside class="sidebar w-64 min-h-screen p-4 hidden lg:block">
+        <div class="flex items-center justify-center mb-8">
+            <img src="/images/logo.png" alt="Fire Village Logo" class="h-12">
+        </div>
+
+        <!-- Profile Section -->
+        <div class="profile-section p-4 rounded-lg mb-6">
+            <div class="flex items-center space-x-3">
+                <img src="/images/admin-avatar.png" alt="Admin" class="w-10 h-10 rounded-full">
+                <div>
+                    <h3 class="font-semibold" id="admin-name">Loading...</h3>
+                    <p class="text-sm text-gray-400">Administrator</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation -->
+        <nav class="space-y-2">
+            <a href="#" class="nav-link active flex items-center space-x-3 p-3 rounded-lg">
+                <i class="fas fa-chart-line w-6"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="admin-tournaments.html" class="nav-link flex items-center space-x-3 p-3 rounded-lg">
+                <i class="fas fa-trophy w-6"></i>
+                <span>Tournaments</span>
+            </a>
+            <a href="admin-teams.html" class="nav-link flex items-center space-x-3 p-3 rounded-lg">
+                <i class="fas fa-users w-6"></i>
+                <span>Teams</span>
+            </a>
+            <a href="admin-players.html" class="nav-link flex items-center space-x-3 p-3 rounded-lg">
+                <i class="fas fa-user-friends w-6"></i>
+                <span>Players</span>
+            </a>
+            <a href="admin-registrations.html" class="nav-link flex items-center space-x-3 p-3 rounded-lg">
+                <i class="fas fa-clipboard-list w-6"></i>
+                <span>Registrations</span>
+            </a>
+            <a href="admin-payments.html" class="nav-link flex items-center space-x-3 p-3 rounded-lg">
+                <i class="fas fa-money-bill-wave w-6"></i>
+                <span>Payments</span>
+            </a>
+        </nav>
+
+        <!-- Logout Button -->
+        <div class="mt-auto pt-6">
+            <button id="logoutBtn" class="w-full flex items-center justify-center space-x-2 p-3 rounded-lg bg-red-600 hover:bg-red-700 transition-colors">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Logout</span>
+            </button>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content flex-1 p-4 lg:p-8">
+        <!-- Header -->
+        <header class="flex justify-between items-center mb-8">
+            <div>
+                <h1 class="text-3xl font-bold">Dashboard Overview</h1>
+                <p class="text-gray-400" id="dashboard-time">Loading...</p>
+            </div>
+            <div class="flex items-center space-x-4">
+                <button class="p-2 rounded-lg hover:bg-gray-700 transition-colors relative">
+                    <i class="fas fa-bell text-xl"></i>
+                    <span class="notification-badge absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full"></span>
+                </button>
+                <button class="p-2 rounded-lg hover:bg-gray-700 transition-colors">
+                    <i class="fas fa-cog text-xl"></i>
+                </button>
+            </div>
+        </header>
+
+        <!-- Mobile Edit Container -->
+        <div class="mobile-edit-container" id="mobileEditContainer">
+            <div class="mobile-edit-header">
+                <h3 class="mobile-edit-title" id="mobileEditTitle">Edit Item</h3>
+                <button class="mobile-edit-close" onclick="closeMobileEdit()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="mobile-edit-content">
+                <form class="mobile-edit-form" id="mobileEditForm">
+                    <!-- Form fields will be dynamically added here -->
+                </form>
+                <div class="mobile-edit-actions">
+                    <button class="mobile-edit-btn secondary" onclick="closeMobileEdit()">Cancel</button>
+                    <button class="mobile-edit-btn primary" onclick="saveMobileEdit()">Save Changes</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stats Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8" id="stats-grid">
+            <!-- Stats will be loaded via JavaScript -->
+        </div>
+
+        <!-- Charts Section -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+            <div class="chart-container p-6 rounded-lg">
+                <h3 class="text-lg font-semibold mb-4">Tournament Participation</h3>
+                <canvas id="participationChart"></canvas>
+            </div>
+            <div class="chart-container p-6 rounded-lg">
+                <h3 class="text-lg font-semibold mb-4">Revenue Overview</h3>
+                <canvas id="revenueChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Recent Registrations -->
+        <div class="bg-gray-800 bg-opacity-50 rounded-lg p-6 mb-8">
+            <div class="section-header">
+                <h3 class="text-lg font-semibold">Recent Registrations</h3>
+                <div class="flex items-center gap-2">
+                    <button class="section-edit-btn" onclick="openMobileEdit('registration')">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    <a href="admin-registrations.html" class="text-sm text-blue-400 hover:underline">View All</a>
+                </div>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Player</th>
+                            <th>Tournament</th>
+                            <th>Team</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="registrations-table">
+                        <!-- Data will be loaded via JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Upcoming Tournaments -->
+        <div class="bg-gray-800 bg-opacity-50 rounded-lg p-6">
+            <div class="section-header">
+                <h3 class="text-lg font-semibold">Upcoming Tournaments</h3>
+                <div class="flex items-center gap-2">
+                    <button class="section-edit-btn" onclick="openMobileEdit('tournament')">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    <a href="admin-tournaments.html" class="text-sm text-blue-400 hover:underline">View All</a>
+                </div>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Tournament</th>
+                            <th>Game</th>
+                            <th>Start Date</th>
+                            <th>Teams</th>
+                            <th>Prize Pool</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tournaments-table">
+                        <!-- Data will be loaded via JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Edit Sections -->
+        <div class="edit-sections space-y-6">
+            <!-- Tournament Management -->
+            <div class="edit-section">
+                <div class="section-header">
+                    <h2 class="edit-section-title">
+                        <i class="fas fa-trophy"></i>
+                        Tournament Management
+                    </h2>
+                    <button class="section-edit-btn" onclick="openMobileEdit('tournament')">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                </div>
+                <div class="edit-grid">
+                    <!-- Create Tournament Card -->
+                    <div class="tournament-card">
+                        <div class="tournament-header">
+                            <h3 class="tournament-title">Create Tournament</h3>
+                            <span class="tournament-status upcoming">New</span>
+                        </div>
+                        <p class="text-gray-400 mb-4">Set up a new tournament with custom rules and settings</p>
+                        <div class="tournament-actions">
+                            <button class="tournament-btn primary" onclick="createNewTournament()">
+                                <i class="fas fa-plus"></i>
+                                New Tournament
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Edit Tournaments Card -->
+                    <div class="tournament-card">
+                        <div class="tournament-header">
+                            <h3 class="tournament-title">Edit Tournaments</h3>
+                            <span class="tournament-status ongoing">Active</span>
+                        </div>
+                        <p class="text-gray-400 mb-4">Modify existing tournament details and settings</p>
+                        <div class="tournament-edit-grid">
+                            <!-- Basic Info -->
+                            <div class="tournament-edit-card">
+                                <div class="tournament-edit-header">
+                                    <h4 class="tournament-edit-title">Basic Information</h4>
+                                </div>
+                                <form class="tournament-edit-form" id="basicInfoForm">
+                                    <div class="form-group">
+                                        <label class="form-label">Tournament Name</label>
+                                        <input type="text" class="form-input" placeholder="Enter tournament name">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Game Type</label>
+                                        <select class="form-select">
+                                            <option value="BGMI">BGMI</option>
+                                            <option value="Free Fire">Free Fire</option>
+                                            <option value="Valorant">Valorant</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Tournament Status</label>
+                                        <select class="form-select">
+                                            <option value="upcoming">Upcoming</option>
+                                            <option value="ongoing">Ongoing</option>
+                                            <option value="completed">Completed</option>
+                                        </select>
+                                    </div>
+                                </form>
+                            </div>
+
+                            <!-- Schedule & Rules -->
+                            <div class="tournament-edit-card">
+                                <div class="tournament-edit-header">
+                                    <h4 class="tournament-edit-title">Schedule & Rules</h4>
+                                </div>
+                                <form class="tournament-edit-form" id="scheduleForm">
+                                    <div class="form-group">
+                                        <label class="form-label">Start Date</label>
+                                        <input type="datetime-local" class="form-input">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">End Date</label>
+                                        <input type="datetime-local" class="form-input">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Tournament Rules</label>
+                                        <textarea class="form-input form-textarea" placeholder="Enter tournament rules"></textarea>
+                                    </div>
+                                </form>
+                            </div>
+
+                            <!-- Prize Pool & Teams -->
+                            <div class="tournament-edit-card">
+                                <div class="tournament-edit-header">
+                                    <h4 class="tournament-edit-title">Prize Pool & Teams</h4>
+                                </div>
+                                <form class="tournament-edit-form" id="prizeForm">
+                                    <div class="form-group">
+                                        <label class="form-label">Prize Pool (₹)</label>
+                                        <input type="number" class="form-input" placeholder="Enter prize pool amount">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Maximum Teams</label>
+                                        <input type="number" class="form-input" placeholder="Enter max teams">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Registration Fee (₹)</label>
+                                        <input type="number" class="form-input" placeholder="Enter registration fee">
+                                    </div>
+                                </form>
+                            </div>
+
+                            <!-- Additional Settings -->
+                            <div class="tournament-edit-card">
+                                <div class="tournament-edit-header">
+                                    <h4 class="tournament-edit-title">Additional Settings</h4>
+                                </div>
+                                <form class="tournament-edit-form" id="settingsForm">
+                                    <div class="form-group">
+                                        <label class="form-label">Tournament Format</label>
+                                        <select class="form-select">
+                                            <option value="single">Single Elimination</option>
+                                            <option value="double">Double Elimination</option>
+                                            <option value="round-robin">Round Robin</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Match Duration</label>
+                                        <input type="number" class="form-input" placeholder="Enter match duration in minutes">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Special Rules</label>
+                                        <textarea class="form-input form-textarea" placeholder="Enter any special rules"></textarea>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="edit-actions">
+                            <button class="edit-btn secondary" onclick="resetTournamentEdit()">
+                                <i class="fas fa-undo"></i>
+                                Reset
+                            </button>
+                            <button class="edit-btn primary" onclick="saveTournamentEdit()">
+                                <i class="fas fa-save"></i>
+                                Save Changes
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Tournament Stats Card -->
+                    <div class="tournament-card">
+                        <div class="tournament-header">
+                            <h3 class="tournament-title">Tournament Stats</h3>
+                            <span class="tournament-status completed">Overview</span>
+                        </div>
+                        <div class="tournament-details">
+                            <div class="detail-item">
+                                <span class="detail-label">Total Tournaments</span>
+                                <span class="detail-value" id="totalTournaments">0</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Active Tournaments</span>
+                                <span class="detail-value" id="activeTournaments">0</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Total Teams</span>
+                                <span class="detail-value" id="totalTeams">0</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Total Prize Pool</span>
+                                <span class="detail-value" id="totalPrizePool">₹0</span>
+                            </div>
+                        </div>
+                        <div class="tournament-actions">
+                            <button class="tournament-btn secondary" onclick="viewTournamentStats()">
+                                <i class="fas fa-chart-bar"></i>
+                                View Statistics
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Quick Actions Card -->
+                    <div class="tournament-card">
+                        <div class="tournament-header">
+                            <h3 class="tournament-title">Quick Actions</h3>
+                            <span class="tournament-status upcoming">Actions</span>
+                        </div>
+                        <div class="tournament-actions">
+                            <button class="tournament-btn secondary" onclick="scheduleTournament()">
+                                <i class="fas fa-calendar-plus"></i>
+                                Schedule
+                            </button>
+                            <button class="tournament-btn secondary" onclick="manageBrackets()">
+                                <i class="fas fa-sitemap"></i>
+                                Brackets
+                            </button>
+                            <button class="tournament-btn secondary" onclick="managePrizes()">
+                                <i class="fas fa-trophy"></i>
+                                Prizes
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Team & Player Management -->
+            <div class="edit-section">
+                <div class="section-header">
+                    <h2 class="edit-section-title">
+                        <i class="fas fa-users"></i>
+                        Team & Player Management
+                    </h2>
+                    <button class="section-edit-btn" onclick="openMobileEdit('team')">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                </div>
+                <div class="edit-grid">
+                    <div class="edit-item">
+                        <h3 class="edit-item-title">Team Management</h3>
+                        <p class="edit-item-description">Add, edit, or remove teams from tournaments</p>
+                        <div class="team-edit-grid">
+                            <!-- Team Information -->
+                            <div class="team-edit-card">
+                                <div class="team-edit-header">
+                                    <h4 class="team-edit-title">Team Information</h4>
+                                </div>
+                                <form class="team-edit-form" id="teamInfoForm">
+                                    <div class="form-group">
+                                        <label class="form-label">Team Name</label>
+                                        <input type="text" class="form-input" placeholder="Enter team name">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Team Tag</label>
+                                        <input type="text" class="form-input" placeholder="Enter team tag (max 4 characters)" maxlength="4">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Team Status</label>
+                                        <select class="form-select">
+                                            <option value="active">Active</option>
+                                            <option value="inactive">Inactive</option>
+                                            <option value="suspended">Suspended</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Team Region</label>
+                                        <select class="form-select">
+                                            <option value="north">North India</option>
+                                            <option value="south">South India</option>
+                                            <option value="east">East India</option>
+                                            <option value="west">West India</option>
+                                            <option value="central">Central India</option>
+                                        </select>
+                                    </div>
+                                </form>
+                            </div>
+
+                            <!-- Team Members -->
+                            <div class="team-edit-card">
+                                <div class="team-edit-header">
+                                    <h4 class="team-edit-title">Team Members</h4>
+                                </div>
+                                <div class="team-member-list">
+                                    <div class="team-member-item">
+                                        <div class="team-member-avatar">JD</div>
+                                        <div class="team-member-info">
+                                            <div class="team-member-name">John Doe</div>
+                                            <div class="team-member-role">Team Captain</div>
+                                        </div>
+                                        <div class="team-member-actions">
+                                            <button class="team-member-btn edit">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="team-member-btn remove">
+                                                <i class="fas fa-times"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="team-member-item">
+                                        <div class="team-member-avatar">AS</div>
+                                        <div class="team-member-info">
+                                            <div class="team-member-name">Alice Smith</div>
+                                            <div class="team-member-role">Player</div>
+                                        </div>
+                                        <div class="team-member-actions">
+                                            <button class="team-member-btn edit">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="team-member-btn remove">
+                                                <i class="fas fa-times"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button class="add-member-btn mt-4">
+                                    <i class="fas fa-plus"></i>
+                                    Add Team Member
+                                </button>
+                            </div>
+
+                            <!-- Team Statistics -->
+                            <div class="team-edit-card">
+                                <div class="team-edit-header">
+                                    <h4 class="team-edit-title">Team Statistics</h4>
+                                </div>
+                                <form class="team-edit-form" id="teamStatsForm">
+                                    <div class="form-group">
+                                        <label class="form-label">Total Matches</label>
+                                        <input type="number" class="form-input" readonly value="24">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Wins</label>
+                                        <input type="number" class="form-input" readonly value="18">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Win Rate</label>
+                                        <input type="text" class="form-input" readonly value="75%">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Total Prize Money</label>
+                                        <input type="text" class="form-input" readonly value="₹50,000">
+                                    </div>
+                                </form>
+                            </div>
+
+                            <!-- Team Achievements -->
+                            <div class="team-edit-card">
+                                <div class="team-edit-header">
+                                    <h4 class="team-edit-title">Team Achievements</h4>
+                                </div>
+                                <form class="team-edit-form" id="teamAchievementsForm">
+                                    <div class="form-group">
+                                        <label class="form-label">Recent Achievements</label>
+                                        <textarea class="form-input form-textarea" placeholder="Enter team achievements"></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Social Media Links</label>
+                                        <input type="url" class="form-input" placeholder="Instagram URL">
+                                        <input type="url" class="form-input mt-2" placeholder="YouTube URL">
+                                        <input type="url" class="form-input mt-2" placeholder="Twitter URL">
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="edit-actions">
+                            <button class="edit-btn secondary" onclick="resetTeamEdit()">
+                                <i class="fas fa-undo"></i>
+                                Reset
+                            </button>
+                            <button class="edit-btn primary" onclick="saveTeamEdit()">
+                                <i class="fas fa-save"></i>
+                                Save Changes
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Player Verification Card -->
+                    <div class="edit-item">
+                        <h3 class="edit-item-title">Player Verification</h3>
+                        <p class="edit-item-description">Verify player details and manage player accounts</p>
+                        <div class="player-edit-grid">
+                            <!-- Player Information -->
+                            <div class="player-edit-card">
+                                <div class="player-edit-header">
+                                    <h4 class="player-edit-title">Player Information</h4>
+                                </div>
+                                <form class="player-edit-form" id="playerInfoForm">
+                                    <div class="form-group">
+                                        <label class="form-label">Player Name</label>
+                                        <input type="text" class="form-input" placeholder="Enter player name">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Player ID</label>
+                                        <input type="text" class="form-input" placeholder="Enter player ID">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Email Address</label>
+                                        <input type="email" class="form-input" placeholder="Enter email address">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Phone Number</label>
+                                        <input type="tel" class="form-input" placeholder="Enter phone number">
+                                    </div>
+                                </form>
+                            </div>
+
+                            <!-- Verification Status -->
+                            <div class="player-edit-card">
+                                <div class="player-edit-header">
+                                    <h4 class="player-edit-title">Verification Status</h4>
+                                </div>
+                                <div class="filter-bar">
+                                    <button class="filter-btn active" onclick="filterPlayers('all')">All Players</button>
+                                    <button class="filter-btn" onclick="filterPlayers('pending')">Pending</button>
+                                    <button class="filter-btn" onclick="filterPlayers('verified')">Verified</button>
+                                    <button class="filter-btn" onclick="filterPlayers('rejected')">Rejected</button>
+                                </div>
+                                <div class="player-list">
+                                    <div class="player-item">
+                                        <div class="player-avatar">JD</div>
+                                        <div class="player-info">
+                                            <div class="player-name">John Doe</div>
+                                            <div class="player-details">ID: PLAYER123 • Team: Alpha Squad</div>
+                                        </div>
+                                        <div class="verification-status pending">Pending</div>
+                                        <div class="player-actions">
+                                            <button class="player-btn verify" onclick="verifyPlayer('PLAYER123')">
+                                                <i class="fas fa-check"></i>
+                                                Verify
+                                            </button>
+                                            <button class="player-btn reject" onclick="rejectPlayer('PLAYER123')">
+                                                <i class="fas fa-times"></i>
+                                                Reject
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="player-item">
+                                        <div class="player-avatar">AS</div>
+                                        <div class="player-info">
+                                            <div class="player-name">Alice Smith</div>
+                                            <div class="player-details">ID: PLAYER456 • Team: Beta Force</div>
+                                        </div>
+                                        <div class="verification-status verified">Verified</div>
+                                        <div class="player-actions">
+                                            <button class="player-btn view" onclick="viewPlayer('PLAYER456')">
+                                                <i class="fas fa-eye"></i>
+                                                View
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Player Documents -->
+                            <div class="player-edit-card">
+                                <div class="player-edit-header">
+                                    <h4 class="player-edit-title">Player Documents</h4>
+                                </div>
+                                <form class="player-edit-form" id="playerDocsForm">
+                                    <div class="form-group">
+                                        <label class="form-label">ID Proof</label>
+                                        <input type="file" class="form-input" accept="image/*,.pdf">
+                                        <p class="text-sm text-gray-400 mt-1">Upload Aadhar Card, PAN Card, or Passport</p>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Age Proof</label>
+                                        <input type="file" class="form-input" accept="image/*,.pdf">
+                                        <p class="text-sm text-gray-400 mt-1">Upload Birth Certificate or School Leaving Certificate</p>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Parent/Guardian Consent</label>
+                                        <input type="file" class="form-input" accept="image/*,.pdf">
+                                        <p class="text-sm text-gray-400 mt-1">Required for players under 18</p>
+                                    </div>
+                                </form>
+                            </div>
+
+                            <!-- Player Statistics -->
+                            <div class="player-edit-card">
+                                <div class="player-edit-header">
+                                    <h4 class="player-edit-title">Player Statistics</h4>
+                                </div>
+                                <form class="player-edit-form" id="playerStatsForm">
+                                    <div class="form-group">
+                                        <label class="form-label">Total Tournaments</label>
+                                        <input type="number" class="form-input" readonly value="15">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Tournaments Won</label>
+                                        <input type="number" class="form-input" readonly value="8">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Total Prize Money</label>
+                                        <input type="text" class="form-input" readonly value="₹25,000">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Player Rating</label>
+                                        <input type="text" class="form-input" readonly value="4.8/5.0">
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="edit-actions">
+                            <button class="edit-btn secondary" onclick="resetPlayerEdit()">
+                                <i class="fas fa-undo"></i>
+                                Reset
+                            </button>
+                            <button class="edit-btn primary" onclick="savePlayerEdit()">
+                                <i class="fas fa-save"></i>
+                                Save Changes
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Registration & Payments -->
+            <div class="edit-section">
+                <div class="section-header">
+                    <h2 class="edit-section-title">
+                        <i class="fas fa-clipboard-check"></i>
+                        Registration & Payments
+                    </h2>
+                    <button class="section-edit-btn" onclick="openMobileEdit('registration')">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                </div>
+                <div class="edit-grid">
+                    <div class="edit-item">
+                        <h3 class="edit-item-title">Registration Management</h3>
+                        <p class="edit-item-description">Handle tournament registrations and approvals</p>
+                        <div class="registration-edit-grid">
+                            <!-- Registration Overview -->
+                            <div class="registration-edit-card">
+                                <div class="registration-edit-header">
+                                    <h4 class="registration-edit-title">Registration Overview</h4>
+                                </div>
+                                <form class="registration-edit-form" id="registrationOverviewForm">
+                                    <div class="form-group">
+                                        <label class="form-label">Total Registrations</label>
+                                        <input type="number" class="form-input" readonly value="156">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Pending Approvals</label>
+                                        <input type="number" class="form-input" readonly value="23">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Approved Registrations</label>
+                                        <input type="number" class="form-input" readonly value="128">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Rejected Registrations</label>
+                                        <input type="number" class="form-input" readonly value="5">
+                                    </div>
+                                </form>
+                            </div>
+
+                            <!-- Pending Registrations -->
+                            <div class="registration-edit-card">
+                                <div class="registration-edit-header">
+                                    <h4 class="registration-edit-title">Pending Registrations</h4>
+                                </div>
+                                <div class="registration-filters">
+                                    <button class="registration-filter active" onclick="filterRegistrations('all')">All</button>
+                                    <button class="registration-filter" onclick="filterRegistrations('solo')">Solo</button>
+                                    <button class="registration-filter" onclick="filterRegistrations('team')">Team</button>
+                                    <button class="registration-filter" onclick="filterRegistrations('duo')">Duo</button>
+                                </div>
+                                <input type="text" class="registration-search" placeholder="Search registrations...">
+                                <div class="registration-list">
+                                    <div class="registration-item">
+                                        <div class="registration-info">
+                                            <div class="registration-title">BGMI Tournament - Solo</div>
+                                            <div class="registration-details">Player: John Doe • ID: PLAYER123</div>
+                                            <div class="registration-meta">
+                                                <span>Registered: 2 hours ago</span>
+                                                <span>Entry Fee: ₹499</span>
+                                            </div>
+                                        </div>
+                                        <div class="registration-status pending">Pending</div>
+                                        <div class="registration-actions">
+                                            <button class="registration-btn approve" onclick="approveRegistration('REG123')">
+                                                <i class="fas fa-check"></i>
+                                                Approve
+                                            </button>
+                                            <button class="registration-btn reject" onclick="rejectRegistration('REG123')">
+                                                <i class="fas fa-times"></i>
+                                                Reject
+                                            </button>
+                                            <button class="registration-btn view" onclick="viewRegistration('REG123')">
+                                                <i class="fas fa-eye"></i>
+                                                View
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="registration-item">
+                                        <div class="registration-info">
+                                            <div class="registration-title">Free Fire Tournament - Team</div>
+                                            <div class="registration-details">Team: Alpha Squad • Captain: Alice Smith</div>
+                                            <div class="registration-meta">
+                                                <span>Registered: 5 hours ago</span>
+                                                <span>Entry Fee: ₹999</span>
+                                            </div>
+                                        </div>
+                                        <div class="registration-status pending">Pending</div>
+                                        <div class="registration-actions">
+                                            <button class="registration-btn approve" onclick="approveRegistration('REG124')">
+                                                <i class="fas fa-check"></i>
+                                                Approve
+                                            </button>
+                                            <button class="registration-btn reject" onclick="rejectRegistration('REG124')">
+                                                <i class="fas fa-times"></i>
+                                                Reject
+                                            </button>
+                                            <button class="registration-btn view" onclick="viewRegistration('REG124')">
+                                                <i class="fas fa-eye"></i>
+                                                View
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Registration Details -->
+                            <div class="registration-edit-card">
+                                <div class="registration-edit-header">
+                                    <h4 class="registration-edit-title">Registration Details</h4>
+                                </div>
+                                <form class="registration-edit-form" id="registrationDetailsForm">
+                                    <div class="form-group">
+                                        <label class="form-label">Tournament</label>
+                                        <select class="form-select">
+                                            <option value="bgmi-solo">BGMI Solo Tournament</option>
+                                            <option value="ff-team">Free Fire Team Tournament</option>
+                                            <option value="valorant-duo">Valorant Duo Tournament</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Registration Type</label>
+                                        <select class="form-select">
+                                            <option value="solo">Solo</option>
+                                            <option value="team">Team</option>
+                                            <option value="duo">Duo</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Entry Fee</label>
+                                        <input type="number" class="form-input" placeholder="Enter entry fee">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Payment Status</label>
+                                        <select class="form-select">
+                                            <option value="pending">Pending</option>
+                                            <option value="completed">Completed</option>
+                                            <option value="failed">Failed</option>
+                                        </select>
+                                    </div>
+                                </form>
+                            </div>
+
+                            <!-- Team/Player Information -->
+                            <div class="registration-edit-card">
+                                <div class="registration-edit-header">
+                                    <h4 class="registration-edit-title">Team/Player Information</h4>
+                                </div>
+                                <form class="registration-edit-form" id="teamPlayerForm">
+                                    <div class="form-group">
+                                        <label class="form-label">Name</label>
+                                        <input type="text" class="form-input" placeholder="Enter name">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">ID/Username</label>
+                                        <input type="text" class="form-input" placeholder="Enter ID/Username">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Discord ID</label>
+                                        <input type="text" class="form-input" placeholder="Enter Discord ID">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Contact Number</label>
+                                        <input type="tel" class="form-input" placeholder="Enter contact number">
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="edit-actions">
+                            <button class="edit-btn secondary" onclick="resetRegistrationEdit()">
+                                <i class="fas fa-undo"></i>
+                                Reset
+                            </button>
+                            <button class="edit-btn primary" onclick="saveRegistrationEdit()">
+                                <i class="fas fa-save"></i>
+                                Save Changes
+                            </button>
+                        </div>
+                    </div>
+                    <div class="edit-item">
+                        <h3 class="edit-item-title">Payment Processing</h3>
+                        <p class="edit-item-description">Track and manage tournament payments</p>
+                        <div class="payment-edit-grid">
+                            <!-- Payment Overview -->
+                            <div class="payment-edit-card">
+                                <div class="payment-edit-header">
+                                    <h4 class="payment-edit-title">Payment Overview</h4>
+                                </div>
+                                <form class="payment-edit-form" id="paymentOverviewForm">
+                                    <div class="form-group">
+                                        <label class="form-label">Total Revenue</label>
+                                        <input type="text" class="form-input" readonly value="₹75,000">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Pending Payments</label>
+                                        <input type="text" class="form-input" readonly value="₹12,000">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Completed Payments</label>
+                                        <input type="text" class="form-input" readonly value="₹60,000">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Failed Payments</label>
+                                        <input type="text" class="form-input" readonly value="₹3,000">
+                                    </div>
+                                </form>
+                            </div>
+
+                            <!-- Recent Transactions -->
+                            <div class="payment-edit-card">
+                                <div class="payment-edit-header">
+                                    <h4 class="payment-edit-title">Recent Transactions</h4>
+                                </div>
+                                <div class="payment-filters">
+                                    <button class="payment-filter active" onclick="filterPayments('all')">All</button>
+                                    <button class="payment-filter" onclick="filterPayments('pending')">Pending</button>
+                                    <button class="payment-filter" onclick="filterPayments('completed')">Completed</button>
+                                    <button class="payment-filter" onclick="filterPayments('failed')">Failed</button>
+                                </div>
+                                <input type="text" class="payment-search" placeholder="Search transactions...">
+                                <div class="payment-list">
+                                    <div class="payment-item">
+                                        <div class="payment-info">
+                                            <div class="payment-title">BGMI Tournament Registration</div>
+                                            <div class="payment-details">Team: Alpha Squad • Tournament: BGMI Pro League</div>
+                                            <div class="payment-meta">
+                                                <span class="payment-amount">₹999</span>
+                                                <span class="payment-date">2 hours ago</span>
+                                                <span class="payment-method">
+                                                    <i class="fab fa-google-pay"></i>
+                                                    Google Pay
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="payment-status pending">Pending</div>
+                                        <div class="payment-actions">
+                                            <button class="payment-btn process" onclick="processPayment('PAY123')">
+                                                <i class="fas fa-check"></i>
+                                                Process
+                                            </button>
+                                            <button class="payment-btn view" onclick="viewPayment('PAY123')">
+                                                <i class="fas fa-eye"></i>
+                                                View
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="payment-item">
+                                        <div class="payment-info">
+                                            <div class="payment-title">Free Fire Tournament Registration</div>
+                                            <div class="payment-details">Player: John Doe • Tournament: Free Fire Championship</div>
+                                            <div class="payment-meta">
+                                                <span class="payment-amount">₹499</span>
+                                                <span class="payment-date">5 hours ago</span>
+                                                <span class="payment-method">
+                                                    <i class="fab fa-paypal"></i>
+                                                    PayPal
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="payment-status completed">Completed</div>
+                                        <div class="payment-actions">
+                                            <button class="payment-btn refund" onclick="refundPayment('PAY124')">
+                                                <i class="fas fa-undo"></i>
+                                                Refund
+                                            </button>
+                                            <button class="payment-btn view" onclick="viewPayment('PAY124')">
+                                                <i class="fas fa-eye"></i>
+                                                View
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Payment Details -->
+                            <div class="payment-edit-card">
+                                <div class="payment-edit-header">
+                                    <h4 class="payment-edit-title">Payment Details</h4>
+                                </div>
+                                <form class="payment-edit-form" id="paymentDetailsForm">
+                                    <div class="form-group">
+                                        <label class="form-label">Payment ID</label>
+                                        <input type="text" class="form-input" placeholder="Enter payment ID">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Amount</label>
+                                        <input type="number" class="form-input" placeholder="Enter amount">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Payment Method</label>
+                                        <select class="form-select">
+                                            <option value="upi">UPI</option>
+                                            <option value="card">Credit/Debit Card</option>
+                                            <option value="netbanking">Net Banking</option>
+                                            <option value="wallet">Wallet</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Status</label>
+                                        <select class="form-select">
+                                            <option value="pending">Pending</option>
+                                            <option value="completed">Completed</option>
+                                            <option value="failed">Failed</option>
+                                            <option value="refunded">Refunded</option>
+                                        </select>
+                                    </div>
+                                </form>
+                            </div>
+
+                            <!-- Transaction History -->
+                            <div class="payment-edit-card">
+                                <div class="payment-edit-header">
+                                    <h4 class="payment-edit-title">Transaction History</h4>
+                                </div>
+                                <form class="payment-edit-form" id="transactionHistoryForm">
+                                    <div class="form-group">
+                                        <label class="form-label">Date Range</label>
+                                        <div class="flex gap-2">
+                                            <input type="date" class="form-input" placeholder="Start Date">
+                                            <input type="date" class="form-input" placeholder="End Date">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Transaction Type</label>
+                                        <select class="form-select">
+                                            <option value="all">All Transactions</option>
+                                            <option value="registration">Registration Fees</option>
+                                            <option value="refund">Refunds</option>
+                                            <option value="prize">Prize Money</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Export Format</label>
+                                        <select class="form-select">
+                                            <option value="pdf">PDF</option>
+                                            <option value="excel">Excel</option>
+                                            <option value="csv">CSV</option>
+                                        </select>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="edit-actions">
+                            <button class="edit-btn secondary" onclick="resetPaymentEdit()">
+                                <i class="fas fa-undo"></i>
+                                Reset
+                            </button>
+                            <button class="edit-btn primary" onclick="savePaymentEdit()">
+                                <i class="fas fa-save"></i>
+                                Save Changes
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Settings & Configuration -->
+            <div class="edit-section">
+                <div class="section-header">
+                    <h2 class="edit-section-title">
+                        <i class="fas fa-cog"></i>
+                        Settings & Configuration
+                    </h2>
+                    <button class="section-edit-btn" onclick="openMobileEdit('settings')">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                </div>
+                <div class="edit-grid">
+                    <div class="edit-item">
+                        <h3 class="edit-item-title">General Settings</h3>
+                        <p class="edit-item-description">Configure website and tournament settings</p>
+                        <div class="quick-actions">
+                            <button class="quick-action-btn primary" onclick="openSettings()">
+                                <i class="fas fa-sliders-h"></i>
+                                Open Settings
+                            </button>
+                        </div>
+                    </div>
+                    <div class="edit-item">
+                        <h3 class="edit-item-title">Security</h3>
+                        <p class="edit-item-description">Manage security settings and access controls</p>
+                        <div class="quick-actions">
+                            <button class="quick-action-btn primary" onclick="manageSecurity()">
+                                <i class="fas fa-shield-alt"></i>
+                                Security Settings
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Mobile Navigation -->
+    <nav class="mobile-nav lg:hidden">
+        <a href="#" class="mobile-nav-item active">
+            <i class="fas fa-chart-line"></i>
+            <span>Dashboard</span>
+        </a>
+        <a href="admin-tournaments.html" class="mobile-nav-item">
+            <i class="fas fa-trophy"></i>
+            <span>Tournaments</span>
+        </a>
+        <a href="admin-teams.html" class="mobile-nav-item">
+            <i class="fas fa-users"></i>
+            <span>Teams</span>
+        </a>
+        <a href="admin-players.html" class="mobile-nav-item">
+            <i class="fas fa-user-friends"></i>
+            <span>Players</span>
+        </a>
+        <a href="admin-registrations.html" class="mobile-nav-item">
+            <i class="fas fa-clipboard-list"></i>
+            <span>Registrations</span>
+        </a>
+    </nav>
+
+    <!-- Edit Tournament Modal -->
+    <div id="editTournamentModal" class="edit-modal">
+        <div class="modal-content">
+            <div class="p-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-xl font-bold">Edit Tournament</h3>
+                    <button id="closeEditModal" class="text-gray-400 hover:text-white">
+                        <i class="fas fa-times text-xl"></i>
+                    </button>
+                </div>
+                <form id="tournamentForm">
+                    <input type="hidden" id="tournamentId">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                        <div>
+                            <label for="tournamentName" class="block mb-2">Name</label>
+                            <input type="text" id="tournamentName" class="w-full p-2 rounded bg-gray-700 border border-gray-600">
+                        </div>
+                        <div>
+                            <label for="tournamentGame" class="block mb-2">Game</label>
+                            <select id="tournamentGame" class="w-full p-2 rounded bg-gray-700 border border-gray-600">
+                                <option value="BGMI">BGMI</option>
+                                <option value="Free Fire">Free Fire</option>
+                                <option value="Valorant">Valorant</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="startDate" class="block mb-2">Start Date</label>
+                            <input type="datetime-local" id="startDate" class="w-full p-2 rounded bg-gray-700 border border-gray-600">
+                        </div>
+                        <div>
+                            <label for="endDate" class="block mb-2">End Date</label>
+                            <input type="datetime-local" id="endDate" class="w-full p-2 rounded bg-gray-700 border border-gray-600">
+                        </div>
+                        <div>
+                            <label for="registrationFee" class="block mb-2">Registration Fee (₹)</label>
+                            <input type="number" id="registrationFee" class="w-full p-2 rounded bg-gray-700 border border-gray-600">
+                        </div>
+                        <div>
+                            <label for="prizePool" class="block mb-2">Prize Pool (₹)</label>
+                            <input type="number" id="prizePool" class="w-full p-2 rounded bg-gray-700 border border-gray-600">
+                        </div>
+                        <div>
+                            <label for="maxTeams" class="block mb-2">Max Teams</label>
+                            <input type="number" id="maxTeams" class="w-full p-2 rounded bg-gray-700 border border-gray-600">
+                        </div>
+                        <div>
+                            <label for="tournamentStatus" class="block mb-2">Status</label>
+                            <select id="tournamentStatus" class="w-full p-2 rounded bg-gray-700 border border-gray-600">
+                                <option value="upcoming">Upcoming</option>
+                                <option value="ongoing">Ongoing</option>
+                                <option value="completed">Completed</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <label for="tournamentRules" class="block mb-2">Rules</label>
+                        <textarea id="tournamentRules" rows="4" class="w-full p-2 rounded bg-gray-700 border border-gray-600"></textarea>
+                    </div>
+                    <div class="flex justify-end space-x-3">
+                        <button type="button" id="cancelEdit" class="px-4 py-2 rounded bg-gray-600 hover:bg-gray-700">Cancel</button>
+                        <button type="submit" class="px-4 py-2 rounded bg-blue-600 hover:bg-blue-700">Save Changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    // API Configuration
+    const API_CONFIG = {
+        BASE_URL: 'https://api.firevillagetournament.com/v1',
+        ENDPOINTS: {
+            TOURNAMENTS: '/tournaments',
+            TEAMS: '/teams',
+            PLAYERS: '/players',
+            REGISTRATIONS: '/registrations',
+            PAYMENTS: '/payments',
+            LEADERBOARD: '/leaderboard'
+        }
+    };
+
+    // API Service Class
+    class APIService {
+        static async request(endpoint, method = 'GET', data = null) {
+            try {
+                const options = {
+                    method,
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem('adminToken')}`
+                    }
+                };
+
+                if (data) {
+                    options.body = JSON.stringify(data);
+                }
+
+                const response = await fetch(`${API_CONFIG.BASE_URL}${endpoint}`, options);
+                const result = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(result.message || 'API request failed');
+                }
+
+                return result;
+            } catch (error) {
+                console.error('API Error:', error);
+                showToast(error.message, 'error');
+                throw error;
+            }
+        }
+
+        // Tournament Methods
+        static async getTournaments() {
+            return this.request(API_CONFIG.ENDPOINTS.TOURNAMENTS);
+        }
+
+        static async createTournament(data) {
+            return this.request(API_CONFIG.ENDPOINTS.TOURNAMENTS, 'POST', data);
+        }
+
+        static async updateTournament(id, data) {
+            return this.request(`${API_CONFIG.ENDPOINTS.TOURNAMENTS}/${id}`, 'PUT', data);
+        }
+
+        // Team Methods
+        static async getTeams() {
+            return this.request(API_CONFIG.ENDPOINTS.TEAMS);
+        }
+
+        static async createTeam(data) {
+            return this.request(API_CONFIG.ENDPOINTS.TEAMS, 'POST', data);
+        }
+
+        static async updateTeam(id, data) {
+            return this.request(`${API_CONFIG.ENDPOINTS.TEAMS}/${id}`, 'PUT', data);
+        }
+
+        // Player Methods
+        static async getPlayers() {
+            return this.request(API_CONFIG.ENDPOINTS.PLAYERS);
+        }
+
+        static async verifyPlayer(id, data) {
+            return this.request(`${API_CONFIG.ENDPOINTS.PLAYERS}/${id}/verify`, 'POST', data);
+        }
+
+        // Registration Methods
+        static async getRegistrations() {
+            return this.request(API_CONFIG.ENDPOINTS.REGISTRATIONS);
+        }
+
+        static async updateRegistration(id, data) {
+            return this.request(`${API_CONFIG.ENDPOINTS.REGISTRATIONS}/${id}`, 'PUT', data);
+        }
+
+        // Payment Methods
+        static async getPayments() {
+            return this.request(API_CONFIG.ENDPOINTS.PAYMENTS);
+        }
+
+        static async processPayment(id, data) {
+            return this.request(`${API_CONFIG.ENDPOINTS.PAYMENTS}/${id}/process`, 'POST', data);
+        }
+
+        // Leaderboard Methods
+        static async getLeaderboard(type = 'all') {
+            return this.request(`${API_CONFIG.ENDPOINTS.LEADERBOARD}?type=${type}`);
+        }
+    }
+
+    // Data Management Class
+    class DataManager {
+        static async refreshDashboard() {
+            try {
+                const [tournaments, teams, players, registrations, payments] = await Promise.all([
+                    APIService.getTournaments(),
+                    APIService.getTeams(),
+                    APIService.getPlayers(),
+                    APIService.getRegistrations(),
+                    APIService.getPayments()
+                ]);
+
+                this.updateDashboardStats(tournaments, teams, players, registrations, payments);
+                this.updateRecentRegistrations(registrations);
+                this.updateUpcomingTournaments(tournaments);
+                this.updateLeaderboard(players);
+            } catch (error) {
+                console.error('Dashboard refresh failed:', error);
+            }
+        }
+
+        static updateDashboardStats(tournaments, teams, players, registrations, payments) {
+            // Update statistics cards
+            document.getElementById('totalTournaments').textContent = tournaments.length;
+            document.getElementById('activeTournaments').textContent = 
+                tournaments.filter(t => t.status === 'ongoing').length;
+            document.getElementById('totalTeams').textContent = teams.length;
+            document.getElementById('totalPlayers').textContent = players.length;
+            document.getElementById('totalRegistrations').textContent = registrations.length;
+            document.getElementById('totalRevenue').textContent = 
+                `₹${payments.reduce((sum, p) => sum + p.amount, 0).toLocaleString()}`;
+        }
+
+        static updateRecentRegistrations(registrations) {
+            const container = document.getElementById('recentRegistrations');
+            container.innerHTML = registrations
+                .slice(0, 5)
+                .map(reg => `
+                    <div class="registration-item">
+                        <div class="registration-info">
+                            <h4>${reg.playerName}</h4>
+                            <p>${reg.tournamentName}</p>
+                        </div>
+                        <span class="status-badge ${reg.status.toLowerCase()}">${reg.status}</span>
+                    </div>
+                `).join('');
+        }
+
+        static updateUpcomingTournaments(tournaments) {
+            const container = document.getElementById('upcomingTournaments');
+            container.innerHTML = tournaments
+                .filter(t => t.status === 'upcoming')
+                .slice(0, 5)
+                .map(tournament => `
+                    <div class="tournament-card">
+                        <div class="tournament-header">
+                            <h3>${tournament.name}</h3>
+                            <span class="status-badge ${tournament.status}">${tournament.status}</span>
+                        </div>
+                        <div class="tournament-details">
+                            <p><i class="fas fa-calendar"></i> ${tournament.startDate}</p>
+                            <p><i class="fas fa-users"></i> ${tournament.registeredTeams}/${tournament.maxTeams} Teams</p>
+                            <p><i class="fas fa-trophy"></i> Prize Pool: ₹${tournament.prizePool}</p>
+                        </div>
+                    </div>
+                `).join('');
+        }
+
+        static updateLeaderboard(players) {
+            const container = document.getElementById('leaderboard');
+            container.innerHTML = players
+                .sort((a, b) => b.points - a.points)
+                .slice(0, 10)
+                .map((player, index) => `
+                    <div class="leaderboard-item">
+                        <span class="rank">#${index + 1}</span>
+                        <div class="player-info">
+                            <img src="${player.avatar}" alt="${player.name}" class="player-avatar">
+                            <div>
+                                <h4>${player.name}</h4>
+                                <p>${player.team || 'Solo Player'}</p>
+                            </div>
+                        </div>
+                        <div class="player-stats">
+                            <span>${player.kills} Kills</span>
+                            <span>${player.points} Points</span>
+                        </div>
+                    </div>
+                `).join('');
+        }
+    }
+
+    // Event Handlers
+    document.addEventListener('DOMContentLoaded', () => {
+        // Initial dashboard load
+        DataManager.refreshDashboard();
+
+        // Refresh dashboard every 5 minutes
+        setInterval(() => DataManager.refreshDashboard(), 300000);
+
+        // Add event listeners for all forms
+        document.querySelectorAll('form').forEach(form => {
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const formData = new FormData(form);
+                const data = Object.fromEntries(formData.entries());
+
+                try {
+                    switch(form.id) {
+                        case 'tournamentForm':
+                            await APIService.createTournament(data);
+                            break;
+                        case 'teamForm':
+                            await APIService.createTeam(data);
+                            break;
+                        case 'playerForm':
+                            await APIService.verifyPlayer(data.id, data);
+                            break;
+                        case 'registrationForm':
+                            await APIService.updateRegistration(data.id, data);
+                            break;
+                        case 'paymentForm':
+                            await APIService.processPayment(data.id, data);
+                            break;
+                    }
+                    showToast('Changes saved successfully!', 'success');
+                    DataManager.refreshDashboard();
+                } catch (error) {
+                    showToast('Failed to save changes', 'error');
+                }
+            });
+        });
+    });
+
+    // Global Variables
+    let tournamentsData = [];
+    let registrationsData = [];
+    let adminData = {};
+    
+    // DOM Elements
+    const statsGrid = document.getElementById('stats-grid');
+    const registrationsTable = document.getElementById('registrations-table');
+    const tournamentsTable = document.getElementById('tournaments-table');
+    const dashboardTime = document.getElementById('dashboard-time');
+    const adminName = document.getElementById('admin-name');
+    const logoutBtn = document.getElementById('logoutBtn');
+    const editModal = document.getElementById('editTournamentModal');
+    const closeEditModal = document.getElementById('closeEditModal');
+    const cancelEdit = document.getElementById('cancelEdit');
+    const tournamentForm = document.getElementById('tournamentForm');
+    
+    // Initialize Dashboard
+    document.addEventListener('DOMContentLoaded', async () => {
+        // Load admin data
+        await loadAdminData();
+        
+        // Update dashboard time
+        updateDashboardTime();
+        setInterval(updateDashboardTime, 60000);
+        
+        // Load all data
+        await Promise.all([
+            loadStats(),
+            loadRecentRegistrations(),
+            loadUpcomingTournaments(),
+            initCharts()
+        ]);
+        
+        // Set up event listeners
+        setupEventListeners();
+        
+        // Show toast notification
+        showToast('Dashboard loaded successfully!', 'success');
+    });
+    
+    // Load Admin Data
+    async function loadAdminData() {
+        try {
+            const response = await axios.get('/api/admin/profile', {
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('adminToken')}`
+                }
+            });
+            adminData = response.data;
+            adminName.textContent = adminData.name;
+        } catch (error) {
+            console.error('Error loading admin data:', error);
+            showToast('Failed to load admin profile', 'error');
+        }
+    }
+    
+    // Load Stats
+    async function loadStats() {
+        try {
+            const response = await axios.get('/api/admin/stats');
+            const stats = response.data;
+            
+            statsGrid.innerHTML = `
+                <div class="stat-card p-6 rounded-lg">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="p-3 bg-red-500 bg-opacity-20 rounded-lg">
+                            <i class="fas fa-trophy text-red-500 text-2xl"></i>
+                        </div>
+                        <span class="text-green-500 text-sm">
+                            <i class="fas fa-arrow-up"></i> ${stats.tournaments.growth}%
+                        </span>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-1">${stats.tournaments.total}</h3>
+                    <p class="text-gray-400">Total Tournaments</p>
+                </div>
+                <div class="stat-card p-6 rounded-lg">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="p-3 bg-blue-500 bg-opacity-20 rounded-lg">
+                            <i class="fas fa-play-circle text-blue-500 text-2xl"></i>
+                        </div>
+                        <span class="text-green-500 text-sm">
+                            <i class="fas fa-arrow-up"></i> ${stats.activeTournaments.growth}%
+                        </span>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-1">${stats.activeTournaments.count}</h3>
+                    <p class="text-gray-400">Active Tournaments</p>
+                </div>
+                <div class="stat-card p-6 rounded-lg">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="p-3 bg-green-500 bg-opacity-20 rounded-lg">
+                            <i class="fas fa-users text-green-500 text-2xl"></i>
+                        </div>
+                        <span class="text-green-500 text-sm">
+                            <i class="fas fa-arrow-up"></i> ${stats.teams.growth}%
+                        </span>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-1">${stats.teams.total}</h3>
+                    <p class="text-gray-400">Total Teams</p>
+                </div>
+                <div class="stat-card p-6 rounded-lg">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="p-3 bg-yellow-500 bg-opacity-20 rounded-lg">
+                            <i class="fas fa-money-bill-wave text-yellow-500 text-2xl"></i>
+                        </div>
+                        <span class="text-green-500 text-sm">
+                            <i class="fas fa-arrow-up"></i> ${stats.revenue.growth}%
+                        </span>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-1">₹${stats.revenue.total.toLocaleString()}</h3>
+                    <p class="text-gray-400">Total Revenue</p>
+                </div>
+            `;
+        } catch (error) {
+            console.error('Error loading stats:', error);
+            showToast('Failed to load dashboard stats', 'error');
+        }
+    }
+    
+    // Load Recent Registrations
+    async function loadRecentRegistrations() {
+        try {
+            const response = await axios.get('/api/registrations/recent');
+            registrationsData = response.data;
+            
+            registrationsTable.innerHTML = registrationsData.map(reg => `
+                <tr>
+                    <td>${reg._id.substring(0, 8)}</td>
+                    <td>${reg.player.name}</td>
+                    <td>${reg.tournament.name}</td>
+                    <td>${reg.team ? reg.team.name : 'Solo'}</td>
+                    <td>${new Date(reg.createdAt).toLocaleDateString()}</td>
+                    <td>
+                        <span class="status-badge ${getStatusClass(reg.status)}">
+                            ${reg.status.charAt(0).toUpperCase() + reg.status.slice(1)}
+                        </span>
+                    </td>
+                    <td>
+                        <button class="text-blue-400 hover:text-blue-300 mr-2" onclick="viewRegistration('${reg._id}')">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        <button class="text-yellow-400 hover:text-yellow-300" onclick="editRegistration('${reg._id}')">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+        } catch (error) {
+            console.error('Error loading registrations:', error);
+            showToast('Failed to load recent registrations', 'error');
+        }
+    }
+    
+    // Load Upcoming Tournaments
+    async function loadUpcomingTournaments() {
+        try {
+            const response = await axios.get('/api/tournaments/upcoming');
+            tournamentsData = response.data;
+            
+            tournamentsTable.innerHTML = tournamentsData.map(tournament => `
+                <tr>
+                    <td>${tournament.name}</td>
+                    <td>${tournament.game}</td>
+                    <td>${new Date(tournament.startDate).toLocaleDateString()}</td>
+                    <td>${tournament.registeredTeams}/${tournament.maxTeams}</td>
+                    <td>₹${tournament.prizePool.toLocaleString()}</td>
+                    <td>
+                        <span class="status-badge ${getStatusClass(tournament.status)}">
+                            ${tournament.status.charAt(0).toUpperCase() + tournament.status.slice(1)}
+                        </span>
+                    </td>
+                    <td>
+                        <button class="text-blue-400 hover:text-blue-300 mr-2" onclick="viewTournament('${tournament._id}')">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        <button class="text-yellow-400 hover:text-yellow-300 mr-2" onclick="editTournament('${tournament._id}')">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="text-red-400 hover:text-red-300" onclick="deleteTournament('${tournament._id}')">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+        } catch (error) {
+            console.error('Error loading tournaments:', error);
+            showToast('Failed to load upcoming tournaments', 'error');
+        }
+    }
+    
+    // Initialize Charts
+    function initCharts() {
+        // Participation Chart
+        const participationCtx = document.getElementById('participationChart').getContext('2d');
+        new Chart(participationCtx, {
+            type: 'line',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                datasets: [{
+                    label: 'Teams Participated',
+                    data: [12, 19, 15, 25, 22, 30],
+                    borderColor: '#ff4d4d',
+                    backgroundColor: 'rgba(255, 77, 77, 0.1)',
+                    fill: true,
+                    tension: 0.4
+                }]
+            },
+            options: getChartOptions('Teams')
+        });
+        
+        // Revenue Chart
+        const revenueCtx = document.getElementById('revenueChart').getContext('2d');
+        new Chart(revenueCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                datasets: [{
+                    label: 'Revenue (₹)',
+                    data: [5000, 8000, 12000, 15000, 20000, 25000],
+                    backgroundColor: '#facc15'
+                }]
+            },
+            options: getChartOptions('₹')
+        });
+    }
+    
+    // Chart Options
+    function getChartOptions(unit) {
+        return {
+            responsive: true,
+            plugins: {
+                legend: {
+                    labels: {
+                        color: '#e5e7eb'
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    ticks: { 
+                        color: '#e5e7eb',
+                        callback: function(value) {
+                            return unit === '₹' ? '₹' + value : value;
+                        }
+                    },
+                    grid: { color: 'rgba(255,255,255,0.1)' }
+                },
+                x: {
+                    ticks: { color: '#e5e7eb' },
+                    grid: { color: 'rgba(255,255,255,0.1)' }
+                }
+            }
+        };
+    }
+    
+    // Update Dashboard Time
+    function updateDashboardTime() {
+        const now = new Date();
+        const options = { 
+            weekday: 'long', 
+            year: 'numeric', 
+            month: 'long', 
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+        };
+        dashboardTime.textContent = now.toLocaleDateString('en-US', options);
+    }
+    
+    // Get Status Class
+    function getStatusClass(status) {
+        switch(status) {
+            case 'active':
+            case 'ongoing':
+                return 'status-active';
+            case 'pending':
+            case 'upcoming':
+                return 'status-pending';
+            case 'completed':
+                return 'status-completed';
+            default:
+                return '';
+        }
+    }
+    
+    // View Tournament
+    function viewTournament(id) {
+        const tournament = tournamentsData.find(t => t._id === id);
+        if (tournament) {
+            window.location.href = `admin-tournament-details.html?id=${id}`;
+        }
+    }
+    
+    // Edit Tournament
+    function editTournament(id) {
+        const tournament = tournamentsData.find(t => t._id === id);
+        if (tournament) {
+            if (window.innerWidth <= 768) {
+                openMobileEdit('tournament', tournament);
+            } else {
+                document.getElementById('tournamentId').value = tournament._id;
+                document.getElementById('tournamentName').value = tournament.name;
+                document.getElementById('tournamentGame').value = tournament.game;
+                document.getElementById('startDate').value = formatDateTimeForInput(tournament.startDate);
+                document.getElementById('endDate').value = formatDateTimeForInput(tournament.endDate);
+                document.getElementById('registrationFee').value = tournament.registrationFee;
+                document.getElementById('prizePool').value = tournament.prizePool;
+                document.getElementById('maxTeams').value = tournament.maxTeams;
+                document.getElementById('tournamentStatus').value = tournament.status;
+                document.getElementById('tournamentRules').value = tournament.rules;
+                
+                editModal.classList.add('active');
+            }
+        }
+    }
+    
+    // Format DateTime for Input
+    function formatDateTimeForInput(dateString) {
+        const date = new Date(dateString);
+        const pad = num => num.toString().padStart(2, '0');
+        return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}T${pad(date.getHours())}:${pad(date.getMinutes())}`;
+    }
+    
+    // Save Tournament Changes
+    async function saveTournamentChanges(e) {
+        e.preventDefault();
+        
+        const tournamentId = document.getElementById('tournamentId').value;
+        const tournamentData = {
+            name: document.getElementById('tournamentName').value,
+            game: document.getElementById('tournamentGame').value,
+            startDate: document.getElementById('startDate').value,
+            endDate: document.getElementById('endDate').value,
+            registrationFee: parseFloat(document.getElementById('registrationFee').value),
+            prizePool: parseFloat(document.getElementById('prizePool').value),
+            maxTeams: parseInt(document.getElementById('maxTeams').value),
+            status: document.getElementById('tournamentStatus').value,
+            rules: document.getElementById('tournamentRules').value
+        };
+        
+        try {
+            const response = await axios.put(`/api/tournaments/${tournamentId}`, tournamentData, {
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('adminToken')}`
+                }
+            });
+            
+            showToast('Tournament updated successfully!', 'success');
+            editModal.classList.remove('active');
+            loadUpcomingTournaments();
+        } catch (error) {
+            console.error('Error updating tournament:', error);
+            showToast('Failed to update tournament', 'error');
+        }
+    }
+    
+    // Delete Tournament
+    async function deleteTournament(id) {
+        if (confirm('Are you sure you want to delete this tournament?')) {
+            try {
+                await axios.delete(`/api/tournaments/${id}`, {
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('adminToken')}`
+                    }
+                });
+                
+                showToast('Tournament deleted successfully!', 'success');
+                loadUpcomingTournaments();
+            } catch (error) {
+                console.error('Error deleting tournament:', error);
+                showToast('Failed to delete tournament', 'error');
+            }
+        }
+    }
+    
+    // View Registration
+    function viewRegistration(id) {
+        const registration = registrationsData.find(r => r._id === id);
+        if (registration) {
+            window.location.href = `admin-registration-details.html?id=${id}`;
+        }
+    }
+    
+    // Edit Registration
+    function editRegistration(id) {
+        const registration = registrationsData.find(r => r._id === id);
+        if (registration) {
+            // Similar to editTournament but for registrations
+            // Would open a registration edit modal
+            showToast('Edit registration functionality coming soon', 'info');
+        }
+    }
+    
+    // Show Toast Notification
+    function showToast(message, type = 'info') {
+        const toast = document.createElement('div');
+        toast.className = `toast p-4 rounded-lg mb-2 ${
+            type === 'success' ? 'bg-green-500' :
+            type === 'error' ? 'bg-red-500' :
+            'bg-blue-500'
+        }`;
+        toast.textContent = message;
+        
+        const toastContainer = document.getElementById('toastContainer');
+        toastContainer.appendChild(toast);
+        
+        setTimeout(() => {
+            toast.classList.add('opacity-0', 'transition-opacity', 'duration-300');
+            setTimeout(() => toast.remove(), 300);
+        }, 3000);
+    }
+    
+    // Setup Event Listeners
+    function setupEventListeners() {
+        // Logout
+        logoutBtn.addEventListener('click', () => {
+            localStorage.removeItem('adminToken');
+            window.location.href = 'admin-login.html';
+        });
+        
+        // Modal Controls
+        closeEditModal.addEventListener('click', () => editModal.classList.remove('active'));
+        cancelEdit.addEventListener('click', () => editModal.classList.remove('active'));
+        editModal.addEventListener('click', (e) => {
+            if (e.target === editModal) {
+                editModal.classList.remove('active');
+            }
+        });
+        
+        // Form Submission
+        tournamentForm.addEventListener('submit', saveTournamentChanges);
+    }
+    
+    // Expose functions to global scope for inline event handlers
+    window.viewTournament = viewTournament;
+    window.editTournament = editTournament;
+    window.deleteTournament = deleteTournament;
+    window.viewRegistration = viewRegistration;
+    window.editRegistration = editRegistration;
+
+    // Mobile Menu Toggle
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const sidebar = document.querySelector('.sidebar');
+    
+    mobileMenuBtn.addEventListener('click', () => {
+        sidebar.classList.toggle('active');
+    });
+
+    // Close sidebar when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!sidebar.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
+            sidebar.classList.remove('active');
+        }
+    });
+
+    // Handle mobile navigation
+    const mobileNavItems = document.querySelectorAll('.mobile-nav-item');
+    mobileNavItems.forEach(item => {
+        item.addEventListener('click', () => {
+            mobileNavItems.forEach(i => i.classList.remove('active'));
+            item.classList.add('active');
+        });
+    });
+
+    // Adjust chart responsiveness for mobile
+    function adjustChartsForMobile() {
+        const charts = document.querySelectorAll('canvas');
+        charts.forEach(chart => {
+            const parent = chart.parentElement;
+            if (window.innerWidth < 768) {
+                parent.style.height = '300px';
+            } else {
+                parent.style.height = '400px';
+            }
+        });
+    }
+
+    // Call on load and resize
+    window.addEventListener('load', adjustChartsForMobile);
+    window.addEventListener('resize', adjustChartsForMobile);
+
+    // Edit Section Functions
+    function createNewTournament() {
+        openMobileEdit('tournament', {
+            type: 'new',
+            status: 'upcoming'
+        });
+    }
+
+    function viewAllTournaments() {
+        window.location.href = 'admin-tournaments.html';
+    }
+
+    function verifyPlayers() {
+        // Implementation for player verification
+        showToast('Opening player verification...', 'info');
+    }
+
+    function viewPlayers() {
+        window.location.href = 'admin-players.html';
+    }
+
+    function manageRegistrations() {
+        window.location.href = 'admin-registrations.html';
+    }
+
+    function viewPendingRegistrations() {
+        // Implementation for pending registrations
+        showToast('Loading pending registrations...', 'info');
+    }
+
+    function processPayments() {
+        window.location.href = 'admin-payments.html';
+    }
+
+    function viewTransactions() {
+        // Implementation for transaction history
+        showToast('Loading transaction history...', 'info');
+    }
+
+    function openSettings() {
+        // Implementation for settings
+        showToast('Opening settings...', 'info');
+    }
+
+    function manageSecurity() {
+        // Implementation for security settings
+        showToast('Opening security settings...', 'info');
+    }
+
+    // Enhanced Mobile Edit Functions
+    function openMobileEdit(type, data = null) {
+        const container = document.getElementById('mobileEditContainer');
+        const title = document.getElementById('mobileEditTitle');
+        const form = document.getElementById('mobileEditForm');
+        
+        // Set title based on type
+        title.textContent = getEditTitle(type);
+        
+        // Generate form fields based on type
+        form.innerHTML = generateEditFields(type, data);
+        
+        // Show container with animation
+        container.classList.add('active');
+        
+        // Prevent body scroll
+        document.body.style.overflow = 'hidden';
+
+        // Show toast notification
+        showToast(`Opening ${type} editor...`, 'info');
+    }
+
+    function closeMobileEdit() {
+        const container = document.getElementById('mobileEditContainer');
+        container.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+
+    function getEditTitle(type) {
+        const titles = {
+            tournament: 'Edit Tournament',
+            team: 'Edit Team',
+            player: 'Edit Player',
+            registration: 'Edit Registration',
+            payment: 'Edit Payment',
+            settings: 'Edit Settings'
+        };
+        return titles[type] || 'Edit Item';
+    }
+
+    function generateEditFields(type, data) {
+        const fields = {
+            tournament: `
+                <div class="space-y-4">
+                    <input type="text" class="mobile-edit-input" placeholder="Tournament Name" value="${data?.name || ''}" required>
+                    <select class="mobile-edit-input">
+                        <option value="upcoming" ${data?.status === 'upcoming' ? 'selected' : ''}>Upcoming</option>
+                        <option value="ongoing" ${data?.status === 'ongoing' ? 'selected' : ''}>Ongoing</option>
+                        <option value="completed" ${data?.status === 'completed' ? 'selected' : ''}>Completed</option>
+                    </select>
+                    <input type="datetime-local" class="mobile-edit-input" value="${data?.startDate || ''}" required>
+                    <input type="number" class="mobile-edit-input" placeholder="Prize Pool" value="${data?.prizePool || ''}" required>
+                    <textarea class="mobile-edit-input" placeholder="Tournament Rules" rows="3">${data?.rules || ''}</textarea>
+                </div>
+            `,
+            team: `
+                <div class="space-y-4">
+                    <input type="text" class="mobile-edit-input" placeholder="Team Name" value="${data?.name || ''}" required>
+                    <input type="text" class="mobile-edit-input" placeholder="Team Tag" value="${data?.tag || ''}" required maxlength="4">
+                    <select class="mobile-edit-input">
+                        <option value="active" ${data?.status === 'active' ? 'selected' : ''}>Active</option>
+                        <option value="inactive" ${data?.status === 'inactive' ? 'selected' : ''}>Inactive</option>
+                    </select>
+                </div>
+            `,
+            player: `
+                <div class="space-y-4">
+                    <input type="text" class="mobile-edit-input" placeholder="Player Name" value="${data?.name || ''}" required>
+                    <input type="text" class="mobile-edit-input" placeholder="Player ID" value="${data?.playerId || ''}" required>
+                    <input type="text" class="mobile-edit-input" placeholder="Team" value="${data?.team || ''}">
+                </div>
+            `,
+            registration: `
+                <div class="space-y-4">
+                    <select class="mobile-edit-input">
+                        <option value="pending" ${data?.status === 'pending' ? 'selected' : ''}>Pending</option>
+                        <option value="approved" ${data?.status === 'approved' ? 'selected' : ''}>Approved</option>
+                        <option value="rejected" ${data?.status === 'rejected' ? 'selected' : ''}>Rejected</option>
+                    </select>
+                    <input type="text" class="mobile-edit-input" placeholder="Player Name" value="${data?.playerName || ''}" required>
+                    <input type="text" class="mobile-edit-input" placeholder="Team Name" value="${data?.teamName || ''}">
+                    <textarea class="mobile-edit-input" placeholder="Notes" rows="3">${data?.notes || ''}</textarea>
+                </div>
+            `,
+            payment: `
+                <div class="space-y-4">
+                    <input type="number" class="mobile-edit-input" placeholder="Amount" value="${data?.amount || ''}" required>
+                    <select class="mobile-edit-input">
+                        <option value="pending" ${data?.status === 'pending' ? 'selected' : ''}>Pending</option>
+                        <option value="completed" ${data?.status === 'completed' ? 'selected' : ''}>Completed</option>
+                        <option value="failed" ${data?.status === 'failed' ? 'selected' : ''}>Failed</option>
+                    </select>
+                </div>
+            `,
+            settings: `
+                <div class="space-y-4">
+                    <select class="mobile-edit-input">
+                        <option value="enabled" ${data?.registration === 'enabled' ? 'selected' : ''}>Registration Enabled</option>
+                        <option value="disabled" ${data?.registration === 'disabled' ? 'selected' : ''}>Registration Disabled</option>
+                    </select>
+                    <input type="number" class="mobile-edit-input" placeholder="Max Teams Per Tournament" value="${data?.maxTeams || ''}" required>
+                    <input type="number" class="mobile-edit-input" placeholder="Min Team Size" value="${data?.minTeamSize || ''}" required>
+                    <input type="number" class="mobile-edit-input" placeholder="Max Team Size" value="${data?.maxTeamSize || ''}" required>
+                </div>
+            `
+        };
+        
+        return fields[type] || '<p>No fields available</p>';
+    }
+
+    function saveMobileEdit() {
+        // Get form data
+        const form = document.getElementById('mobileEditForm');
+        const formData = new FormData(form);
+        
+        // Show loading state
+        showToast('Saving changes...', 'info');
+        
+        // Simulate API call
+        setTimeout(() => {
+            showToast('Changes saved successfully!', 'success');
+            closeMobileEdit();
+        }, 1000);
+    }
+
+    // Tournament Management Functions
+    function viewTournamentStats() {
+        // Implementation for viewing tournament statistics
+        showToast('Loading tournament statistics...', 'info');
+    }
+
+    function scheduleTournament() {
+        // Implementation for scheduling tournaments
+        showToast('Opening tournament scheduler...', 'info');
+    }
+
+    function manageBrackets() {
+        // Implementation for managing tournament brackets
+        showToast('Opening bracket manager...', 'info');
+    }
+
+    function managePrizes() {
+        // Implementation for managing tournament prizes
+        showToast('Opening prize manager...', 'info');
+    }
+
+    // Update tournament stats
+    function updateTournamentStats() {
+        // This would typically fetch data from your backend
+        document.getElementById('totalTournaments').textContent = '12';
+        document.getElementById('activeTournaments').textContent = '3';
+        document.getElementById('totalTeams').textContent = '48';
+        document.getElementById('totalPrizePool').textContent = '₹150,000';
+    }
+
+    // Call updateTournamentStats when the page loads
+    document.addEventListener('DOMContentLoaded', () => {
+        updateTournamentStats();
+    });
+
+    // Tournament Edit Functions
+    function saveTournamentEdit() {
+        // Get form data
+        const basicInfo = new FormData(document.getElementById('basicInfoForm'));
+        const schedule = new FormData(document.getElementById('scheduleForm'));
+        const prize = new FormData(document.getElementById('prizeForm'));
+        const settings = new FormData(document.getElementById('settingsForm'));
+
+        // Combine all form data
+        const tournamentData = {
+            ...Object.fromEntries(basicInfo),
+            ...Object.fromEntries(schedule),
+            ...Object.fromEntries(prize),
+            ...Object.fromEntries(settings)
+        };
+
+        // Show loading state
+        showToast('Saving tournament changes...', 'info');
+
+        // Simulate API call
+        setTimeout(() => {
+            showToast('Tournament updated successfully!', 'success');
+            // Refresh tournament data
+            loadUpcomingTournaments();
+        }, 1000);
+    }
+
+    function resetTournamentEdit() {
+        // Reset all forms
+        document.getElementById('basicInfoForm').reset();
+        document.getElementById('scheduleForm').reset();
+        document.getElementById('prizeForm').reset();
+        document.getElementById('settingsForm').reset();
+
+        showToast('Form reset successfully', 'info');
+    }
+
+    // Team Management Functions
+    function saveTeamEdit() {
+        // Get form data
+        const teamInfo = new FormData(document.getElementById('teamInfoForm'));
+        const teamStats = new FormData(document.getElementById('teamStatsForm'));
+        const teamAchievements = new FormData(document.getElementById('teamAchievementsForm'));
+
+        // Combine all form data
+        const teamData = {
+            ...Object.fromEntries(teamInfo),
+            ...Object.fromEntries(teamStats),
+            ...Object.fromEntries(teamAchievements)
+        };
+
+        // Show loading state
+        showToast('Saving team changes...', 'info');
+
+        // Simulate API call
+        setTimeout(() => {
+            showToast('Team updated successfully!', 'success');
+            // Refresh team data
+            loadTeams();
+        }, 1000);
+    }
+
+    function resetTeamEdit() {
+        // Reset all forms
+        document.getElementById('teamInfoForm').reset();
+        document.getElementById('teamStatsForm').reset();
+        document.getElementById('teamAchievementsForm').reset();
+
+        showToast('Form reset successfully', 'info');
+    }
+
+    function addTeamMember() {
+        // Implementation for adding team member
+        showToast('Opening add member form...', 'info');
+    }
+
+    function editTeamMember(memberId) {
+        // Implementation for editing team member
+        showToast('Opening member edit form...', 'info');
+    }
+
+    function removeTeamMember(memberId) {
+        // Implementation for removing team member
+        if (confirm('Are you sure you want to remove this team member?')) {
+            showToast('Team member removed successfully', 'success');
+        }
+    }
+
+    // Player Verification Functions
+    function savePlayerEdit() {
+        // Get form data
+        const playerInfo = new FormData(document.getElementById('playerInfoForm'));
+        const playerDocs = new FormData(document.getElementById('playerDocsForm'));
+        const playerStats = new FormData(document.getElementById('playerStatsForm'));
+
+        // Combine all form data
+        const playerData = {
+            ...Object.fromEntries(playerInfo),
+            ...Object.fromEntries(playerStats)
+        };
+
+        // Show loading state
+        showToast('Saving player changes...', 'info');
+
+        // Simulate API call
+        setTimeout(() => {
+            showToast('Player updated successfully!', 'success');
+            // Refresh player data
+            loadPlayers();
+        }, 1000);
+    }
+
+    function resetPlayerEdit() {
+        // Reset all forms
+        document.getElementById('playerInfoForm').reset();
+        document.getElementById('playerDocsForm').reset();
+        document.getElementById('playerStatsForm').reset();
+
+        showToast('Form reset successfully', 'info');
+    }
+
+    function verifyPlayer(playerId) {
+        // Implementation for verifying player
+        showToast('Verifying player...', 'info');
+        setTimeout(() => {
+            showToast('Player verified successfully!', 'success');
+            loadPlayers();
+        }, 1000);
+    }
+
+    function rejectPlayer(playerId) {
+        // Implementation for rejecting player
+        if (confirm('Are you sure you want to reject this player?')) {
+            showToast('Rejecting player...', 'info');
+            setTimeout(() => {
+                showToast('Player rejected successfully', 'success');
+                loadPlayers();
+            }, 1000);
+        }
+    }
+
+    function viewPlayer(playerId) {
+        // Implementation for viewing player details
+        showToast('Loading player details...', 'info');
+    }
+
+    function filterPlayers(status) {
+        // Update active filter button
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.classList.remove('active');
+        });
+        event.target.classList.add('active');
+
+        // Implementation for filtering players
+        showToast(`Filtering ${status} players...`, 'info');
+        // Refresh player list based on filter
+        loadPlayers(status);
+    }
+
+    // Registration Management Functions
+    function saveRegistrationEdit() {
+        // Get form data
+        const overview = new FormData(document.getElementById('registrationOverviewForm'));
+        const details = new FormData(document.getElementById('registrationDetailsForm'));
+        const teamPlayer = new FormData(document.getElementById('teamPlayerForm'));
+
+        // Combine all form data
+        const registrationData = {
+            ...Object.fromEntries(overview),
+            ...Object.fromEntries(details),
+            ...Object.fromEntries(teamPlayer)
+        };
+
+        // Show loading state
+        showToast('Saving registration changes...', 'info');
+
+        // Simulate API call
+        setTimeout(() => {
+            showToast('Registration updated successfully!', 'success');
+            // Refresh registration data
+            loadRegistrations();
+        }, 1000);
+    }
+
+    function resetRegistrationEdit() {
+        // Reset all forms
+        document.getElementById('registrationOverviewForm').reset();
+        document.getElementById('registrationDetailsForm').reset();
+        document.getElementById('teamPlayerForm').reset();
+
+        showToast('Form reset successfully', 'info');
+    }
+
+    function approveRegistration(registrationId) {
+        // Implementation for approving registration
+        showToast('Approving registration...', 'info');
+        setTimeout(() => {
+            showToast('Registration approved successfully!', 'success');
+            loadRegistrations();
+        }, 1000);
+    }
+
+    function rejectRegistration(registrationId) {
+        // Implementation for rejecting registration
+        if (confirm('Are you sure you want to reject this registration?')) {
+            showToast('Rejecting registration...', 'info');
+            setTimeout(() => {
+                showToast('Registration rejected successfully', 'success');
+                loadRegistrations();
+            }, 1000);
+        }
+    }
+
+    function viewRegistration(registrationId) {
+        // Implementation for viewing registration details
+        showToast('Loading registration details...', 'info');
+    }
+
+    function filterRegistrations(type) {
+        // Update active filter button
+        document.querySelectorAll('.registration-filter').forEach(btn => {
+            btn.classList.remove('active');
+        });
+        event.target.classList.add('active');
+
+        // Implementation for filtering registrations
+        showToast(`Filtering ${type} registrations...`, 'info');
+        // Refresh registration list based on filter
+        loadRegistrations(type);
+    }
+
+    // Payment Processing Functions
+    function savePaymentEdit() {
+        // Get form data
+        const overview = new FormData(document.getElementById('paymentOverviewForm'));
+        const details = new FormData(document.getElementById('paymentDetailsForm'));
+        const history = new FormData(document.getElementById('transactionHistoryForm'));
+
+        // Combine all form data
+        const paymentData = {
+            ...Object.fromEntries(overview),
+            ...Object.fromEntries(details),
+            ...Object.fromEntries(history)
+        };
+
+        // Show loading state
+        showToast('Saving payment changes...', 'info');
+
+        // Simulate API call
+        setTimeout(() => {
+            showToast('Payment updated successfully!', 'success');
+            // Refresh payment data
+            loadPayments();
+        }, 1000);
+    }
+
+    function resetPaymentEdit() {
+        // Reset all forms
+        document.getElementById('paymentOverviewForm').reset();
+        document.getElementById('paymentDetailsForm').reset();
+        document.getElementById('transactionHistoryForm').reset();
+
+        showToast('Form reset successfully', 'info');
+    }
+
+    function processPayment(paymentId) {
+        // Implementation for processing payment
+        showToast('Processing payment...', 'info');
+        setTimeout(() => {
+            showToast('Payment processed successfully!', 'success');
+            loadPayments();
+        }, 1000);
+    }
+
+    function refundPayment(paymentId) {
+        // Implementation for refunding payment
+        if (confirm('Are you sure you want to refund this payment?')) {
+            showToast('Processing refund...', 'info');
+            setTimeout(() => {
+                showToast('Refund processed successfully', 'success');
+                loadPayments();
+            }, 1000);
+        }
+    }
+
+    function viewPayment(paymentId) {
+        // Implementation for viewing payment details
+        showToast('Loading payment details...', 'info');
+    }
+
+    function filterPayments(type) {
+        // Update active filter button
+        document.querySelectorAll('.payment-filter').forEach(btn => {
+            btn.classList.remove('active');
+        });
+        event.target.classList.add('active');
+
+        // Implementation for filtering payments
+        showToast(`Filtering ${type} payments...`, 'info');
+        // Refresh payment list based on filter
+        loadPayments(type);
+    }
+    </script>
+</body>
+</html>

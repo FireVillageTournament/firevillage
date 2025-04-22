@@ -1,0 +1,1171 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tournaments | Fire Village - India's Premier Free Fire Esports Arena</title>
+  <meta name="description" content="Join Fire Village tournaments with cash prizes. Compete in Solo, Duo, and Squad matches. Register your team today!">
+  
+  <!-- Favicon -->
+  <link rel="icon" href="./assets/logo.png" type="image/png">
+
+  <!-- TailwindCSS -->
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+  
+  <!-- Animate.css -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --primary-color: #facc15;
+      --primary-dark: #f59e0b;
+      --bg-dark: #0f172a;
+      --bg-card: #1e293b;
+    }
+    
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: var(--bg-dark);
+      color: #e2e8f0;
+      scroll-behavior: smooth;
+    }
+    
+    .font-heading {
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+    
+    .glow-text {
+      text-shadow: 0 0 10px rgba(250, 204, 21, 0.7);
+    }
+    
+    .gradient-text {
+      background: linear-gradient(90deg, #facc15, #f59e0b);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    
+    .glass-card {
+      background: rgba(17, 24, 39, 0.7);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .glass-card:hover {
+      border-color: rgba(250, 204, 21, 0.3);
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px -5px rgba(250, 204, 21, 0.1);
+    }
+    
+    .nav-link {
+      position: relative;
+      padding-bottom: 2px;
+    }
+    
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--primary-color);
+      transition: width 0.3s ease;
+    }
+    
+    .nav-link:hover::after {
+      width: 100%;
+    }
+    
+    .active-nav {
+      color: var(--primary-color);
+    }
+    
+    .active-nav::after {
+      width: 100%;
+    }
+    
+    .hamburger {
+      transition: all 0.3s ease;
+    }
+    
+    .hamburger-active .hamburger-line:nth-child(1) {
+      transform: rotate(45deg) translate(5px, 5px);
+    }
+    
+    .hamburger-active .hamburger-line:nth-child(2) {
+      opacity: 0;
+    }
+    
+    .hamburger-active .hamburger-line:nth-child(3) {
+      transform: rotate(-45deg) translate(5px, -5px);
+    }
+    
+    .hamburger-line {
+      transition: all 0.3s ease;
+    }
+    
+    .mobile-menu {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.5s ease;
+    }
+    
+    .mobile-menu-active {
+      max-height: 500px;
+    }
+    
+    .pulse-animation {
+      animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+    
+    .tournament-badge {
+      position: absolute;
+      top: -10px;
+      right: 10px;
+      background: linear-gradient(90deg, #f59e0b, #facc15);
+      color: #000;
+      font-weight: 700;
+      padding: 3px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
+      z-index: 1;
+    }
+    
+    .scrollbar-hide::-webkit-scrollbar {
+      display: none;
+    }
+    
+    .scrollbar-hide {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+    
+    .hero-height {
+      height: 50vh;
+      min-height: 400px;
+    }
+    
+    .countdown-timer {
+      font-family: 'Orbitron', sans-serif;
+      background: rgba(0, 0, 0, 0.7);
+      border: 1px solid #facc15;
+    }
+    
+    .filter-btn.active {
+      background: #facc15;
+      color: #000;
+    }
+    
+    /* Loading spinner */
+    .loader {
+      border-top-color: #facc15;
+      animation: spinner 1s linear infinite;
+    }
+    
+    @keyframes spinner {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    /* Prize tier styling */
+    .prize-tier {
+      position: relative;
+    }
+    
+    .prize-tier::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 4px;
+      background: linear-gradient(to bottom, #facc15, #f59e0b);
+    }
+    
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    
+    ::-webkit-scrollbar-track {
+      background: #111827;
+    }
+    
+    ::-webkit-scrollbar-thumb {
+      background: #facc15;
+      border-radius: 4px;
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 640px) {
+      .hero-height {
+        height: 60vh;
+        min-height: 300px;
+      }
+    }
+
+    .tournament-header {
+      background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('./assets/tournament-banner.jpg');
+      background-size: cover;
+      background-position: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .tournament-header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(45deg, rgba(250, 204, 21, 0.1), transparent);
+      z-index: 1;
+    }
+
+    .tournament-card {
+      background: linear-gradient(145deg, var(--bg-card), var(--bg-dark));
+      border: 1px solid rgba(250, 204, 21, 0.1);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .tournament-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(45deg, transparent, rgba(250, 204, 21, 0.1));
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .tournament-card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(250, 204, 21, 0.3);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .tournament-card:hover::before {
+      opacity: 1;
+    }
+
+    .tournament-image {
+      transition: transform 0.3s ease;
+    }
+
+    .tournament-card:hover .tournament-image {
+      transform: scale(1.05);
+    }
+
+    .tournament-badge {
+      background: linear-gradient(145deg, var(--primary-color), var(--primary-dark));
+      box-shadow: 0 4px 6px rgba(250, 204, 21, 0.2);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .tournament-badge::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(
+        45deg,
+        transparent,
+        rgba(255, 255, 255, 0.1),
+        transparent
+      );
+      transform: rotate(45deg);
+      animation: shine 3s infinite;
+    }
+
+    @keyframes shine {
+      0% {
+        transform: translateX(-100%) rotate(45deg);
+      }
+      100% {
+        transform: translateX(100%) rotate(45deg);
+      }
+    }
+
+    .filter-button {
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .filter-button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(250, 204, 21, 0.1), transparent);
+      transform: translateX(-100%);
+      transition: transform 0.5s ease;
+    }
+
+    .filter-button:hover::before {
+      transform: translateX(100%);
+    }
+
+    .filter-button.active {
+      background: var(--primary-color);
+      color: var(--bg-dark);
+    }
+
+    /* Mobile Menu Styles */
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      top: 4rem;
+      left: 0;
+      right: 0;
+      background: rgba(17, 24, 39, 0.95);
+      backdrop-filter: blur(8px);
+      border-top: 1px solid rgba(75, 85, 99, 0.2);
+      transform: translateY(-100%);
+      transition: transform 0.3s ease-in-out;
+    }
+
+    .mobile-menu.active {
+      display: block;
+      transform: translateY(0);
+    }
+
+    .mobile-menu-item {
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .mobile-menu-item::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(234, 179, 8, 0.1), transparent);
+      transform: translateX(-100%);
+      transition: transform 0.5s ease;
+    }
+
+    .mobile-menu-item:hover::before {
+      transform: translateX(100%);
+    }
+
+    /* Mobile Responsive Adjustments */
+    @media (max-width: 768px) {
+      .container {
+        padding-left: 1rem;
+        padding-right: 1rem;
+      }
+
+      .tournament-card {
+        margin-bottom: 1rem;
+      }
+
+      .filter-buttons {
+        flex-wrap: wrap;
+        gap: 0.5rem;
+      }
+
+      .filter-button {
+        width: calc(50% - 0.5rem);
+      }
+    }
+
+    /* Loading Animation */
+    .loading {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .loading::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+      animation: loading 1.5s infinite;
+    }
+
+    @keyframes loading {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(100%); }
+    }
+
+    /* Mobile-friendly adjustments */
+    @media (max-width: 768px) {
+        .container {
+            padding-left: 1rem;
+            padding-right: 1rem;
+        }
+
+        .glass-card {
+            margin-bottom: 1rem;
+        }
+
+        /* Larger touch targets for mobile */
+        .nav-link, .mobile-nav-link {
+            padding: 0.75rem 1rem;
+        }
+
+        /* Improved button sizes for mobile */
+        button, 
+        input[type="submit"],
+        .filter-button {
+            min-height: 44px;
+            padding: 0.75rem 1rem;
+        }
+
+        /* Better spacing for mobile forms */
+        form > div {
+            margin-bottom: 1.25rem;
+        }
+
+        /* Improved modal for mobile */
+        #teamCreationModal > div {
+            margin: 1rem;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        /* Better touch feedback */
+        .glass-card:active {
+            transform: scale(0.98);
+        }
+
+        /* Improved mobile navigation */
+        #mobileMenu {
+            padding: 1rem;
+        }
+
+        .mobile-nav-link {
+            padding: 1rem;
+            margin: 0.25rem 0;
+        }
+
+        /* Better mobile filters */
+        .filter-buttons {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.5rem;
+            padding: 0.5rem;
+        }
+
+        .filter-button {
+            width: 100%;
+            text-align: center;
+        }
+    }
+
+    /* Toast notification for mobile */
+    .toast {
+        position: fixed;
+        bottom: 1rem;
+        left: 50%;
+        transform: translateX(-50%);
+        background: rgba(0, 0, 0, 0.9);
+        color: white;
+        padding: 1rem;
+        border-radius: 0.5rem;
+        z-index: 1000;
+        max-width: 90%;
+        text-align: center;
+    }
+
+    /* Navigation Styles */
+    .nav-link, .mobile-nav-link {
+        position: relative;
+        transition: all 0.3s ease;
+    }
+
+    .nav-link::after, .mobile-nav-link::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: var(--primary-color);
+        transition: width 0.3s ease;
+    }
+
+    .nav-link:hover::after, .mobile-nav-link:hover::after {
+        width: 100%;
+    }
+
+    .active {
+        color: var(--primary-color);
+    }
+
+    .active::after {
+        width: 100%;
+    }
+
+    /* Mobile Menu Styles */
+    #mobileMenu {
+        background: rgba(17, 24, 39, 0.95);
+        backdrop-filter: blur(8px);
+        border-top: 1px solid rgba(75, 85, 99, 0.2);
+        transition: all 0.3s ease-in-out;
+    }
+
+    .mobile-nav-link {
+        display: flex;
+        align-items: center;
+        padding: 0.75rem 1rem;
+        margin: 0.25rem 0;
+        border-radius: 0.5rem;
+        transition: all 0.3s ease;
+    }
+
+    .mobile-nav-link:active {
+        transform: scale(0.98);
+    }
+
+    /* Mobile Menu Button Animation */
+    #mobileMenuBtn {
+        transition: all 0.3s ease;
+    }
+
+    #mobileMenuBtn:hover {
+        transform: scale(1.1);
+    }
+
+    /* Responsive Adjustments */
+    @media (max-width: 768px) {
+        .container {
+            padding-left: 1rem;
+            padding-right: 1rem;
+        }
+
+        #mobileMenu {
+            padding: 1rem;
+        }
+
+        .mobile-nav-link {
+            font-size: 1.1rem;
+        }
+    }
+  </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"></script>
+  <script src="data-sync.js"></script>
+</head>
+
+<body class="min-h-screen">
+  <!-- Navigation -->
+  <nav class="bg-gray-900 bg-opacity-90 px-4 py-3 sticky top-0 z-50 shadow-lg backdrop-blur-md">
+    <div class="container mx-auto flex justify-between items-center">
+        <!-- Logo -->
+        <div class="flex items-center space-x-2">
+            <a href="index.html" class="flex items-center group">
+                <img src="./assets/logo.png" alt="Fire Village Logo" class="h-12 w-auto transform group-hover:scale-110 transition-transform duration-300">
+                <span class="ml-2 text-yellow-400 font-heading text-2xl group-hover:text-yellow-300 transition-colors">FIRE VILLAGE</span>
+            </a>
+        </div>
+
+        <!-- Desktop Navigation -->
+        <div class="hidden lg:flex items-center space-x-1">
+            <a href="index.html" class="nav-link px-4 py-2 rounded-lg text-gray-300 font-medium hover:bg-yellow-400 hover:text-black transition-all">
+                <i class="fas fa-home mr-2"></i>Home
+            </a>
+            <a href="tournaments.html" class="nav-link active px-4 py-2 rounded-lg text-yellow-400 font-medium hover:bg-yellow-400 hover:text-black transition-all">
+                <i class="fas fa-trophy mr-2"></i>Tournaments
+            </a>
+            <a href="leaderboard.html" class="nav-link px-4 py-2 rounded-lg text-gray-300 font-medium hover:bg-yellow-400 hover:text-black transition-all">
+                <i class="fas fa-list-ol mr-2"></i>Leaderboard
+            </a>
+            <a href="teams.html" class="nav-link px-4 py-2 rounded-lg text-gray-300 font-medium hover:bg-yellow-400 hover:text-black transition-all">
+                <i class="fas fa-users mr-2"></i>Teams
+            </a>
+            <a href="about.html" class="nav-link px-4 py-2 rounded-lg text-gray-300 font-medium hover:bg-yellow-400 hover:text-black transition-all">
+                <i class="fas fa-info-circle mr-2"></i>About
+            </a>
+            <a href="contact.html" class="nav-link px-4 py-2 rounded-lg text-gray-300 font-medium hover:bg-yellow-400 hover:text-black transition-all">
+                <i class="fas fa-envelope mr-2"></i>Contact
+            </a>
+        </div>
+
+        <!-- Auth Buttons -->
+        <div class="hidden lg:flex items-center space-x-4">
+            <a href="register.html" class="px-4 py-2 rounded-lg bg-gradient-to-r from-yellow-500 to-red-500 text-black font-medium hover:from-yellow-400 hover:to-red-400 transition-all transform hover:scale-105">
+                <i class="fas fa-user-plus mr-2"></i>Join Now
+            </a>
+        </div>
+
+        <!-- Mobile Menu Button -->
+        <button id="mobileMenuBtn" class="lg:hidden text-gray-300 hover:text-yellow-400 focus:outline-none">
+            <i class="fas fa-bars text-2xl"></i>
+        </button>
+    </div>
+
+    <!-- Mobile Navigation -->
+    <div id="mobileMenu" class="lg:hidden hidden mt-4 pb-4">
+        <div class="flex flex-col space-y-2">
+            <a href="index.html" class="mobile-nav-link px-4 py-3 rounded-lg text-gray-300 font-medium hover:bg-yellow-400 hover:text-black transition-all">
+                <i class="fas fa-home mr-2"></i>Home
+            </a>
+            <a href="tournaments.html" class="mobile-nav-link active px-4 py-3 rounded-lg text-yellow-400 font-medium hover:bg-yellow-400 hover:text-black transition-all">
+                <i class="fas fa-trophy mr-2"></i>Tournaments
+            </a>
+            <a href="leaderboard.html" class="mobile-nav-link px-4 py-3 rounded-lg text-gray-300 font-medium hover:bg-yellow-400 hover:text-black transition-all">
+                <i class="fas fa-list-ol mr-2"></i>Leaderboard
+            </a>
+            <a href="teams.html" class="mobile-nav-link px-4 py-3 rounded-lg text-gray-300 font-medium hover:bg-yellow-400 hover:text-black transition-all">
+                <i class="fas fa-users mr-2"></i>Teams
+            </a>
+            <a href="about.html" class="mobile-nav-link px-4 py-3 rounded-lg text-gray-300 font-medium hover:bg-yellow-400 hover:text-black transition-all">
+                <i class="fas fa-info-circle mr-2"></i>About
+            </a>
+            <a href="contact.html" class="mobile-nav-link px-4 py-3 rounded-lg text-gray-300 font-medium hover:bg-yellow-400 hover:text-black transition-all">
+                <i class="fas fa-envelope mr-2"></i>Contact
+            </a>
+            <a href="register.html" class="mobile-nav-link px-4 py-3 rounded-lg bg-gradient-to-r from-yellow-500 to-red-500 text-black font-medium hover:from-yellow-400 hover:to-red-400 transition-all">
+                <i class="fas fa-user-plus mr-2"></i>Join Now
+            </a>
+        </div>
+    </div>
+</nav>
+
+  <!-- Tournament Header -->
+  <header class="tournament-header py-16">
+    <div class="container mx-auto px-4">
+      <div class="text-center">
+        <h1 class="text-4xl md:text-5xl font-bold text-yellow-400 mb-4">Tournaments</h1>
+        <p class="text-xl text-gray-300 max-w-2xl mx-auto">Join exciting tournaments, compete with the best players, and win amazing prizes. Register now to secure your spot!</p>
+      </div>
+    </div>
+  </header>
+
+  <!-- Tournament Filters -->
+  <section class="py-8">
+    <div class="container mx-auto px-4">
+      <div class="flex flex-wrap justify-center gap-4 filter-buttons">
+        <button class="filter-button active px-6 py-2 rounded-full bg-yellow-500 text-gray-900 font-medium">
+          All Tournaments
+        </button>
+        <button class="filter-button px-6 py-2 rounded-full bg-gray-700 text-gray-300 hover:bg-gray-600 font-medium">
+          Solo
+        </button>
+        <button class="filter-button px-6 py-2 rounded-full bg-gray-700 text-gray-300 hover:bg-gray-600 font-medium">
+          Squad
+        </button>
+        <button class="filter-button px-6 py-2 rounded-full bg-gray-700 text-gray-300 hover:bg-gray-600 font-medium">
+          Duo
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tournaments Section -->
+  <section class="py-16 bg-gray-900">
+    <div class="container mx-auto px-4">
+      <h2 class="text-3xl font-bold text-center text-yellow-400 mb-8">All Tournaments</h2>
+      <div id="tournamentsContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <!-- Tournament cards will be dynamically inserted here -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Tournament Management Section -->
+  <div class="container mx-auto px-4 py-8">
+    <div class="grid grid-cols-1 gap-6">
+        <!-- Tournament Registration Card -->
+        <div class="glass-card rounded-xl p-4 md:p-6">
+            <h3 class="text-lg md:text-xl font-heading mb-4 gradient-text">Register for Tournament</h3>
+            <form id="tournamentRegistrationForm" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium mb-2">Tournament</label>
+                    <select id="tournamentSelect" class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 focus:outline-none focus:border-yellow-500 text-base">
+                        <option value="">Select Tournament</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium mb-2">Team Name</label>
+                    <input type="text" id="teamName" class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 focus:outline-none focus:border-yellow-500 text-base" placeholder="Enter team name">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium mb-2">Team Tag</label>
+                    <input type="text" id="teamTag" class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 focus:outline-none focus:border-yellow-500 text-base" placeholder="Enter team tag (max 5 chars)" maxlength="5">
+                </div>
+                <button type="submit" class="w-full bg-gradient-to-r from-yellow-500 to-yellow-600 text-black font-bold py-3 px-4 rounded-lg hover:from-yellow-600 hover:to-yellow-700 transition duration-300 text-base">
+                    Register Team
+                </button>
+            </form>
+        </div>
+
+        <!-- My Teams Card -->
+        <div class="glass-card rounded-xl p-4 md:p-6">
+            <h3 class="text-lg md:text-xl font-heading mb-4 gradient-text">My Teams</h3>
+            <div id="myTeamsList" class="space-y-4">
+                <!-- Teams will be loaded here dynamically -->
+            </div>
+            <button id="createTeamBtn" class="mt-4 w-full bg-gradient-to-r from-green-500 to-green-600 text-white font-bold py-3 px-4 rounded-lg hover:from-green-600 hover:to-green-700 transition duration-300 text-base">
+                Create New Team
+            </button>
+        </div>
+
+        <!-- Tournament Schedule Card -->
+        <div class="glass-card rounded-xl p-4 md:p-6">
+            <h3 class="text-lg md:text-xl font-heading mb-4 gradient-text">Upcoming Matches</h3>
+            <div id="upcomingMatches" class="space-y-4">
+                <!-- Matches will be loaded here dynamically -->
+            </div>
+        </div>
+    </div>
+  </div>
+
+  <!-- Team Creation Modal -->
+  <div id="teamCreationModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50 p-4">
+    <div class="glass-card rounded-xl p-4 md:p-6 w-full max-w-md mx-4">
+        <h3 class="text-lg md:text-xl font-heading mb-4 gradient-text">Create New Team</h3>
+        <form id="teamCreationForm" class="space-y-4">
+            <div>
+                <label class="block text-sm font-medium mb-2">Team Name</label>
+                <input type="text" id="newTeamName" class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 focus:outline-none focus:border-yellow-500 text-base" required>
+            </div>
+            <div>
+                <label class="block text-sm font-medium mb-2">Team Tag</label>
+                <input type="text" id="newTeamTag" class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 focus:outline-none focus:border-yellow-500 text-base" maxlength="5" required>
+            </div>
+            <div>
+                <label class="block text-sm font-medium mb-2">Region</label>
+                <input type="text" id="teamRegion" class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 focus:outline-none focus:border-yellow-500 text-base" required>
+            </div>
+            <div class="flex justify-end space-x-4">
+                <button type="button" id="closeTeamModal" class="px-4 py-3 bg-gray-700 rounded-lg hover:bg-gray-600 transition duration-300 text-base">
+                    Cancel
+                </button>
+                <button type="submit" class="px-4 py-3 bg-gradient-to-r from-yellow-500 to-yellow-600 text-black font-bold rounded-lg hover:from-yellow-600 hover:to-yellow-700 transition duration-300 text-base">
+                    Create Team
+                </button>
+            </div>
+        </form>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="bg-gray-900 py-8 mt-16">
+    <div class="container mx-auto px-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
+            <!-- Brand Section -->
+            <div>
+                <div class="flex items-center mb-4">
+                    <img src="./assets/logo.png" alt="Fire Village Logo" class="h-10 w-auto">
+                    <span class="ml-2 text-yellow-400 font-bold text-xl">FIRE VILLAGE</span>
+              </div>
+                <p class="text-gray-400">Join the ultimate gaming community. Compete in tournaments, form teams, and climb the leaderboard to become a legend.</p>
+          </div>
+          
+            <!-- Quick Links -->
+            <div>
+                <h3 class="text-yellow-400 font-bold mb-4">Quick Links</h3>
+                <ul class="space-y-2">
+                    <li><a href="index.html" class="text-gray-400 hover:text-yellow-400 transition py-2 block">Home</a></li>
+                    <li><a href="tournaments.html" class="text-gray-400 hover:text-yellow-400 transition py-2 block">Tournaments</a></li>
+                    <li><a href="leaderboard.html" class="text-gray-400 hover:text-yellow-400 transition py-2 block">Leaderboard</a></li>
+                    <li><a href="teams.html" class="text-gray-400 hover:text-yellow-400 transition py-2 block">Teams</a></li>
+                    <li><a href="register.html" class="text-gray-400 hover:text-yellow-400 transition py-2 block">Register</a></li>
+                </ul>
+          </div>
+          
+            <!-- Contact Info -->
+            <div>
+                <h3 class="text-yellow-400 font-bold mb-4">Contact Us</h3>
+                <ul class="space-y-2">
+                    <li class="flex items-center text-gray-400 py-2">
+                        <i class="fas fa-envelope mr-2 text-yellow-400"></i>
+                        <span>firevillage.in@gmail.com</span>
+                    </li>
+                    <li class="flex items-center text-gray-400 py-2">
+                        <i class="fas fa-phone mr-2 text-yellow-400"></i>
+                        <span>+91 9015202443</span>
+                    </li>
+                    <li class="flex items-center text-gray-400 py-2">
+                        <i class="fas fa-map-marker-alt mr-2 text-yellow-400"></i>
+                        <span>Shimla, Himachal Pradesh, India</span>
+                    </li>
+                </ul>
+          </div>
+          
+            <!-- Social Links -->
+            <div>
+                <h3 class="text-yellow-400 font-bold mb-4">Follow Us</h3>
+                <div class="flex space-x-4">
+                    <a href="#" class="text-gray-400 hover:text-yellow-400 transition p-2">
+                        <i class="fab fa-facebook-f text-xl"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-yellow-400 transition p-2">
+                        <i class="fab fa-twitter text-xl"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-yellow-400 transition p-2">
+                        <i class="fab fa-instagram text-xl"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-yellow-400 transition p-2">
+                        <i class="fab fa-discord text-xl"></i>
+                    </a>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Copyright Section -->
+        <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+            <p>&copy; 2025 Fire Village Tournament. All rights reserved.</p>
+            <ul class="flex flex-wrap justify-center gap-6 mt-4">
+                <li><a href="privacy-policy.html" class="hover:text-yellow-400 transition">Privacy Policy</a></li>
+                <li><a href="terms.html" class="hover:text-yellow-400 transition">Terms of Service</a></li>
+                <li><a href="shipping.html" class="hover:text-yellow-400 transition">Shipping Policy</a></li>
+                <li><a href="contact.html" class="hover:text-yellow-400 transition">Contact Us</a></li>
+            </ul>
+      </div>
+    </div>
+</footer>
+
+  <script>
+    // Mobile Menu Toggle with Animation
+    document.getElementById('mobileMenuBtn').addEventListener('click', function() {
+        const mobileMenu = document.getElementById('mobileMenu');
+        const icon = this.querySelector('i');
+        
+        mobileMenu.classList.toggle('hidden');
+        
+        // Toggle icon
+        if (mobileMenu.classList.contains('hidden')) {
+            icon.classList.remove('fa-times');
+            icon.classList.add('fa-bars');
+        } else {
+            icon.classList.remove('fa-bars');
+            icon.classList.add('fa-times');
+        }
+    });
+
+    // Close mobile menu when clicking outside
+    document.addEventListener('click', function(event) {
+        const mobileMenu = document.getElementById('mobileMenu');
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        
+        if (!mobileMenu.contains(event.target) && !mobileMenuBtn.contains(event.target)) {
+            mobileMenu.classList.add('hidden');
+            const icon = mobileMenuBtn.querySelector('i');
+            icon.classList.remove('fa-times');
+            icon.classList.add('fa-bars');
+        }
+    });
+
+    // Active link highlighting
+    const currentPath = window.location.pathname;
+    const navLinks = document.querySelectorAll('.nav-link, .mobile-nav-link');
+    
+    navLinks.forEach(link => {
+        if (link.getAttribute('href') === currentPath.split('/').pop()) {
+            link.classList.add('active');
+        }
+    });
+
+    // Filter buttons functionality
+    const filterButtons = document.querySelectorAll('.filter-button');
+    filterButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            filterButtons.forEach(btn => btn.classList.remove('active', 'bg-yellow-500', 'text-gray-900'));
+            filterButtons.forEach(btn => btn.classList.add('bg-gray-700', 'text-gray-300'));
+            button.classList.add('active', 'bg-yellow-500', 'text-gray-900');
+            button.classList.remove('bg-gray-700', 'text-gray-300');
+        });
+    });
+
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }
+      });
+    });
+
+    // Tournament Management Functions
+    document.addEventListener('DOMContentLoaded', function() {
+        // Load tournaments
+        loadTournaments();
+        // Load user's teams
+        loadUserTeams();
+        // Load upcoming matches
+        loadUpcomingMatches();
+
+        // Tournament Registration Form Handler
+        document.getElementById('tournamentRegistrationForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const tournamentId = document.getElementById('tournamentSelect').value;
+            const teamName = document.getElementById('teamName').value;
+            const teamTag = document.getElementById('teamTag').value;
+
+            if (!tournamentId || !teamName || !teamTag) {
+                showToast('Please fill in all fields', 'error');
+                return;
+            }
+
+            registerForTournament(tournamentId, teamName, teamTag);
+        });
+
+        // Team Creation Modal Handlers
+        document.getElementById('createTeamBtn').addEventListener('click', function() {
+            document.getElementById('teamCreationModal').classList.remove('hidden');
+            document.getElementById('teamCreationModal').classList.add('flex');
+        });
+
+        document.getElementById('closeTeamModal').addEventListener('click', function() {
+            document.getElementById('teamCreationModal').classList.add('hidden');
+            document.getElementById('teamCreationModal').classList.remove('flex');
+        });
+
+        // Team Creation Form Handler
+        document.getElementById('teamCreationForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const teamName = document.getElementById('newTeamName').value;
+            const teamTag = document.getElementById('newTeamTag').value;
+            const region = document.getElementById('teamRegion').value;
+
+            createTeam(teamName, teamTag, region);
+        });
+    });
+
+    // API Functions
+    async function loadTournaments() {
+        try {
+            const response = await fetch('/api/tournaments');
+            const tournaments = await response.json();
+            
+            const select = document.getElementById('tournamentSelect');
+            select.innerHTML = '<option value="">Select Tournament</option>';
+            
+            tournaments.forEach(tournament => {
+                if (tournament.status === 'upcoming') {
+                    const option = document.createElement('option');
+                    option.value = tournament._id;
+                    option.textContent = tournament.name;
+                    select.appendChild(option);
+                }
+            });
+        } catch (error) {
+            showToast('Error loading tournaments', 'error');
+        }
+    }
+
+    async function loadUserTeams() {
+        try {
+            const response = await fetch('/api/teams/user');
+            const teams = await response.json();
+            
+            const teamsList = document.getElementById('myTeamsList');
+            teamsList.innerHTML = '';
+            
+            teams.forEach(team => {
+                const teamCard = createTeamCard(team);
+                teamsList.appendChild(teamCard);
+            });
+        } catch (error) {
+            showToast('Error loading teams', 'error');
+        }
+    }
+
+    async function loadUpcomingMatches() {
+        try {
+            const response = await fetch('/api/matches/upcoming');
+            const matches = await response.json();
+            
+            const matchesList = document.getElementById('upcomingMatches');
+            matchesList.innerHTML = '';
+            
+            matches.forEach(match => {
+                const matchCard = createMatchCard(match);
+                matchesList.appendChild(matchCard);
+            });
+        } catch (error) {
+            showToast('Error loading matches', 'error');
+        }
+    }
+
+    async function registerForTournament(tournamentId, teamName, teamTag) {
+        try {
+            const response = await fetch('/api/tournaments/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    tournamentId,
+                    teamName,
+                    teamTag
+                })
+            });
+
+            if (response.ok) {
+                showToast('Successfully registered for tournament', 'success');
+                loadUserTeams();
+            } else {
+                const error = await response.json();
+                showToast(error.message, 'error');
+            }
+        } catch (error) {
+            showToast('Error registering for tournament', 'error');
+        }
+    }
+
+    async function createTeam(name, tag, region) {
+        try {
+            const response = await fetch('/api/teams', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    name,
+                    tag,
+                    region
+                })
+            });
+
+            if (response.ok) {
+                showToast('Team created successfully', 'success');
+                document.getElementById('teamCreationModal').classList.add('hidden');
+                document.getElementById('teamCreationModal').classList.remove('flex');
+                loadUserTeams();
+            } else {
+                const error = await response.json();
+                showToast(error.message, 'error');
+            }
+        } catch (error) {
+            showToast('Error creating team', 'error');
+        }
+    }
+
+    // UI Helper Functions
+    function createTeamCard(team) {
+        const div = document.createElement('div');
+        div.className = 'glass-card rounded-lg p-4';
+        div.innerHTML = `
+            <div class="flex justify-between items-center">
+                <div>
+                    <h4 class="font-bold">${team.name}</h4>
+                    <p class="text-sm text-gray-400">${team.tag}</p>
+                </div>
+                <span class="px-2 py-1 rounded-full text-xs ${getStatusClass(team.status)}">
+                    ${team.status}
+                </span>
+            </div>
+            <div class="mt-2 text-sm">
+                <p>Region: ${team.region}</p>
+                <p>Members: ${team.members.length}/5</p>
+            </div>
+        `;
+        return div;
+    }
+
+    function createMatchCard(match) {
+        const div = document.createElement('div');
+        div.className = 'glass-card rounded-lg p-4';
+        div.innerHTML = `
+            <div class="flex justify-between items-center">
+                <div>
+                    <h4 class="font-bold">${match.tournament.name}</h4>
+                    <p class="text-sm text-gray-400">Round ${match.round}</p>
+                </div>
+                <span class="px-2 py-1 rounded-full text-xs ${getMatchStatusClass(match.status)}">
+                    ${match.status}
+                </span>
+            </div>
+            <div class="mt-2 text-sm">
+                <p>Date: ${new Date(match.scheduledTime).toLocaleDateString()}</p>
+                <p>Time: ${new Date(match.scheduledTime).toLocaleTimeString()}</p>
+            </div>
+        `;
+        return div;
+    }
+
+    function getStatusClass(status) {
+        switch (status.toLowerCase()) {
+            case 'active':
+                return 'bg-green-500 text-white';
+            case 'pending':
+                return 'bg-yellow-500 text-black';
+            case 'inactive':
+                return 'bg-red-500 text-white';
+            default:
+                return 'bg-gray-500 text-white';
+        }
+    }
+
+    function getMatchStatusClass(status) {
+        switch (status.toLowerCase()) {
+            case 'scheduled':
+                return 'bg-blue-500 text-white';
+            case 'in_progress':
+                return 'bg-yellow-500 text-black';
+            case 'completed':
+                return 'bg-green-500 text-white';
+            case 'cancelled':
+                return 'bg-red-500 text-white';
+            default:
+                return 'bg-gray-500 text-white';
+        }
+    }
+
+    // Toast notification function
+    function showToast(message, type = 'info') {
+        const toast = document.createElement('div');
+        toast.className = `toast ${type}`;
+        toast.textContent = message;
+        document.body.appendChild(toast);
+
+        // Remove toast after 3 seconds
+        setTimeout(() => {
+            toast.remove();
+        }, 3000);
+    }
+
+    // Prevent form submission on enter key in mobile
+    document.querySelectorAll('form').forEach(form => {
+        form.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+            }
+        });
+    });
+  </script>
+</body>
+</html>

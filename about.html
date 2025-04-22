@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About | Fire Village</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+    }
+    .font-heading {
+      font-family: 'Oswald', sans-serif;
+    }
+    .nav-link {
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      width: 0;
+      height: 2px;
+      background: #facc15;
+      transition: all 0.3s ease;
+      transform: translateX(-50%);
+    }
+    
+    .nav-link:hover::after {
+      width: 80%;
+    }
+    
+    .nav-link.active {
+      background: rgba(250, 204, 21, 0.1);
+    }
+    
+    .nav-link.active::after {
+      width: 80%;
+    }
+    
+    .mobile-nav-link {
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .mobile-nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: #facc15;
+      transition: all 0.3s ease;
+    }
+    
+    .mobile-nav-link:hover::after {
+      width: 100%;
+    }
+    
+    .mobile-nav-link.active {
+      background: rgba(250, 204, 21, 0.1);
+    }
+    
+    .mobile-nav-link.active::after {
+      width: 100%;
+    }
+    
+    /* Mobile Menu Animation */
+    #mobileMenu {
+      transform-origin: top;
+      transition: all 0.3s ease-in-out;
+    }
+    
+    #mobileMenu.hidden {
+      transform: scaleY(0);
+      opacity: 0;
+    }
+    
+    #mobileMenu:not(.hidden) {
+      transform: scaleY(1);
+      opacity: 1;
+    }
+  </style>
+</head>
+
+<body class="bg-black text-white font-sans">
+  <!-- Header/Navigation -->
+  <nav class="bg-gray-900 bg-opacity-90 px-4 py-3 sticky top-0 z-50 shadow-lg backdrop-blur-md">
+    <div class="container mx-auto flex justify-between items-center">
+        <div class="flex items-center space-x-2">
+            <a href="index.html" class="flex items-center group">
+                <img src="./assets/logo.png" alt="Fire Village Logo" class="h-12 w-auto transform group-hover:scale-110 transition-transform duration-300">
+                <span class="ml-2 text-yellow-400 font-heading text-2xl group-hover:text-yellow-300 transition-colors">FIRE VILLAGE</span>
+            </a>
+        </div>
+        
+        <!-- Desktop Navigation -->
+        <div class="hidden lg:flex items-center space-x-1">
+            <a href="index.html" class="nav-link px-4 py-2 rounded-lg text-gray-300 font-medium hover:bg-yellow-400 hover:text-black transition-all">
+                <i class="fas fa-home mr-2"></i>Home
+            </a>
+            <a href="tournaments.html" class="nav-link px-4 py-2 rounded-lg text-gray-300 font-medium hover:bg-yellow-400 hover:text-black transition-all">
+                <i class="fas fa-trophy mr-2"></i>Tournaments
+            </a>
+            <a href="leaderboard.html" class="nav-link px-4 py-2 rounded-lg text-gray-300 font-medium hover:bg-yellow-400 hover:text-black transition-all">
+                <i class="fas fa-medal mr-2"></i>Leaderboard
+            </a>
+            <a href="teams.html" class="nav-link px-4 py-2 rounded-lg text-gray-300 font-medium hover:bg-yellow-400 hover:text-black transition-all">
+                <i class="fas fa-users mr-2"></i>Teams
+            </a>
+            <a href="register.html" class="nav-link px-4 py-2 rounded-lg text-gray-300 font-medium hover:bg-yellow-400 hover:text-black transition-all">
+                <i class="fas fa-user-plus mr-2"></i>Register
+            </a>
+            <a href="contact.html" class="nav-link px-4 py-2 rounded-lg text-gray-300 font-medium hover:bg-yellow-400 hover:text-black transition-all">
+                <i class="fas fa-envelope mr-2"></i>Contact
+            </a>
+            <a href="about.html" class="nav-link active px-4 py-2 rounded-lg text-yellow-400 font-medium hover:bg-yellow-400 hover:text-black transition-all">
+                <i class="fas fa-info-circle mr-2"></i>About
+            </a>
+        </div>
+        
+        <!-- Auth Buttons -->
+        <div class="hidden lg:flex items-center space-x-4">
+            <a href="register.html" class="px-4 py-2 rounded-lg bg-gradient-to-r from-yellow-500 to-red-500 text-black font-medium hover:from-yellow-400 hover:to-red-400 transition-all transform hover:scale-105">
+                <i class="fas fa-user-plus mr-2"></i>Join Now
+            </a>
+        </div>
+        
+        <!-- Mobile Menu Button -->
+        <div class="lg:hidden">
+            <button id="mobileMenuBtn" class="text-gray-300 hover:text-yellow-400 focus:outline-none">
+                <i class="fas fa-bars text-2xl"></i>
+            </button>
+        </div>
+    </div>
+    
+    <!-- Mobile Menu -->
+    <div id="mobileMenu" class="lg:hidden hidden bg-gray-900 bg-opacity-95 absolute top-16 left-0 right-0 p-4 backdrop-blur-md">
+        <div class="flex flex-col space-y-3">
+            <a href="index.html" class="mobile-nav-link px-5 py-4 rounded-lg text-gray-300 font-medium hover:bg-yellow-400 hover:text-black transition-all">
+                <i class="fas fa-home mr-3 text-lg"></i>Home
+            </a>
+            <a href="tournaments.html" class="mobile-nav-link px-5 py-4 rounded-lg text-gray-300 font-medium hover:bg-yellow-400 hover:text-black transition-all">
+                <i class="fas fa-trophy mr-3 text-lg"></i>Tournaments
+            </a>
+            <a href="leaderboard.html" class="mobile-nav-link px-5 py-4 rounded-lg text-gray-300 font-medium hover:bg-yellow-400 hover:text-black transition-all">
+                <i class="fas fa-medal mr-3 text-lg"></i>Leaderboard
+            </a>
+            <a href="teams.html" class="mobile-nav-link px-5 py-4 rounded-lg text-gray-300 font-medium hover:bg-yellow-400 hover:text-black transition-all">
+                <i class="fas fa-users mr-3 text-lg"></i>Teams
+            </a>
+            <a href="register.html" class="mobile-nav-link px-5 py-4 rounded-lg text-gray-300 font-medium hover:bg-yellow-400 hover:text-black transition-all">
+                <i class="fas fa-user-plus mr-3 text-lg"></i>Register
+            </a>
+            <a href="contact.html" class="mobile-nav-link px-5 py-4 rounded-lg text-gray-300 font-medium hover:bg-yellow-400 hover:text-black transition-all">
+                <i class="fas fa-envelope mr-3 text-lg"></i>Contact
+            </a>
+            <a href="about.html" class="mobile-nav-link active px-5 py-4 rounded-lg text-yellow-400 font-medium hover:bg-yellow-400 hover:text-black transition-all">
+                <i class="fas fa-info-circle mr-3 text-lg"></i>About
+            </a>
+            <div class="pt-4 border-t border-gray-700">
+                <a href="register.html" class="block mt-3 px-5 py-4 rounded-lg bg-gradient-to-r from-yellow-500 to-red-500 text-black font-medium text-center hover:from-yellow-400 hover:to-red-400 transition-all">
+                    <i class="fas fa-user-plus mr-3 text-lg"></i>Join Now
+                </a>
+            </div>
+        </div>
+    </div>
+  </nav>
+
+  <!-- About Section -->
+  <section class="p-6 md:p-10 max-w-4xl mx-auto">
+    <h2 class="text-4xl font-bold text-yellow-400 mb-6">🔥 About Fire Village</h2>
+    <p class="text-gray-300 mb-4 text-lg">
+      <strong>Fire Village Tournament</strong> is India's premier Free Fire tournament platform built especially for
+      the raw and rising talent in villages and small towns. We believe that gamers from every corner of the country
+      deserve a stage — and Fire Village gives them that stage.
+    </p>
+
+    <p class="text-gray-400 mb-4">
+      Born out of passion for gaming and a vision to empower rural youth, Fire Village organizes highly competitive
+      Free Fire tournaments with pro-level rules, prize pools, and streaming opportunities. We focus on fair gameplay,
+      transparent rankings, and community-driven fun.
+    </p>
+
+    <p class="text-gray-400 mb-4">
+      Whether you're a solo warrior or a full squad, Fire Village is your ticket to digital battleground glory. Join
+      us, represent your village, and rise to fame.
+    </p>
+
+    <div class="mt-6">
+      <h3 class="text-xl font-semibold text-yellow-400">Our Mission</h3>
+      <p class="text-gray-400 mt-2">To provide a fair, accessible, and exciting eSports platform for every gamer from every corner of India.</p>
+
+      <h3 class="text-xl font-semibold text-yellow-400 mt-6">Our Vision</h3>
+      <p class="text-gray-400 mt-2">To become India's largest community-led Free Fire tournament organizer by discovering and promoting hidden gaming talent.</p>
+    </div>
+  </section>
+
+   <!-- Founders Section -->
+   <section id="founders" class="py-20 bg-gray-900 text-center">
+    <div class="max-w-6xl mx-auto">
+      <h2 class="text-4xl font-heading text-yellow-400 mb-10">Meet the Founders</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 px-6">
+        <div class="bg-black p-6 rounded-xl shadow-lg hover:scale-105 transform transition duration-300">
+          <h3 class="text-xl font-bold text-yellow-400 mb-2">Aarush Sharma</h3>
+          <p class="text-gray-300">Founder & Visionary. Creative mastermind behind the Fire Village movement, building bridges from rural talent to national glory.</p>
+        </div>
+        <div class="bg-black p-6 rounded-xl shadow-lg hover:scale-105 transform transition duration-300">
+          <h3 class="text-xl font-bold text-yellow-400 mb-2">Abhishek Sharma</h3>
+          <p class="text-gray-300">Co-Founder & Operations. Fueling the tournament mechanics with strategy, structure and discipline.</p>
+        </div>
+        <div class="bg-black p-6 rounded-xl shadow-lg hover:scale-105 transform transition duration-300">
+          <h3 class="text-xl font-bold text-yellow-400 mb-2">Uplaksh Sharma</h3>
+          <p class="text-gray-300">Tech & Broadcast Head. Making the tournaments shine on YouTube and beyond with seamless streaming and support.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Footer -->
+  <footer class="bg-gray-900 py-8">
+    <div class="container mx-auto px-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
+            <!-- Brand Section -->
+            <div>
+                <div class="flex items-center mb-4">
+                    <img src="./assets/logo.png" alt="Fire Village Logo" class="h-10 w-auto">
+                    <span class="ml-2 text-yellow-400 font-bold text-xl">FIRE VILLAGE</span>
+                </div>
+                <p class="text-gray-400">Join the ultimate gaming community. Compete in tournaments, form teams, and climb the leaderboard to become a legend.</p>
+            </div>
+            
+            <!-- Quick Links -->
+            <div>
+                <h3 class="text-yellow-400 font-bold mb-4">Quick Links</h3>
+                <ul class="space-y-2">
+                    <li><a href="index.html" class="text-gray-400 hover:text-yellow-400 transition py-2 block">Home</a></li>
+                    <li><a href="tournaments.html" class="text-gray-400 hover:text-yellow-400 transition py-2 block">Tournaments</a></li>
+                    <li><a href="leaderboard.html" class="text-gray-400 hover:text-yellow-400 transition py-2 block">Leaderboard</a></li>
+                    <li><a href="teams.html" class="text-gray-400 hover:text-yellow-400 transition py-2 block">Teams</a></li>
+                    <li><a href="register.html" class="text-gray-400 hover:text-yellow-400 transition py-2 block">Register</a></li>
+                </ul>
+            </div>
+            
+            <!-- Contact Info -->
+            <div>
+                <h3 class="text-yellow-400 font-bold mb-4">Contact Us</h3>
+                <ul class="space-y-2">
+                    <li class="flex items-center text-gray-400 py-2">
+                        <i class="fas fa-envelope mr-2 text-yellow-400"></i>
+                        <span>firevillage.in@gmail.com</span>
+                    </li>
+                    <li class="flex items-center text-gray-400 py-2">
+                        <i class="fas fa-phone mr-2 text-yellow-400"></i>
+                        <span>+91 9015202443</span>
+                    </li>
+                    <li class="flex items-center text-gray-400 py-2">
+                        <i class="fas fa-map-marker-alt mr-2 text-yellow-400"></i>
+                        <span>Shimla, Himachal Pradesh, India</span>
+                    </li>
+                </ul>
+            </div>
+            
+            <!-- Social Links -->
+            <div>
+                <h3 class="text-yellow-400 font-bold mb-4">Follow Us</h3>
+                <div class="flex space-x-4">
+                    <a href="#" class="text-gray-400 hover:text-yellow-400 transition p-2">
+                        <i class="fab fa-facebook-f text-xl"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-yellow-400 transition p-2">
+                        <i class="fab fa-twitter text-xl"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-yellow-400 transition p-2">
+                        <i class="fab fa-instagram text-xl"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-yellow-400 transition p-2">
+                        <i class="fab fa-discord text-xl"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Copyright Section -->
+        <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+            <p>&copy; 2025 Fire Village Tournament. All rights reserved.</p>
+            <ul class="flex justify-center gap-6 mt-4">
+        <li><a href="privacy-policy.html" class="hover:text-yellow-400 transition">Privacy Policy</a></li>
+        <li><a href="terms.html" class="hover:text-yellow-400 transition">Terms of Service</a></li>
+        <li><a href="shipping.html" class="hover:text-yellow-400 transition">Shipping Policy</a></li>
+        <li><a href="contact.html" class="hover:text-yellow-400 transition">Contact Us</a></li>
+      </ul>
+        </div>
+    </div>
+  </footer>
+
+<script>
+    // Mobile Menu Toggle with Animation
+    document.getElementById('mobileMenuBtn').addEventListener('click', function() {
+        const mobileMenu = document.getElementById('mobileMenu');
+        const icon = this.querySelector('i');
+        
+        mobileMenu.classList.toggle('hidden');
+        
+        // Toggle icon
+        if (mobileMenu.classList.contains('hidden')) {
+            icon.classList.remove('fa-times');
+            icon.classList.add('fa-bars');
+        } else {
+            icon.classList.remove('fa-bars');
+            icon.classList.add('fa-times');
+        }
+    });
+
+    // Close mobile menu when clicking outside
+    document.addEventListener('click', function(event) {
+        const mobileMenu = document.getElementById('mobileMenu');
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        
+        if (!mobileMenu.contains(event.target) && !mobileMenuBtn.contains(event.target)) {
+            mobileMenu.classList.add('hidden');
+            const icon = mobileMenuBtn.querySelector('i');
+            icon.classList.remove('fa-times');
+            icon.classList.add('fa-bars');
+        }
+    });
+
+    // Active link highlighting
+    const currentPath = window.location.pathname;
+    const navLinks = document.querySelectorAll('.nav-link, .mobile-nav-link');
+    
+    navLinks.forEach(link => {
+        if (link.getAttribute('href') === currentPath.split('/').pop()) {
+            link.classList.add('active');
+        }
+    });
+</script>
+</body>
+
+</html>

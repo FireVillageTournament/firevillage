@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tournament Details | Fire Village - India's Premier Free Fire Esports Arena</title>
+    <meta name="description" content="Join the Village Warriors Cup tournament. Compete with the best Free Fire players in India and win exciting prizes!">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="./assets/logo.png" type="image/png">
+
+    <!-- Preload critical resources -->
+    <link rel="preload" href="https://cdn.tailwindcss.com" as="script">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" as="style">
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style">
+
+    <!-- TailwindCSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Tailwind Custom Theme -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        fire: {
+                            yellow: '#facc15',
+                            dark: '#0f0f0f',
+                            gray: '#1f2937',
+                            red: '#ef4444'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Poppins', 'sans-serif'],
+                        heading: ['Oswald', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-image: url('./assets/fire-bg.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+        .tournament-banner {
+            position: relative;
+            height: 400px;
+            background-size: cover;
+            background-position: center;
+        }
+        .tournament-banner::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7));
+        }
+        .glass-card {
+            background: rgba(31, 41, 55, 0.9);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(250, 204, 21, 0.1);
+        }
+        .glass-card:hover {
+            border-color: rgba(250, 204, 21, 0.3);
+            box-shadow: 0 0 20px rgba(250, 204, 21, 0.1);
+        }
+        .prize-pool {
+            background: linear-gradient(45deg, #facc15, #f59e0b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .countdown-item {
+            background: rgba(31, 41, 55, 0.9);
+            border: 1px solid rgba(250, 204, 21, 0.2);
+        }
+        .rule-item {
+            transition: all 0.3s ease;
+        }
+        .rule-item:hover {
+            transform: translateX(10px);
+            background: rgba(250, 204, 21, 0.1);
+        }
+    </style>
+</head>
+<body class="bg-fire-dark text-white min-h-screen">
+    <!-- Navigation -->
+    <nav class="bg-gray-900 bg-opacity-90 px-4 py-3 sticky top-0 z-50 shadow-lg backdrop-blur-md">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <a href="index.html" class="flex items-center group">
+                    <img src="./assets/logo.png" alt="Fire Village Logo" class="h-12 w-auto transform group-hover:scale-110 transition-transform duration-300">
+                    <span class="ml-2 text-yellow-400 font-heading text-2xl group-hover:text-yellow-300 transition-colors">FIRE VILLAGE</span>
+                </a>
+            </div>
+            
+            <!-- Desktop Navigation -->
+            <div class="hidden lg:flex items-center space-x-1">
+                <a href="index.html" class="nav-link px-4 py-2 rounded-lg text-gray-300 font-medium hover:bg-yellow-400 hover:text-black transition-all">
+                    <i class="fas fa-home mr-2"></i>Home
+                </a>
+                <a href="tournaments.html" class="nav-link active px-4 py-2 rounded-lg text-yellow-400 font-medium hover:bg-yellow-400 hover:text-black transition-all">
+                    <i class="fas fa-trophy mr-2"></i>Tournaments
+                </a>
+                <a href="leaderboard.html" class="nav-link px-4 py-2 rounded-lg text-gray-300 font-medium hover:bg-yellow-400 hover:text-black transition-all">
+                    <i class="fas fa-medal mr-2"></i>Leaderboard
+                </a>
+                <a href="teams.html" class="nav-link px-4 py-2 rounded-lg text-gray-300 font-medium hover:bg-yellow-400 hover:text-black transition-all">
+                    <i class="fas fa-users mr-2"></i>Teams
+                </a>
+                <a href="register.html" class="nav-link px-4 py-2 rounded-lg text-gray-300 font-medium hover:bg-yellow-400 hover:text-black transition-all">
+                    <i class="fas fa-user-plus mr-2"></i>Register
+                </a>
+                <a href="contact.html" class="nav-link px-4 py-2 rounded-lg text-gray-300 font-medium hover:bg-yellow-400 hover:text-black transition-all">
+                    <i class="fas fa-envelope mr-2"></i>Contact
+                </a>
+                <a href="about.html" class="nav-link px-4 py-2 rounded-lg text-gray-300 font-medium hover:bg-yellow-400 hover:text-black transition-all">
+                    <i class="fas fa-info-circle mr-2"></i>About
+                </a>
+            </div>
+
+            <!-- Auth Buttons -->
+            <div class="hidden lg:flex items-center space-x-4">
+                <a href="register.html" class="px-4 py-2 rounded-lg bg-gradient-to-r from-yellow-500 to-red-500 text-black font-medium hover:from-yellow-400 hover:to-red-400 transition-all transform hover:scale-105">
+                    <i class="fas fa-user-plus mr-2"></i>Join Now
+                </a>
+            </div>
+
+            <!-- Mobile Menu Button -->
+            <div class="lg:hidden">
+                <button id="mobileMenuBtn" class="text-gray-300 hover:text-yellow-400 focus:outline-none">
+                    <i class="fas fa-bars text-2xl"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobileMenu" class="lg:hidden hidden bg-gray-900 bg-opacity-95 absolute top-16 left-0 right-0 p-4 backdrop-blur-md">
+            <div class="flex flex-col space-y-3">
+                <a href="index.html" class="mobile-nav-link px-5 py-4 rounded-lg text-gray-300 font-medium hover:bg-yellow-400 hover:text-black transition-all">
+                    <i class="fas fa-home mr-3 text-lg"></i>Home
+                </a>
+                <a href="tournaments.html" class="mobile-nav-link active px-5 py-4 rounded-lg text-yellow-400 font-medium hover:bg-yellow-400 hover:text-black transition-all">
+                    <i class="fas fa-trophy mr-3 text-lg"></i>Tournaments
+                </a>
+                <a href="leaderboard.html" class="mobile-nav-link px-5 py-4 rounded-lg text-gray-300 font-medium hover:bg-yellow-400 hover:text-black transition-all">
+                    <i class="fas fa-medal mr-3 text-lg"></i>Leaderboard
+                </a>
+                <a href="teams.html" class="mobile-nav-link px-5 py-4 rounded-lg text-gray-300 font-medium hover:bg-yellow-400 hover:text-black transition-all">
+                    <i class="fas fa-users mr-3 text-lg"></i>Teams
+                </a>
+                <a href="register.html" class="mobile-nav-link px-5 py-4 rounded-lg text-gray-300 font-medium hover:bg-yellow-400 hover:text-black transition-all">
+                    <i class="fas fa-user-plus mr-3 text-lg"></i>Register
+                </a>
+                <a href="contact.html" class="mobile-nav-link px-5 py-4 rounded-lg text-gray-300 font-medium hover:bg-yellow-400 hover:text-black transition-all">
+                    <i class="fas fa-envelope mr-3 text-lg"></i>Contact
+                </a>
+                <a href="about.html" class="mobile-nav-link px-5 py-4 rounded-lg text-gray-300 font-medium hover:bg-yellow-400 hover:text-black transition-all">
+                    <i class="fas fa-info-circle mr-3 text-lg"></i>About
+                </a>
+                <div class="pt-4 border-t border-gray-700">
+                    <a href="register.html" class="block mt-3 px-5 py-4 rounded-lg bg-gradient-to-r from-yellow-500 to-red-500 text-black font-medium text-center hover:from-yellow-400 hover:to-red-400 transition-all">
+                        <i class="fas fa-user-plus mr-3 text-lg"></i>Join Now
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Tournament Banner -->
+    <div class="tournament-banner" style="background-image: url('./assets/Tournament-Banner1.jpg');">
+        <div class="container mx-auto px-4 h-full flex items-center">
+            <div class="relative z-10 max-w-3xl">
+                <h1 class="text-4xl md:text-5xl font-heading font-bold text-yellow-400 mb-4">Village Warriors Cup</h1>
+                <div class="flex flex-wrap gap-4 mb-6">
+                    <span class="bg-yellow-500 bg-opacity-90 text-black px-4 py-1 rounded-full text-sm font-bold">
+                        SQUAD
+                    </span>
+                    <span class="bg-red-500 bg-opacity-90 text-white px-4 py-1 rounded-full text-sm font-bold">
+                        Entry Fee: ₹2,000
+                    </span>
+                    <span class="bg-blue-500 bg-opacity-90 text-white px-4 py-1 rounded-full text-sm font-bold">
+                        Prize Pool: ₹10,000
+                    </span>
+                </div>
+                <p class="text-gray-300 text-lg mb-8">Join the most competitive Free Fire tournament in India. Show your skills, compete with the best, and win exciting prizes!</p>
+                <div class="flex flex-wrap gap-4">
+                    <a href="#register" class="bg-gradient-to-r from-yellow-500 to-red-500 text-black py-3 px-6 rounded-lg font-bold hover:from-yellow-400 hover:to-red-400 transition-all transform hover:scale-105">
+                        Register Now <i class="fas fa-user-plus ml-2"></i>
+                    </a>
+                    <a href="#rules" class="bg-gray-800 text-white py-3 px-6 rounded-lg font-bold hover:bg-gray-700 transition-all border-2 border-yellow-400">
+                        View Rules <i class="fas fa-scroll ml-2"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tournament Details -->
+    <section class="py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Main Content -->
+                <div class="lg:col-span-2 space-y-8">
+                    <!-- About Tournament -->
+                    <div class="glass-card rounded-xl p-6">
+                        <h2 class="text-2xl font-heading text-yellow-400 mb-4">About Tournament</h2>
+                        <p class="text-gray-300 mb-4">The Village Warriors Cup is a premier Free Fire tournament that brings together the best squads from across India. This tournament is designed to test your skills, strategy, and teamwork in intense competitive matches.</p>
+                        <p class="text-gray-300">With a significant prize pool and recognition in the gaming community, this tournament is your chance to prove yourself and take your gaming career to the next level.</p>
+                    </div>
+
+                    <!-- Tournament Schedule -->
+                    <div class="glass-card rounded-xl p-6">
+                        <h2 class="text-2xl font-heading text-yellow-400 mb-4">Tournament Schedule</h2>
+                        <div class="space-y-4">
+                            <div class="flex items-center text-gray-300">
+                                <i class="far fa-calendar-alt w-8 text-yellow-400"></i>
+                                <span class="ml-2">Registration Deadline: 15 May 2025</span>
+                            </div>
+                            <div class="flex items-center text-gray-300">
+                                <i class="far fa-calendar-alt w-8 text-yellow-400"></i>
+                                <span class="ml-2">Tournament Date: 18 May 2025</span>
+                            </div>
+                            <div class="flex items-center text-gray-300">
+                                <i class="far fa-clock w-8 text-yellow-400"></i>
+                                <span class="ml-2">Start Time: 03:00 PM IST</span>
+                            </div>
+                            <div class="flex items-center text-gray-300">
+                                <i class="fas fa-clock w-8 text-yellow-400"></i>
+                                <span class="ml-2">Duration: 4-6 hours</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tournament Rules -->
+                    <div id="rules" class="glass-card rounded-xl p-6">
+                        <h2 class="text-2xl font-heading text-yellow-400 mb-4">Tournament Rules</h2>
+                        <div class="space-y-4">
+                            <div class="rule-item p-4 rounded-lg bg-gray-800">
+                                <h3 class="text-lg font-bold text-yellow-400 mb-2">1. Team Composition</h3>
+                                <p class="text-gray-300">Each team must consist of exactly 4 players. No substitutes are allowed during the tournament.</p>
+                            </div>
+                            <div class="rule-item p-4 rounded-lg bg-gray-800">
+                                <h3 class="text-lg font-bold text-yellow-400 mb-2">2. Game Settings</h3>
+                                <p class="text-gray-300">All matches will be played in the Classic Squad mode with default settings. Custom rooms will be created by the tournament organizers.</p>
+                            </div>
+                            <div class="rule-item p-4 rounded-lg bg-gray-800">
+                                <h3 class="text-lg font-bold text-yellow-400 mb-2">3. Scoring System</h3>
+                                <p class="text-gray-300">Points will be awarded based on placement and kills. Each kill = 1 point. Placement points: 1st = 15, 2nd = 12, 3rd = 10, and so on.</p>
+                            </div>
+                            <div class="rule-item p-4 rounded-lg bg-gray-800">
+                                <h3 class="text-lg font-bold text-yellow-400 mb-2">4. Fair Play</h3>
+                                <p class="text-gray-300">Any form of cheating, hacking, or exploiting game bugs will result in immediate disqualification.</p>
+                            </div>
+                            <div class="rule-item p-4 rounded-lg bg-gray-800">
+                                <h3 class="text-lg font-bold text-yellow-400 mb-2">5. Communication</h3>
+                                <p class="text-gray-300">Teams must join the designated Discord server for tournament communication and updates.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sidebar -->
+                <div class="space-y-8">
+                    <!-- Countdown Timer -->
+                    <div class="glass-card rounded-xl p-6">
+                        <h2 class="text-2xl font-heading text-yellow-400 mb-4">Tournament Starts In</h2>
+                        <div class="grid grid-cols-4 gap-4">
+                            <div class="countdown-item rounded-lg p-4 text-center">
+                                <div class="text-2xl font-bold text-yellow-400" id="days">15</div>
+                                <div class="text-sm text-gray-400">Days</div>
+                            </div>
+                            <div class="countdown-item rounded-lg p-4 text-center">
+                                <div class="text-2xl font-bold text-yellow-400" id="hours">12</div>
+                                <div class="text-sm text-gray-400">Hours</div>
+                            </div>
+                            <div class="countdown-item rounded-lg p-4 text-center">
+                                <div class="text-2xl font-bold text-yellow-400" id="minutes">45</div>
+                                <div class="text-sm text-gray-400">Minutes</div>
+                            </div>
+                            <div class="countdown-item rounded-lg p-4 text-center">
+                                <div class="text-2xl font-bold text-yellow-400" id="seconds">30</div>
+                                <div class="text-sm text-gray-400">Seconds</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Prize Pool -->
+                    <div class="glass-card rounded-xl p-6">
+                        <h2 class="text-2xl font-heading text-yellow-400 mb-4">Prize Pool</h2>
+                        <div class="space-y-4">
+                            <div class="flex items-center justify-between p-4 rounded-lg bg-gray-800">
+                                <div class="flex items-center">
+                                    <div class="w-8 h-8 rounded-full bg-yellow-500 flex items-center justify-center text-black font-bold">1</div>
+                                    <span class="ml-3 text-gray-300">1st Place</span>
+                                </div>
+                                <span class="prize-pool font-bold">₹5,000</span>
+                            </div>
+                            <div class="flex items-center justify-between p-4 rounded-lg bg-gray-800">
+                                <div class="flex items-center">
+                                    <div class="w-8 h-8 rounded-full bg-gray-400 flex items-center justify-center text-black font-bold">2</div>
+                                    <span class="ml-3 text-gray-300">2nd Place</span>
+                                </div>
+                                <span class="prize-pool font-bold">₹3,000</span>
+                            </div>
+                            <div class="flex items-center justify-between p-4 rounded-lg bg-gray-800">
+                                <div class="flex items-center">
+                                    <div class="w-8 h-8 rounded-full bg-yellow-700 flex items-center justify-center text-black font-bold">3</div>
+                                    <span class="ml-3 text-gray-300">3rd Place</span>
+                                </div>
+                                <span class="prize-pool font-bold">₹2,000</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Registration Form -->
+                    <div id="register" class="glass-card rounded-xl p-6">
+                        <h2 class="text-2xl font-heading text-yellow-400 mb-4">Register Now</h2>
+                        <form class="space-y-4">
+                            <div>
+                                <label class="block text-gray-300 mb-2">Team Name</label>
+                                <input type="text" class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-yellow-400" required>
+                            </div>
+                            <div>
+                                <label class="block text-gray-300 mb-2">Team Leader Name</label>
+                                <input type="text" class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-yellow-400" required>
+                            </div>
+                            <div>
+                                <label class="block text-gray-300 mb-2">Contact Number</label>
+                                <input type="tel" class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-yellow-400" required>
+                            </div>
+                            <div>
+                                <label class="block text-gray-300 mb-2">Email</label>
+                                <input type="email" class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-yellow-400" required>
+                            </div>
+                            <div>
+                                <label class="block text-gray-300 mb-2">Payment Method</label>
+                                <select class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-yellow-400" required>
+                                    <option value="">Select payment method</option>
+                                    <option value="upi">UPI</option>
+                                    <option value="card">Credit/Debit Card</option>
+                                    <option value="netbanking">Net Banking</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="w-full bg-gradient-to-r from-yellow-500 to-red-500 text-black py-3 rounded-lg font-bold hover:from-yellow-400 hover:to-red-400 transition-all transform hover:scale-105">
+                                Pay & Register
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 py-8">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center mb-4">
+                        <img src="./assets/logo.png" alt="Fire Village Logo" class="h-10 w-auto">
+                        <span class="ml-2 text-yellow-400 font-heading text-xl">FIRE VILLAGE</span>
+                    </div>
+                    <p class="text-gray-400">Join the ultimate gaming community. Compete in tournaments, form teams, and climb the leaderboard to become a legend.</p>
+                </div>
+                <div>
+                    <h3 class="text-yellow-400 font-bold mb-4">Quick Links</h3>
+                    <ul class="space-y-2">
+                        <li><a href="index.html" class="text-gray-400 hover:text-yellow-400 transition py-2 block">Home</a></li>
+                        <li><a href="tournaments.html" class="text-gray-400 hover:text-yellow-400 transition py-2 block">Tournaments</a></li>
+                        <li><a href="leaderboard.html" class="text-gray-400 hover:text-yellow-400 transition py-2 block">Leaderboard</a></li>
+                        <li><a href="teams.html" class="text-gray-400 hover:text-yellow-400 transition py-2 block">Teams</a></li>
+                        <li><a href="register.html" class="text-gray-400 hover:text-yellow-400 transition py-2 block">Register</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-yellow-400 font-bold mb-4">Contact Us</h3>
+                    <ul class="space-y-2">
+                        <li class="flex items-center text-gray-400 py-2">
+                            <i class="fas fa-envelope mr-2 text-yellow-400"></i>
+                            <span>firevillage.in@gmail.com</span>
+                        </li>
+                        <li class="flex items-center text-gray-400 py-2">
+                            <i class="fas fa-phone mr-2 text-yellow-400"></i>
+                            <span>+91 9015202443</span>
+                        </li>
+                        <li class="flex items-center text-gray-400 py-2">
+                            <i class="fas fa-map-marker-alt mr-2 text-yellow-400"></i>
+                            <span>Shimla, Himachal Pradesh, India</span>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-yellow-400 font-bold mb-4">Follow Us</h3>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-yellow-400 transition p-2">
+                            <i class="fab fa-facebook-f text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-yellow-400 transition p-2">
+                            <i class="fab fa-twitter text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-yellow-400 transition p-2">
+                            <i class="fab fa-instagram text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-yellow-400 transition p-2">
+                            <i class="fab fa-discord text-xl"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+                <p>&copy; 2025 Fire Village. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile Menu Toggle
+        document.getElementById('mobileMenuBtn').addEventListener('click', function() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            const icon = this.querySelector('i');
+            
+            mobileMenu.classList.toggle('hidden');
+            
+            if (mobileMenu.classList.contains('hidden')) {
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            } else {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-times');
+            }
+        });
+
+        // Countdown Timer
+        function updateCountdown() {
+            const tournamentDate = new Date('2025-05-18T15:00:00+05:30').getTime();
+            const now = new Date().getTime();
+            const distance = tournamentDate - now;
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById('days').textContent = days;
+            document.getElementById('hours').textContent = hours;
+            document.getElementById('minutes').textContent = minutes;
+            document.getElementById('seconds').textContent = seconds;
+        }
+
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+
+        // Smooth Scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html> 

@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Team Details - Fire Village Gaming</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary-color: #facc15;
+      --primary-dark: #f59e0b;
+      --bg-dark: #0f172a;
+      --bg-card: #1e293b;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: #e2e8f0;
+      font-family: 'Inter', sans-serif;
+    }
+    
+    .team-header {
+      background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('./assets/team-banner.jpg');
+      background-size: cover;
+      background-position: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .team-header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(45deg, rgba(250, 204, 21, 0.1), transparent);
+      z-index: 1;
+    }
+    
+    .team-stats-card {
+      background: linear-gradient(145deg, var(--bg-card), var(--bg-dark));
+      border: 1px solid rgba(250, 204, 21, 0.1);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .team-stats-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(45deg, transparent, rgba(250, 204, 21, 0.1));
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    
+    .team-stats-card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(250, 204, 21, 0.3);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .team-stats-card:hover::before {
+      opacity: 1;
+    }
+    
+    .player-card {
+      background: linear-gradient(145deg, var(--bg-card), var(--bg-dark));
+      border: 1px solid rgba(250, 204, 21, 0.1);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .player-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(45deg, transparent, rgba(250, 204, 21, 0.1));
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    
+    .player-card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(250, 204, 21, 0.3);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .player-card:hover::before {
+      opacity: 1;
+    }
+    
+    .tournament-history-row {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+    }
+    
+    .tournament-history-row:hover {
+      background: rgba(250, 204, 21, 0.1);
+      transform: translateX(10px);
+    }
+
+    .tournament-history-row::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 0;
+      height: 2px;
+      background: var(--primary-color);
+      transition: width 0.3s ease;
+    }
+
+    .tournament-history-row:hover::after {
+      width: 100%;
+    }
+    
+    .achievement-badge {
+      background: linear-gradient(145deg, var(--primary-color), var(--primary-dark));
+      box-shadow: 0 4px 6px rgba(250, 204, 21, 0.2);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .achievement-badge::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(
+        45deg,
+        transparent,
+        rgba(255, 255, 255, 0.1),
+        transparent
+      );
+      transform: rotate(45deg);
+      animation: shine 3s infinite;
+    }
+
+    @keyframes shine {
+      0% {
+        transform: translateX(-100%) rotate(45deg);
+      }
+      100% {
+        transform: translateX(100%) rotate(45deg);
+      }
+    }
+
+    /* Mobile Menu Styles */
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      top: 4rem;
+      left: 0;
+      right: 0;
+      background: rgba(17, 24, 39, 0.95);
+      backdrop-filter: blur(8px);
+      border-top: 1px solid rgba(75, 85, 99, 0.2);
+      transform: translateY(-100%);
+      transition: transform 0.3s ease-in-out;
+    }
+
+    .mobile-menu.active {
+      display: block;
+      transform: translateY(0);
+    }
+
+    .mobile-menu-item {
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .mobile-menu-item::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(234, 179, 8, 0.1), transparent);
+      transform: translateX(-100%);
+      transition: transform 0.5s ease;
+    }
+
+    .mobile-menu-item:hover::before {
+      transform: translateX(100%);
+    }
+
+    /* Mobile Menu Button Animation */
+    .mobile-menu-button {
+      transition: all 0.3s ease;
+    }
+
+    .mobile-menu-button:hover {
+      transform: scale(1.05);
+    }
+
+    /* Mobile Responsive Adjustments */
+    @media (max-width: 768px) {
+      .container {
+        padding-left: 1rem;
+        padding-right: 1rem;
+      }
+
+      h1 {
+        font-size: 1.75rem;
+      }
+
+      h2 {
+        font-size: 1.5rem;
+      }
+
+      .text-lg {
+        font-size: 1rem;
+      }
+
+      .grid {
+        gap: 1rem;
+      }
+
+      .p-6 {
+        padding: 1rem;
+      }
+
+      .space-y-4 > * + * {
+        margin-top: 1rem;
+      }
+
+      /* Improve touch targets */
+      button, 
+      a {
+        min-height: 44px;
+        min-width: 44px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      /* Adjust card layouts */
+      .grid-cols-1 {
+        grid-template-columns: 1fr;
+      }
+
+      /* Enhance mobile scrolling */
+      .overflow-x-auto {
+        -webkit-overflow-scrolling: touch;
+        scroll-behavior: smooth;
+      }
+
+      /* Improve mobile form elements */
+      input,
+      select,
+      textarea {
+        font-size: 16px; /* Prevent zoom on iOS */
+        padding: 0.75rem;
+      }
+
+      /* Add pull-to-refresh animation */
+      @keyframes pull-to-refresh {
+        0% { transform: translateY(0); }
+        100% { transform: translateY(100px); }
+      }
+
+      .pull-to-refresh {
+        animation: pull-to-refresh 0.5s ease-in-out;
+      }
+    }
+
+    /* Dark mode enhancements */
+    @media (prefers-color-scheme: dark) {
+      .mobile-menu {
+        background: rgba(17, 24, 39, 0.98);
+      }
+
+      .mobile-menu-item:hover {
+        background: rgba(234, 179, 8, 0.1);
+      }
+    }
+
+    /* Loading states */
+    .loading {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .loading::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+      animation: loading 1.5s infinite;
+    }
+
+    @keyframes loading {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(100%); }
+    }
+  </style>
+</head>
+<body class="min-h-screen">
+  <!-- Navigation -->
+  <nav class="bg-gray-900/95 backdrop-blur-sm fixed w-full z-50 border-b border-gray-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+        <!-- Logo -->
+        <div class="flex-shrink-0">
+          <a href="index.html" class="flex items-center">
+            <img class="h-8 w-auto" src="./assets/logo.png" alt="Fire Village Gaming">
+          </a>
+        </div>
+
+        <!-- Desktop Menu -->
+        <div class="hidden md:block">
+          <div class="ml-10 flex items-baseline space-x-4">
+            <a href="index.html" class="text-gray-300 hover:text-yellow-400 px-3 py-2 rounded-md text-sm font-medium transition-colors">Home</a>
+            <a href="tournaments.html" class="text-gray-300 hover:text-yellow-400 px-3 py-2 rounded-md text-sm font-medium transition-colors">Tournaments</a>
+            <a href="leaderboard.html" class="text-gray-300 hover:text-yellow-400 px-3 py-2 rounded-md text-sm font-medium transition-colors">Leaderboard</a>
+            <a href="teams.html" class="text-gray-300 hover:text-yellow-400 px-3 py-2 rounded-md text-sm font-medium transition-colors">Teams</a>
+            <a href="register.html" class="bg-yellow-500 text-gray-900 hover:bg-yellow-400 px-4 py-2 rounded-md text-sm font-medium transition-colors">Join Now</a>
+          </div>
+        </div>
+
+        <!-- Mobile menu button -->
+        <div class="md:hidden">
+          <button type="button" class="mobile-menu-button inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-yellow-500" aria-controls="mobile-menu" aria-expanded="false">
+            <span class="sr-only">Open main menu</span>
+            <svg class="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+            <svg class="hidden h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile menu -->
+    <div class="mobile-menu md:hidden" id="mobile-menu">
+      <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+        <a href="index.html" class="mobile-menu-item text-gray-300 hover:text-yellow-400 block px-3 py-2 rounded-md text-base font-medium">
+          <i class="fas fa-home mr-2"></i>Home
+        </a>
+        <a href="tournaments.html" class="mobile-menu-item text-gray-300 hover:text-yellow-400 block px-3 py-2 rounded-md text-base font-medium">
+          <i class="fas fa-trophy mr-2"></i>Tournaments
+        </a>
+        <a href="leaderboard.html" class="mobile-menu-item text-gray-300 hover:text-yellow-400 block px-3 py-2 rounded-md text-base font-medium">
+          <i class="fas fa-medal mr-2"></i>Leaderboard
+        </a>
+        <a href="teams.html" class="mobile-menu-item text-gray-300 hover:text-yellow-400 block px-3 py-2 rounded-md text-base font-medium">
+          <i class="fas fa-users mr-2"></i>Teams
+        </a>
+        <a href="register.html" class="mobile-menu-item bg-yellow-500 text-gray-900 hover:bg-yellow-400 block px-3 py-2 rounded-md text-base font-medium">
+          <i class="fas fa-user-plus mr-2"></i>Join Now
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Team Header -->
+  <header class="team-header py-16">
+    <div class="container mx-auto px-4">
+      <div class="flex flex-col md:flex-row items-center justify-between">
+        <div class="flex items-center space-x-6 mb-6 md:mb-0">
+          <img src="./assets/team-logo-placeholder.png" alt="Team Phantom" class="h-24 w-24 rounded-full border-4 border-yellow-400 shadow-lg">
+          <div>
+            <h1 class="text-4xl font-bold text-yellow-400 mb-2">Team Phantom</h1>
+            <div class="flex items-center space-x-4">
+              <span class="bg-yellow-400 bg-opacity-20 text-yellow-400 px-3 py-1 rounded-full text-sm">
+                <i class="fas fa-trophy mr-2"></i>Elite Team
+              </span>
+              <span class="bg-green-500 bg-opacity-20 text-green-400 px-3 py-1 rounded-full text-sm">
+                <i class="fas fa-users mr-2"></i>Full Squad
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="flex space-x-4">
+          <button class="bg-yellow-400 text-black px-6 py-2 rounded-lg font-bold hover:bg-yellow-300 transition-all">
+            <i class="fas fa-envelope mr-2"></i>Contact Team
+          </button>
+          <button class="bg-gray-700 text-white px-6 py-2 rounded-lg font-bold hover:bg-gray-600 transition-all">
+            <i class="fas fa-share-alt mr-2"></i>Share
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Team Stats -->
+  <section class="py-12">
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="team-stats-card rounded-xl p-6 text-center">
+          <div class="text-yellow-400 text-4xl font-bold mb-2">78%</div>
+          <div class="text-gray-400">Win Rate</div>
+        </div>
+        <div class="team-stats-card rounded-xl p-6 text-center">
+          <div class="text-yellow-400 text-4xl font-bold mb-2">1,234</div>
+          <div class="text-gray-400">Total Kills</div>
+        </div>
+        <div class="team-stats-card rounded-xl p-6 text-center">
+          <div class="text-yellow-400 text-4xl font-bold mb-2">₹50K</div>
+          <div class="text-gray-400">Total Earnings</div>
+        </div>
+        <div class="team-stats-card rounded-xl p-6 text-center">
+          <div class="text-yellow-400 text-4xl font-bold mb-2">5</div>
+          <div class="text-gray-400">Tournament Wins</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Team Members -->
+  <section class="py-12 bg-gray-900 bg-opacity-50">
+    <div class="container mx-auto px-4">
+      <h2 class="text-3xl font-bold text-yellow-400 mb-8">Team Members</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <!-- Player 1 -->
+        <div class="player-card rounded-xl p-6">
+          <div class="flex items-center space-x-4 mb-4">
+            <img src="./assets/player-avatar.png" alt="ProGamer123" class="h-16 w-16 rounded-full border-2 border-yellow-400">
+            <div>
+              <h3 class="text-xl font-bold text-yellow-400">ProGamer123</h3>
+              <p class="text-gray-400">Team Captain</p>
+            </div>
+          </div>
+          <div class="space-y-2">
+            <div class="flex justify-between text-sm">
+              <span class="text-gray-400">K/D Ratio</span>
+              <span class="text-yellow-400 font-bold">3.5</span>
+            </div>
+            <div class="flex justify-between text-sm">
+              <span class="text-gray-400">Headshot %</span>
+              <span class="text-yellow-400 font-bold">45%</span>
+            </div>
+            <div class="flex justify-between text-sm">
+              <span class="text-gray-400">Avg. Damage</span>
+              <span class="text-yellow-400 font-bold">850</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Player 2 -->
+        <div class="player-card rounded-xl p-6">
+          <div class="flex items-center space-x-4 mb-4">
+            <img src="./assets/player-avatar.png" alt="DragonSlayer" class="h-16 w-16 rounded-full border-2 border-yellow-400">
+            <div>
+              <h3 class="text-xl font-bold text-yellow-400">DragonSlayer</h3>
+              <p class="text-gray-400">Assault</p>
+            </div>
+          </div>
+          <div class="space-y-2">
+            <div class="flex justify-between text-sm">
+              <span class="text-gray-400">K/D Ratio</span>
+              <span class="text-yellow-400 font-bold">3.2</span>
+            </div>
+            <div class="flex justify-between text-sm">
+              <span class="text-gray-400">Headshot %</span>
+              <span class="text-yellow-400 font-bold">42%</span>
+            </div>
+            <div class="flex justify-between text-sm">
+              <span class="text-gray-400">Avg. Damage</span>
+              <span class="text-yellow-400 font-bold">780</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Player 3 -->
+        <div class="player-card rounded-xl p-6">
+          <div class="flex items-center space-x-4 mb-4">
+            <img src="./assets/player-avatar.png" alt="FireMaster" class="h-16 w-16 rounded-full border-2 border-yellow-400">
+            <div>
+              <h3 class="text-xl font-bold text-yellow-400">FireMaster</h3>
+              <p class="text-gray-400">Support</p>
+            </div>
+          </div>
+          <div class="space-y-2">
+            <div class="flex justify-between text-sm">
+              <span class="text-gray-400">K/D Ratio</span>
+              <span class="text-yellow-400 font-bold">2.8</span>
+            </div>
+            <div class="flex justify-between text-sm">
+              <span class="text-gray-400">Headshot %</span>
+              <span class="text-yellow-400 font-bold">38%</span>
+            </div>
+            <div class="flex justify-between text-sm">
+              <span class="text-gray-400">Avg. Damage</span>
+              <span class="text-yellow-400 font-bold">720</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Player 4 -->
+        <div class="player-card rounded-xl p-6">
+          <div class="flex items-center space-x-4 mb-4">
+            <img src="./assets/player-avatar.png" alt="NightHunter" class="h-16 w-16 rounded-full border-2 border-yellow-400">
+            <div>
+              <h3 class="text-xl font-bold text-yellow-400">NightHunter</h3>
+              <p class="text-gray-400">Sniper</p>
+            </div>
+          </div>
+          <div class="space-y-2">
+            <div class="flex justify-between text-sm">
+              <span class="text-gray-400">K/D Ratio</span>
+              <span class="text-yellow-400 font-bold">3.0</span>
+            </div>
+            <div class="flex justify-between text-sm">
+              <span class="text-gray-400">Headshot %</span>
+              <span class="text-yellow-400 font-bold">50%</span>
+            </div>
+            <div class="flex justify-between text-sm">
+              <span class="text-gray-400">Avg. Damage</span>
+              <span class="text-yellow-400 font-bold">820</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tournament History -->
+  <section class="py-12">
+    <div class="container mx-auto px-4">
+      <h2 class="text-3xl font-bold text-yellow-400 mb-8">Tournament History</h2>
+      <div class="bg-gray-900 bg-opacity-50 rounded-xl overflow-hidden">
+        <div class="overflow-x-auto">
+          <table class="w-full">
+            <thead>
+              <tr class="bg-gray-800 border-b border-gray-700">
+                <th class="text-left py-4 px-6 text-yellow-400">Tournament</th>
+                <th class="text-left py-4 px-6 text-yellow-400">Date</th>
+                <th class="text-left py-4 px-6 text-yellow-400">Position</th>
+                <th class="text-left py-4 px-6 text-yellow-400">Kills</th>
+                <th class="text-left py-4 px-6 text-yellow-400">Prize</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="tournament-history-row border-b border-gray-700">
+                <td class="py-4 px-6">
+                  <div class="flex items-center space-x-3">
+                    <img src="./assets/Tournament-Banner1.jpg" alt="Village Warriors Cup" class="h-10 w-10 rounded-lg">
+                    <span>Village Warriors Cup</span>
+                  </div>
+                </td>
+                <td class="py-4 px-6">18 May 2025</td>
+                <td class="py-4 px-6">
+                  <span class="achievement-badge px-3 py-1 rounded-full text-black font-bold">1st</span>
+                </td>
+                <td class="py-4 px-6 text-yellow-400 font-bold">45</td>
+                <td class="py-4 px-6 text-green-400">₹10,000</td>
+              </tr>
+              <tr class="tournament-history-row border-b border-gray-700">
+                <td class="py-4 px-6">
+                  <div class="flex items-center space-x-3">
+                    <img src="./assets/Tournament-Banner2.jpg" alt="Elite Championship" class="h-10 w-10 rounded-lg">
+                    <span>Elite Championship</span>
+                  </div>
+                </td>
+                <td class="py-4 px-6">10 May 2025</td>
+                <td class="py-4 px-6">
+                  <span class="bg-gray-700 px-3 py-1 rounded-full text-gray-300 font-bold">2nd</span>
+                </td>
+                <td class="py-4 px-6 text-yellow-400 font-bold">38</td>
+                <td class="py-4 px-6 text-green-400">₹5,000</td>
+              </tr>
+              <tr class="tournament-history-row border-b border-gray-700">
+                <td class="py-4 px-6">
+                  <div class="flex items-center space-x-3">
+                    <img src="./assets/Tournament-Banner3.jpg" alt="Pro League" class="h-10 w-10 rounded-lg">
+                    <span>Pro League</span>
+                  </div>
+                </td>
+                <td class="py-4 px-6">02 May 2025</td>
+                <td class="py-4 px-6">
+                  <span class="achievement-badge px-3 py-1 rounded-full text-black font-bold">1st</span>
+                </td>
+                <td class="py-4 px-6 text-yellow-400 font-bold">42</td>
+                <td class="py-4 px-6 text-green-400">₹15,000</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-gray-900 py-8">
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
+        <div>
+          <div class="flex items-center mb-4">
+            <img src="./assets/logo.png" alt="Fire Village Logo" class="h-10 w-auto">
+            <span class="ml-2 text-yellow-400 font-bold text-xl">FIRE VILLAGE</span>
+          </div>
+          <p class="text-gray-400">Join the ultimate gaming community. Compete in tournaments, form teams, and climb the leaderboard to become a legend.</p>
+        </div>
+        <div>
+          <h3 class="text-yellow-400 font-bold mb-4">Quick Links</h3>
+          <ul class="space-y-2">
+            <li><a href="index.html" class="text-gray-400 hover:text-yellow-400 transition py-2 block">Home</a></li>
+            <li><a href="tournaments.html" class="text-gray-400 hover:text-yellow-400 transition py-2 block">Tournaments</a></li>
+            <li><a href="leaderboard.html" class="text-gray-400 hover:text-yellow-400 transition py-2 block">Leaderboard</a></li>
+            <li><a href="teams.html" class="text-gray-400 hover:text-yellow-400 transition py-2 block">Teams</a></li>
+            <li><a href="register.html" class="text-gray-400 hover:text-yellow-400 transition py-2 block">Register</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="text-yellow-400 font-bold mb-4">Contact Us</h3>
+          <ul class="space-y-2">
+            <li class="flex items-center text-gray-400 py-2">
+              <i class="fas fa-envelope mr-2 text-yellow-400"></i>
+              <span>firevillage.in@gmail.com</span>
+            </li>
+            <li class="flex items-center text-gray-400 py-2">
+              <i class="fas fa-phone mr-2 text-yellow-400"></i>
+              <span>+91 1234567890</span>
+            </li>
+            <li class="flex items-center text-gray-400 py-2">
+              <i class="fas fa-map-marker-alt mr-2 text-yellow-400"></i>
+              <span>Mumbai, India</span>
+            </li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="text-yellow-400 font-bold mb-4">Follow Us</h3>
+          <div class="flex space-x-4">
+            <a href="#" class="text-gray-400 hover:text-yellow-400 transition p-2">
+              <i class="fab fa-facebook-f text-xl"></i>
+            </a>
+            <a href="#" class="text-gray-400 hover:text-yellow-400 transition p-2">
+              <i class="fab fa-twitter text-xl"></i>
+            </a>
+            <a href="#" class="text-gray-400 hover:text-yellow-400 transition p-2">
+              <i class="fab fa-instagram text-xl"></i>
+            </a>
+            <a href="#" class="text-gray-400 hover:text-yellow-400 transition p-2">
+              <i class="fab fa-discord text-xl"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+        <p>&copy; 2025 Fire Village. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Mobile menu functionality
+    const mobileMenuButton = document.querySelector('.mobile-menu-button');
+    const mobileMenu = document.querySelector('.mobile-menu');
+    const menuIcon = mobileMenuButton.querySelector('svg:not(.hidden)');
+    const closeIcon = mobileMenuButton.querySelector('svg.hidden');
+
+    function toggleMobileMenu() {
+      mobileMenu.classList.toggle('active');
+      menuIcon.classList.toggle('hidden');
+      closeIcon.classList.toggle('hidden');
+      
+      // Prevent body scroll when menu is open
+      document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
+    }
+
+    mobileMenuButton.addEventListener('click', toggleMobileMenu);
+
+    // Close mobile menu when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!mobileMenu.contains(e.target) && !mobileMenuButton.contains(e.target) && mobileMenu.classList.contains('active')) {
+        toggleMobileMenu();
+      }
+    });
+
+    // Close mobile menu when clicking on a link
+    const mobileMenuLinks = mobileMenu.querySelectorAll('a');
+    mobileMenuLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        if (mobileMenu.classList.contains('active')) {
+          toggleMobileMenu();
+        }
+      });
+    });
+
+    // Add active state to current page link
+    const currentPage = window.location.pathname.split('/').pop();
+    const navLinks = document.querySelectorAll('nav a');
+    navLinks.forEach(link => {
+      if (link.getAttribute('href') === currentPage) {
+        link.classList.add('text-yellow-400');
+      }
+    });
+
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }
+      });
+    });
+  </script>
+</body>
+</html> 

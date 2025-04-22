@@ -1,0 +1,1000 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta name="google-site-verification" content="1yyUdY1KPFRiqrOYAH3J220BqxfYKRrV9Hf6EBFjlWc" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fire Village Gaming - Home</title>
+  <meta name="description" content="India's #1 Village Free Fire Esports Tournament. Register your team now for competitive battles and win exciting prizes!">
+  
+  <!-- Favicon -->
+  <link rel="icon" href="./assets/logo.png" type="image/png">
+
+  <!-- Preload critical resources -->
+  <link rel="preload" href="https://cdn.tailwindcss.com" as="script">
+  <link rel="preload" href="./assets/fire-bg-video.mp4" as="video" type="video/mp4">
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" as="style">
+  <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style">
+
+  <!-- TailwindCSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Tailwind Custom Theme -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            fire: {
+              yellow: '#facc15',
+              dark: '#0f0f0f',
+              gray: '#1f2937',
+              red: '#ef4444'
+            }
+          },
+          fontFamily: {
+            sans: ['Poppins', 'sans-serif'],
+            heading: ['Oswald', 'sans-serif']
+          },
+          animation: {
+            float: "float 3s ease-in-out infinite",
+            fadeInUp: "fadeInUp 1.2s ease-out forwards",
+            pulseMenu: "pulseMenu 1s ease-in-out infinite",
+            firePulse: "firePulse 2s ease-in-out infinite",
+            shimmer: "shimmer 2s infinite linear"
+          },
+          keyframes: {
+            float: {
+              '0%, 100%': { transform: 'translateY(0)' },
+              '50%': { transform: 'translateY(-10px)' }
+            },
+            fadeInUp: {
+              '0%': { opacity: 0, transform: 'translateY(20px)' },
+              '100%': { opacity: 1, transform: 'translateY(0)' }
+            },
+            pulseMenu: {
+              '0%, 100%': { transform: 'scale(1)', opacity: 1 },
+              '50%': { transform: 'scale(1.1)', opacity: 0.8 }
+            },
+            firePulse: {
+              '0%, 100%': { textShadow: '0 0 8px #facc15' },
+              '50%': { textShadow: '0 0 16px #f59e0b, 0 0 24px #ef4444' }
+            },
+            shimmer: {
+              '0%': { backgroundPosition: '-1000px 0' },
+              '100%': { backgroundPosition: '1000px 0' }
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      background-image: url('./assets/fire-bg.jpg');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+    }
+    .hero-section {
+      background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('./assets/hero-bg.jpg');
+      background-size: cover;
+      background-position: center;
+    }
+    .tournament-card {
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      background: linear-gradient(145deg, #1f2937, #111827);
+      border: 1px solid rgba(250, 204, 21, 0.1);
+    }
+    .tournament-card:hover {
+      transform: translateY(-10px) scale(1.02);
+      box-shadow: 0 20px 30px -15px rgba(250, 204, 21, 0.2);
+      border-color: rgba(250, 204, 21, 0.5);
+    }
+    .tournament-image {
+      transition: all 0.4s ease;
+    }
+    .tournament-card:hover .tournament-image {
+      transform: scale(1.1);
+    }
+    .tournament-badge {
+      backdrop-filter: blur(4px);
+      transition: all 0.3s ease;
+    }
+    .tournament-card:hover .tournament-badge {
+      transform: translateY(-2px);
+    }
+    .tournament-stats {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.4s ease;
+    }
+    .tournament-card:hover .tournament-stats {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .team-card {
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      background: linear-gradient(145deg, #1f2937, #111827);
+      border: 1px solid rgba(250, 204, 21, 0.1);
+    }
+    .team-card:hover {
+      transform: translateY(-10px) scale(1.02);
+      box-shadow: 0 20px 30px -15px rgba(250, 204, 21, 0.2);
+      border-color: rgba(250, 204, 21, 0.5);
+    }
+    .team-logo {
+      transition: all 0.4s ease;
+      filter: drop-shadow(0 0 8px rgba(250, 204, 21, 0.2));
+    }
+    .team-card:hover .team-logo {
+      transform: scale(1.1);
+      filter: drop-shadow(0 0 12px rgba(250, 204, 21, 0.4));
+    }
+    .team-stats {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.4s ease;
+    }
+    .team-card:hover .team-stats {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .team-rank {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      width: 2.5rem;
+      height: 2.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(250, 204, 21, 0.1);
+      border: 2px solid rgba(250, 204, 21, 0.2);
+      border-radius: 50%;
+      font-weight: bold;
+      color: #facc15;
+      transition: all 0.3s ease;
+    }
+    .team-card:hover .team-rank {
+      transform: scale(1.1);
+      background: rgba(250, 204, 21, 0.2);
+      border-color: rgba(250, 204, 21, 0.4);
+    }
+    .hero-video-bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.5;
+      z-index: 0;
+    }
+    
+    .hero-content {
+      position: relative;
+      z-index: 1;
+    }
+    
+    .hero-title {
+      animation: fadeInUp 1s ease-out, firePulse 2s ease-in-out infinite;
+      text-shadow: 0 0 20px rgba(250, 204, 21, 0.5);
+    }
+    
+    .hero-description {
+      animation: fadeInUp 1s ease-out 0.3s;
+      opacity: 0;
+      animation-fill-mode: forwards;
+    }
+    
+    .hero-buttons {
+      animation: fadeInUp 1s ease-out 0.6s;
+      opacity: 0;
+      animation-fill-mode: forwards;
+    }
+    
+    .hero-button {
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .hero-button:before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(
+        120deg,
+        transparent,
+        rgba(255, 255, 255, 0.2),
+        transparent
+      );
+      animation: shimmer 2s infinite linear;
+    }
+    
+    .hero-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(250, 204, 21, 0.3);
+    }
+    
+    .leaderboard-container {
+      background: linear-gradient(145deg, #1f2937, #111827);
+      border: 1px solid rgba(250, 204, 21, 0.1);
+    }
+    
+    .leaderboard-row {
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .leaderboard-row:hover {
+      background: rgba(250, 204, 21, 0.1);
+      transform: translateX(10px);
+    }
+    
+    .leaderboard-row:hover .rank-badge {
+      transform: scale(1.1);
+      box-shadow: 0 0 15px rgba(250, 204, 21, 0.3);
+    }
+    
+    .rank-badge {
+      transition: all 0.3s ease;
+    }
+    
+    .rank-badge.gold {
+      background: linear-gradient(45deg, #fbbf24, #f59e0b);
+      box-shadow: 0 0 10px rgba(251, 191, 36, 0.3);
+    }
+    
+    .rank-badge.silver {
+      background: linear-gradient(45deg, #9ca3af, #6b7280);
+      box-shadow: 0 0 10px rgba(156, 163, 175, 0.3);
+    }
+    
+    .rank-badge.bronze {
+      background: linear-gradient(45deg, #d97706, #92400e);
+      box-shadow: 0 0 10px rgba(217, 119, 6, 0.3);
+    }
+    
+    .player-stats {
+      opacity: 0;
+      transform: translateY(10px);
+      transition: all 0.3s ease;
+    }
+    
+    .leaderboard-row:hover .player-stats {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    .shimmer {
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .shimmer::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(250, 204, 21, 0.1),
+        transparent
+      );
+      transform: translateX(-100%);
+      animation: shimmer 2s infinite;
+    }
+
+    /* Navigation Styles */
+    .nav-link {
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      width: 0;
+      height: 2px;
+      background: #facc15;
+      transition: all 0.3s ease;
+      transform: translateX(-50%);
+    }
+    
+    .nav-link:hover::after {
+      width: 80%;
+    }
+    
+    .nav-link.active {
+      background: rgba(250, 204, 21, 0.1);
+    }
+    
+    .nav-link.active::after {
+      width: 80%;
+    }
+    
+    .mobile-nav-link {
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .mobile-nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: #facc15;
+      transition: all 0.3s ease;
+    }
+    
+    .mobile-nav-link:hover::after {
+      width: 100%;
+    }
+    
+    .mobile-nav-link.active {
+      background: rgba(250, 204, 21, 0.1);
+    }
+    
+    .mobile-nav-link.active::after {
+      width: 100%;
+    }
+    
+    /* Mobile Menu Animation */
+    #mobileMenu {
+      transform-origin: top;
+      transition: all 0.3s ease-in-out;
+    }
+    
+    #mobileMenu.hidden {
+      transform: scaleY(0);
+      opacity: 0;
+    }
+    
+    #mobileMenu:not(.hidden) {
+      transform: scaleY(1);
+      opacity: 1;
+    }
+  </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"></script>
+  <script src="data-sync.js"></script>
+</head>
+<meta name="google-site-verification" content="1yyUdY1KPFRiqrOYAH3J220BqxfYKRrV9Hf6EBFjlWc" />
+<body class="bg-fire-dark text-white min-h-screen">
+  <!-- Navigation -->
+  <nav class="bg-gray-900 bg-opacity-90 px-4 py-3 sticky top-0 z-50 shadow-lg backdrop-blur-md">
+    <div class="container mx-auto flex justify-between items-center">
+      <div class="flex items-center space-x-2">
+        <a href="index.html" class="flex items-center group">
+          <img src="./assets/logo.png" alt="Fire Village Logo" class="h-12 w-auto transform group-hover:scale-110 transition-transform duration-300">
+          <span class="ml-2 text-yellow-400 font-heading text-2xl group-hover:text-yellow-300 transition-colors">FIRE VILLAGE</span>
+        </a>
+        </div>
+        
+      <!-- Desktop Navigation -->
+      <div class="hidden lg:flex items-center space-x-1">
+        <a href="index.html" class="nav-link active px-4 py-2 rounded-lg text-yellow-400 font-medium hover:bg-yellow-400 hover:text-black transition-all">
+          <i class="fas fa-home mr-2"></i>Home
+        </a>
+        <a href="tournaments.html" class="nav-link px-4 py-2 rounded-lg text-gray-300 font-medium hover:bg-yellow-400 hover:text-black transition-all">
+          <i class="fas fa-trophy mr-2"></i>Tournaments
+        </a>
+        <a href="leaderboard.html" class="nav-link px-4 py-2 rounded-lg text-gray-300 font-medium hover:bg-yellow-400 hover:text-black transition-all">
+          <i class="fas fa-medal mr-2"></i>Leaderboard
+        </a>
+        <a href="teams.html" class="nav-link px-4 py-2 rounded-lg text-gray-300 font-medium hover:bg-yellow-400 hover:text-black transition-all">
+          <i class="fas fa-users mr-2"></i>Teams
+        </a>
+        <a href="register.html" class="nav-link px-4 py-2 rounded-lg text-gray-300 font-medium hover:bg-yellow-400 hover:text-black transition-all">
+          <i class="fas fa-user-plus mr-2"></i>Register
+        </a>
+        <a href="contact.html" class="nav-link px-4 py-2 rounded-lg text-gray-300 font-medium hover:bg-yellow-400 hover:text-black transition-all">
+          <i class="fas fa-envelope mr-2"></i>Contact
+        </a>
+        <a href="about.html" class="nav-link px-4 py-2 rounded-lg text-gray-300 font-medium hover:bg-yellow-400 hover:text-black transition-all">
+          <i class="fas fa-info-circle mr-2"></i>About
+        </a>
+        </div>
+        
+      <!-- Auth Buttons -->
+      <div class="hidden lg:flex items-center space-x-4">
+        <a href="register.html" class="px-4 py-2 rounded-lg bg-gradient-to-r from-yellow-500 to-red-500 text-black font-medium hover:from-yellow-400 hover:to-red-400 transition-all transform hover:scale-105">
+          <i class="fas fa-user-plus mr-2"></i>Join Now
+        </a>
+        <div id="userMenu" class="hidden">
+          <button id="userMenuBtn" class="px-4 py-2 rounded-lg text-gray-300 font-medium hover:text-yellow-400 transition-colors">
+            <i class="fas fa-user mr-2"></i><span id="userName">User</span>
+          </button>
+          <div id="userDropdown" class="hidden absolute right-0 mt-2 w-48 bg-gray-800 rounded-lg shadow-lg py-2">
+            <a href="profile.html" class="block px-4 py-2 text-gray-300 hover:bg-gray-700">
+              <i class="fas fa-user-circle mr-2"></i>Profile
+            </a>
+            <a href="#" id="logoutBtn" class="block px-4 py-2 text-red-400 hover:bg-gray-700">
+              <i class="fas fa-sign-out-alt mr-2"></i>Logout
+            </a>
+        </div>
+          </div>
+        </div>
+        
+      <!-- Mobile Menu Button -->
+      <div class="lg:hidden">
+        <button id="mobileMenuBtn" class="text-gray-300 hover:text-yellow-400 focus:outline-none">
+          <i class="fas fa-bars text-2xl"></i>
+        </button>
+          </div>
+        </div>
+        
+    <!-- Mobile Menu -->
+    <div id="mobileMenu" class="lg:hidden hidden bg-gray-900 bg-opacity-95 absolute top-16 left-0 right-0 p-4 backdrop-blur-md">
+      <div class="flex flex-col space-y-3">
+        <a href="index.html" class="mobile-nav-link active px-5 py-4 rounded-lg text-yellow-400 font-medium hover:bg-yellow-400 hover:text-black transition-all">
+          <i class="fas fa-home mr-3 text-lg"></i>Home
+        </a>
+        <a href="tournaments.html" class="mobile-nav-link px-5 py-4 rounded-lg text-gray-300 font-medium hover:bg-yellow-400 hover:text-black transition-all">
+          <i class="fas fa-trophy mr-3 text-lg"></i>Tournaments
+        </a>
+        <a href="leaderboard.html" class="mobile-nav-link px-5 py-4 rounded-lg text-gray-300 font-medium hover:bg-yellow-400 hover:text-black transition-all">
+          <i class="fas fa-medal mr-3 text-lg"></i>Leaderboard
+        </a>
+        <a href="teams.html" class="mobile-nav-link px-5 py-4 rounded-lg text-gray-300 font-medium hover:bg-yellow-400 hover:text-black transition-all">
+          <i class="fas fa-users mr-3 text-lg"></i>Teams
+        </a>
+        <a href="register.html" class="mobile-nav-link px-5 py-4 rounded-lg text-gray-300 font-medium hover:bg-yellow-400 hover:text-black transition-all">
+          <i class="fas fa-user-plus mr-3 text-lg"></i>Register
+        </a>
+        <a href="contact.html" class="mobile-nav-link px-5 py-4 rounded-lg text-gray-300 font-medium hover:bg-yellow-400 hover:text-black transition-all">
+          <i class="fas fa-envelope mr-3 text-lg"></i>Contact
+        </a>
+        <a href="about.html" class="mobile-nav-link px-5 py-4 rounded-lg text-gray-300 font-medium hover:bg-yellow-400 hover:text-black transition-all">
+          <i class="fas fa-info-circle mr-3 text-lg"></i>About
+        </a>
+        <div class="pt-4 border-t border-gray-700">
+          <a href="register.html" class="block mt-3 px-5 py-4 rounded-lg bg-gradient-to-r from-yellow-500 to-red-500 text-black font-medium text-center hover:from-yellow-400 hover:to-red-400 transition-all">
+            <i class="fas fa-user-plus mr-3 text-lg"></i>Join Now
+          </a>
+          </div>
+        </div>
+      </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero-section relative min-h-screen flex items-center justify-center overflow-hidden">
+    <video autoplay muted loop playsinline class="hero-video-bg">
+      <source src="./assets/fire-bg-video.mp4" type="video/mp4">
+    </video>
+    
+    <div class="container mx-auto px-4 text-center hero-content">
+      <h1 class="hero-title text-4xl sm:text-5xl md:text-7xl font-heading font-bold text-yellow-400 mb-4 sm:mb-6">
+        WELCOME TO <br>
+        <span class="bg-clip-text text-transparent bg-gradient-to-r from-yellow-400 via-red-500 to-yellow-400">
+          FIRE VILLAGE
+        </span>
+      </h1>
+      
+      <p class="hero-description text-lg sm:text-xl md:text-2xl text-gray-300 mb-6 sm:mb-8 max-w-3xl mx-auto px-4">
+        Join India's #1 Free Fire Gaming Community. Compete in tournaments, form elite teams, and rise to legendary status.
+      </p>
+      
+      <div class="hero-buttons flex flex-col sm:flex-row justify-center gap-3 sm:gap-4 px-4">
+        <a href="tournaments.html" class="hero-button bg-gradient-to-r from-yellow-500 to-red-500 text-black py-4 px-6 sm:px-10 rounded-lg font-bold hover:from-yellow-400 hover:to-red-400 transition-all transform text-center">
+          Join Tournaments <i class="fas fa-trophy ml-2"></i>
+        </a>
+        <a href="register.html" class="hero-button bg-gray-800 text-white py-4 px-6 sm:px-10 rounded-lg font-bold hover:bg-gray-700 transition-all transform border-2 border-yellow-400 text-center">
+          Create Account <i class="fas fa-user-plus ml-2"></i>
+        </a>
+        </div>
+        
+      <div class="mt-8 sm:mt-12 animate-bounce">
+        <a href="#tournaments" class="text-gray-400 hover:text-yellow-400 transition">
+          <i class="fas fa-chevron-down text-2xl"></i>
+        </a>
+          </div>
+        </div>
+  </section>
+
+  <!-- Tournaments Section -->
+  <section class="py-16 bg-gray-900">
+    <div class="container mx-auto px-4">
+      <h2 class="text-3xl font-bold text-center text-yellow-400 mb-8">Upcoming Tournaments</h2>
+      <div id="tournamentsContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <!-- Tournament cards will be dynamically inserted here -->
+          </div>
+        </div>
+  </section>
+
+  <!-- Teams Section -->
+  <section class="py-16 bg-gray-800">
+    <div class="container mx-auto px-4">
+      <h2 class="text-3xl font-bold text-center text-yellow-400 mb-8">Top Teams</h2>
+      <div id="teamsContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <!-- Team cards will be dynamically inserted here -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Leaderboard Preview -->
+  <section class="py-12 sm:py-20 bg-gray-900 bg-opacity-90">
+    <div class="container mx-auto px-4">
+      <div class="flex flex-col sm:flex-row justify-between items-center mb-8 sm:mb-12">
+        <div class="mb-4 sm:mb-0">
+          <h2 class="text-3xl sm:text-4xl font-heading text-yellow-400 mb-2">Leaderboard</h2>
+          <p class="text-gray-400">Top performers of this season</p>
+          </div>
+        <a href="leaderboard.html" class="group flex items-center text-yellow-400 hover:text-yellow-300 font-medium transition-all">
+          View Full Leaderboard 
+          <i class="fas fa-arrow-right ml-2 transform group-hover:translate-x-2 transition-transform"></i>
+        </a>
+        </div>
+        
+      <div class="leaderboard-container rounded-xl overflow-hidden shadow-2xl">
+        <div class="overflow-x-auto">
+          <table class="w-full">
+            <thead>
+              <tr class="bg-gray-800 border-b border-gray-700">
+                <th class="text-left py-3 px-4 sm:py-4 sm:px-6 text-yellow-400 font-heading">RANK</th>
+                <th class="text-left py-3 px-4 sm:py-4 sm:px-6 text-yellow-400 font-heading">PLAYER</th>
+                <th class="text-left py-3 px-4 sm:py-4 sm:px-6 text-yellow-400 font-heading hidden sm:table-cell">TEAM</th>
+                <th class="text-left py-3 px-4 sm:py-4 sm:px-6 text-yellow-400 font-heading">KILLS</th>
+                <th class="text-left py-3 px-4 sm:py-4 sm:px-6 text-yellow-400 font-heading hidden sm:table-cell">WINS</th>
+                <th class="text-left py-3 px-4 sm:py-4 sm:px-6 text-yellow-400 font-heading">POINTS</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Row 1 -->
+              <tr class="leaderboard-row border-b border-gray-700">
+                <td class="py-3 px-4 sm:py-4 sm:px-6">
+                  <div class="rank-badge gold w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center font-bold text-black">1</div>
+                </td>
+                <td class="py-3 px-4 sm:py-4 sm:px-6">
+                  <div class="flex items-center space-x-3 sm:space-x-4">
+                    <div class="relative">
+                      <img src="./assets/player-avatar.png" alt="ProGamer123" class="h-10 w-10 sm:h-12 sm:w-12 rounded-full border-2 border-yellow-400">
+                      <div class="absolute -top-1 -right-1 w-4 h-4 sm:w-5 sm:h-5 bg-green-500 rounded-full border-2 border-gray-800"></div>
+          </div>
+                    <div>
+                      <p class="font-bold text-white">ProGamer123</p>
+                      <p class="text-xs text-gray-400">MVP of the Season</p>
+          </div>
+        </div>
+                </td>
+                <td class="py-3 px-4 sm:py-4 sm:px-6 hidden sm:table-cell">
+                  <div class="flex items-center space-x-2">
+                    <img src="./assets/team-logo-placeholder.png" alt="Team Phantom" class="h-6 w-6 rounded-full">
+                    <span>Team Phantom</span>
+          </div>
+                </td>
+                <td class="py-3 px-4 sm:py-4 sm:px-6">
+                  <div class="player-stats">
+                    <p class="font-bold text-yellow-400">156</p>
+                    <p class="text-xs text-gray-400">+12 today</p>
+          </div>
+                </td>
+                <td class="py-3 px-4 sm:py-4 sm:px-6 hidden sm:table-cell">
+                  <div class="player-stats">
+                    <p class="font-bold text-yellow-400">12</p>
+                    <p class="text-xs text-gray-400">72% rate</p>
+        </div>
+                </td>
+                <td class="py-3 px-4 sm:py-4 sm:px-6">
+                  <div class="player-stats">
+                    <p class="font-bold text-xl sm:text-2xl text-yellow-400">2,450</p>
+                    <div class="flex items-center text-xs text-green-400">
+                      <i class="fas fa-caret-up mr-1"></i>
+                      <span>+150</span>
+      </div>
+    </div>
+                </td>
+              </tr>
+              
+              <!-- Row 2 -->
+              <tr class="leaderboard-row border-b border-gray-700">
+                <td class="py-3 px-4 sm:py-4 sm:px-6">
+                  <div class="rank-badge silver w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center font-bold text-black">2</div>
+                </td>
+                <td class="py-3 px-4 sm:py-4 sm:px-6">
+                  <div class="flex items-center space-x-3 sm:space-x-4">
+                    <div class="relative">
+                      <img src="./assets/player-avatar.png" alt="DragonSlayer" class="h-10 w-10 sm:h-12 sm:w-12 rounded-full border-2 border-gray-400">
+                      <div class="absolute -top-1 -right-1 w-4 h-4 sm:w-5 sm:h-5 bg-green-500 rounded-full border-2 border-gray-800"></div>
+            </div>
+            <div>
+                      <p class="font-bold text-white">DragonSlayer</p>
+                      <p class="text-xs text-gray-400">Rising Star</p>
+              </div>
+            </div>
+                </td>
+                <td class="py-3 px-4 sm:py-4 sm:px-6 hidden sm:table-cell">
+                  <div class="flex items-center space-x-2">
+                    <img src="./assets/team-logo-placeholder.png" alt="Dragon Warriors" class="h-6 w-6 rounded-full">
+                    <span>Dragon Warriors</span>
+          </div>
+                </td>
+                <td class="py-3 px-4 sm:py-4 sm:px-6">
+                  <div class="player-stats">
+                    <p class="font-bold text-yellow-400">142</p>
+                    <p class="text-xs text-gray-400">+8 today</p>
+        </div>
+                </td>
+                <td class="py-3 px-4 sm:py-4 sm:px-6 hidden sm:table-cell">
+                  <div class="player-stats">
+                    <p class="font-bold text-yellow-400">10</p>
+                    <p class="text-xs text-gray-400">65% rate</p>
+            </div>
+                </td>
+                <td class="py-3 px-4 sm:py-4 sm:px-6">
+                  <div class="player-stats">
+                    <p class="font-bold text-xl sm:text-2xl text-yellow-400">2,180</p>
+                    <div class="flex items-center text-xs text-green-400">
+                      <i class="fas fa-caret-up mr-1"></i>
+                      <span>+120</span>
+              </div>
+            </div>
+                </td>
+              </tr>
+              
+              <!-- Row 3 -->
+              <tr class="leaderboard-row border-b border-gray-700">
+                <td class="py-3 px-4 sm:py-4 sm:px-6">
+                  <div class="rank-badge bronze w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center font-bold text-black">3</div>
+                </td>
+                <td class="py-3 px-4 sm:py-4 sm:px-6">
+                  <div class="flex items-center space-x-3 sm:space-x-4">
+                    <div class="relative">
+                      <img src="./assets/player-avatar.png" alt="FireMaster" class="h-10 w-10 sm:h-12 sm:w-12 rounded-full border-2 border-yellow-700">
+                      <div class="absolute -top-1 -right-1 w-4 h-4 sm:w-5 sm:h-5 bg-red-500 rounded-full border-2 border-gray-800"></div>
+            </div>
+            <div>
+                      <p class="font-bold text-white">FireMaster</p>
+                      <p class="text-xs text-gray-400">Veteran</p>
+              </div>
+            </div>
+                </td>
+                <td class="py-3 px-4 sm:py-4 sm:px-6">
+                  <div class="flex items-center space-x-2">
+                    <img src="./assets/team-logo-placeholder.png" alt="Fire Squad" class="h-6 w-6 rounded-full">
+                    <span>Fire Squad</span>
+          </div>
+                </td>
+                <td class="py-3 px-4 sm:py-4 sm:px-6">
+                  <div class="player-stats">
+                    <p class="font-bold text-yellow-400">128</p>
+                    <p class="text-xs text-gray-400">+5 today</p>
+        </div>
+                </td>
+                <td class="py-3 px-4 sm:py-4 sm:px-6 hidden sm:table-cell">
+                  <div class="player-stats">
+                    <p class="font-bold text-yellow-400">8</p>
+                    <p class="text-xs text-gray-400">58% rate</p>
+      </div>
+                </td>
+                <td class="py-3 px-4 sm:py-4 sm:px-6">
+                  <div class="player-stats">
+                    <p class="font-bold text-xl sm:text-2xl text-yellow-400">1,950</p>
+                    <div class="flex items-center text-xs text-red-400">
+                      <i class="fas fa-caret-down mr-1"></i>
+                      <span>-30</span>
+    </div>
+                  </div>
+                </td>
+              </tr>
+              
+              <!-- Row 4 -->
+              <tr class="leaderboard-row border-b border-gray-700">
+                <td class="py-3 px-4 sm:py-4 sm:px-6">
+                  <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-gray-700 flex items-center justify-center font-bold text-gray-300">4</div>
+                </td>
+                <td class="py-3 px-4 sm:py-4 sm:px-6">
+                  <div class="flex items-center space-x-3 sm:space-x-4">
+                    <div class="relative">
+                      <img src="./assets/player-avatar.png" alt="NightHunter" class="h-10 w-10 sm:h-12 sm:w-12 rounded-full border-2 border-gray-600">
+                      <div class="absolute -top-1 -right-1 w-4 h-4 sm:w-5 sm:h-5 bg-green-500 rounded-full border-2 border-gray-800"></div>
+          </div>
+                    <div>
+                      <p class="font-bold text-white">NightHunter</p>
+                      <p class="text-xs text-gray-400">Elite</p>
+        </div>
+          </div>
+                </td>
+                <td class="py-3 px-4 sm:py-4 sm:px-6 hidden sm:table-cell">
+                  <div class="flex items-center space-x-2">
+                    <img src="./assets/team-logo-placeholder.png" alt="Night Owls" class="h-6 w-6 rounded-full">
+                    <span>Night Owls</span>
+        </div>
+                </td>
+                <td class="py-3 px-4 sm:py-4 sm:px-6">
+                  <div class="player-stats">
+                    <p class="font-bold text-yellow-400">115</p>
+                    <p class="text-xs text-gray-400">+3 today</p>
+          </div>
+                </td>
+                <td class="py-3 px-4 sm:py-4 sm:px-6 hidden sm:table-cell">
+                  <div class="player-stats">
+                    <p class="font-bold text-yellow-400">7</p>
+                    <p class="text-xs text-gray-400">52% rate</p>
+        </div>
+                </td>
+                <td class="py-3 px-4 sm:py-4 sm:px-6">
+                  <div class="player-stats">
+                    <p class="font-bold text-xl sm:text-2xl text-yellow-400">1,780</p>
+                    <div class="flex items-center text-xs text-green-400">
+                      <i class="fas fa-caret-up mr-1"></i>
+                      <span>+90</span>
+      </div>
+                  </div>
+                </td>
+              </tr>
+              
+              <!-- Row 5 -->
+              <tr class="leaderboard-row">
+                <td class="py-3 px-4 sm:py-4 sm:px-6">
+                  <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-gray-700 flex items-center justify-center font-bold text-gray-300">5</div>
+                </td>
+                <td class="py-3 px-4 sm:py-4 sm:px-6">
+                  <div class="flex items-center space-x-3 sm:space-x-4">
+                    <div class="relative">
+                      <img src="./assets/player-avatar.png" alt="ThunderBolt" class="h-10 w-10 sm:h-12 sm:w-12 rounded-full border-2 border-gray-600">
+                      <div class="absolute -top-1 -right-1 w-4 h-4 sm:w-5 sm:h-5 bg-yellow-500 rounded-full border-2 border-gray-800"></div>
+            </div>
+            <div>
+                      <p class="font-bold text-white">ThunderBolt</p>
+                      <p class="text-xs text-gray-400">Challenger</p>
+            </div>
+          </div>
+                </td>
+                <td class="py-3 px-4 sm:py-4 sm:px-6 hidden sm:table-cell">
+                  <div class="flex items-center space-x-2">
+                    <img src="./assets/team-logo-placeholder.png" alt="Thunder Bolts" class="h-6 w-6 rounded-full">
+                    <span>Thunder Bolts</span>
+        </div>
+                </td>
+                <td class="py-3 px-4 sm:py-4 sm:px-6">
+                  <div class="player-stats">
+                    <p class="font-bold text-yellow-400">98</p>
+                    <p class="text-xs text-gray-400">+2 today</p>
+      </div>
+                </td>
+                <td class="py-3 px-4 sm:py-4 sm:px-6 hidden sm:table-cell">
+                  <div class="player-stats">
+                    <p class="font-bold text-yellow-400">6</p>
+                    <p class="text-xs text-gray-400">48% rate</p>
+    </div>
+                </td>
+                <td class="py-3 px-4 sm:py-4 sm:px-6">
+                  <div class="player-stats">
+                    <p class="font-bold text-xl sm:text-2xl text-yellow-400">1,620</p>
+                    <div class="flex items-center text-xs text-green-400">
+                      <i class="fas fa-caret-up mr-1"></i>
+                      <span>+60</span>
+          </div>
+        </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          </div>
+        </div>
+    </div>
+  </section>
+
+  <!-- Our Leadership Section -->
+  <section id="founders" class="py-20 bg-gray-900 text-center">
+    <div class="max-w-6xl mx-auto">
+        <h2 class="text-4xl font-heading text-yellow-400 mb-4">Our Leadership</h2>
+        <p class="text-gray-400 mb-10 max-w-2xl mx-auto">Meet the passionate team behind Fire Village, dedicated to bringing competitive gaming to every corner of India.</p>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 px-6">
+            <!-- Aarush Sharma -->
+            <div class="bg-black p-8 rounded-xl shadow-lg hover:scale-105 transform transition duration-300 border border-gray-800">
+                <div class="w-32 h-32 mx-auto mb-6 rounded-full overflow-hidden border-4 border-yellow-400">
+                    <img src="./assets/Founders1.jpg" alt="Aarush Sharma" class="w-full h-full object-cover">
+                </div>
+                <h3 class="text-2xl font-bold text-yellow-400 mb-2">Aarush Sharma</h3>
+                <p class="text-yellow-500 font-medium mb-3">Founder & Visionary</p>
+                <p class="text-gray-300 mb-4">Creative mastermind behind the Fire Village movement, building bridges from rural talent to national glory.</p>
+                <div class="flex justify-center space-x-4">
+                    <a href="https://www.instagram.com/pandit.2.0/" target="_blank" class="text-gray-400 hover:text-yellow-400 transition-colors">
+                        <i class="fab fa-instagram text-2xl"></i>
+                    </a>
+          </div>
+        </div>
+        
+            <!-- Abhishek Sharma -->
+            <div class="bg-black p-8 rounded-xl shadow-lg hover:scale-105 transform transition duration-300 border border-gray-800">
+                <div class="w-32 h-32 mx-auto mb-6 rounded-full overflow-hidden border-4 border-yellow-400">
+                    <img src="./assets/Founders2.jpg" alt="Abhishek Sharma" class="w-full h-full object-cover">
+                </div>
+                <h3 class="text-2xl font-bold text-yellow-400 mb-2">Abhishek Sharma</h3>
+                <p class="text-yellow-500 font-medium mb-3">Co-Founder & Operations</p>
+                <p class="text-gray-300 mb-4">Fueling the tournament mechanics with strategy, structure and discipline.</p>
+                <div class="flex justify-center space-x-4">
+                    <a href="https://www.instagram.com/_abhishek_sharmaaa/" target="_blank" class="text-gray-400 hover:text-yellow-400 transition-colors">
+                        <i class="fab fa-instagram text-2xl"></i>
+                    </a>
+          </div>
+        </div>
+        
+            <!-- Uplaksh Sharma -->
+            <div class="bg-black p-8 rounded-xl shadow-lg hover:scale-105 transform transition duration-300 border border-gray-800">
+                <div class="w-32 h-32 mx-auto mb-6 rounded-full overflow-hidden border-4 border-yellow-400">
+                    <img src="./assets/Founders3.jpg" alt="Uplaksh Sharma" class="w-full h-full object-cover">
+                </div>
+                <h3 class="text-2xl font-bold text-yellow-400 mb-2">Uplaksh Sharma</h3>
+                <p class="text-yellow-500 font-medium mb-3">Tech & Broadcast Head</p>
+                <p class="text-gray-300 mb-4">Making the tournaments shine on YouTube and beyond with seamless streaming and support.</p>
+                <div class="flex justify-center space-x-4">
+                    <a href="https://www.instagram.com/uplaksh.sharma._/" target="_blank" class="text-gray-400 hover:text-yellow-400 transition-colors">
+                        <i class="fab fa-instagram text-2xl"></i>
+                    </a>
+          </div>
+        </div>
+      </div>
+      
+        <!-- Fire Village Instagram -->
+        <div class="mt-12">
+            <a href="https://www.instagram.com/firevillage.in/" target="_blank" class="inline-flex items-center space-x-2 text-yellow-400 hover:text-yellow-300 transition-colors">
+                <i class="fab fa-instagram text-3xl"></i>
+                <span class="text-xl font-medium">@firevillage.in</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Call to Action -->
+  <section class="py-12 sm:py-16">
+    <div class="container mx-auto px-4 text-center">
+      <h2 class="text-2xl sm:text-3xl font-heading text-yellow-400 mb-3 sm:mb-4">Ready to Join the Battle?</h2>
+      <p class="text-lg sm:text-xl text-gray-300 mb-6 sm:mb-8 max-w-3xl mx-auto px-4">Create your account now and start your journey to becoming a gaming legend.</p>
+      <a href="register.html" class="bg-yellow-500 text-black py-3 px-6 sm:px-8 rounded-lg font-bold hover:bg-yellow-400 transition inline-block">
+          Register Now <i class="fas fa-user-plus ml-2"></i>
+        </a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-gray-900 text-center text-sm py-6 mt-10 border-t border-gray-700">
+    <div class="max-w-4xl mx-auto px-4">
+      <p class="text-gray-400 mb-4">&copy; 2025 Fire Village Tournament. All rights reserved.</p>
+      <div class="mb-4">
+        <a href="admin-dashboard.html" class="text-xs text-gray-500 hover:text-yellow-400 transition-colors">
+          <i class="fas fa-lock mr-1"></i>Admin Dashboard
+        </a>
+      </div>
+      <ul class="flex justify-center gap-6 text-gray-400">
+        <li><a href="privacy-policy.html" class="hover:text-yellow-400 transition">Privacy Policy</a></li>
+        <li><a href="terms.html" class="hover:text-yellow-400 transition">Terms of Service</a></li>
+        <li><a href="shipping.html" class="hover:text-yellow-400 transition">Shipping Policy</a></li>
+        <li><a href="contact.html" class="hover:text-yellow-400 transition">Contact Us</a></li>
+        </ul>
+  </div>
+</footer>
+
+  <script>
+    // Mobile Menu Toggle with Animation
+    document.getElementById('mobileMenuBtn').addEventListener('click', function() {
+      const mobileMenu = document.getElementById('mobileMenu');
+      const icon = this.querySelector('i');
+      
+      mobileMenu.classList.toggle('hidden');
+      
+      // Toggle icon
+      if (mobileMenu.classList.contains('hidden')) {
+        icon.classList.remove('fa-times');
+        icon.classList.add('fa-bars');
+      } else {
+        icon.classList.remove('fa-bars');
+        icon.classList.add('fa-times');
+      }
+    });
+
+    // Close mobile menu when clicking outside
+    document.addEventListener('click', function(event) {
+      const mobileMenu = document.getElementById('mobileMenu');
+      const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+      
+      if (!mobileMenu.contains(event.target) && !mobileMenuBtn.contains(event.target)) {
+        mobileMenu.classList.add('hidden');
+        const icon = mobileMenuBtn.querySelector('i');
+        icon.classList.remove('fa-times');
+        icon.classList.add('fa-bars');
+      }
+    });
+
+    // Active link highlighting
+    const currentPath = window.location.pathname;
+    const navLinks = document.querySelectorAll('.nav-link, .mobile-nav-link');
+    
+    navLinks.forEach(link => {
+      if (link.getAttribute('href') === currentPath.split('/').pop()) {
+        link.classList.add('active');
+      }
+    });
+    
+    // Add smooth scrolling for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        
+        const targetId = this.getAttribute('href');
+        if (targetId === '#') return;
+        
+        const targetElement = document.querySelector(targetId);
+        if (targetElement) {
+          // Close mobile menu if open
+          const mobileMenu = document.getElementById('mobileMenu');
+          if (!mobileMenu.classList.contains('hidden')) {
+            mobileMenu.classList.add('hidden');
+            const icon = document.getElementById('mobileMenuBtn').querySelector('i');
+            icon.classList.remove('fa-times');
+            icon.classList.add('fa-bars');
+          }
+          
+          // Scroll to target
+          window.scrollTo({
+            top: targetElement.offsetTop - 80,
+            behavior: 'smooth'
+          });
+        }
+      });
+    });
+
+    // Check authentication status
+    function checkAuth() {
+      const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+      const authButtons = document.getElementById('authButtons');
+      const userMenu = document.getElementById('userMenu');
+      const userName = document.getElementById('userName');
+      
+      if (currentUser) {
+        authButtons.classList.add('hidden');
+        userMenu.classList.remove('hidden');
+        userName.textContent = currentUser.name;
+      } else {
+        authButtons.classList.remove('hidden');
+        userMenu.classList.add('hidden');
+      }
+    }
+
+    // User menu toggle
+    document.getElementById('userMenuBtn')?.addEventListener('click', function() {
+      const dropdown = document.getElementById('userDropdown');
+      dropdown.classList.toggle('hidden');
+    });
+
+    // Close dropdown when clicking outside
+    document.addEventListener('click', function(event) {
+      const dropdown = document.getElementById('userDropdown');
+      const userMenuBtn = document.getElementById('userMenuBtn');
+      
+      if (dropdown && !dropdown.contains(event.target) && !userMenuBtn.contains(event.target)) {
+        dropdown.classList.add('hidden');
+      }
+    });
+
+    // Logout functionality
+    document.getElementById('logoutBtn')?.addEventListener('click', function(e) {
+      e.preventDefault();
+      localStorage.removeItem('currentUser');
+      window.location.href = 'login.html';
+    });
+
+    // Check auth status on page load
+    checkAuth();
+  </script>
+</body>
+</html>
