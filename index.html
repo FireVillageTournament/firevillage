@@ -2,10 +2,10 @@
 <html lang="en">
 
 <head>
-<meta name="google-site-verification" content="KeJHLHKGxzpKlnx9C2TLX4JWRwVl-VdoYXmitRbGvLQ" />
+  <meta name="google-site-verification" content="1yyUdY1KPFRiqrOYAH3J220BqxfYKRrV9Hf6EBFjlWc" />
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Fire Village Gaming - Home</title>
+  <title>Fire Village Gaming - India's #1 Free Fire Tournament</title>
   <meta name="description" content="India's #1 Village Free Fire Esports Tournament. Register your team now for competitive battles and win exciting prizes!">
   
   <!-- Favicon -->
@@ -24,6 +24,11 @@
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+  
   <!-- Tailwind Custom Theme -->
   <script>
     tailwind.config = {
@@ -32,9 +37,11 @@
           colors: {
             fire: {
               yellow: '#facc15',
+              orange: '#f59e0b',
+              red: '#ef4444',
               dark: '#0f0f0f',
               gray: '#1f2937',
-              red: '#ef4444'
+              light: '#374151'
             }
           },
           fontFamily: {
@@ -46,7 +53,9 @@
             fadeInUp: "fadeInUp 1.2s ease-out forwards",
             pulseMenu: "pulseMenu 1s ease-in-out infinite",
             firePulse: "firePulse 2s ease-in-out infinite",
-            shimmer: "shimmer 2s infinite linear"
+            shimmer: "shimmer 2s infinite linear",
+            glow: "glow 2s ease-in-out infinite alternate",
+            slideIn: "slideIn 0.5s ease-out forwards"
           },
           keyframes: {
             float: {
@@ -68,6 +77,14 @@
             shimmer: {
               '0%': { backgroundPosition: '-1000px 0' },
               '100%': { backgroundPosition: '1000px 0' }
+            },
+            glow: {
+              '0%': { boxShadow: '0 0 5px #facc15, 0 0 10px #facc15, 0 0 15px #facc15' },
+              '100%': { boxShadow: '0 0 10px #facc15, 0 0 20px #facc15, 0 0 30px #facc15' }
+            },
+            slideIn: {
+              '0%': { transform: 'translateX(-100%)', opacity: 0 },
+              '100%': { transform: 'translateX(0)', opacity: 1 }
             }
           }
         }
@@ -372,11 +389,81 @@
       transform: scaleY(1);
       opacity: 1;
     }
+
+    /* New Styles for Enhanced Design */
+    .stats-card {
+      background: linear-gradient(145deg, rgba(31, 41, 55, 0.8), rgba(17, 24, 39, 0.8));
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(250, 204, 21, 0.1);
+    }
+    
+    .stats-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px -10px rgba(250, 204, 21, 0.2);
+      border-color: rgba(250, 204, 21, 0.3);
+    }
+    
+    .count-up {
+      font-family: 'Oswald', sans-serif;
+    }
+    
+    .feature-card {
+      background: linear-gradient(145deg, rgba(31, 41, 55, 0.8), rgba(17, 24, 39, 0.8));
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(250, 204, 21, 0.1);
+      transition: all 0.3s ease;
+    }
+    
+    .feature-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 30px -10px rgba(250, 204, 21, 0.2);
+      border-color: rgba(250, 204, 21, 0.4);
+    }
+    
+    .feature-icon {
+      transition: all 0.3s ease;
+    }
+    
+    .feature-card:hover .feature-icon {
+      transform: scale(1.2);
+      color: #facc15;
+    }
+    
+    .fire-gradient-text {
+      background: linear-gradient(45deg, #facc15, #f59e0b, #ef4444);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    .fire-border {
+      border-image: linear-gradient(45deg, #facc15, #f59e0b, #ef4444) 1;
+    }
+    
+    .glow-effect {
+      animation: glow 2s ease-in-out infinite alternate;
+    }
+    
+    .particles-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+    }
+    
+    .particle {
+      position: absolute;
+      background: #facc15;
+      border-radius: 50%;
+      opacity: 0.3;
+      animation: float 6s ease-in-out infinite;
+    }
   </style>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"></script>
-  <script src="data-sync.js"></script>
 </head>
-<meta name="google-site-verification" content="KeJHLHKGxzpKlnx9C2TLX4JWRwVl-VdoYXmitRbGvLQ" />
+
 <body class="bg-fire-dark text-white min-h-screen">
   <!-- Navigation -->
   <nav class="bg-gray-900 bg-opacity-90 px-4 py-3 sticky top-0 z-50 shadow-lg backdrop-blur-md">
@@ -386,7 +473,7 @@
           <img src="./assets/logo.png" alt="Fire Village Logo" class="h-12 w-auto transform group-hover:scale-110 transition-transform duration-300">
           <span class="ml-2 text-yellow-400 font-heading text-2xl group-hover:text-yellow-300 transition-colors">FIRE VILLAGE</span>
         </a>
-        </div>
+      </div>
         
       <!-- Desktop Navigation -->
       <div class="hidden lg:flex items-center space-x-1">
@@ -411,38 +498,43 @@
         <a href="about.html" class="nav-link px-4 py-2 rounded-lg text-gray-300 font-medium hover:bg-yellow-400 hover:text-black transition-all">
           <i class="fas fa-info-circle mr-2"></i>About
         </a>
-        </div>
+      </div>
         
       <!-- Auth Buttons -->
       <div class="hidden lg:flex items-center space-x-4">
-        <a href="register.html" class="px-4 py-2 rounded-lg bg-gradient-to-r from-yellow-500 to-red-500 text-black font-medium hover:from-yellow-400 hover:to-red-400 transition-all transform hover:scale-105">
-          <i class="fas fa-user-plus mr-2"></i>Join Now
-        </a>
+        <div id="authButtons">
+          <a href="login.html" class="px-4 py-2 rounded-lg text-gray-300 font-medium hover:text-yellow-400 transition-colors">
+            <i class="fas fa-sign-in-alt mr-2"></i>Login
+          </a>
+          <a href="register.html" class="px-4 py-2 rounded-lg bg-gradient-to-r from-yellow-500 to-red-500 text-black font-medium hover:from-yellow-400 hover:to-red-400 transition-all transform hover:scale-105">
+            <i class="fas fa-user-plus mr-2"></i>Join Now
+          </a>
+        </div>
         <div id="userMenu" class="hidden">
           <button id="userMenuBtn" class="px-4 py-2 rounded-lg text-gray-300 font-medium hover:text-yellow-400 transition-colors">
             <i class="fas fa-user mr-2"></i><span id="userName">User</span>
           </button>
-          <div id="userDropdown" class="hidden absolute right-0 mt-2 w-48 bg-gray-800 rounded-lg shadow-lg py-2">
+          <div id="userDropdown" class="hidden absolute right-0 mt-2 w-48 bg-gray-800 rounded-lg shadow-lg py-2 z-50">
             <a href="profile.html" class="block px-4 py-2 text-gray-300 hover:bg-gray-700">
               <i class="fas fa-user-circle mr-2"></i>Profile
             </a>
             <a href="#" id="logoutBtn" class="block px-4 py-2 text-red-400 hover:bg-gray-700">
               <i class="fas fa-sign-out-alt mr-2"></i>Logout
             </a>
-        </div>
           </div>
         </div>
+      </div>
         
       <!-- Mobile Menu Button -->
       <div class="lg:hidden">
         <button id="mobileMenuBtn" class="text-gray-300 hover:text-yellow-400 focus:outline-none">
           <i class="fas fa-bars text-2xl"></i>
         </button>
-          </div>
-        </div>
+      </div>
+    </div>
         
     <!-- Mobile Menu -->
-    <div id="mobileMenu" class="lg:hidden hidden bg-gray-900 bg-opacity-95 absolute top-16 left-0 right-0 p-4 backdrop-blur-md">
+    <div id="mobileMenu" class="lg:hidden hidden bg-gray-900 bg-opacity-95 absolute top-16 left-0 right-0 p-4 backdrop-blur-md z-40">
       <div class="flex flex-col space-y-3">
         <a href="index.html" class="mobile-nav-link active px-5 py-4 rounded-lg text-yellow-400 font-medium hover:bg-yellow-400 hover:text-black transition-all">
           <i class="fas fa-home mr-3 text-lg"></i>Home
@@ -466,16 +558,20 @@
           <i class="fas fa-info-circle mr-3 text-lg"></i>About
         </a>
         <div class="pt-4 border-t border-gray-700">
+          <a href="login.html" class="block px-5 py-4 rounded-lg text-gray-300 font-medium hover:bg-yellow-400 hover:text-black transition-all">
+            <i class="fas fa-sign-in-alt mr-3 text-lg"></i>Login
+          </a>
           <a href="register.html" class="block mt-3 px-5 py-4 rounded-lg bg-gradient-to-r from-yellow-500 to-red-500 text-black font-medium text-center hover:from-yellow-400 hover:to-red-400 transition-all">
             <i class="fas fa-user-plus mr-3 text-lg"></i>Join Now
           </a>
-          </div>
         </div>
       </div>
+    </div>
   </nav>
 
   <!-- Hero Section -->
   <section class="hero-section relative min-h-screen flex items-center justify-center overflow-hidden">
+    <div class="particles-container" id="particles"></div>
     <video autoplay muted loop playsinline class="hero-video-bg">
       <source src="./assets/fire-bg-video.mp4" type="video/mp4">
     </video>
@@ -483,7 +579,7 @@
     <div class="container mx-auto px-4 text-center hero-content">
       <h1 class="hero-title text-4xl sm:text-5xl md:text-7xl font-heading font-bold text-yellow-400 mb-4 sm:mb-6">
         WELCOME TO <br>
-        <span class="bg-clip-text text-transparent bg-gradient-to-r from-yellow-400 via-red-500 to-yellow-400">
+        <span class="fire-gradient-text">
           FIRE VILLAGE
         </span>
       </h1>
@@ -499,24 +595,78 @@
         <a href="register.html" class="hero-button bg-gray-800 text-white py-4 px-6 sm:px-10 rounded-lg font-bold hover:bg-gray-700 transition-all transform border-2 border-yellow-400 text-center">
           Create Account <i class="fas fa-user-plus ml-2"></i>
         </a>
-        </div>
+      </div>
         
       <div class="mt-8 sm:mt-12 animate-bounce">
         <a href="#tournaments" class="text-gray-400 hover:text-yellow-400 transition">
           <i class="fas fa-chevron-down text-2xl"></i>
         </a>
-          </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats Section -->
+  <section class="py-12 bg-gray-900 bg-opacity-80">
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+        <div class="stats-card p-6 rounded-xl text-center">
+          <div class="text-3xl font-bold text-yellow-400 count-up" data-target="5000">0</div>
+          <div class="text-gray-400 mt-2">Registered Players</div>
         </div>
+        <div class="stats-card p-6 rounded-xl text-center">
+          <div class="text-3xl font-bold text-yellow-400 count-up" data-target="250">0</div>
+          <div class="text-gray-400 mt-2">Active Teams</div>
+        </div>
+        <div class="stats-card p-6 rounded-xl text-center">
+          <div class="text-3xl font-bold text-yellow-400 count-up" data-target="50">0</div>
+          <div class="text-gray-400 mt-2">Tournaments</div>
+        </div>
+        <div class="stats-card p-6 rounded-xl text-center">
+          <div class="text-3xl font-bold text-yellow-400 count-up" data-target="100000">0</div>
+          <div class="text-gray-400 mt-2">Prize Pool</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="py-16 bg-gray-800">
+    <div class="container mx-auto px-4">
+      <h2 class="text-3xl font-bold text-center text-yellow-400 mb-12">Why Choose Fire Village?</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="feature-card p-8 rounded-xl text-center">
+          <div class="feature-icon text-5xl text-yellow-400 mb-4">
+            <i class="fas fa-trophy"></i>
+          </div>
+          <h3 class="text-xl font-bold text-white mb-3">Premium Tournaments</h3>
+          <p class="text-gray-400">Compete in high-stakes tournaments with massive prize pools and exclusive rewards.</p>
+        </div>
+        <div class="feature-card p-8 rounded-xl text-center">
+          <div class="feature-icon text-5xl text-yellow-400 mb-4">
+            <i class="fas fa-users"></i>
+          </div>
+          <h3 class="text-xl font-bold text-white mb-3">Team Building</h3>
+          <p class="text-gray-400">Find the perfect teammates and build your dream squad to dominate the competition.</p>
+        </div>
+        <div class="feature-card p-8 rounded-xl text-center">
+          <div class="feature-icon text-5xl text-yellow-400 mb-4">
+            <i class="fas fa-chart-line"></i>
+          </div>
+          <h3 class="text-xl font-bold text-white mb-3">Live Statistics</h3>
+          <p class="text-gray-400">Track your performance with real-time stats and climb the global leaderboard.</p>
+        </div>
+      </div>
+    </div>
   </section>
 
   <!-- Tournaments Section -->
-  <section class="py-16 bg-gray-900">
+  <section id="tournaments" class="py-16 bg-gray-900">
     <div class="container mx-auto px-4">
       <h2 class="text-3xl font-bold text-center text-yellow-400 mb-8">Upcoming Tournaments</h2>
       <div id="tournamentsContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         <!-- Tournament cards will be dynamically inserted here -->
-          </div>
-        </div>
+      </div>
+    </div>
   </section>
 
   <!-- Teams Section -->
@@ -536,12 +686,12 @@
         <div class="mb-4 sm:mb-0">
           <h2 class="text-3xl sm:text-4xl font-heading text-yellow-400 mb-2">Leaderboard</h2>
           <p class="text-gray-400">Top performers of this season</p>
-          </div>
+        </div>
         <a href="leaderboard.html" class="group flex items-center text-yellow-400 hover:text-yellow-300 font-medium transition-all">
           View Full Leaderboard 
           <i class="fas fa-arrow-right ml-2 transform group-hover:translate-x-2 transition-transform"></i>
         </a>
-        </div>
+      </div>
         
       <div class="leaderboard-container rounded-xl overflow-hidden shadow-2xl">
         <div class="overflow-x-auto">
@@ -556,240 +706,12 @@
                 <th class="text-left py-3 px-4 sm:py-4 sm:px-6 text-yellow-400 font-heading">POINTS</th>
               </tr>
             </thead>
-            <tbody>
-              <!-- Row 1 -->
-              <tr class="leaderboard-row border-b border-gray-700">
-                <td class="py-3 px-4 sm:py-4 sm:px-6">
-                  <div class="rank-badge gold w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center font-bold text-black">1</div>
-                </td>
-                <td class="py-3 px-4 sm:py-4 sm:px-6">
-                  <div class="flex items-center space-x-3 sm:space-x-4">
-                    <div class="relative">
-                      <img src="./assets/player-avatar.png" alt="ProGamer123" class="h-10 w-10 sm:h-12 sm:w-12 rounded-full border-2 border-yellow-400">
-                      <div class="absolute -top-1 -right-1 w-4 h-4 sm:w-5 sm:h-5 bg-green-500 rounded-full border-2 border-gray-800"></div>
-          </div>
-                    <div>
-                      <p class="font-bold text-white">ProGamer123</p>
-                      <p class="text-xs text-gray-400">MVP of the Season</p>
-          </div>
-        </div>
-                </td>
-                <td class="py-3 px-4 sm:py-4 sm:px-6 hidden sm:table-cell">
-                  <div class="flex items-center space-x-2">
-                    <img src="./assets/team-logo-placeholder.png" alt="Team Phantom" class="h-6 w-6 rounded-full">
-                    <span>Team Phantom</span>
-          </div>
-                </td>
-                <td class="py-3 px-4 sm:py-4 sm:px-6">
-                  <div class="player-stats">
-                    <p class="font-bold text-yellow-400">156</p>
-                    <p class="text-xs text-gray-400">+12 today</p>
-          </div>
-                </td>
-                <td class="py-3 px-4 sm:py-4 sm:px-6 hidden sm:table-cell">
-                  <div class="player-stats">
-                    <p class="font-bold text-yellow-400">12</p>
-                    <p class="text-xs text-gray-400">72% rate</p>
-        </div>
-                </td>
-                <td class="py-3 px-4 sm:py-4 sm:px-6">
-                  <div class="player-stats">
-                    <p class="font-bold text-xl sm:text-2xl text-yellow-400">2,450</p>
-                    <div class="flex items-center text-xs text-green-400">
-                      <i class="fas fa-caret-up mr-1"></i>
-                      <span>+150</span>
-      </div>
-    </div>
-                </td>
-              </tr>
-              
-              <!-- Row 2 -->
-              <tr class="leaderboard-row border-b border-gray-700">
-                <td class="py-3 px-4 sm:py-4 sm:px-6">
-                  <div class="rank-badge silver w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center font-bold text-black">2</div>
-                </td>
-                <td class="py-3 px-4 sm:py-4 sm:px-6">
-                  <div class="flex items-center space-x-3 sm:space-x-4">
-                    <div class="relative">
-                      <img src="./assets/player-avatar.png" alt="DragonSlayer" class="h-10 w-10 sm:h-12 sm:w-12 rounded-full border-2 border-gray-400">
-                      <div class="absolute -top-1 -right-1 w-4 h-4 sm:w-5 sm:h-5 bg-green-500 rounded-full border-2 border-gray-800"></div>
-            </div>
-            <div>
-                      <p class="font-bold text-white">DragonSlayer</p>
-                      <p class="text-xs text-gray-400">Rising Star</p>
-              </div>
-            </div>
-                </td>
-                <td class="py-3 px-4 sm:py-4 sm:px-6 hidden sm:table-cell">
-                  <div class="flex items-center space-x-2">
-                    <img src="./assets/team-logo-placeholder.png" alt="Dragon Warriors" class="h-6 w-6 rounded-full">
-                    <span>Dragon Warriors</span>
-          </div>
-                </td>
-                <td class="py-3 px-4 sm:py-4 sm:px-6">
-                  <div class="player-stats">
-                    <p class="font-bold text-yellow-400">142</p>
-                    <p class="text-xs text-gray-400">+8 today</p>
-        </div>
-                </td>
-                <td class="py-3 px-4 sm:py-4 sm:px-6 hidden sm:table-cell">
-                  <div class="player-stats">
-                    <p class="font-bold text-yellow-400">10</p>
-                    <p class="text-xs text-gray-400">65% rate</p>
-            </div>
-                </td>
-                <td class="py-3 px-4 sm:py-4 sm:px-6">
-                  <div class="player-stats">
-                    <p class="font-bold text-xl sm:text-2xl text-yellow-400">2,180</p>
-                    <div class="flex items-center text-xs text-green-400">
-                      <i class="fas fa-caret-up mr-1"></i>
-                      <span>+120</span>
-              </div>
-            </div>
-                </td>
-              </tr>
-              
-              <!-- Row 3 -->
-              <tr class="leaderboard-row border-b border-gray-700">
-                <td class="py-3 px-4 sm:py-4 sm:px-6">
-                  <div class="rank-badge bronze w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center font-bold text-black">3</div>
-                </td>
-                <td class="py-3 px-4 sm:py-4 sm:px-6">
-                  <div class="flex items-center space-x-3 sm:space-x-4">
-                    <div class="relative">
-                      <img src="./assets/player-avatar.png" alt="FireMaster" class="h-10 w-10 sm:h-12 sm:w-12 rounded-full border-2 border-yellow-700">
-                      <div class="absolute -top-1 -right-1 w-4 h-4 sm:w-5 sm:h-5 bg-red-500 rounded-full border-2 border-gray-800"></div>
-            </div>
-            <div>
-                      <p class="font-bold text-white">FireMaster</p>
-                      <p class="text-xs text-gray-400">Veteran</p>
-              </div>
-            </div>
-                </td>
-                <td class="py-3 px-4 sm:py-4 sm:px-6">
-                  <div class="flex items-center space-x-2">
-                    <img src="./assets/team-logo-placeholder.png" alt="Fire Squad" class="h-6 w-6 rounded-full">
-                    <span>Fire Squad</span>
-          </div>
-                </td>
-                <td class="py-3 px-4 sm:py-4 sm:px-6">
-                  <div class="player-stats">
-                    <p class="font-bold text-yellow-400">128</p>
-                    <p class="text-xs text-gray-400">+5 today</p>
-        </div>
-                </td>
-                <td class="py-3 px-4 sm:py-4 sm:px-6 hidden sm:table-cell">
-                  <div class="player-stats">
-                    <p class="font-bold text-yellow-400">8</p>
-                    <p class="text-xs text-gray-400">58% rate</p>
-      </div>
-                </td>
-                <td class="py-3 px-4 sm:py-4 sm:px-6">
-                  <div class="player-stats">
-                    <p class="font-bold text-xl sm:text-2xl text-yellow-400">1,950</p>
-                    <div class="flex items-center text-xs text-red-400">
-                      <i class="fas fa-caret-down mr-1"></i>
-                      <span>-30</span>
-    </div>
-                  </div>
-                </td>
-              </tr>
-              
-              <!-- Row 4 -->
-              <tr class="leaderboard-row border-b border-gray-700">
-                <td class="py-3 px-4 sm:py-4 sm:px-6">
-                  <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-gray-700 flex items-center justify-center font-bold text-gray-300">4</div>
-                </td>
-                <td class="py-3 px-4 sm:py-4 sm:px-6">
-                  <div class="flex items-center space-x-3 sm:space-x-4">
-                    <div class="relative">
-                      <img src="./assets/player-avatar.png" alt="NightHunter" class="h-10 w-10 sm:h-12 sm:w-12 rounded-full border-2 border-gray-600">
-                      <div class="absolute -top-1 -right-1 w-4 h-4 sm:w-5 sm:h-5 bg-green-500 rounded-full border-2 border-gray-800"></div>
-          </div>
-                    <div>
-                      <p class="font-bold text-white">NightHunter</p>
-                      <p class="text-xs text-gray-400">Elite</p>
-        </div>
-          </div>
-                </td>
-                <td class="py-3 px-4 sm:py-4 sm:px-6 hidden sm:table-cell">
-                  <div class="flex items-center space-x-2">
-                    <img src="./assets/team-logo-placeholder.png" alt="Night Owls" class="h-6 w-6 rounded-full">
-                    <span>Night Owls</span>
-        </div>
-                </td>
-                <td class="py-3 px-4 sm:py-4 sm:px-6">
-                  <div class="player-stats">
-                    <p class="font-bold text-yellow-400">115</p>
-                    <p class="text-xs text-gray-400">+3 today</p>
-          </div>
-                </td>
-                <td class="py-3 px-4 sm:py-4 sm:px-6 hidden sm:table-cell">
-                  <div class="player-stats">
-                    <p class="font-bold text-yellow-400">7</p>
-                    <p class="text-xs text-gray-400">52% rate</p>
-        </div>
-                </td>
-                <td class="py-3 px-4 sm:py-4 sm:px-6">
-                  <div class="player-stats">
-                    <p class="font-bold text-xl sm:text-2xl text-yellow-400">1,780</p>
-                    <div class="flex items-center text-xs text-green-400">
-                      <i class="fas fa-caret-up mr-1"></i>
-                      <span>+90</span>
-      </div>
-                  </div>
-                </td>
-              </tr>
-              
-              <!-- Row 5 -->
-              <tr class="leaderboard-row">
-                <td class="py-3 px-4 sm:py-4 sm:px-6">
-                  <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-gray-700 flex items-center justify-center font-bold text-gray-300">5</div>
-                </td>
-                <td class="py-3 px-4 sm:py-4 sm:px-6">
-                  <div class="flex items-center space-x-3 sm:space-x-4">
-                    <div class="relative">
-                      <img src="./assets/player-avatar.png" alt="ThunderBolt" class="h-10 w-10 sm:h-12 sm:w-12 rounded-full border-2 border-gray-600">
-                      <div class="absolute -top-1 -right-1 w-4 h-4 sm:w-5 sm:h-5 bg-yellow-500 rounded-full border-2 border-gray-800"></div>
-            </div>
-            <div>
-                      <p class="font-bold text-white">ThunderBolt</p>
-                      <p class="text-xs text-gray-400">Challenger</p>
-            </div>
-          </div>
-                </td>
-                <td class="py-3 px-4 sm:py-4 sm:px-6 hidden sm:table-cell">
-                  <div class="flex items-center space-x-2">
-                    <img src="./assets/team-logo-placeholder.png" alt="Thunder Bolts" class="h-6 w-6 rounded-full">
-                    <span>Thunder Bolts</span>
-        </div>
-                </td>
-                <td class="py-3 px-4 sm:py-4 sm:px-6">
-                  <div class="player-stats">
-                    <p class="font-bold text-yellow-400">98</p>
-                    <p class="text-xs text-gray-400">+2 today</p>
-      </div>
-                </td>
-                <td class="py-3 px-4 sm:py-4 sm:px-6 hidden sm:table-cell">
-                  <div class="player-stats">
-                    <p class="font-bold text-yellow-400">6</p>
-                    <p class="text-xs text-gray-400">48% rate</p>
-    </div>
-                </td>
-                <td class="py-3 px-4 sm:py-4 sm:px-6">
-                  <div class="player-stats">
-                    <p class="font-bold text-xl sm:text-2xl text-yellow-400">1,620</p>
-                    <div class="flex items-center text-xs text-green-400">
-                      <i class="fas fa-caret-up mr-1"></i>
-                      <span>+60</span>
-          </div>
-        </div>
-                </td>
-              </tr>
+            <tbody id="leaderboardPreview">
+              <!-- Leaderboard rows will be dynamically inserted here -->
             </tbody>
           </table>
-          </div>
         </div>
+      </div>
     </div>
   </section>
 
@@ -811,8 +733,8 @@
                     <a href="https://www.instagram.com/pandit.2.0/" target="_blank" class="text-gray-400 hover:text-yellow-400 transition-colors">
                         <i class="fab fa-instagram text-2xl"></i>
                     </a>
-          </div>
-        </div>
+                </div>
+            </div>
         
             <!-- Abhishek Sharma -->
             <div class="bg-black p-8 rounded-xl shadow-lg hover:scale-105 transform transition duration-300 border border-gray-800">
@@ -826,8 +748,8 @@
                     <a href="https://www.instagram.com/_abhishek_sharmaaa/" target="_blank" class="text-gray-400 hover:text-yellow-400 transition-colors">
                         <i class="fab fa-instagram text-2xl"></i>
                     </a>
-          </div>
-        </div>
+                </div>
+            </div>
         
             <!-- Uplaksh Sharma -->
             <div class="bg-black p-8 rounded-xl shadow-lg hover:scale-105 transform transition duration-300 border border-gray-800">
@@ -841,17 +763,17 @@
                     <a href="https://www.instagram.com/uplaksh.sharma._/" target="_blank" class="text-gray-400 hover:text-yellow-400 transition-colors">
                         <i class="fab fa-instagram text-2xl"></i>
                     </a>
-          </div>
+                </div>
+            </div>
         </div>
-      </div>
       
         <!-- Fire Village Instagram -->
         <div class="mt-12">
             <a href="https://www.instagram.com/firevillage.in/" target="_blank" class="inline-flex items-center space-x-2 text-yellow-400 hover:text-yellow-300 transition-colors">
                 <i class="fab fa-instagram text-3xl"></i>
                 <span class="text-xl font-medium">@firevillage.in</span>
-        </a>
-      </div>
+            </a>
+        </div>
     </div>
   </section>
 
@@ -862,7 +784,7 @@
       <p class="text-lg sm:text-xl text-gray-300 mb-6 sm:mb-8 max-w-3xl mx-auto px-4">Create your account now and start your journey to becoming a gaming legend.</p>
       <a href="register.html" class="bg-yellow-500 text-black py-3 px-6 sm:px-8 rounded-lg font-bold hover:bg-yellow-400 transition inline-block">
           Register Now <i class="fas fa-user-plus ml-2"></i>
-        </a>
+      </a>
     </div>
   </section>
 
@@ -880,9 +802,28 @@
         <li><a href="terms.html" class="hover:text-yellow-400 transition">Terms of Service</a></li>
         <li><a href="shipping.html" class="hover:text-yellow-400 transition">Shipping Policy</a></li>
         <li><a href="contact.html" class="hover:text-yellow-400 transition">Contact Us</a></li>
-        </ul>
-  </div>
-</footer>
+      </ul>
+    </div>
+  </footer>
+
+  <!-- Firebase Configuration -->
+  <script>
+    // Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyDFjHR5_D6yQ9tXrEut-3c2o4oA1ddz6hQ",
+      authDomain: "firevillagetournament.firebaseapp.com",
+      projectId: "firevillagetournament",
+      storageBucket: "firevillagetournament.firebasestorage.app",
+      messagingSenderId: "511246704009",
+      appId: "1:511246704009:web:8ae5e484591a64bb735558",
+      measurementId: "G-ZCQ2V6DEGX"
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+  </script>
 
   <script>
     // Mobile Menu Toggle with Animation
@@ -907,7 +848,7 @@
       const mobileMenu = document.getElementById('mobileMenu');
       const mobileMenuBtn = document.getElementById('mobileMenuBtn');
       
-      if (!mobileMenu.contains(event.target) && !mobileMenuBtn.contains(event.target)) {
+      if (mobileMenu && mobileMenuBtn && !mobileMenu.contains(event.target) && !mobileMenuBtn.contains(event.target)) {
         mobileMenu.classList.add('hidden');
         const icon = mobileMenuBtn.querySelector('i');
         icon.classList.remove('fa-times');
@@ -937,7 +878,7 @@
         if (targetElement) {
           // Close mobile menu if open
           const mobileMenu = document.getElementById('mobileMenu');
-          if (!mobileMenu.classList.contains('hidden')) {
+          if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
             mobileMenu.classList.add('hidden');
             const icon = document.getElementById('mobileMenuBtn').querySelector('i');
             icon.classList.remove('fa-times');
@@ -961,12 +902,12 @@
       const userName = document.getElementById('userName');
       
       if (currentUser) {
-        authButtons.classList.add('hidden');
-        userMenu.classList.remove('hidden');
-        userName.textContent = currentUser.name;
+        if (authButtons) authButtons.classList.add('hidden');
+        if (userMenu) userMenu.classList.remove('hidden');
+        if (userName) userName.textContent = currentUser.name;
       } else {
-        authButtons.classList.remove('hidden');
-        userMenu.classList.add('hidden');
+        if (authButtons) authButtons.classList.remove('hidden');
+        if (userMenu) userMenu.classList.add('hidden');
       }
     }
 
@@ -981,7 +922,7 @@
       const dropdown = document.getElementById('userDropdown');
       const userMenuBtn = document.getElementById('userMenuBtn');
       
-      if (dropdown && !dropdown.contains(event.target) && !userMenuBtn.contains(event.target)) {
+      if (dropdown && userMenuBtn && !dropdown.contains(event.target) && !userMenuBtn.contains(event.target)) {
         dropdown.classList.add('hidden');
       }
     });
@@ -989,12 +930,343 @@
     // Logout functionality
     document.getElementById('logoutBtn')?.addEventListener('click', function(e) {
       e.preventDefault();
-      localStorage.removeItem('currentUser');
-      window.location.href = 'login.html';
+      auth.signOut().then(() => {
+        localStorage.removeItem('currentUser');
+        window.location.href = 'login.html';
+      });
     });
 
     // Check auth status on page load
     checkAuth();
+
+    // Count up animation for stats
+    function animateCountUp() {
+      const counters = document.querySelectorAll('.count-up');
+      counters.forEach(counter => {
+        const target = +counter.getAttribute('data-target');
+        const count = +counter.innerText;
+        const increment = target / 100;
+        
+        if (count < target) {
+          counter.innerText = Math.ceil(count + increment);
+          setTimeout(() => animateCountUp(), 20);
+        } else {
+          counter.innerText = target.toLocaleString();
+        }
+      });
+    }
+
+    // Initialize count up when in viewport
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          animateCountUp();
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.5 });
+
+    document.querySelectorAll('.count-up').forEach(counter => {
+      observer.observe(counter);
+    });
+
+    // Create particles for background
+    function createParticles() {
+      const container = document.getElementById('particles');
+      if (!container) return;
+      
+      for (let i = 0; i < 50; i++) {
+        const particle = document.createElement('div');
+        particle.classList.add('particle');
+        
+        // Random properties
+        const size = Math.random() * 5 + 1;
+        const posX = Math.random() * 100;
+        const posY = Math.random() * 100;
+        const delay = Math.random() * 10;
+        const duration = Math.random() * 10 + 5;
+        
+        particle.style.width = `${size}px`;
+        particle.style.height = `${size}px`;
+        particle.style.left = `${posX}%`;
+        particle.style.top = `${posY}%`;
+        particle.style.animationDelay = `${delay}s`;
+        particle.style.animationDuration = `${duration}s`;
+        
+        container.appendChild(particle);
+      }
+    }
+
+    // Load tournament data
+    function loadTournaments() {
+      const container = document.getElementById('tournamentsContainer');
+      if (!container) return;
+      
+      // Sample tournament data - in real app, this would come from Firebase
+      const tournaments = [
+        {
+          id: 1,
+          name: "Village Championship",
+          date: "2025-03-15",
+          prize: "₹50,000",
+          teams: "32/32",
+          status: "Upcoming",
+          image: "./assets/tournament-1.jpg"
+        },
+        {
+          id: 2,
+          name: "Fire Clash Royale",
+          date: "2025-03-20",
+          prize: "₹25,000",
+          teams: "16/32",
+          status: "Registration Open",
+          image: "./assets/tournament-2.jpg"
+        },
+        {
+          id: 3,
+          name: "Elite Warriors Cup",
+          date: "2025-03-25",
+          prize: "₹75,000",
+          teams: "8/32",
+          status: "Registration Open",
+          image: "./assets/tournament-3.jpg"
+        }
+      ];
+      
+      tournaments.forEach(tournament => {
+        const card = document.createElement('div');
+        card.className = 'tournament-card rounded-xl overflow-hidden cursor-pointer';
+        card.innerHTML = `
+          <div class="relative overflow-hidden">
+            <img src="${tournament.image}" alt="${tournament.name}" class="tournament-image w-full h-48 object-cover">
+            <div class="tournament-badge absolute top-4 right-4 bg-black bg-opacity-70 px-3 py-1 rounded-full text-yellow-400 font-bold">
+              ${tournament.prize}
+            </div>
+          </div>
+          <div class="p-6">
+            <h3 class="text-xl font-bold text-white mb-2">${tournament.name}</h3>
+            <div class="flex justify-between text-gray-400 mb-4">
+              <div class="flex items-center">
+                <i class="fas fa-calendar-alt mr-2"></i>
+                <span>${tournament.date}</span>
+              </div>
+              <div class="flex items-center">
+                <i class="fas fa-users mr-2"></i>
+                <span>${tournament.teams}</span>
+              </div>
+            </div>
+            <div class="tournament-stats">
+              <div class="flex justify-between items-center">
+                <span class="px-3 py-1 bg-${tournament.status === 'Upcoming' ? 'blue' : 'green'}-500 bg-opacity-20 text-${tournament.status === 'Upcoming' ? 'blue' : 'green'}-400 rounded-full text-sm">
+                  ${tournament.status}
+                </span>
+                <a href="tournament-details.html?id=${tournament.id}" class="text-yellow-400 hover:text-yellow-300 font-medium">
+                  View Details <i class="fas fa-arrow-right ml-1"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    // Load teams data
+    function loadTeams() {
+      const container = document.getElementById('teamsContainer');
+      if (!container) return;
+      
+      // Sample team data - in real app, this would come from Firebase
+      const teams = [
+        {
+          id: 1,
+          name: "Team Phantom",
+          rank: 1,
+          wins: 12,
+          members: 4,
+          logo: "./assets/team-logo-placeholder.png"
+        },
+        {
+          id: 2,
+          name: "Dragon Warriors",
+          rank: 2,
+          wins: 10,
+          members: 4,
+          logo: "./assets/team-logo-placeholder.png"
+        },
+        {
+          id: 3,
+          name: "Fire Squad",
+          rank: 3,
+          wins: 8,
+          members: 4,
+          logo: "./assets/team-logo-placeholder.png"
+        },
+        {
+          id: 4,
+          name: "Night Owls",
+          rank: 4,
+          wins: 7,
+          members: 4,
+          logo: "./assets/team-logo-placeholder.png"
+        }
+      ];
+      
+      teams.forEach(team => {
+        const card = document.createElement('div');
+        card.className = 'team-card rounded-xl overflow-hidden cursor-pointer relative';
+        card.innerHTML = `
+          <div class="team-rank">#${team.rank}</div>
+          <div class="p-6 text-center">
+            <div class="team-logo w-20 h-20 mx-auto mb-4 rounded-full overflow-hidden border-2 border-yellow-400">
+              <img src="${team.logo}" alt="${team.name}" class="w-full h-full object-cover">
+            </div>
+            <h3 class="text-xl font-bold text-white mb-2">${team.name}</h3>
+            <div class="team-stats">
+              <div class="flex justify-center space-x-4 text-gray-400">
+                <div>
+                  <div class="font-bold text-yellow-400">${team.wins}</div>
+                  <div class="text-sm">Wins</div>
+                </div>
+                <div>
+                  <div class="font-bold text-yellow-400">${team.members}</div>
+                  <div class="text-sm">Members</div>
+                </div>
+              </div>
+              <a href="team-details.html?id=${team.id}" class="mt-4 inline-block text-yellow-400 hover:text-yellow-300 font-medium">
+                View Team <i class="fas fa-arrow-right ml-1"></i>
+              </a>
+            </div>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    // Load leaderboard preview
+    function loadLeaderboardPreview() {
+      const container = document.getElementById('leaderboardPreview');
+      if (!container) return;
+      
+      // Sample leaderboard data - in real app, this would come from Firebase
+      const players = [
+        {
+          rank: 1,
+          name: "ProGamer123",
+          team: "Team Phantom",
+          kills: 156,
+          wins: 12,
+          points: 2450,
+          status: "online"
+        },
+        {
+          rank: 2,
+          name: "DragonSlayer",
+          team: "Dragon Warriors",
+          kills: 142,
+          wins: 10,
+          points: 2180,
+          status: "online"
+        },
+        {
+          rank: 3,
+          name: "FireMaster",
+          team: "Fire Squad",
+          kills: 128,
+          wins: 8,
+          points: 1950,
+          status: "offline"
+        },
+        {
+          rank: 4,
+          name: "NightHunter",
+          team: "Night Owls",
+          kills: 115,
+          wins: 7,
+          points: 1780,
+          status: "online"
+        },
+        {
+          rank: 5,
+          name: "ThunderBolt",
+          team: "Thunder Bolts",
+          kills: 98,
+          wins: 6,
+          points: 1620,
+          status: "away"
+        }
+      ];
+      
+      players.forEach(player => {
+        const row = document.createElement('tr');
+        row.className = 'leaderboard-row border-b border-gray-700';
+        
+        // Determine rank badge class
+        let rankBadgeClass = '';
+        if (player.rank === 1) rankBadgeClass = 'gold';
+        else if (player.rank === 2) rankBadgeClass = 'silver';
+        else if (player.rank === 3) rankBadgeClass = 'bronze';
+        
+        // Determine status color
+        let statusColor = 'bg-green-500';
+        if (player.status === 'offline') statusColor = 'bg-red-500';
+        else if (player.status === 'away') statusColor = 'bg-yellow-500';
+        
+        row.innerHTML = `
+          <td class="py-3 px-4 sm:py-4 sm:px-6">
+            <div class="rank-badge ${rankBadgeClass} w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center font-bold text-black">${player.rank}</div>
+          </td>
+          <td class="py-3 px-4 sm:py-4 sm:px-6">
+            <div class="flex items-center space-x-3 sm:space-x-4">
+              <div class="relative">
+                <img src="./assets/player-avatar.png" alt="${player.name}" class="h-10 w-10 sm:h-12 sm:w-12 rounded-full border-2 ${player.rank === 1 ? 'border-yellow-400' : player.rank === 2 ? 'border-gray-400' : player.rank === 3 ? 'border-yellow-700' : 'border-gray-600'}">
+                <div class="absolute -top-1 -right-1 w-4 h-4 sm:w-5 sm:h-5 ${statusColor} rounded-full border-2 border-gray-800"></div>
+              </div>
+              <div>
+                <p class="font-bold text-white">${player.name}</p>
+                <p class="text-xs text-gray-400">${player.rank === 1 ? 'MVP of the Season' : player.rank === 2 ? 'Rising Star' : player.rank === 3 ? 'Veteran' : 'Elite'}</p>
+              </div>
+            </div>
+          </td>
+          <td class="py-3 px-4 sm:py-4 sm:px-6 hidden sm:table-cell">
+            <div class="flex items-center space-x-2">
+              <img src="./assets/team-logo-placeholder.png" alt="${player.team}" class="h-6 w-6 rounded-full">
+              <span>${player.team}</span>
+            </div>
+          </td>
+          <td class="py-3 px-4 sm:py-4 sm:px-6">
+            <div class="player-stats">
+              <p class="font-bold text-yellow-400">${player.kills}</p>
+              <p class="text-xs text-gray-400">+${Math.floor(Math.random() * 15)} today</p>
+            </div>
+          </td>
+          <td class="py-3 px-4 sm:py-4 sm:px-6 hidden sm:table-cell">
+            <div class="player-stats">
+              <p class="font-bold text-yellow-400">${player.wins}</p>
+              <p class="text-xs text-gray-400">${Math.floor((player.wins / 20) * 100)}% rate</p>
+            </div>
+          </td>
+          <td class="py-3 px-4 sm:py-4 sm:px-6">
+            <div class="player-stats">
+              <p class="font-bold text-xl sm:text-2xl text-yellow-400">${player.points.toLocaleString()}</p>
+              <div class="flex items-center text-xs ${player.rank <= 3 ? 'text-green-400' : 'text-red-400'}">
+                <i class="fas ${player.rank <= 3 ? 'fa-caret-up' : 'fa-caret-down'} mr-1"></i>
+                <span>${player.rank <= 3 ? '+' : '-'}${Math.floor(Math.random() * 200)}</span>
+              </div>
+            </div>
+          </td>
+        `;
+        container.appendChild(row);
+      });
+    }
+
+    // Initialize page components
+    document.addEventListener('DOMContentLoaded', function() {
+      createParticles();
+      loadTournaments();
+      loadTeams();
+      loadLeaderboardPreview();
+    });
   </script>
 </body>
 </html>
