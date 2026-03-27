@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Acknowledgement - Fire Village Gaming</title>
+  <meta name="description" content="Confirmation page for your actions at Fire Village Gaming.">
+  <link rel="icon" href="./assets/logo.png" type="image/png">
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+
+  <style>
+    /* Reusing existing root vars and basic body styles from style.css */
+    body {
+      --fire-yellow: #facc15;
+      --fire-orange: #f59e0b;
+      --fire-red:    #ef4444;
+      --fire-dark:   #0f0f0f;
+      --fire-gray:   #1f2937;
+      --fire-light:  #374151;
+      --fire-bg:     #111827;
+      --font-head:   'Oswald', sans-serif;
+      --font-body:   'Poppins', sans-serif;
+      font-family: var(--font-body);
+      background: var(--fire-dark);
+      color: #fff;
+      min-height: 100vh;
+      overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    a { text-decoration:none; color:inherit; transition:all .3s ease; }
+    img { display:block; max-width:100%; }
+    
+    /* Scrollbar */
+    ::-webkit-scrollbar { width:6px; }
+    ::-webkit-scrollbar-track { background:#111; }
+    ::-webkit-scrollbar-thumb { background: var(--fire-orange); border-radius:3px; }
+
+    main {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 60px 24px;
+      text-align: center;
+    }
+
+    @keyframes fade-in-up {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes icon-pop-in {
+      0% { transform: scale(0.5); opacity: 0; }
+      60% { transform: scale(1.1); opacity: 1; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    .acknowledgement-card {
+      background: rgba(17,24,39,0.8);
+      border: 1px solid rgba(250,204,21,0.2);
+      border-radius: 16px;
+      width: 100%;
+      max-width: 600px;
+      padding: 40px;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.6);
+      position: relative;
+      overflow: hidden;
+      animation: fade-in-up 0.6s ease-out forwards;
+    }
+
+    .acknowledgement-card.success {
+      border-color: rgba(74, 222, 128, 0.3);
+      box-shadow: 0 15px 40px rgba(0,0,0,0.6), 0 0 35px rgba(74, 222, 128, 0.2);
+    }
+    .acknowledgement-card.error {
+      border-color: rgba(239, 68, 68, 0.3);
+      box-shadow: 0 15px 40px rgba(0,0,0,0.6), 0 0 35px rgba(239, 68, 68, 0.2);
+    }
+
+    .acknowledgement-icon {
+      font-size: 4rem;
+      margin-bottom: 20px;
+      animation: icon-pop-in 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+      animation-delay: 0.2s;
+      opacity: 0;
+    }
+    .acknowledgement-card.success .acknowledgement-icon {
+      color: #4ade80;
+    }
+    .acknowledgement-card.error .acknowledgement-icon {
+      color: #ef4444;
+    }
+
+    .acknowledgement-title {
+      font-family: var(--font-head);
+      font-size: 2.5rem;
+      color: var(--fire-yellow);
+      margin-bottom: 15px;
+      line-height: 1.2;
+      animation: fade-in-up 0.6s ease-out 0.4s forwards;
+      opacity: 0;
+    }
+
+    .acknowledgement-message {
+      color: #d1d5db;
+      font-size: 1.1rem;
+      line-height: 1.6;
+      margin-bottom: 30px;
+      animation: fade-in-up 0.6s ease-out 0.5s forwards;
+      opacity: 0;
+    }
+
+    .btn-container {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      animation: fade-in-up 0.6s ease-out 0.6s forwards;
+      opacity: 0;
+    }
+
+    .btn-primary, .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 32px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 1rem;
+      transition: all .3s;
+      border: none;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      background: linear-gradient(to right, var(--fire-orange), var(--fire-red));
+      color: #000;
+      box-shadow: 0 0 20px rgba(239,68,68,0.3);
+    }
+    .btn-primary:hover {
+      background: linear-gradient(to right, var(--fire-yellow), var(--fire-orange));
+      transform: translateY(-2px);
+      box-shadow: 0 0 35px rgba(239,68,68,0.55);
+    }
+
+    .btn-secondary {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      color: #d1d5db;
+    }
+    .btn-secondary:hover {
+      background: rgba(255,255,255,0.1);
+      color: #fff;
+    }
+
+    /* Navbar styles (Copied for consistency) */
+    nav { background: rgba(17,24,39,0.95); backdrop-filter: blur(12px); padding: 0 24px; height: 68px; display: flex; align-items: center; position: sticky; top: 0; z-index: 1000; border-bottom: 1px solid rgba(250,204,21,0.12); }
+    .nav-inner { max-width: 1280px; margin: 0 auto; width: 100%; display: flex; align-items: center; justify-content: space-between; }
+    .logo-wrap { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+    .logo-wrap img { height: 44px; width: auto; }
+    .logo-wrap span { font-family: var(--font-head); font-size: 1.5rem; color: var(--fire-yellow); letter-spacing: 1px; }
+    .nav-links { display: flex; align-items: center; gap: 4px; list-style: none; }
+    .nav-links a { padding: 8px 14px; border-radius: 8px; font-size: 0.9rem; font-weight: 500; color: #d1d5db; }
+    .nav-links a:hover { background: var(--fire-yellow); color: #000; }
+    .nav-links a i { margin-right:6px; }
+    .auth-area { display:flex; align-items:center; gap:10px; }
+    .hamburger { display: none; background: none; border: none; color: #d1d5db; font-size: 1.6rem; cursor: pointer; }
+    .mobile-menu { display: none; position: absolute; top: 68px; left: 0; right: 0; background: rgba(10,10,15,0.98); backdrop-filter: blur(16px); border-bottom: 1px solid rgba(250,204,21,0.1); padding: 16px; z-index: 999; flex-direction: column; gap: 6px; }
+    .mobile-menu.open { display:flex; }
+    .mobile-menu a { padding: 13px 18px; border-radius: 8px; font-weight: 500; color: #d1d5db; font-size: 1rem; }
+    .mobile-menu a:hover { background: var(--fire-yellow); color: #000; }
+    .mobile-menu .mobile-auth { border-top: 1px solid rgba(255,255,255,0.08); margin-top: 8px; padding-top: 12px; display: flex; flex-direction: column; gap: 8px; }
+    .user-menu-wrap { position:relative; }
+    .user-btn { background: none; border: 1px solid rgba(250,204,21,0.3); border-radius: 8px; padding: 8px 16px; color: #d1d5db; font-family: var(--font-body); font-size: 0.88rem; cursor: pointer; display: flex; align-items: center; gap: 8px; }
+    .user-dropdown { display: none; position: absolute; right: 0; top: calc(100% + 8px); width: 180px; background: #1f2937; border: 1px solid rgba(250,204,21,0.15); border-radius: 10px; padding: 8px 0; box-shadow: 0 10px 30px rgba(0,0,0,0.5); z-index: 200; }
+    .user-dropdown.open { display:block; }
+    .user-dropdown a { display: block; padding: 10px 16px; font-size: 0.88rem; color: #d1d5db; }
+    .user-dropdown a:hover { background: rgba(255,255,255,0.06); color: var(--fire-yellow); }
+    .user-dropdown a.logout { color: #f87171; }
+    .btn-login { padding: 8px 18px; border-radius: 8px; color: #d1d5db; font-weight: 500; font-size: 0.88rem; }
+    .btn-join { padding: 9px 20px; border-radius: 8px; background: linear-gradient(to right, var(--fire-orange), var(--fire-red)); color: #000; font-weight: 700; font-size: 0.88rem; }
+    @media (max-width: 1024px) { .nav-links, .auth-area { display: none; } .hamburger { display: block; } }
+
+    /* Footer */
+    footer {
+      background: #111827;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      padding: 32px 24px;
+      text-align: center;
+      margin-top: auto;
+    }
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 8px 24px;
+      margin-bottom: 18px;
+    }
+    .footer-links a { color: #9ca3af; font-size: 0.88rem; }
+    .footer-links a:hover { color: var(--fire-yellow); }
+    footer p { color: #4b5563; font-size: 0.82rem; }
+  </style>
+</head>
+<body>
+  <!-- ── NAVBAR ── -->
+  <nav id="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="logo-wrap">
+        <img src="./assets/logo.png" alt="Fire Village Logo" onerror="this.style.display='none'">
+        <span>FIRE VILLAGE</span>
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="index.html"><i class="fas fa-home"></i>Home</a></li>
+        <li><a href="tournaments.html"><i class="fas fa-trophy"></i>Tournaments</a></li>
+        <li><a href="leaderboard.html"><i class="fas fa-medal"></i>Leaderboard</a></li>
+        <li><a href="teams.html"><i class="fas fa-users"></i>Teams</a></li>
+        <li><a href="register.html"><i class="fas fa-user-plus"></i>Register</a></li>
+        <li><a href="contact.html"><i class="fas fa-envelope"></i>Contact</a></li>
+        <li><a href="about.html"><i class="fas fa-info-circle"></i>About</a></li>
+      </ul>
+
+      <div class="auth-area" id="authArea"></div>
+
+      <button class="hamburger" id="hamburger" aria-label="Menu">
+        <i class="fas fa-bars" id="hamburgerIcon"></i>
+      </button>
+    </div>
+
+    <!-- Mobile menu -->
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="index.html"><i class="fas fa-home" style="margin-right:10px;color:var(--fire-yellow)"></i>Home</a>
+      <a href="tournaments.html"><i class="fas fa-trophy" style="margin-right:10px;color:var(--fire-yellow)"></i>Tournaments</a>
+      <a href="leaderboard.html"><i class="fas fa-medal" style="margin-right:10px;color:var(--fire-yellow)"></i>Leaderboard</a>
+      <a href="teams.html"><i class="fas fa-users" style="margin-right:10px;color:var(--fire-yellow)"></i>Teams</a>
+      <a href="register.html"><i class="fas fa-user-plus" style="margin-right:10px;color:var(--fire-yellow)"></i>Register</a>
+      <a href="contact.html"><i class="fas fa-envelope" style="margin-right:10px;color:var(--fire-yellow)"></i>Contact</a>
+      <a href="about.html"><i class="fas fa-info-circle" style="margin-right:10px;color:var(--fire-yellow)"></i>About</a>
+      <div class="mobile-auth" id="mobileAuthArea"></div>
+    </div>
+  </nav>
+
+  <main>
+    <div class="acknowledgement-card" id="ackCard">
+      <div class="acknowledgement-icon" id="ackIcon"></div>
+      <h1 class="acknowledgement-title" id="ackTitle">Processing...</h1>
+      <p class="acknowledgement-message" id="ackMessage">Please wait while we confirm your action.</p>
+      <div class="btn-container" id="btnContainer">
+        <!-- Buttons will be injected by JavaScript -->
+      </div>
+    </div>
+  </main>
+
+  <!-- ── FOOTER ── -->
+  <footer>
+    <div class="footer-links">
+      <a href="privacy-policy.html">Privacy Policy</a>
+      <a href="terms.html">Terms of Service</a>
+      <a href="shipping.html">Shipping Policy</a>
+      <a href="contact.html">Contact Us</a>
+    </div>
+    <p>&copy; <span id="copyright-year"></span> Fire Village Tournament. All rights reserved.</p>
+  </footer>
+
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+
+  <script>
+    // ════════════════════════════════════════════════
+    // FIREBASE CONFIG (Auth only needed for navbar)
+    // ════════════════════════════════════════════════
+    const firebaseConfig = { // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+      apiKey: "AIzaSyDFjHR5_D6yQ9tXrEut-3c2o4oA1ddz6hQ",
+      authDomain: "firevillagetournament.firebaseapp.com",
+      projectId: "firevillagetournament",
+      storageBucket: "firevillagetournament.firebasestorage.app",
+      messagingSenderId: "511246704009",
+      appId: "1:511246704009:web:8ae5e484591a64bb735558",
+      measurementId: "G-ZCQ2V6DEGX"
+    };
+
+    let auth = null;
+    let firebaseReady = false;
+
+    try {
+      firebase.initializeApp(firebaseConfig);
+      auth = firebase.auth();
+      firebaseReady = true;
+    } catch(e) {
+      console.warn("Firebase not configured properly.", e);
+    }
+
+    // ════════════════════════════════
+    // NAVBAR LOGIC (Copied from other pages for consistency)
+    // ════════════════════════════════
+    const navbar       = document.getElementById('navbar');
+    const hamburger    = document.getElementById('hamburger');
+    const hamburgerIcon= document.getElementById('hamburgerIcon');
+    const mobileMenu   = document.getElementById('mobileMenu');
+
+    window.addEventListener('scroll', ()=>{
+      navbar.classList.toggle('scrolled', window.scrollY > 40);
+    }, {passive:true});
+
+    hamburger.addEventListener('click', ()=>{
+      const open = mobileMenu.classList.toggle('open');
+      hamburgerIcon.className = open ? 'fas fa-times' : 'fas fa-bars';
+    });
+    mobileMenu.querySelectorAll('a').forEach(a=>{
+      a.addEventListener('click', ()=>{
+        mobileMenu.classList.remove('open');
+        hamburgerIcon.className = 'fas fa-bars';
+      });
+    });
+
+    function renderAuth(user) {
+      const authArea   = document.getElementById('authArea');
+      const mobileAuth = document.getElementById('mobileAuthArea');
+
+      if (user) {
+        const displayName = user.displayName || user.email?.split('@')[0] || 'Player';
+        authArea.innerHTML = `
+          <div class="user-menu-wrap">
+            <button class="user-btn" id="userBtn">
+              <i class="fas fa-user-circle"></i> <span>${displayName}</span>
+              <i class="fas fa-chevron-down" style="font-size:.7rem;"></i>
+            </button>
+            <div class="user-dropdown" id="userDropdown">
+              <a href="profile.html"><i class="fas fa-user-circle" style="margin-right:8px;color:var(--fire-yellow)"></i>Profile</a>
+              <a href="#" id="logoutBtn" class="logout"><i class="fas fa-sign-out-alt" style="margin-right:8px;"></i>Logout</a>
+            </div>
+          </div>`;
+        mobileAuth.innerHTML = `
+          <a href="profile.html"><i class="fas fa-user-circle" style="margin-right:10px;color:var(--fire-yellow)"></i>${displayName}'s Profile</a>
+          <a href="#" id="mobileLogout" style="color:#f87171;"><i class="fas fa-sign-out-alt" style="margin-right:10px;"></i>Logout</a>`;
+
+        document.getElementById('userBtn')?.addEventListener('click', e=>{
+          e.stopPropagation(); document.getElementById('userDropdown')?.classList.toggle('open');
+        });
+        document.getElementById('logoutBtn')?.addEventListener('click', e=>{
+          e.preventDefault(); if(auth) auth.signOut();
+        });
+        document.getElementById('mobileLogout')?.addEventListener('click', e=>{
+          e.preventDefault(); if(auth) auth.signOut();
+        });
+      } else {
+        authArea.innerHTML = `
+          <a href="login.html" class="btn-login"><i class="fas fa-sign-in-alt" style="margin-right:6px;"></i>Login</a>
+          <a href="register.html" class="btn-join"><i class="fas fa-user-plus" style="margin-right:6px;"></i>Join Now</a>`;
+        mobileAuth.innerHTML = `
+          <a href="login.html"><i class="fas fa-sign-in-alt" style="margin-right:10px;color:var(--fire-yellow)"></i>Login</a>
+          <a href="register.html" class="btn-join-mobile"><i class="fas fa-user-plus" style="margin-right:8px;"></i>Join Now</a>`;
+      }
+      document.addEventListener('click', ()=>document.getElementById('userDropdown')?.classList.remove('open'));
+    }
+
+    if (firebaseReady && auth) {
+      auth.onAuthStateChanged(user => renderAuth(user));
+    } else {
+      renderAuth(null);
+    }
+
+    // ════════════════════════════════
+    // ACKNOWLEDGEMENT PAGE LOGIC
+    // ════════════════════════════════
+    document.addEventListener('DOMContentLoaded', () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const status = urlParams.get('status'); // 'success' or 'error'
+      const type = urlParams.get('type');     // 'registration', 'payment', 'contact'
+      const message = urlParams.get('message'); // Custom message
+      const tournamentName = urlParams.get('tournament'); // Specific for payment
+
+      const ackCard = document.getElementById('ackCard');
+      const ackIcon = document.getElementById('ackIcon');
+      const ackTitle = document.getElementById('ackTitle');
+      const ackMessage = document.getElementById('ackMessage');
+      const btnContainer = document.getElementById('btnContainer');
+
+      let titleText = "Action Complete";
+      let messageText = "Your request has been processed.";
+      let iconClass = "fas fa-info-circle"; // Default icon
+
+      if (status === 'success') {
+        ackCard.classList.add('success');
+        iconClass = "fas fa-check-circle";
+        switch (type) {
+          case 'registration':
+            titleText = "Registration Successful!";
+            messageText = "Welcome to Fire Village! Your account has been created. You can now log in and join tournaments.";
+            btnContainer.innerHTML = `<a href="profile.html" class="btn-primary"><i class="fas fa-user"></i> Go to My Profile</a>`;
+            break;
+          case 'payment':
+            titleText = "Payment Submitted!";
+            messageText = `Thank you for submitting your payment for ${tournamentName || 'the tournament'}. We will verify your transaction shortly and confirm your registration.`;
+            btnContainer.innerHTML = `<a href="tournaments.html" class="btn-primary"><i class="fas fa-trophy"></i> View Tournaments</a>`;
+            break;
+          case 'contact':
+            titleText = "Message Sent!";
+            messageText = "Thank you for contacting us. We have received your message and will get back to you as soon as possible.";
+            btnContainer.innerHTML = `<a href="index.html" class="btn-primary"><i class="fas fa-home"></i> Back to Home</a>`;
+            break;
+          default:
+            titleText = "Success!";
+            messageText = message || "Your action was completed successfully.";
+            btnContainer.innerHTML = `<a href="index.html" class="btn-primary"><i class="fas fa-home"></i> Back to Home</a>`;
+            break;
+        }
+      } else if (status === 'error') {
+        ackCard.classList.add('error');
+        iconClass = "fas fa-times-circle";
+        switch (type) {
+          case 'registration':
+            titleText = "Registration Failed!";
+            messageText = message || "There was an issue creating your account. Please try again or contact support.";
+            btnContainer.innerHTML = `
+              <a href="register.html" class="btn-primary"><i class="fas fa-redo"></i> Try Again</a>
+              <a href="contact.html" class="btn-secondary"><i class="fas fa-headset"></i> Contact Support</a>
+            `;
+            break;
+          case 'payment':
+            titleText = "Payment Error!";
+            messageText = message || `There was an issue with your payment for ${tournamentName || 'the tournament'}. Please review the details and try again.`;
+            btnContainer.innerHTML = `
+              <a href="payment.html" class="btn-primary"><i class="fas fa-redo"></i> Try Again</a>
+              <a href="contact.html" class="btn-secondary"><i class="fas fa-headset"></i> Contact Support</a>
+            `;
+            break;
+          case 'contact':
+            titleText = "Message Failed!";
+            messageText = message || "There was an issue sending your message. Please try again.";
+            btnContainer.innerHTML = `<a href="contact.html" class="btn-primary"><i class="fas fa-redo"></i> Try Again</a>`;
+            break;
+          default:
+            titleText = "Error!";
+            messageText = message || "An unexpected error occurred. Please try again.";
+            btnContainer.innerHTML = `
+              <a href="index.html" class="btn-primary"><i class="fas fa-home"></i> Back to Home</a>
+              <a href="contact.html" class="btn-secondary"><i class="fas fa-headset"></i> Contact Support</a>
+            `;
+            break;
+        }
+      } else {
+        // Default state if no params or invalid params
+        iconClass = "fas fa-info-circle";
+        titleText = "Information";
+        messageText = "This page confirms the status of your recent action.";
+        btnContainer.innerHTML = `<a href="index.html" class="btn-primary"><i class="fas fa-home"></i> Back to Home</a>`;
+      }
+
+      ackIcon.className = `acknowledgement-icon ${iconClass}`;
+      ackTitle.textContent = titleText;
+      ackMessage.textContent = messageText;
+    });
+
+    document.getElementById('copyright-year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
