@@ -1,0 +1,29 @@
+[
+  {
+    "id": 1,
+    "name": "Village Championship",
+    "date": "2025-03-15",
+    "prize": "₹50,000",
+    "teams": "32/32",
+    "status": "Upcoming",
+    "image": "./assets/tournament-1.jpg"
+  },
+  {
+    "id": 2,
+    "name": "Fire Clash Royale",
+    "date": "2025-03-20",
+    "prize": "₹25,000",
+    "teams": "16/32",
+    "status": "Registration Open",
+    "image": "./assets/tournament-2.jpg"
+  },
+  {
+    "id": 3,
+    "name": "Elite Warriors Cup",
+    "date": "2025-03-25",
+    "prize": "₹75,000",
+    "teams": "8/32",
+    "status": "Registration Open",
+    "image": "./assets/tournament-3.jpg"
+  }
+]
