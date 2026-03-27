@@ -691,16 +691,16 @@
           <div class="upi-card">
             <i class="fas fa-qrcode"></i>
             <h4>UPI Payment 1</h4>
-            <div class="upi-id">firevillage.in@gmail.com</div>
-            <button type="button" class="copy-btn" data-upi="firevillage.in@gmail.com">
+            <div class="upi-id">sarush066-1@oksbi</div>
+            <button type="button" class="copy-btn" data-upi="sarush066-1@oksbi">
               <i class="fas fa-copy"></i> Copy UPI ID
             </button>
           </div>
           <div class="upi-card">
             <i class="fas fa-qrcode"></i> <!-- Keeping icon as QR code is common for UPI -->
             <h4>UPI Payment 2 (Backup)</h4>
-            <div class="upi-id">firevillage.in@gmail.com</div>
-            <button type="button" class="copy-btn" data-upi="firevillage.in@gmail.com">
+            <div class="upi-id">fiiirevillage@airtel</div>
+            <button type="button" class="copy-btn" data-upi="fiiirevillage@airtel">
               <i class="fas fa-copy"></i> Copy UPI ID
             </button>
           </div>
@@ -1007,7 +1007,9 @@
         
         await db.collection('payments').add(paymentData);
 
-        showAlert('Registration submitted successfully! Our team will verify your payment within 24 hours.', 'success');
+        const successMsg = `Greeting! Your registration and payment for ${paymentData.tournamentName} have been submitted. Our team will verify your transaction shortly. If your Transaction Reference Number is correct, we'll contact you within 10 hours to confirm your spot. Your data and payment are 100% safe and secure.`;
+        showAlert(successMsg, 'success');
+        // The redirect below will handle showing the message on acknowledgement.html
         
         // Redirect after success
         setTimeout(() => {
