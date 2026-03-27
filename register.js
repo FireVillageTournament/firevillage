@@ -1,197 +1,738 @@
-// Form Navigation
-let currentStep = 1;
-const totalSteps = 4;
-const form = document.getElementById('registrationForm');
-const progressBar = document.querySelector('.progress-bar');
-const progressText = document.getElementById('progressText');
-const successModal = document.getElementById('successModal');
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Register Account - Fire Village Gaming</title>
+  <meta name="description" content="Create an account at Fire Village to join esports tournaments for games like BGMI, Valorant, Free Fire, and more.">
+  <link rel="icon" href="./assets/logo.png" type="image/png">
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
 
-// Update progress bar
-function updateProgress() {
-    const progress = (currentStep / totalSteps) * 100;
-    progressBar.style.width = `${progress}%`;
-    progressText.textContent = `Step ${currentStep}/${totalSteps}`;
-}
-
-// Show/hide steps
-function showStep(step) {
-    document.querySelectorAll('.form-step').forEach(el => el.classList.remove('active'));
-    document.getElementById(`step${step}`).classList.add('active');
-    currentStep = step;
-    updateProgress();
-}
-
-// Next step button handler
-document.querySelectorAll('.next-step').forEach(button => {
-    button.addEventListener('click', () => {
-        if (validateStep(currentStep)) {
-            showStep(currentStep + 1);
-        }
-    });
-});
-
-// Previous step button handler
-document.querySelectorAll('.prev-step').forEach(button => {
-    button.addEventListener('click', () => {
-        showStep(currentStep - 1);
-    });
-});
-
-// Validate each step
-function validateStep(step) {
-    const currentStepElement = document.getElementById(`step${step}`);
-    const inputs = currentStepElement.querySelectorAll('input[required], select[required]');
-    let isValid = true;
-
-    inputs.forEach(input => {
-        if (!input.value.trim()) {
-            isValid = false;
-            input.classList.add('border-red-500');
-        } else {
-            input.classList.remove('border-red-500');
-        }
-    });
-
-    if (!isValid) {
-        showError('Please fill in all required fields');
+  <style>
+    /* ── ROOT VARS ── */
+    :root {
+      --fire-yellow: #facc15;
+      --fire-orange: #f59e0b;
+      --fire-red:    #ef4444;
+      --fire-dark:   #0f0f0f;
+      --fire-gray:   #1f2937;
+      --fire-light:  #374151;
+      --fire-bg:     #111827;
+      --font-head:   'Oswald', sans-serif;
+      --font-body:   'Poppins', sans-serif;
     }
 
-    return isValid;
-}
+    * { margin:0; padding:0; box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
 
-// Team member management
-let memberCount = 0;
-const maxMembers = 4;
-const membersContainer = document.getElementById('membersContainer');
-const addMemberButton = document.getElementById('addMember');
-
-addMemberButton.addEventListener('click', () => {
-    if (memberCount < maxMembers) {
-        addMemberCard();
-        memberCount++;
-        if (memberCount === maxMembers) {
-            addMemberButton.style.display = 'none';
-        }
+    body {
+      font-family: var(--font-body);
+      background: var(--fire-dark);
+      color: #fff;
+      min-height: 100vh;
+      overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
     }
-});
 
-function addMemberCard() {
-    const memberCard = document.createElement('div');
-    memberCard.className = 'member-card bg-fire-dark p-4 rounded-lg';
-    memberCard.innerHTML = `
-        <div class="flex justify-between items-center mb-4">
-            <h3 class="text-yellow-400 font-bold">Team Member ${memberCount + 1}</h3>
-            <button type="button" class="remove-member text-red-500 hover:text-red-400">
-                <i class="fas fa-times"></i>
-            </button>
-        </div>
-        <div class="grid grid-cols-1 gap-4">
-            <div class="form-group">
-                <label class="block text-gray-300 mb-2">Player Name</label>
-                <input type="text" class="w-full bg-gray-900 border-2 border-gray-700 rounded-lg px-4 py-2 focus:border-yellow-400 focus:outline-none" required>
-            </div>
-            <div class="form-group">
-                <label class="block text-gray-300 mb-2">Free Fire UID</label>
-                <input type="text" class="w-full bg-gray-900 border-2 border-gray-700 rounded-lg px-4 py-2 focus:border-yellow-400 focus:outline-none" required>
-            </div>
-            <div class="form-group">
-                <label class="block text-gray-300 mb-2">WhatsApp Number</label>
-                <input type="tel" class="w-full bg-gray-900 border-2 border-gray-700 rounded-lg px-4 py-2 focus:border-yellow-400 focus:outline-none" required>
-            </div>
-        </div>
-    `;
+    /* Scrollbar */
+    ::-webkit-scrollbar { width:6px; }
+    ::-webkit-scrollbar-track { background:#111; }
+    ::-webkit-scrollbar-thumb { background: var(--fire-orange); border-radius:3px; }
 
-    memberCard.querySelector('.remove-member').addEventListener('click', () => {
-        memberCard.remove();
-        memberCount--;
-        addMemberButton.style.display = 'block';
-    });
+    a { text-decoration:none; color:inherit; transition:all .3s ease; }
+    img { display:block; max-width:100%; }
 
-    membersContainer.appendChild(memberCard);
-}
+    /* ── NAVBAR ── */
+    nav {
+      background: rgba(17,24,39,0.95);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      padding: 0 24px;
+      height: 68px;
+      display: flex;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      border-bottom: 1px solid rgba(250,204,21,0.12);
+      transition: background .3s;
+    }
+    nav.scrolled {
+      background: rgba(10,10,10,0.98);
+      box-shadow: 0 4px 24px rgba(0,0,0,0.5);
+    }
+    .nav-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .logo-wrap {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+    .logo-wrap img {
+      height: 44px;
+      width: auto;
+      transition: transform .3s;
+    }
+    .logo-wrap:hover img { transform: scale(1.08); }
+    .logo-wrap span {
+      font-family: var(--font-head);
+      font-size: 1.5rem;
+      color: var(--fire-yellow);
+      letter-spacing: 1px;
+    }
 
-// Form submission
-form.addEventListener('submit', async (e) => {
-    e.preventDefault();
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      list-style: none;
+    }
+    .nav-links a {
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: #d1d5db;
+      transition: all .25s;
+    }
+    .nav-links a:hover, .nav-links a.active {
+      background: var(--fire-yellow);
+      color: #000;
+    }
+    .nav-links a i { margin-right:6px; }
+
+    /* Auth buttons */
+    .auth-area { display:flex; align-items:center; gap:10px; }
+    .btn-login {
+      padding: 8px 18px;
+      border-radius: 8px;
+      color: #d1d5db;
+      font-weight: 500;
+      font-size: 0.88rem;
+    }
+    .btn-login:hover { color: var(--fire-yellow); }
+    .btn-join {
+      padding: 9px 20px;
+      border-radius: 8px;
+      background: linear-gradient(to right, var(--fire-orange), var(--fire-red));
+      color: #000;
+      font-weight: 700;
+      font-size: 0.88rem;
+      transition: all .3s;
+    }
+    .btn-join:hover {
+      background: linear-gradient(to right, var(--fire-yellow), var(--fire-orange));
+      transform: scale(1.05);
+      box-shadow: 0 0 18px rgba(245,158,11,0.4);
+    }
+
+    /* User menu */
+    .user-menu-wrap { position:relative; }
+    .user-btn {
+      background: none;
+      border: 1px solid rgba(250,204,21,0.3);
+      border-radius: 8px;
+      padding: 8px 16px;
+      color: #d1d5db;
+      font-family: var(--font-body);
+      font-size: 0.88rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all .25s;
+    }
+    .user-btn:hover { border-color: var(--fire-yellow); color: var(--fire-yellow); }
+    .user-dropdown {
+      display: none;
+      position: absolute;
+      right: 0;
+      top: calc(100% + 8px);
+      width: 180px;
+      background: #1f2937;
+      border: 1px solid rgba(250,204,21,0.15);
+      border-radius: 10px;
+      padding: 8px 0;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      z-index: 200;
+    }
+    .user-dropdown.open { display:block; }
+    .user-dropdown a {
+      display: block;
+      padding: 10px 16px;
+      font-size: 0.88rem;
+      color: #d1d5db;
+    }
+    .user-dropdown a:hover { background: rgba(255,255,255,0.06); color: var(--fire-yellow); }
+    .user-dropdown a.logout { color: #f87171; }
+    .user-dropdown a.logout:hover { background: rgba(248,113,113,0.08); }
+
+    /* Hamburger */
+    .hamburger {
+      display: none;
+      background: none;
+      border: none;
+      color: #d1d5db;
+      font-size: 1.6rem;
+      cursor: pointer;
+      padding: 6px;
+      border-radius: 6px;
+      transition: color .25s;
+    }
+    .hamburger:hover { color: var(--fire-yellow); }
+
+    /* Mobile menu */
+    .mobile-menu {
+      display: none;
+      position: absolute;
+      top: 68px;
+      left: 0;
+      right: 0;
+      background: rgba(10,10,15,0.98);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(250,204,21,0.1);
+      padding: 16px;
+      z-index: 999;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .mobile-menu.open { display:flex; }
+    .mobile-menu a {
+      padding: 13px 18px;
+      border-radius: 8px;
+      font-weight: 500;
+      color: #d1d5db;
+      font-size: 1rem;
+    }
+    .mobile-menu a:hover, .mobile-menu a.active {
+      background: var(--fire-yellow);
+      color: #000;
+    }
+    .mobile-menu .mobile-auth {
+      border-top: 1px solid rgba(255,255,255,0.08);
+      margin-top: 8px;
+      padding-top: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .mobile-menu .btn-join-mobile {
+      text-align: center;
+      padding: 13px;
+      border-radius: 8px;
+      background: linear-gradient(to right, var(--fire-orange), var(--fire-red));
+      color: #000;
+      font-weight: 700;
+    }
+
+    /* ── MAIN CONTENT ── */
+    main { flex: 1; display: flex; align-items: center; justify-content: center; padding: 60px 24px; }
+    .auth-container {
+      background: rgba(17,24,39,0.8);
+      border: 1px solid rgba(250,204,21,0.2);
+      border-radius: 16px;
+      width: 100%;
+      max-width: 480px;
+      padding: 40px;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.6);
+      position: relative;
+      overflow: hidden;
+    }
+    .auth-container::before {
+      content:''; position:absolute; top:0; left:0; right:0; height:4px;
+      background: linear-gradient(to right, var(--fire-yellow), var(--fire-red));
+    }
+    .auth-header { text-align: center; margin-bottom: 30px; }
+    .auth-title {
+      font-family: var(--font-head);
+      font-size: 2.2rem;
+      color: var(--fire-yellow);
+      margin-bottom: 8px;
+      letter-spacing: 1px;
+    }
+    .auth-desc { color: #9ca3af; font-size: 0.95rem; }
+
+    .form-group { margin-bottom: 20px; position: relative; }
+    .form-group label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: #d1d5db;
+      margin-bottom: 8px;
+    }
+    .input-wrap { position: relative; }
+    .input-wrap i {
+      position: absolute;
+      left: 16px; top: 50%;
+      transform: translateY(-50%);
+      color: #6b7280;
+      font-size: 1rem;
+    }
+    .form-control {
+      width: 100%;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 8px;
+      padding: 12px 16px 12px 44px;
+      color: #fff;
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      outline: none;
+      transition: all .3s;
+    }
+    .form-control:focus {
+      border-color: var(--fire-yellow);
+      background: rgba(10,10,10,0.6);
+      box-shadow: 0 0 10px rgba(250,204,21,0.15);
+    }
+    .form-control:focus + i, .form-control:not(:placeholder-shown) + i { color: var(--fire-yellow); }
+
+    .btn-submit {
+      width: 100%;
+      padding: 14px;
+      border-radius: 8px;
+      border: none;
+      background: linear-gradient(to right, var(--fire-orange), var(--fire-red));
+      color: #000;
+      font-family: var(--font-body);
+      font-weight: 700;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all .3s;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      margin-top: 10px;
+    }
+    .btn-submit:hover {
+      background: linear-gradient(to right, var(--fire-yellow), var(--fire-orange));
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(239,68,68,0.4);
+    }
+    .btn-submit:disabled { background: #374151; color: #9ca3af; cursor: not-allowed; transform: none; box-shadow: none; }
     
-    if (!validateStep(currentStep)) {
-        return;
+    .auth-footer { text-align: center; margin-top: 24px; font-size: 0.9rem; color: #9ca3af; }
+    .auth-footer a { color: var(--fire-yellow); font-weight: 600; text-decoration: underline; text-underline-offset: 2px; }
+    .auth-footer a:hover { color: var(--fire-orange); }
+
+    /* ── FOOTER ── */
+    footer {
+      background: #111827;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      padding: 32px 24px;
+      text-align: center;
+      margin-top: auto;
     }
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 8px 24px;
+      margin-bottom: 18px;
+    }
+    .footer-links a { color: #9ca3af; font-size: 0.88rem; }
+    .footer-links a:hover { color: var(--fire-yellow); }
+    footer p { color: #4b5563; font-size: 0.82rem; }
+
+    /* ── TOAST ── */
+    .toast {
+      position: fixed;
+      bottom: 28px; right: 28px;
+      background: #1f2937;
+      border: 1px solid rgba(250,204,21,0.3);
+      border-radius: 10px;
+      padding: 14px 20px;
+      display: flex; align-items: center; gap: 10px;
+      font-size: 0.9rem;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+      z-index: 9999;
+      transform: translateY(80px);
+      opacity: 0;
+      transition: all .35s cubic-bezier(0.4,0,0.2,1);
+      max-width: 340px;
+    }
+    .toast.show { transform: translateY(0); opacity: 1; }
+    .toast.success { border-color: rgba(74,222,128,0.4); }
+    .toast.error { border-color: rgba(248,113,113,0.4); }
+    .toast i { font-size: 1.1rem; flex-shrink: 0; }
+    .toast.success i { color: #4ade80; }
+    .toast.error i { color: #f87171; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 1024px) {
+      .nav-links, .auth-area { display: none; }
+      .hamburger { display: block; }
+    }
+    @media (max-width: 600px) {
+      .auth-container { padding: 30px 20px; border-radius: 12px; border-left: none; border-right: none; }
+      main { padding: 40px 0; }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- ── NAVBAR ── -->
+  <nav id="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="logo-wrap">
+        <img src="./assets/logo.png" alt="Fire Village Logo" onerror="this.style.display='none'">
+        <span>FIRE VILLAGE</span>
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="index.html"><i class="fas fa-home"></i>Home</a></li>
+        <li><a href="tournaments.html"><i class="fas fa-trophy"></i>Tournaments</a></li>
+        <li><a href="leaderboard.html"><i class="fas fa-medal"></i>Leaderboard</a></li>
+        <li><a href="teams.html"><i class="fas fa-users"></i>Teams</a></li>
+        <li><a href="register.html" class="active"><i class="fas fa-user-plus"></i>Register</a></li>
+        <li><a href="contact.html"><i class="fas fa-envelope"></i>Contact</a></li>
+        <li><a href="about.html"><i class="fas fa-info-circle"></i>About</a></li>
+      </ul>
+
+      <div class="auth-area" id="authArea">
+        <!-- Rendered based on auth state, mostly hidden on this page if already logged in -->
+      </div>
+
+      <button class="hamburger" id="hamburger" aria-label="Menu">
+        <i class="fas fa-bars" id="hamburgerIcon"></i>
+      </button>
+    </div>
+
+    <!-- Mobile menu -->
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="index.html"><i class="fas fa-home" style="margin-right:10px;color:var(--fire-yellow)"></i>Home</a>
+      <a href="tournaments.html"><i class="fas fa-trophy" style="margin-right:10px;color:var(--fire-yellow)"></i>Tournaments</a>
+      <a href="leaderboard.html"><i class="fas fa-medal" style="margin-right:10px;color:var(--fire-yellow)"></i>Leaderboard</a>
+      <a href="teams.html"><i class="fas fa-users" style="margin-right:10px;color:var(--fire-yellow)"></i>Teams</a>
+      <a href="register.html" class="active"><i class="fas fa-user-plus" style="margin-right:10px;color:var(--fire-yellow)"></i>Register</a>
+      <a href="contact.html"><i class="fas fa-envelope" style="margin-right:10px;color:var(--fire-yellow)"></i>Contact</a>
+      <a href="about.html"><i class="fas fa-info-circle" style="margin-right:10px;color:var(--fire-yellow)"></i>About</a>
+      <div class="mobile-auth" id="mobileAuthArea"></div>
+    </div>
+  </nav>
+
+  <!-- ── MAIN CONTENT ── -->
+  <main>
+    <div class="auth-container">
+      <div class="auth-header">
+        <h1 class="auth-title">JOIN THE BATTLE</h1>
+        <p class="auth-desc">Create your Fire Village account to start your journey.</p>
+      </div>
+
+      <form id="registerForm">
+        <div class="form-group">
+          <label for="fullName">Full Name</label>
+          <div class="input-wrap">
+            <input type="text" id="fullName" class="form-control" placeholder="John Doe" required>
+            <i class="fas fa-user"></i>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="ign">In-Game Name (IGN)</label>
+          <div class="input-wrap">
+            <input type="text" id="ign" class="form-control" placeholder="Ex: Killer_99" required>
+            <i class="fas fa-gamepad"></i>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <div class="input-wrap">
+            <input type="email" id="email" class="form-control" placeholder="you@example.com" required>
+            <i class="fas fa-envelope"></i>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password</label>
+          <div class="input-wrap">
+            <input type="password" id="password" class="form-control" placeholder="At least 6 characters" minlength="6" required>
+            <i class="fas fa-lock"></i>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="confirmPassword">Confirm Password</label>
+          <div class="input-wrap">
+            <input type="password" id="confirmPassword" class="form-control" placeholder="Re-enter password" minlength="6" required>
+            <i class="fas fa-check-circle"></i>
+          </div>
+        </div>
+
+        <button type="submit" class="btn-submit" id="submitBtn">
+          <i class="fas fa-user-plus"></i> Create Account
+        </button>
+      </form>
+
+      <div style="text-align:center; margin-top: 25px; margin-bottom: 25px; position:relative;">
+        <span style="color:#6b7280; font-size:0.85rem; background:var(--fire-dark); padding:0 10px; z-index:1; position:relative;">OR</span>
+        <div style="position:absolute; top:50%; left:0; right:0; height:1px; background:#374151; transform:translateY(-50%); z-index:0;"></div>
+      </div>
+
+      <button type="button" class="btn-submit" id="googleSignUpBtn" style="background:#4285F4; margin-top:0;">
+        <i class="fab fa-google"></i> Sign Up with Google
+      </button>
+
+
+      <div class="auth-footer">
+        Already have an account? <a href="login.html">Log In</a>
+      </div>
+    </div>
+  </main>
+
+  <!-- ── FOOTER ── -->
+  <footer>
+    <div class="footer-links">
+      <a href="privacy-policy.html">Privacy Policy</a>
+      <a href="terms.html">Terms of Service</a>
+      <a href="shipping.html">Shipping Policy</a>
+      <a href="contact.html">Contact Us</a>
+    </div>
+    <p>&copy; <span id="copyright-year"></span> Fire Village Tournament. All rights reserved.</p>
+  </footer>
+
+  <!-- ── TOAST ── -->
+  <div class="toast" id="toast">
+    <i class="fas fa-check-circle"></i>
+    <span id="toastMsg"></span>
+  </div>
+
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+
+  <script>
+  // ════════════════════════════════════════════════
+  // FIREBASE CONFIG
+  // ════════════════════════════════════════════════
+  const firebaseConfig = {
+    apiKey: "AIzaSyDFjHR5_D6yQ9tXrEut-3c2o4oA1ddz6hQ",
+    authDomain: "firevillagetournament.firebaseapp.com",
+    projectId: "firevillagetournament",
+    storageBucket: "firevillagetournament.firebasestorage.app",
+    messagingSenderId: "511246704009",
+    appId: "1:511246704009:web:8ae5e484591a64bb735558",
+    measurementId: "G-ZCQ2V6DEGX"
+  };
+
+  let db = null, auth = null;
+  let firebaseReady = false;
+
+  try {
+    firebase.initializeApp(firebaseConfig);
+    db   = firebase.firestore();
+    auth = firebase.auth();
+    firebaseReady = true;
+  } catch(e) {
+    console.warn("Firebase not configured properly.", e);
+  }
+
+  // ════════════════════════════════
+  // TOAST UTILITY
+  // ════════════════════════════════
+  let toastTimer;
+  function showToast(msg, type='success') {
+    const t = document.getElementById('toast');
+    const i = t.querySelector('i');
+    t.querySelector('#toastMsg').textContent = msg;
+    t.className = `toast ${type}`;
+    i.className = type === 'success' ? 'fas fa-check-circle' : 'fas fa-exclamation-circle';
+    t.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(()=>t.classList.remove('show'), 3500);
+  }
+
+  // ════════════════════════════════
+  // NAVBAR LOGIC
+  // ════════════════════════════════
+  const navbar       = document.getElementById('navbar');
+  const hamburger    = document.getElementById('hamburger');
+  const hamburgerIcon= document.getElementById('hamburgerIcon');
+  const mobileMenu   = document.getElementById('mobileMenu');
+
+  window.addEventListener('scroll', ()=>{
+    navbar.classList.toggle('scrolled', window.scrollY > 40);
+  }, {passive:true});
+
+  hamburger.addEventListener('click', ()=>{
+    const open = mobileMenu.classList.toggle('open');
+    hamburgerIcon.className = open ? 'fas fa-times' : 'fas fa-bars';
+  });
+  mobileMenu.querySelectorAll('a').forEach(a=>{
+    a.addEventListener('click', ()=>{
+      mobileMenu.classList.remove('open');
+      hamburgerIcon.className = 'fas fa-bars';
+    });
+  });
+
+  function renderAuth(user) {
+    const authArea   = document.getElementById('authArea');
+    const mobileAuth = document.getElementById('mobileAuthArea');
+
+    if (user) {
+      const displayName = user.displayName || user.email?.split('@')[0] || 'Player';
+      authArea.innerHTML = `
+        <div class="user-menu-wrap">
+          <button class="user-btn" id="userBtn">
+            <i class="fas fa-user-circle"></i> <span>${displayName}</span>
+            <i class="fas fa-chevron-down" style="font-size:.7rem;"></i>
+          </button>
+          <div class="user-dropdown" id="userDropdown">
+            <a href="profile.html"><i class="fas fa-user-circle" style="margin-right:8px;color:var(--fire-yellow)"></i>Profile</a>
+            <a href="#" id="logoutBtn" class="logout"><i class="fas fa-sign-out-alt" style="margin-right:8px;"></i>Logout</a>
+          </div>
+        </div>`;
+      mobileAuth.innerHTML = `
+        <a href="profile.html"><i class="fas fa-user-circle" style="margin-right:10px;color:var(--fire-yellow)"></i>${displayName}'s Profile</a>
+        <a href="#" id="mobileLogout" style="color:#f87171;"><i class="fas fa-sign-out-alt" style="margin-right:10px;"></i>Logout</a>`;
+
+      document.getElementById('userBtn')?.addEventListener('click', e=>{
+        e.stopPropagation(); document.getElementById('userDropdown')?.classList.toggle('open');
+      });
+      document.getElementById('logoutBtn')?.addEventListener('click', e=>{
+        e.preventDefault(); if(auth) auth.signOut();
+      });
+      document.getElementById('mobileLogout')?.addEventListener('click', e=>{
+        e.preventDefault(); if(auth) auth.signOut();
+      });
+      
+      // If already logged in, redirect to profile/home to prevent re-registration
+      if(window.location.pathname.includes('register.html')) {
+        setTimeout(() => { window.location.href = 'index.html'; }, 1500);
+        showToast('You are already logged in! Redirecting...', 'success');
+      }
+    } else {
+      authArea.innerHTML = `
+        <a href="login.html" class="btn-login"><i class="fas fa-sign-in-alt" style="margin-right:6px;"></i>Login</a>`;
+      mobileAuth.innerHTML = `
+        <a href="login.html"><i class="fas fa-sign-in-alt" style="margin-right:10px;color:var(--fire-yellow)"></i>Login</a>`;
+    }
+    document.addEventListener('click', ()=>document.getElementById('userDropdown')?.classList.remove('open'));
+  }
+
+  if (firebaseReady && auth) {
+    auth.onAuthStateChanged(user => renderAuth(user));
+  } else {
+    renderAuth(null);
+  }
+
+  // ════════════════════════════════
+  // REGISTRATION LOGIC
+  // ════════════════════════════════
+  const registerForm = document.getElementById('registerForm');
+  const submitBtn = document.getElementById('submitBtn');
+  const googleSignUpBtn = document.getElementById('googleSignUpBtn');
+
+  registerForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    if(!firebaseReady || !auth || !db) {
+      showToast('System is in Demo Mode. Registration offline.', 'error');
+      return;
+    }
+
+    const fullName = document.getElementById('fullName').value.trim();
+    const ign = document.getElementById('ign').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const password = document.getElementById('password').value;
+    const confirmPassword = document.getElementById('confirmPassword').value;
+
+    if(password !== confirmPassword) {
+      showToast('Passwords do not match!', 'error');
+      return;
+    }
+
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creating...';
 
     try {
-        // Collect form data
-        const formData = new FormData();
-        
-        // Add tournament data
-        const selectedTournament = document.querySelector('.tournament-card.selected');
-        formData.append('tournamentId', selectedTournament.dataset.id);
-        formData.append('tournamentName', selectedTournament.querySelector('h3').textContent);
-        
-        // Add team data
-        formData.append('teamName', document.querySelector('#step2 input[type="text"]').value);
-        const teamLogo = document.querySelector('#step2 input[type="file"]').files[0];
-        if (teamLogo) {
-            formData.append('teamLogo', teamLogo);
-        }
-        
-        // Add member data
-        const members = [];
-        document.querySelectorAll('.member-card').forEach(card => {
-            const inputs = card.querySelectorAll('input');
-            members.push({
-                name: inputs[0].value,
-                uid: inputs[1].value,
-                whatsapp: inputs[2].value
-            });
-        });
-        formData.append('members', JSON.stringify(members));
-        
-        // Add payment data
-        formData.append('upiId', document.querySelector('#step4 input[placeholder="username@upi"]').value);
-        formData.append('transactionId', document.querySelector('#step4 input[type="text"]:last-child').value);
+      const userCred = await auth.createUserWithEmailAndPassword(email, password);
+      const user = userCred.user;
 
-        // Send data to server
-        const response = await fetch('/api/register', {
-            method: 'POST',
-            body: formData
-        });
+      // Update profile name
+      await user.updateProfile({ displayName: ign });
 
-        if (response.ok) {
-            showSuccess();
-        } else {
-            throw new Error('Registration failed');
-        }
-    } catch (error) {
-        showError('Registration failed. Please try again.');
-        console.error('Registration error:', error);
+      // Save details to Firestore
+      await db.collection('users').doc(user.uid).set({
+        fullName: fullName,
+        ign: ign,
+        email: email,
+        role: 'player',
+        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+      });
+
+      showToast('Account created successfully!', 'success');
+      
+      // Redirect to profile or home
+      setTimeout(() => {
+        window.location.href = 'acknowledgement.html?status=success&type=registration';
+      }, 1500);
+
+    } catch(err) {
+      console.error(err);
+      window.location.href = `acknowledgement.html?status=error&type=registration&message=${encodeURIComponent(err.message || 'Failed to create account')}`;
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = '<i class="fas fa-user-plus"></i> Create Account';
     }
-});
+  });
 
-// Tournament selection
-document.querySelectorAll('.tournament-card').forEach(card => {
-    card.addEventListener('click', () => {
-        document.querySelectorAll('.tournament-card').forEach(c => c.classList.remove('selected'));
-        card.classList.add('selected');
+  // ════════════════════════════════
+  // GOOGLE SIGN-UP LOGIC
+  // ════════════════════════════════
+  if (googleSignUpBtn && firebaseReady && auth && db) {
+    googleSignUpBtn.addEventListener('click', async () => {
+      const provider = new firebase.auth.GoogleAuthProvider();
+      googleSignUpBtn.disabled = true;
+      googleSignUpBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Signing up with Google...';
+
+      try {
+        const result = await auth.signInWithPopup(provider);
+        const user = result.user;
+
+        // Check if user exists in Firestore, if not, create a new entry
+        const userDocRef = db.collection('users').doc(user.uid);
+        const userDoc = await userDocRef.get();
+
+        if (!userDoc.exists) {
+          await userDocRef.set({
+            fullName: user.displayName || '',
+            email: user.email,
+            ign: user.displayName || user.email.split('@')[0], // Default IGN
+            role: 'player',
+            createdAt: firebase.firestore.FieldValue.serverTimestamp()
+          });
+        }
+
+        showToast('Signed up with Google successfully!', 'success');
+        setTimeout(() => {
+          window.location.href = 'index.html'; // Redirect to home or profile
+        }, 1000);
+
+      } catch (error) {
+        console.error("Google Sign-Up failed:", error);
+        let errorMessage = 'Google Sign-Up failed. Please try again.';
+        if (error.code === 'auth/popup-closed-by-user') {
+          errorMessage = 'Google Sign-Up popup closed.';
+        }
+        showToast(errorMessage, 'error');
+      } finally {
+        googleSignUpBtn.disabled = false;
+        googleSignUpBtn.innerHTML = '<i class="fab fa-google"></i> Sign Up with Google';
+      }
     });
-});
+  }
 
-// Show success modal
-function showSuccess() {
-    successModal.classList.remove('hidden');
-    successModal.classList.add('flex');
-}
-
-// Show error message
-function showError(message) {
-    const errorDiv = document.createElement('div');
-    errorDiv.className = 'fixed top-4 right-4 bg-red-500 text-white px-6 py-3 rounded-lg shadow-lg';
-    errorDiv.textContent = message;
-    document.body.appendChild(errorDiv);
-    
-    setTimeout(() => {
-        errorDiv.remove();
-    }, 3000);
-}
-
-// Initialize first step
-showStep(1);
+  document.getElementById('copyright-year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
