@@ -1,0 +1,47 @@
+[
+  {
+    "rank": 1,
+    "name": "ProGamer123",
+    "team": "Team Phantom",
+    "kills": 156,
+    "wins": 12,
+    "points": 2450,
+    "status": "online"
+  },
+  {
+    "rank": 2,
+    "name": "DragonSlayer",
+    "team": "Dragon Warriors",
+    "kills": 142,
+    "wins": 10,
+    "points": 2180,
+    "status": "online"
+  },
+  {
+    "rank": 3,
+    "name": "FireMaster",
+    "team": "Fire Squad",
+    "kills": 128,
+    "wins": 8,
+    "points": 1950,
+    "status": "offline"
+  },
+  {
+    "rank": 4,
+    "name": "NightHunter",
+    "team": "Night Owls",
+    "kills": 115,
+    "wins": 7,
+    "points": 1780,
+    "status": "online"
+  },
+  {
+    "rank": 5,
+    "name": "ThunderBolt",
+    "team": "Thunder Bolts",
+    "kills": 98,
+    "wins": 6,
+    "points": 1620,
+    "status": "away"
+  }
+]
