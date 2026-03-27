@@ -1,500 +1,738 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register | Fire Village Tournament</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url('assets/bg.jpg');
-            background-size: cover;
-            background-attachment: fixed;
-        }
-        .font-heading {
-            font-family: 'Oswald', sans-serif;
-        }
-        .card {
-            background: rgba(17, 24, 39, 0.8);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        .input-field {
-            background: rgba(31, 41, 55, 0.8);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: all 0.3s ease;
-        }
-        .input-field:focus {
-            border-color: #facc15;
-            box-shadow: 0 0 0 2px rgba(250, 204, 21, 0.2);
-        }
-        .btn-primary {
-            background: linear-gradient(45deg, #facc15, #eab308);
-            transition: all 0.3s ease;
-        }
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(250, 204, 21, 0.3);
-        }
-        .payment-option {
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            transition: all 0.3s ease;
-        }
-        .payment-option:hover {
-            border-color: #facc15;
-            transform: translateY(-2px);
-        }
-        .payment-option.selected {
-            border-color: #facc15;
-            background: rgba(250, 204, 21, 0.1);
-        }
-        .tournament-card {
-            background: rgba(17, 24, 39, 0.8);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: all 0.3s ease;
-        }
-        .tournament-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Register Account - Fire Village Gaming</title>
+  <meta name="description" content="Create an account at Fire Village to join esports tournaments for games like BGMI, Valorant, Free Fire, and more.">
+  <link rel="icon" href="./assets/logo.png" type="image/png">
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+
+  <style>
+    /* ── ROOT VARS ── */
+    :root {
+      --fire-yellow: #facc15;
+      --fire-orange: #f59e0b;
+      --fire-red:    #ef4444;
+      --fire-dark:   #0f0f0f;
+      --fire-gray:   #1f2937;
+      --fire-light:  #374151;
+      --fire-bg:     #111827;
+      --font-head:   'Oswald', sans-serif;
+      --font-body:   'Poppins', sans-serif;
+    }
+
+    * { margin:0; padding:0; box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--fire-dark);
+      color: #fff;
+      min-height: 100vh;
+      overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width:6px; }
+    ::-webkit-scrollbar-track { background:#111; }
+    ::-webkit-scrollbar-thumb { background: var(--fire-orange); border-radius:3px; }
+
+    a { text-decoration:none; color:inherit; transition:all .3s ease; }
+    img { display:block; max-width:100%; }
+
+    /* ── NAVBAR ── */
+    nav {
+      background: rgba(17,24,39,0.95);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      padding: 0 24px;
+      height: 68px;
+      display: flex;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      border-bottom: 1px solid rgba(250,204,21,0.12);
+      transition: background .3s;
+    }
+    nav.scrolled {
+      background: rgba(10,10,10,0.98);
+      box-shadow: 0 4px 24px rgba(0,0,0,0.5);
+    }
+    .nav-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .logo-wrap {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+    .logo-wrap img {
+      height: 44px;
+      width: auto;
+      transition: transform .3s;
+    }
+    .logo-wrap:hover img { transform: scale(1.08); }
+    .logo-wrap span {
+      font-family: var(--font-head);
+      font-size: 1.5rem;
+      color: var(--fire-yellow);
+      letter-spacing: 1px;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      list-style: none;
+    }
+    .nav-links a {
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: #d1d5db;
+      transition: all .25s;
+    }
+    .nav-links a:hover, .nav-links a.active {
+      background: var(--fire-yellow);
+      color: #000;
+    }
+    .nav-links a i { margin-right:6px; }
+
+    /* Auth buttons */
+    .auth-area { display:flex; align-items:center; gap:10px; }
+    .btn-login {
+      padding: 8px 18px;
+      border-radius: 8px;
+      color: #d1d5db;
+      font-weight: 500;
+      font-size: 0.88rem;
+    }
+    .btn-login:hover { color: var(--fire-yellow); }
+    .btn-join {
+      padding: 9px 20px;
+      border-radius: 8px;
+      background: linear-gradient(to right, var(--fire-orange), var(--fire-red));
+      color: #000;
+      font-weight: 700;
+      font-size: 0.88rem;
+      transition: all .3s;
+    }
+    .btn-join:hover {
+      background: linear-gradient(to right, var(--fire-yellow), var(--fire-orange));
+      transform: scale(1.05);
+      box-shadow: 0 0 18px rgba(245,158,11,0.4);
+    }
+
+    /* User menu */
+    .user-menu-wrap { position:relative; }
+    .user-btn {
+      background: none;
+      border: 1px solid rgba(250,204,21,0.3);
+      border-radius: 8px;
+      padding: 8px 16px;
+      color: #d1d5db;
+      font-family: var(--font-body);
+      font-size: 0.88rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all .25s;
+    }
+    .user-btn:hover { border-color: var(--fire-yellow); color: var(--fire-yellow); }
+    .user-dropdown {
+      display: none;
+      position: absolute;
+      right: 0;
+      top: calc(100% + 8px);
+      width: 180px;
+      background: #1f2937;
+      border: 1px solid rgba(250,204,21,0.15);
+      border-radius: 10px;
+      padding: 8px 0;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      z-index: 200;
+    }
+    .user-dropdown.open { display:block; }
+    .user-dropdown a {
+      display: block;
+      padding: 10px 16px;
+      font-size: 0.88rem;
+      color: #d1d5db;
+    }
+    .user-dropdown a:hover { background: rgba(255,255,255,0.06); color: var(--fire-yellow); }
+    .user-dropdown a.logout { color: #f87171; }
+    .user-dropdown a.logout:hover { background: rgba(248,113,113,0.08); }
+
+    /* Hamburger */
+    .hamburger {
+      display: none;
+      background: none;
+      border: none;
+      color: #d1d5db;
+      font-size: 1.6rem;
+      cursor: pointer;
+      padding: 6px;
+      border-radius: 6px;
+      transition: color .25s;
+    }
+    .hamburger:hover { color: var(--fire-yellow); }
+
+    /* Mobile menu */
+    .mobile-menu {
+      display: none;
+      position: absolute;
+      top: 68px;
+      left: 0;
+      right: 0;
+      background: rgba(10,10,15,0.98);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(250,204,21,0.1);
+      padding: 16px;
+      z-index: 999;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .mobile-menu.open { display:flex; }
+    .mobile-menu a {
+      padding: 13px 18px;
+      border-radius: 8px;
+      font-weight: 500;
+      color: #d1d5db;
+      font-size: 1rem;
+    }
+    .mobile-menu a:hover, .mobile-menu a.active {
+      background: var(--fire-yellow);
+      color: #000;
+    }
+    .mobile-menu .mobile-auth {
+      border-top: 1px solid rgba(255,255,255,0.08);
+      margin-top: 8px;
+      padding-top: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .mobile-menu .btn-join-mobile {
+      text-align: center;
+      padding: 13px;
+      border-radius: 8px;
+      background: linear-gradient(to right, var(--fire-orange), var(--fire-red));
+      color: #000;
+      font-weight: 700;
+    }
+
+    /* ── MAIN CONTENT ── */
+    main { flex: 1; display: flex; align-items: center; justify-content: center; padding: 60px 24px; }
+    .auth-container {
+      background: rgba(17,24,39,0.8);
+      border: 1px solid rgba(250,204,21,0.2);
+      border-radius: 16px;
+      width: 100%;
+      max-width: 480px;
+      padding: 40px;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.6);
+      position: relative;
+      overflow: hidden;
+    }
+    .auth-container::before {
+      content:''; position:absolute; top:0; left:0; right:0; height:4px;
+      background: linear-gradient(to right, var(--fire-yellow), var(--fire-red));
+    }
+    .auth-header { text-align: center; margin-bottom: 30px; }
+    .auth-title {
+      font-family: var(--font-head);
+      font-size: 2.2rem;
+      color: var(--fire-yellow);
+      margin-bottom: 8px;
+      letter-spacing: 1px;
+    }
+    .auth-desc { color: #9ca3af; font-size: 0.95rem; }
+
+    .form-group { margin-bottom: 20px; position: relative; }
+    .form-group label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: #d1d5db;
+      margin-bottom: 8px;
+    }
+    .input-wrap { position: relative; }
+    .input-wrap i {
+      position: absolute;
+      left: 16px; top: 50%;
+      transform: translateY(-50%);
+      color: #6b7280;
+      font-size: 1rem;
+    }
+    .form-control {
+      width: 100%;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 8px;
+      padding: 12px 16px 12px 44px;
+      color: #fff;
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      outline: none;
+      transition: all .3s;
+    }
+    .form-control:focus {
+      border-color: var(--fire-yellow);
+      background: rgba(10,10,10,0.6);
+      box-shadow: 0 0 10px rgba(250,204,21,0.15);
+    }
+    .form-control:focus + i, .form-control:not(:placeholder-shown) + i { color: var(--fire-yellow); }
+
+    .btn-submit {
+      width: 100%;
+      padding: 14px;
+      border-radius: 8px;
+      border: none;
+      background: linear-gradient(to right, var(--fire-orange), var(--fire-red));
+      color: #000;
+      font-family: var(--font-body);
+      font-weight: 700;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all .3s;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      margin-top: 10px;
+    }
+    .btn-submit:hover {
+      background: linear-gradient(to right, var(--fire-yellow), var(--fire-orange));
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(239,68,68,0.4);
+    }
+    .btn-submit:disabled { background: #374151; color: #9ca3af; cursor: not-allowed; transform: none; box-shadow: none; }
+    
+    .auth-footer { text-align: center; margin-top: 24px; font-size: 0.9rem; color: #9ca3af; }
+    .auth-footer a { color: var(--fire-yellow); font-weight: 600; text-decoration: underline; text-underline-offset: 2px; }
+    .auth-footer a:hover { color: var(--fire-orange); }
+
+    /* ── FOOTER ── */
+    footer {
+      background: #111827;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      padding: 32px 24px;
+      text-align: center;
+      margin-top: auto;
+    }
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 8px 24px;
+      margin-bottom: 18px;
+    }
+    .footer-links a { color: #9ca3af; font-size: 0.88rem; }
+    .footer-links a:hover { color: var(--fire-yellow); }
+    footer p { color: #4b5563; font-size: 0.82rem; }
+
+    /* ── TOAST ── */
+    .toast {
+      position: fixed;
+      bottom: 28px; right: 28px;
+      background: #1f2937;
+      border: 1px solid rgba(250,204,21,0.3);
+      border-radius: 10px;
+      padding: 14px 20px;
+      display: flex; align-items: center; gap: 10px;
+      font-size: 0.9rem;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+      z-index: 9999;
+      transform: translateY(80px);
+      opacity: 0;
+      transition: all .35s cubic-bezier(0.4,0,0.2,1);
+      max-width: 340px;
+    }
+    .toast.show { transform: translateY(0); opacity: 1; }
+    .toast.success { border-color: rgba(74,222,128,0.4); }
+    .toast.error { border-color: rgba(248,113,113,0.4); }
+    .toast i { font-size: 1.1rem; flex-shrink: 0; }
+    .toast.success i { color: #4ade80; }
+    .toast.error i { color: #f87171; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 1024px) {
+      .nav-links, .auth-area { display: none; }
+      .hamburger { display: block; }
+    }
+    @media (max-width: 600px) {
+      .auth-container { padding: 30px 20px; border-radius: 12px; border-left: none; border-right: none; }
+      main { padding: 40px 0; }
+    }
+  </style>
 </head>
-<body class="text-white min-h-screen">
-    <!-- Header -->
-    <header class="bg-gray-900/80 backdrop-blur-md py-4 px-6 border-b border-gray-800 sticky top-0 z-50">
-        <div class="container mx-auto flex justify-between items-center">
-            <div class="flex items-center space-x-4">
-                <img src="./assets/logo.png" alt="Fire Village Logo" class="h-10 w-auto hover:scale-105 transition-transform">
-                <h1 class="text-2xl font-heading text-yellow-400">Fire Village</h1> 
-            </div>
-            <nav class="hidden md:flex space-x-8">
-                <a href="index.html" class="text-gray-300 hover:text-yellow-400 transition flex items-center space-x-2">
-                    <i class="fas fa-home"></i>
-                    <span>Home</span>
-                </a>
-                <a href="tournaments.html" class="text-gray-300 hover:text-yellow-400 transition flex items-center space-x-2">
-                    <i class="fas fa-trophy"></i>
-                    <span>Tournaments</span>
-                </a>
-                <a href="leaderboard.html" class="text-gray-300 hover:text-yellow-400 transition flex items-center space-x-2">
-                    <i class="fas fa-medal"></i>
-                    <span>Leaderboard</span>
-                </a>
-                <a href="teams.html" class="text-gray-300 hover:text-yellow-400 transition flex items-center space-x-2">
-                    <i class="fas fa-users"></i>
-                    <span>Teams</span>
-                </a>
-                <a href="register.html" class="text-yellow-400 transition flex items-center space-x-2">
-                    <i class="fas fa-user-plus"></i>
-                    <span>Register</span>
-                </a>
-                <a href="contact.html" class="text-gray-300 hover:text-yellow-400 transition flex items-center space-x-2">
-                    <i class="fas fa-envelope"></i>
-                    <span>Contact</span>
-                </a>
-                <a href="about.html" class="text-gray-300 hover:text-yellow-400 transition flex items-center space-x-2">
-                    <i class="fas fa-info-circle"></i>
-                    <span>About</span>
-                </a>
-            </nav>
-            <button class="md:hidden text-gray-300 hover:text-yellow-400 transition" onclick="toggleMobileMenu()">
-                <i class="fas fa-bars text-2xl"></i>
-            </button>
-        </div>
-    </header>
 
-    <!-- Mobile Menu -->
-    <div id="mobileMenu" class="md:hidden fixed inset-0 bg-black/90 backdrop-blur-md z-50 hidden">
-        <div class="container mx-auto px-6 py-4">
-            <div class="flex justify-between items-center mb-8">
-                <div class="flex items-center space-x-4">
-                    <img src="./assets/logo.png" alt="Fire Village Logo" class="h-10 w-auto">
-                    <h1 class="text-2xl font-heading text-yellow-400">Fire Village</h1>
-                </div>
-                <button class="text-gray-300 hover:text-yellow-400 transition" onclick="toggleMobileMenu()">
-                    <i class="fas fa-times text-2xl"></i>
-                </button>
-            </div>
-            <nav class="flex flex-col space-y-4">
-                <a href="index.html" class="text-gray-300 hover:text-yellow-400 transition flex items-center space-x-2 py-2">
-                    <i class="fas fa-home w-6"></i>
-                    <span>Home</span>
-                </a>
-                <a href="tournaments.html" class="text-gray-300 hover:text-yellow-400 transition flex items-center space-x-2 py-2">
-                    <i class="fas fa-trophy w-6"></i>
-                    <span>Tournaments</span>
-                </a>
-                <a href="leaderboard.html" class="text-gray-300 hover:text-yellow-400 transition flex items-center space-x-2 py-2">
-                    <i class="fas fa-medal w-6"></i>
-                    <span>Leaderboard</span>
-                </a>
-                <a href="teams.html" class="text-gray-300 hover:text-yellow-400 transition flex items-center space-x-2 py-2">
-                    <i class="fas fa-users w-6"></i>
-                    <span>Teams</span>
-                </a>
-                <a href="register.html" class="text-yellow-400 transition flex items-center space-x-2 py-2">
-                    <i class="fas fa-user-plus w-6"></i>
-                    <span>Register</span>
-                </a>
-                <a href="contact.html" class="text-gray-300 hover:text-yellow-400 transition flex items-center space-x-2 py-2">
-                    <i class="fas fa-envelope w-6"></i>
-                    <span>Contact</span>
-                </a>
-                <a href="about.html" class="text-gray-300 hover:text-yellow-400 transition flex items-center space-x-2 py-2">
-                    <i class="fas fa-info-circle w-6"></i>
-                    <span>About</span>
-                </a>
-            </nav>
-        </div>
-            </div>
-            
-    <!-- Main Content -->
-    <div class="container mx-auto px-6 py-12">
-        <div class="max-w-6xl mx-auto">
-            <!-- Available Tournaments -->
-            <div class="mb-12">
-                <h2 class="text-3xl font-heading text-yellow-400 mb-6">Available Tournaments</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="tournamentsList">
-                    <!-- Tournaments will be loaded here -->
-                </div>
-            </div>
-            
-            <!-- Registration Form -->
-            <div class="card rounded-xl p-8">
-                <h2 class="text-3xl font-heading text-yellow-400 mb-8">Team Registration</h2>
-                
-                <form id="registrationForm" class="space-y-8">
-                    <!-- Team Information -->
-                    <div class="card rounded-xl p-6">
-                        <h3 class="text-xl font-bold text-yellow-400 mb-4">Team Information</h3>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div>
-                                <label class="block text-gray-400 mb-2">Team Name</label>
-                                <input type="text" id="teamName" required class="input-field w-full px-4 py-2 rounded-lg text-white focus:outline-none">
-                            </div>
-                            <div>
-                                <label class="block text-gray-400 mb-2">Team Logo (Optional)</label>
-                                <input type="file" id="teamLogo" accept="image/*" class="input-field w-full px-4 py-2 rounded-lg text-white focus:outline-none">
-                            </div>
-                            <div>
-                                <label class="block text-gray-400 mb-2">Team Captain Name</label>
-                                <input type="text" id="captainName" required class="input-field w-full px-4 py-2 rounded-lg text-white focus:outline-none">
-                            </div>
-                            <div>
-                                <label class="block text-gray-400 mb-2">Captain's Free Fire UID</label>
-                                <input type="text" id="captainUID" required class="input-field w-full px-4 py-2 rounded-lg text-white focus:outline-none">
-                            </div>
-                            <div>
-                                <label class="block text-gray-400 mb-2">Team Contact Number</label>
-                                <input type="tel" id="teamContact" required class="input-field w-full px-4 py-2 rounded-lg text-white focus:outline-none">
-                            </div>
-                            <div>
-                                <label class="block text-gray-400 mb-2">Team Email</label>
-                                <input type="email" id="teamEmail" required class="input-field w-full px-4 py-2 rounded-lg text-white focus:outline-none">
-                            </div>
-                        </div>
-            </div>
-            
-                    <!-- Team Members -->
-                    <div class="card rounded-xl p-6">
-                        <h3 class="text-xl font-bold text-yellow-400 mb-4">Team Members</h3>
-                        <div class="space-y-4" id="teamMembers">
-                            <!-- Member 1 (Captain) -->
-                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                                <div>
-                                    <label class="block text-gray-400 mb-2">Player Name</label>
-                                    <input type="text" name="player1Name" required class="input-field w-full px-4 py-2 rounded-lg text-white focus:outline-none" value="Captain">
-                                </div>
-                                <div>
-                                    <label class="block text-gray-400 mb-2">Free Fire UID</label>
-                                    <input type="text" name="player1UID" required class="input-field w-full px-4 py-2 rounded-lg text-white focus:outline-none">
-                                </div>
-                                <div>
-                                    <label class="block text-gray-400 mb-2">Role</label>
-                                    <input type="text" name="player1Role" required class="input-field w-full px-4 py-2 rounded-lg text-white focus:outline-none" value="Captain">
-                                </div>
-                            </div>
-                            <!-- Additional members will be added here -->
-                        </div>
-                        <button type="button" onclick="addTeamMember()" class="mt-4 px-4 py-2 bg-gray-700 text-white rounded-lg hover:bg-gray-600 transition">
-                            <i class="fas fa-plus mr-2"></i>Add Team Member
-                        </button>
-            </div>
-            
-                    <!-- Payment Information -->
-                    <div class="card rounded-xl p-6">
-                        <h3 class="text-xl font-bold text-yellow-400 mb-4">Payment Information</h3>
-                        <div class="space-y-6">
-                            <!-- Tournament Selection -->
-                            <div>
-                                <label class="block text-gray-400 mb-2">Select Tournament</label>
-                                <select id="tournamentSelect" required class="input-field w-full px-4 py-2 rounded-lg text-white focus:outline-none" onchange="updateRegistrationFee()">
-                                    <option value="">Select a tournament</option>
-                                    <!-- Tournaments will be loaded here -->
-                </select>
-            </div>
-            
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                <div class="payment-option p-4 rounded-lg cursor-pointer" onclick="selectPayment('upi1')">
-                                    <div class="flex items-center space-x-4">
-                                        <input type="radio" name="paymentMethod" value="upi1" class="text-yellow-400">
-                                        <div>
-                                            <p class="font-bold">UPI Payment 1</p>
-                                            <p class="text-gray-400">sarush-1@oksbi</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="payment-option p-4 rounded-lg cursor-pointer" onclick="selectPayment('upi2')">
-                                    <div class="flex items-center space-x-4">
-                                        <input type="radio" name="paymentMethod" value="upi2" class="text-yellow-400">
-                                        <div>
-                                            <p class="font-bold">UPI Payment 2</p>
-                                            <p class="text-gray-400">sarush066@okicic</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="bg-gray-700/50 p-4 rounded-lg">
-                                <p class="text-gray-400">Registration Fee: <span id="registrationFee" class="text-yellow-400 font-bold">₹0</span></p>
-                                <p class="text-sm text-gray-400 mt-2">Please complete the payment and enter the UPI Reference Number below.</p>
-                            </div>
-                            <div>
-                                <label class="block text-gray-400 mb-2">UPI Reference Number</label>
-                                <input type="text" id="upiRefNo" required class="input-field w-full px-4 py-2 rounded-lg text-white focus:outline-none" placeholder="Enter the UPI Reference Number from your payment">
-                                <p class="text-sm text-gray-400 mt-1">This is the reference number you receive after successful payment</p>
-                            </div>
-                            <div>
-                                <label class="block text-gray-400 mb-2">Payment Screenshot</label>
-                                <input type="file" id="paymentScreenshot" accept="image/*" required class="input-field w-full px-4 py-2 rounded-lg text-white focus:outline-none">
-                            </div>
-                        </div>
-                    </div>
+<body>
+  <!-- ── NAVBAR ── -->
+  <nav id="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="logo-wrap">
+        <img src="./assets/logo.png" alt="Fire Village Logo" onerror="this.style.display='none'">
+        <span>FIRE VILLAGE</span>
+      </a>
 
-                    <!-- Terms and Conditions -->
-                    <div class="card rounded-xl p-6">
-                        <div class="flex items-start space-x-4">
-                            <input type="checkbox" id="terms" required class="mt-1 text-yellow-400">
-                            <div>
-                                <p class="text-gray-400">I agree to the <a href="#" class="text-yellow-400 hover:underline">Terms and Conditions</a> and confirm that all information provided is accurate.</p>
-                            </div>
-                        </div>
-        </div>
-        
-                    <button type="submit" class="w-full py-3 btn-primary text-black rounded-lg font-bold">
-                        Complete Registration
-                    </button>
-                </form>
-            </div>
-        </div>
+      <ul class="nav-links">
+        <li><a href="index.html"><i class="fas fa-home"></i>Home</a></li>
+        <li><a href="tournaments.html"><i class="fas fa-trophy"></i>Tournaments</a></li>
+        <li><a href="leaderboard.html"><i class="fas fa-medal"></i>Leaderboard</a></li>
+        <li><a href="teams.html"><i class="fas fa-users"></i>Teams</a></li>
+        <li><a href="register.html" class="active"><i class="fas fa-user-plus"></i>Register</a></li>
+        <li><a href="contact.html"><i class="fas fa-envelope"></i>Contact</a></li>
+        <li><a href="about.html"><i class="fas fa-info-circle"></i>About</a></li>
+      </ul>
+
+      <div class="auth-area" id="authArea">
+        <!-- Rendered based on auth state, mostly hidden on this page if already logged in -->
+      </div>
+
+      <button class="hamburger" id="hamburger" aria-label="Menu">
+        <i class="fas fa-bars" id="hamburgerIcon"></i>
+      </button>
     </div>
 
-    <!-- Footer -->
-    <footer class="bg-gray-900/80 backdrop-blur-md py-8 border-t border-gray-800 mt-12">
-        <div class="container mx-auto px-6">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-                <div>
-                    <h3 class="text-xl font-heading text-yellow-400 mb-4">Fire Village</h3>
-                    <p class="text-gray-400">Join the ultimate gaming tournament platform. Compete, win, and become a legend.</p>
-                </div>
-                <div>
-                    <h4 class="text-lg font-bold text-yellow-400 mb-4">Quick Links</h4>
-                    <ul class="space-y-2">
-                        <li><a href="index.html" class="text-gray-400 hover:text-yellow-400 transition">Home</a></li>
-                        <li><a href="tournaments.html" class="text-gray-400 hover:text-yellow-400 transition">Tournaments</a></li>
-                        <li><a href="leaderboard.html" class="text-gray-400 hover:text-yellow-400 transition">Leaderboard</a></li>
-                        <li><a href="teams.html" class="text-gray-400 hover:text-yellow-400 transition">Teams</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="text-lg font-bold text-yellow-400 mb-4">Contact</h4>
-                    <ul class="space-y-2">
-                        <li class="text-gray-400"><i class="fas fa-envelope mr-2"></i>firevillage.in@gmail.com</li>
-                        <li class="text-gray-400"><i class="fas fa-phone mr-2"></i>+91 9015202443</li>
-                        <li class="text-gray-400"><i class="fas fa-map-marker-alt mr-2"></i>Shimla, Himachal Pradesh</li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="text-lg font-bold text-yellow-400 mb-4">Follow Us</h4>
-                    <div class="flex space-x-4">
-                        <a href="#" class="text-gray-400 hover:text-yellow-400 transition"><i class="fab fa-instagram text-2xl"></i></a>
-                        <a href="#" class="text-gray-400 hover:text-yellow-400 transition"><i class="fab fa-youtube text-2xl"></i></a>
-                        <a href="#" class="text-gray-400 hover:text-yellow-400 transition"><i class="fab fa-discord text-2xl"></i></a>
-                    </div>
-                </div>
-            </div>
-            <div class="mt-8 pt-8 border-t border-gray-800 text-center text-gray-400">
-                <p>&copy; 2025 Fire Village Tournament. All rights reserved.</p>
-            </div>
+    <!-- Mobile menu -->
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="index.html"><i class="fas fa-home" style="margin-right:10px;color:var(--fire-yellow)"></i>Home</a>
+      <a href="tournaments.html"><i class="fas fa-trophy" style="margin-right:10px;color:var(--fire-yellow)"></i>Tournaments</a>
+      <a href="leaderboard.html"><i class="fas fa-medal" style="margin-right:10px;color:var(--fire-yellow)"></i>Leaderboard</a>
+      <a href="teams.html"><i class="fas fa-users" style="margin-right:10px;color:var(--fire-yellow)"></i>Teams</a>
+      <a href="register.html" class="active"><i class="fas fa-user-plus" style="margin-right:10px;color:var(--fire-yellow)"></i>Register</a>
+      <a href="contact.html"><i class="fas fa-envelope" style="margin-right:10px;color:var(--fire-yellow)"></i>Contact</a>
+      <a href="about.html"><i class="fas fa-info-circle" style="margin-right:10px;color:var(--fire-yellow)"></i>About</a>
+      <div class="mobile-auth" id="mobileAuthArea"></div>
+    </div>
+  </nav>
+
+  <!-- ── MAIN CONTENT ── -->
+  <main>
+    <div class="auth-container">
+      <div class="auth-header">
+        <h1 class="auth-title">JOIN THE BATTLE</h1>
+        <p class="auth-desc">Create your Fire Village account to start your journey.</p>
+      </div>
+
+      <form id="registerForm">
+        <div class="form-group">
+          <label for="fullName">Full Name</label>
+          <div class="input-wrap">
+            <input type="text" id="fullName" class="form-control" placeholder="John Doe" required>
+            <i class="fas fa-user"></i>
+          </div>
         </div>
-    </footer>
 
-    <script src="backend.js"></script>
-    <script>
-        // Load tournaments
-        function loadTournaments() {
-            const tournaments = TournamentManager.getTournaments({ status: 'upcoming' });
-            const tournamentsList = document.getElementById('tournamentsList');
-            const tournamentSelect = document.getElementById('tournamentSelect');
-            tournamentsList.innerHTML = '';
-            tournamentSelect.innerHTML = '<option value="">Select a tournament</option>';
+        <div class="form-group">
+          <label for="ign">In-Game Name (IGN)</label>
+          <div class="input-wrap">
+            <input type="text" id="ign" class="form-control" placeholder="Ex: Killer_99" required>
+            <i class="fas fa-gamepad"></i>
+          </div>
+        </div>
 
-            tournaments.forEach(tournament => {
-                // Add to tournament cards
-                const card = document.createElement('div');
-                card.className = 'tournament-card rounded-xl p-6';
-                card.innerHTML = `
-                    <div class="flex justify-between items-start mb-4">
-                        <h3 class="text-xl font-bold text-yellow-400">${tournament.name}</h3>
-                        <span class="px-3 py-1 bg-yellow-400/20 text-yellow-400 rounded-full text-sm">
-                            ${tournament.prizePool} Prize Pool
-                        </span>
-                    </div>
-                    <p class="text-gray-400 mb-4">${tournament.description}</p>
-                    <div class="flex justify-between items-center text-sm text-gray-400">
-                        <span><i class="far fa-calendar mr-2"></i>${new Date(tournament.date).toLocaleDateString()}</span>
-                        <span><i class="fas fa-users mr-2"></i>${tournament.registeredTeams.length}/${tournament.maxTeams} Teams</span>
-                    </div>
-                `;
-                tournamentsList.appendChild(card);
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <div class="input-wrap">
+            <input type="email" id="email" class="form-control" placeholder="you@example.com" required>
+            <i class="fas fa-envelope"></i>
+          </div>
+        </div>
 
-                // Add to tournament select
-                const option = document.createElement('option');
-                option.value = tournament.id;
-                option.textContent = `${tournament.name} - Entry Fee: ₹${tournament.entryFee}`;
-                option.dataset.fee = tournament.entryFee;
-                tournamentSelect.appendChild(option);
-            });
+        <div class="form-group">
+          <label for="password">Password</label>
+          <div class="input-wrap">
+            <input type="password" id="password" class="form-control" placeholder="At least 6 characters" minlength="6" required>
+            <i class="fas fa-lock"></i>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="confirmPassword">Confirm Password</label>
+          <div class="input-wrap">
+            <input type="password" id="confirmPassword" class="form-control" placeholder="Re-enter password" minlength="6" required>
+            <i class="fas fa-check-circle"></i>
+          </div>
+        </div>
+
+        <button type="submit" class="btn-submit" id="submitBtn">
+          <i class="fas fa-user-plus"></i> Create Account
+        </button>
+      </form>
+
+      <div style="text-align:center; margin-top: 25px; margin-bottom: 25px; position:relative;">
+        <span style="color:#6b7280; font-size:0.85rem; background:var(--fire-dark); padding:0 10px; z-index:1; position:relative;">OR</span>
+        <div style="position:absolute; top:50%; left:0; right:0; height:1px; background:#374151; transform:translateY(-50%); z-index:0;"></div>
+      </div>
+
+      <button type="button" class="btn-submit" id="googleSignUpBtn" style="background:#4285F4; margin-top:0;">
+        <i class="fab fa-google"></i> Sign Up with Google
+      </button>
+
+
+      <div class="auth-footer">
+        Already have an account? <a href="login.html">Log In</a>
+      </div>
+    </div>
+  </main>
+
+  <!-- ── FOOTER ── -->
+  <footer>
+    <div class="footer-links">
+      <a href="privacy-policy.html">Privacy Policy</a>
+      <a href="terms.html">Terms of Service</a>
+      <a href="shipping.html">Shipping Policy</a>
+      <a href="contact.html">Contact Us</a>
+    </div>
+    <p>&copy; <span id="copyright-year"></span> Fire Village Tournament. All rights reserved.</p>
+  </footer>
+
+  <!-- ── TOAST ── -->
+  <div class="toast" id="toast">
+    <i class="fas fa-check-circle"></i>
+    <span id="toastMsg"></span>
+  </div>
+
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+
+  <script>
+  // ════════════════════════════════════════════════
+  // FIREBASE CONFIG
+  // ════════════════════════════════════════════════
+  const firebaseConfig = {
+    apiKey: "AIzaSyDFjHR5_D6yQ9tXrEut-3c2o4oA1ddz6hQ",
+    authDomain: "firevillagetournament.firebaseapp.com",
+    projectId: "firevillagetournament",
+    storageBucket: "firevillagetournament.firebasestorage.app",
+    messagingSenderId: "511246704009",
+    appId: "1:511246704009:web:8ae5e484591a64bb735558",
+    measurementId: "G-ZCQ2V6DEGX"
+  };
+
+  let db = null, auth = null;
+  let firebaseReady = false;
+
+  try {
+    firebase.initializeApp(firebaseConfig);
+    db   = firebase.firestore();
+    auth = firebase.auth();
+    firebaseReady = true;
+  } catch(e) {
+    console.warn("Firebase not configured properly.", e);
+  }
+
+  // ════════════════════════════════
+  // TOAST UTILITY
+  // ════════════════════════════════
+  let toastTimer;
+  function showToast(msg, type='success') {
+    const t = document.getElementById('toast');
+    const i = t.querySelector('i');
+    t.querySelector('#toastMsg').textContent = msg;
+    t.className = `toast ${type}`;
+    i.className = type === 'success' ? 'fas fa-check-circle' : 'fas fa-exclamation-circle';
+    t.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(()=>t.classList.remove('show'), 3500);
+  }
+
+  // ════════════════════════════════
+  // NAVBAR LOGIC
+  // ════════════════════════════════
+  const navbar       = document.getElementById('navbar');
+  const hamburger    = document.getElementById('hamburger');
+  const hamburgerIcon= document.getElementById('hamburgerIcon');
+  const mobileMenu   = document.getElementById('mobileMenu');
+
+  window.addEventListener('scroll', ()=>{
+    navbar.classList.toggle('scrolled', window.scrollY > 40);
+  }, {passive:true});
+
+  hamburger.addEventListener('click', ()=>{
+    const open = mobileMenu.classList.toggle('open');
+    hamburgerIcon.className = open ? 'fas fa-times' : 'fas fa-bars';
+  });
+  mobileMenu.querySelectorAll('a').forEach(a=>{
+    a.addEventListener('click', ()=>{
+      mobileMenu.classList.remove('open');
+      hamburgerIcon.className = 'fas fa-bars';
+    });
+  });
+
+  function renderAuth(user) {
+    const authArea   = document.getElementById('authArea');
+    const mobileAuth = document.getElementById('mobileAuthArea');
+
+    if (user) {
+      const displayName = user.displayName || user.email?.split('@')[0] || 'Player';
+      authArea.innerHTML = `
+        <div class="user-menu-wrap">
+          <button class="user-btn" id="userBtn">
+            <i class="fas fa-user-circle"></i> <span>${displayName}</span>
+            <i class="fas fa-chevron-down" style="font-size:.7rem;"></i>
+          </button>
+          <div class="user-dropdown" id="userDropdown">
+            <a href="profile.html"><i class="fas fa-user-circle" style="margin-right:8px;color:var(--fire-yellow)"></i>Profile</a>
+            <a href="#" id="logoutBtn" class="logout"><i class="fas fa-sign-out-alt" style="margin-right:8px;"></i>Logout</a>
+          </div>
+        </div>`;
+      mobileAuth.innerHTML = `
+        <a href="profile.html"><i class="fas fa-user-circle" style="margin-right:10px;color:var(--fire-yellow)"></i>${displayName}'s Profile</a>
+        <a href="#" id="mobileLogout" style="color:#f87171;"><i class="fas fa-sign-out-alt" style="margin-right:10px;"></i>Logout</a>`;
+
+      document.getElementById('userBtn')?.addEventListener('click', e=>{
+        e.stopPropagation(); document.getElementById('userDropdown')?.classList.toggle('open');
+      });
+      document.getElementById('logoutBtn')?.addEventListener('click', e=>{
+        e.preventDefault(); if(auth) auth.signOut();
+      });
+      document.getElementById('mobileLogout')?.addEventListener('click', e=>{
+        e.preventDefault(); if(auth) auth.signOut();
+      });
+      
+      // If already logged in, redirect to profile/home to prevent re-registration
+      if(window.location.pathname.includes('register.html')) {
+        setTimeout(() => { window.location.href = 'index.html'; }, 1500);
+        showToast('You are already logged in! Redirecting...', 'success');
+      }
+    } else {
+      authArea.innerHTML = `
+        <a href="login.html" class="btn-login"><i class="fas fa-sign-in-alt" style="margin-right:6px;"></i>Login</a>`;
+      mobileAuth.innerHTML = `
+        <a href="login.html"><i class="fas fa-sign-in-alt" style="margin-right:10px;color:var(--fire-yellow)"></i>Login</a>`;
+    }
+    document.addEventListener('click', ()=>document.getElementById('userDropdown')?.classList.remove('open'));
+  }
+
+  if (firebaseReady && auth) {
+    auth.onAuthStateChanged(user => renderAuth(user));
+  } else {
+    renderAuth(null);
+  }
+
+  // ════════════════════════════════
+  // REGISTRATION LOGIC
+  // ════════════════════════════════
+  const registerForm = document.getElementById('registerForm');
+  const submitBtn = document.getElementById('submitBtn');
+  const googleSignUpBtn = document.getElementById('googleSignUpBtn');
+
+  registerForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    if(!firebaseReady || !auth || !db) {
+      showToast('System is in Demo Mode. Registration offline.', 'error');
+      return;
+    }
+
+    const fullName = document.getElementById('fullName').value.trim();
+    const ign = document.getElementById('ign').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const password = document.getElementById('password').value;
+    const confirmPassword = document.getElementById('confirmPassword').value;
+
+    if(password !== confirmPassword) {
+      showToast('Passwords do not match!', 'error');
+      return;
+    }
+
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creating...';
+
+    try {
+      const userCred = await auth.createUserWithEmailAndPassword(email, password);
+      const user = userCred.user;
+
+      // Update profile name
+      await user.updateProfile({ displayName: ign });
+
+      // Save details to Firestore
+      await db.collection('users').doc(user.uid).set({
+        fullName: fullName,
+        ign: ign,
+        email: email,
+        role: 'player',
+        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+      });
+
+      showToast('Account created successfully!', 'success');
+      
+      // Redirect to profile or home
+      setTimeout(() => {
+        window.location.href = 'acknowledgement.html?status=success&type=registration';
+      }, 1500);
+
+    } catch(err) {
+      console.error(err);
+      window.location.href = `acknowledgement.html?status=error&type=registration&message=${encodeURIComponent(err.message || 'Failed to create account')}`;
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = '<i class="fas fa-user-plus"></i> Create Account';
+    }
+  });
+
+  // ════════════════════════════════
+  // GOOGLE SIGN-UP LOGIC
+  // ════════════════════════════════
+  if (googleSignUpBtn && firebaseReady && auth && db) {
+    googleSignUpBtn.addEventListener('click', async () => {
+      const provider = new firebase.auth.GoogleAuthProvider();
+      googleSignUpBtn.disabled = true;
+      googleSignUpBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Signing up with Google...';
+
+      try {
+        const result = await auth.signInWithPopup(provider);
+        const user = result.user;
+
+        // Check if user exists in Firestore, if not, create a new entry
+        const userDocRef = db.collection('users').doc(user.uid);
+        const userDoc = await userDocRef.get();
+
+        if (!userDoc.exists) {
+          await userDocRef.set({
+            fullName: user.displayName || '',
+            email: user.email,
+            ign: user.displayName || user.email.split('@')[0], // Default IGN
+            role: 'player',
+            createdAt: firebase.firestore.FieldValue.serverTimestamp()
+          });
         }
 
-        // Update registration fee based on tournament selection
-        function updateRegistrationFee() {
-            const select = document.getElementById('tournamentSelect');
-            const fee = select.options[select.selectedIndex].dataset.fee || '0';
-            document.getElementById('registrationFee').textContent = `₹${fee}`;
+        showToast('Signed up with Google successfully!', 'success');
+        setTimeout(() => {
+          window.location.href = 'index.html'; // Redirect to home or profile
+        }, 1000);
+
+      } catch (error) {
+        console.error("Google Sign-Up failed:", error);
+        let errorMessage = 'Google Sign-Up failed. Please try again.';
+        if (error.code === 'auth/popup-closed-by-user') {
+          errorMessage = 'Google Sign-Up popup closed.';
         }
+        showToast(errorMessage, 'error');
+      } finally {
+        googleSignUpBtn.disabled = false;
+        googleSignUpBtn.innerHTML = '<i class="fab fa-google"></i> Sign Up with Google';
+      }
+    });
+  }
 
-        // Payment selection
-        function selectPayment(method) {
-            document.querySelectorAll('.payment-option').forEach(option => {
-                option.classList.remove('selected');
-            });
-            event.currentTarget.classList.add('selected');
-            document.querySelector(`input[value="${method}"]`).checked = true;
-        }
-
-        // Add team member
-        let memberCount = 1;
-        function addTeamMember() {
-            if (memberCount >= 5) {
-                alert('Maximum 5 team members allowed');
-                return;
-            }
-
-            memberCount++;
-            const memberDiv = document.createElement('div');
-            memberDiv.className = 'grid grid-cols-1 md:grid-cols-3 gap-4';
-            memberDiv.innerHTML = `
-                <div>
-                    <label class="block text-gray-400 mb-2">Player Name</label>
-                    <input type="text" name="player${memberCount}Name" required class="input-field w-full px-4 py-2 rounded-lg text-white focus:outline-none">
-                </div>
-                <div>
-                    <label class="block text-gray-400 mb-2">Free Fire UID</label>
-                    <input type="text" name="player${memberCount}UID" required class="input-field w-full px-4 py-2 rounded-lg text-white focus:outline-none">
-                </div>
-                <div>
-                    <label class="block text-gray-400 mb-2">Role</label>
-                    <select name="player${memberCount}Role" required class="input-field w-full px-4 py-2 rounded-lg text-white focus:outline-none">
-                        <option value="Rusher">Rusher</option>
-                        <option value="Support">Support</option>
-                        <option value="Sniper">Sniper</option>
-                        <option value="Fragger">Fragger</option>
-                    </select>
-                </div>
-            `;
-            document.getElementById('teamMembers').appendChild(memberDiv);
-        }
-
-        // Form submission
-        document.getElementById('registrationForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const tournamentId = document.getElementById('tournamentSelect').value;
-            if (!tournamentId) {
-                alert('Please select a tournament');
-                return;
-            }
-
-            const upiRefNo = document.getElementById('upiRefNo').value.trim();
-            if (!upiRefNo) {
-                alert('Please enter the UPI Reference Number');
-                return;
-            }
-
-            const formData = {
-                tournamentId: tournamentId,
-                teamInfo: {
-                    name: document.getElementById('teamName').value,
-                    logo: document.getElementById('teamLogo').files[0],
-                    captain: {
-                        name: document.getElementById('captainName').value,
-                        uid: document.getElementById('captainUID').value
-                    },
-                    contact: {
-                        phone: document.getElementById('teamContact').value,
-                        email: document.getElementById('teamEmail').value
-                    }
-                },
-                members: Array.from(document.querySelectorAll('[name^="player"]')).reduce((acc, input) => {
-                    const match = input.name.match(/player(\d+)(\w+)/);
-                    if (match) {
-                        const [, num, field] = match;
-                        if (!acc[num]) acc[num] = {};
-                        acc[num][field.toLowerCase()] = input.value;
-                    }
-                    return acc;
-                }, {}),
-                payment: {
-                    method: document.querySelector('input[name="paymentMethod"]:checked').value,
-                    screenshot: document.getElementById('paymentScreenshot').files[0],
-                    amount: document.getElementById('tournamentSelect').options[document.getElementById('tournamentSelect').selectedIndex].dataset.fee,
-                    upiRefNo: upiRefNo
-                }
-            };
-
-            // Register team
-            const teamResult = TeamManager.createTeam(formData.teamInfo);
-            if (teamResult) {
-                alert('Registration successful! Please check your email for confirmation.');
-                window.location.href = 'index.html';
-            } else {
-                alert('Registration failed. Please try again.');
-            }
-        });
-
-        // Initialize
-        loadTournaments();
-
-        function toggleMobileMenu() {
-            const mobileMenu = document.getElementById('mobileMenu');
-            mobileMenu.classList.toggle('hidden');
-            document.body.classList.toggle('overflow-hidden');
-        }
-
-        // Close mobile menu when clicking outside
-        document.addEventListener('click', function(event) {
-            const mobileMenu = document.getElementById('mobileMenu');
-            const menuButton = document.querySelector('button[onclick="toggleMobileMenu()"]');
-            
-            if (!mobileMenu.contains(event.target) && !menuButton.contains(event.target) && !mobileMenu.classList.contains('hidden')) {
-                toggleMobileMenu();
-            }
-        });
-    </script>
+  document.getElementById('copyright-year').textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>
