@@ -1,477 +1,681 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tournament Details | Fire Village - India's Premier Free Fire Esports Arena</title>
-    <meta name="description" content="Join the Village Warriors Cup tournament. Compete with the best Free Fire players in India and win exciting prizes!">
-    
-    <!-- Favicon -->
-    <link rel="icon" href="./assets/logo.png" type="image/png">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tournament Details - Fire Village Gaming</title>
+  <meta name="description" content="View specific tournament details, rules, and register your team at Fire Village.">
+  <link rel="icon" href="./assets/logo.png" type="image/png">
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
 
-    <!-- Preload critical resources -->
-    <link rel="preload" href="https://cdn.tailwindcss.com" as="script">
-    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" as="style">
-    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style">
+  <style>
+    /* ── ROOT VARS ── */
+    :root {
+      --fire-yellow: #facc15;
+      --fire-orange: #f59e0b;
+      --fire-red:    #ef4444;
+      --fire-dark:   #0f0f0f;
+      --fire-gray:   #1f2937;
+      --fire-light:  #374151;
+      --fire-bg:     #111827;
+      --font-head:   'Oswald', sans-serif;
+      --font-body:   'Poppins', sans-serif;
+    }
 
-    <!-- TailwindCSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    * { margin:0; padding:0; box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--fire-dark);
+      color: #fff;
+      min-height: 100vh;
+      overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width:6px; }
+    ::-webkit-scrollbar-track { background:#111; }
+    ::-webkit-scrollbar-thumb { background: var(--fire-orange); border-radius:3px; }
+
+    a { text-decoration:none; color:inherit; transition:all .3s ease; }
+    img { display:block; max-width:100%; }
+
+    /* ── NAVBAR ── */
+    nav {
+      background: rgba(17,24,39,0.95);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      padding: 0 24px;
+      height: 68px;
+      display: flex;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      border-bottom: 1px solid rgba(250,204,21,0.12);
+      transition: background .3s;
+    }
+    nav.scrolled {
+      background: rgba(10,10,10,0.98);
+      box-shadow: 0 4px 24px rgba(0,0,0,0.5);
+    }
+    .nav-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .logo-wrap {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+    .logo-wrap img {
+      height: 44px;
+      width: auto;
+      transition: transform .3s;
+    }
+    .logo-wrap:hover img { transform: scale(1.08); }
+    .logo-wrap span {
+      font-family: var(--font-head);
+      font-size: 1.5rem;
+      color: var(--fire-yellow);
+      letter-spacing: 1px;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      list-style: none;
+    }
+    .nav-links a {
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: #d1d5db;
+      transition: all .25s;
+    }
+    .nav-links a:hover, .nav-links a.active {
+      background: var(--fire-yellow);
+      color: #000;
+    }
+    .nav-links a i { margin-right:6px; }
+
+    /* Auth buttons */
+    .auth-area { display:flex; align-items:center; gap:10px; }
+    .btn-login {
+      padding: 8px 18px;
+      border-radius: 8px;
+      color: #d1d5db;
+      font-weight: 500;
+      font-size: 0.88rem;
+    }
+    .btn-login:hover { color: var(--fire-yellow); }
+    .btn-join {
+      padding: 9px 20px;
+      border-radius: 8px;
+      background: linear-gradient(to right, var(--fire-orange), var(--fire-red));
+      color: #000;
+      font-weight: 700;
+      font-size: 0.88rem;
+      transition: all .3s;
+    }
+    .btn-join:hover {
+      background: linear-gradient(to right, var(--fire-yellow), var(--fire-orange));
+      transform: scale(1.05);
+      box-shadow: 0 0 18px rgba(245,158,11,0.4);
+    }
+
+    /* User menu */
+    .user-menu-wrap { position:relative; }
+    .user-btn {
+      background: none;
+      border: 1px solid rgba(250,204,21,0.3);
+      border-radius: 8px;
+      padding: 8px 16px;
+      color: #d1d5db;
+      font-family: var(--font-body);
+      font-size: 0.88rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all .25s;
+    }
+    .user-btn:hover { border-color: var(--fire-yellow); color: var(--fire-yellow); }
+    .user-dropdown {
+      display: none;
+      position: absolute;
+      right: 0;
+      top: calc(100% + 8px);
+      width: 180px;
+      background: #1f2937;
+      border: 1px solid rgba(250,204,21,0.15);
+      border-radius: 10px;
+      padding: 8px 0;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      z-index: 200;
+    }
+    .user-dropdown.open { display:block; }
+    .user-dropdown a {
+      display: block;
+      padding: 10px 16px;
+      font-size: 0.88rem;
+      color: #d1d5db;
+    }
+    .user-dropdown a:hover { background: rgba(255,255,255,0.06); color: var(--fire-yellow); }
+    .user-dropdown a.logout { color: #f87171; }
+    .user-dropdown a.logout:hover { background: rgba(248,113,113,0.08); }
+
+    /* Hamburger */
+    .hamburger {
+      display: none;
+      background: none;
+      border: none;
+      color: #d1d5db;
+      font-size: 1.6rem;
+      cursor: pointer;
+      padding: 6px;
+      border-radius: 6px;
+      transition: color .25s;
+    }
+    .hamburger:hover { color: var(--fire-yellow); }
+
+    /* Mobile menu */
+    .mobile-menu {
+      display: none;
+      position: absolute;
+      top: 68px;
+      left: 0;
+      right: 0;
+      background: rgba(10,10,15,0.98);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(250,204,21,0.1);
+      padding: 16px;
+      z-index: 999;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .mobile-menu.open { display:flex; }
+    .mobile-menu a {
+      padding: 13px 18px;
+      border-radius: 8px;
+      font-weight: 500;
+      color: #d1d5db;
+      font-size: 1rem;
+    }
+    .mobile-menu a:hover, .mobile-menu a.active {
+      background: var(--fire-yellow);
+      color: #000;
+    }
+    .mobile-menu .mobile-auth {
+      border-top: 1px solid rgba(255,255,255,0.08);
+      margin-top: 8px;
+      padding-top: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .mobile-menu .btn-join-mobile {
+      text-align: center;
+      padding: 13px;
+      border-radius: 8px;
+      background: linear-gradient(to right, var(--fire-orange), var(--fire-red));
+      color: #000;
+      font-weight: 700;
+    }
+
+    /* ── PAGE HEADER ── */
+    .page-header {
+      padding: 60px 24px;
+      background: linear-gradient(to bottom, rgba(17,24,39,0.9), rgba(15,15,15,1));
+      text-align: center;
+      border-bottom: 1px solid rgba(250,204,21,0.1);
+    }
+    .t-title {
+      font-family: var(--font-head);
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      color: var(--fire-yellow);
+      margin-bottom: 12px;
+    }
+    .t-status-badge {
+      display: inline-block;
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: 6px 16px;
+      border-radius: 99px;
+    }
+    .t-status-badge.open { background: rgba(34,197,94,0.15); color: #4ade80; border: 1px solid rgba(34,197,94,0.3); }
+    .t-status-badge.upcoming { background: rgba(250,204,21,0.15); color: var(--fire-yellow); border: 1px solid rgba(250,204,21,0.3); }
+    .t-status-badge.full { background: rgba(239,68,68,0.15); color: #f87171; border: 1px solid rgba(239,68,68,0.3); }
+
+    /* ── CONTENT LAYOUT ── */
+    main { flex: 1; padding: 40px 24px; }
+    .details-wrap {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 32px;
+    }
     
-    <!-- Tailwind Custom Theme -->
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        fire: {
-                            yellow: '#facc15',
-                            dark: '#0f0f0f',
-                            gray: '#1f2937',
-                            red: '#ef4444'
-                        }
-                    },
-                    fontFamily: {
-                        sans: ['Poppins', 'sans-serif'],
-                        heading: ['Oswald', 'sans-serif']
-                    }
-                }
-            }
-        }
-    </script>
-    <style>
-        body {
-            background-image: url('./assets/fire-bg.jpg');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-        }
-        .tournament-banner {
-            position: relative;
-            height: 400px;
-            background-size: cover;
-            background-position: center;
-        }
-        .tournament-banner::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7));
-        }
-        .glass-card {
-            background: rgba(31, 41, 55, 0.9);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(250, 204, 21, 0.1);
-        }
-        .glass-card:hover {
-            border-color: rgba(250, 204, 21, 0.3);
-            box-shadow: 0 0 20px rgba(250, 204, 21, 0.1);
-        }
-        .prize-pool {
-            background: linear-gradient(45deg, #facc15, #f59e0b);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .countdown-item {
-            background: rgba(31, 41, 55, 0.9);
-            border: 1px solid rgba(250, 204, 21, 0.2);
-        }
-        .rule-item {
-            transition: all 0.3s ease;
-        }
-        .rule-item:hover {
-            transform: translateX(10px);
-            background: rgba(250, 204, 21, 0.1);
-        }
-    </style>
+    /* Left Column */
+    .left-col section {
+      background: rgba(17,24,39,0.6);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 14px;
+      padding: 30px;
+      margin-bottom: 24px;
+    }
+    .sec-title {
+      font-family: var(--font-head);
+      font-size: 1.6rem;
+      color: var(--fire-yellow);
+      margin-bottom: 16px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      padding-bottom: 10px;
+    }
+    .desc-text { color: #d1d5db; font-size: 1rem; line-height: 1.7; margin-bottom: 16px; }
+    .rules-list { list-style: none; color: #d1d5db; font-size: 0.95rem; }
+    .rules-list li { margin-bottom: 12px; display: flex; align-items: flex-start; gap: 10px; }
+    .rules-list li i { color: var(--fire-orange); margin-top: 4px; }
+
+    /* Right Column / Sidebar */
+    .right-col { position: relative; }
+    .sidebar-card {
+      background: linear-gradient(145deg, rgba(15,15,15,0.9), rgba(17,24,39,1));
+      border: 1px solid rgba(250,204,21,0.2);
+      border-radius: 16px;
+      padding: 30px;
+      position: sticky;
+      top: 100px;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.6);
+    }
+    .s-meta { margin-bottom: 24px; }
+    .s-meta-item {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .s-meta-item:last-child { border-bottom: none; }
+    .s-meta-lbl { color: #9ca3af; font-size: 0.9rem; display: flex; align-items: center; gap: 8px; }
+    .s-meta-lbl i { color: var(--fire-yellow); width: 16px; text-align: center; }
+    .s-meta-val { color: #fff; font-weight: 600; font-size: 0.95rem; text-align: right; }
+    .s-prize {
+      text-align: center; background: rgba(250,204,21,0.05); border: 1px dashed rgba(250,204,21,0.2);
+      border-radius: 12px; padding: 20px; margin-bottom: 24px;
+    }
+    .s-prize h4 { font-family: var(--font-head); color: var(--fire-yellow); font-size: 2rem; margin-bottom: 4px; }
+    .s-prize span { color: #9ca3af; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; }
+    
+    .s-progress-wrap { margin-bottom: 24px; }
+    .s-progress-lbl { display: flex; justify-content: space-between; font-size: 0.85rem; color: #d1d5db; margin-bottom: 8px; }
+    .s-progress-bar { height: 8px; background: rgba(255,255,255,0.1); border-radius: 4px; overflow: hidden; }
+    .s-progress-fill { height: 100%; background: linear-gradient(to right, var(--fire-orange), var(--fire-red)); border-radius: 4px; width: 0%; transition: width 1s ease-in-out; }
+
+    .btn-main {
+      display: block; width: 100%; text-align: center; padding: 14px;
+      border-radius: 8px; border: none; font-family: var(--font-body);
+      font-size: 1.05rem; font-weight: 700; color: #000; cursor: pointer; transition: all .3s;
+      background: linear-gradient(to right, var(--fire-orange), var(--fire-red));
+    }
+    .btn-main:hover {
+      background: linear-gradient(to right, var(--fire-yellow), var(--fire-orange));
+      transform: translateY(-2px); box-shadow: 0 8px 20px rgba(239,68,68,0.4);
+    }
+    .btn-main:disabled, .btn-main.disabled {
+      background: #374151; color: #9ca3af; cursor: not-allowed; transform: none; box-shadow: none; pointer-events: none;
+    }
+
+    /* Loading state */
+    .loading-view { text-align: center; padding: 80px 24px; color: #9ca3af; }
+    .loading-view .spinner { width: 40px; height: 40px; border-width: 4px; margin-bottom: 16px; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: #111827; border-top: 1px solid rgba(255,255,255,0.06);
+      padding: 32px 24px; text-align: center; margin-top: auto;
+    }
+    .footer-links { display: flex; justify-content: center; flex-wrap: wrap; gap: 8px 24px; margin-bottom: 18px; }
+    .footer-links a { color: #9ca3af; font-size: 0.88rem; }
+    .footer-links a:hover { color: var(--fire-yellow); }
+    footer p { color: #4b5563; font-size: 0.82rem; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 1024px) {
+      .nav-links, .auth-area { display: none; }
+      .hamburger { display: block; }
+      .details-wrap { grid-template-columns: 1fr; }
+      .sidebar-card { position: static; margin-bottom: 30px; }
+      .left-col { order: 2; }
+      .right-col { order: 1; }
+    }
+  </style>
 </head>
-<body class="bg-fire-dark text-white min-h-screen">
-    <!-- Navigation -->
-    <nav class="bg-gray-900 bg-opacity-90 px-4 py-3 sticky top-0 z-50 shadow-lg backdrop-blur-md">
-        <div class="container mx-auto flex justify-between items-center">
-            <div class="flex items-center space-x-2">
-                <a href="index.html" class="flex items-center group">
-                    <img src="./assets/logo.png" alt="Fire Village Logo" class="h-12 w-auto transform group-hover:scale-110 transition-transform duration-300">
-                    <span class="ml-2 text-yellow-400 font-heading text-2xl group-hover:text-yellow-300 transition-colors">FIRE VILLAGE</span>
-                </a>
-            </div>
-            
-            <!-- Desktop Navigation -->
-            <div class="hidden lg:flex items-center space-x-1">
-                <a href="index.html" class="nav-link px-4 py-2 rounded-lg text-gray-300 font-medium hover:bg-yellow-400 hover:text-black transition-all">
-                    <i class="fas fa-home mr-2"></i>Home
-                </a>
-                <a href="tournaments.html" class="nav-link active px-4 py-2 rounded-lg text-yellow-400 font-medium hover:bg-yellow-400 hover:text-black transition-all">
-                    <i class="fas fa-trophy mr-2"></i>Tournaments
-                </a>
-                <a href="leaderboard.html" class="nav-link px-4 py-2 rounded-lg text-gray-300 font-medium hover:bg-yellow-400 hover:text-black transition-all">
-                    <i class="fas fa-medal mr-2"></i>Leaderboard
-                </a>
-                <a href="teams.html" class="nav-link px-4 py-2 rounded-lg text-gray-300 font-medium hover:bg-yellow-400 hover:text-black transition-all">
-                    <i class="fas fa-users mr-2"></i>Teams
-                </a>
-                <a href="register.html" class="nav-link px-4 py-2 rounded-lg text-gray-300 font-medium hover:bg-yellow-400 hover:text-black transition-all">
-                    <i class="fas fa-user-plus mr-2"></i>Register
-                </a>
-                <a href="contact.html" class="nav-link px-4 py-2 rounded-lg text-gray-300 font-medium hover:bg-yellow-400 hover:text-black transition-all">
-                    <i class="fas fa-envelope mr-2"></i>Contact
-                </a>
-                <a href="about.html" class="nav-link px-4 py-2 rounded-lg text-gray-300 font-medium hover:bg-yellow-400 hover:text-black transition-all">
-                    <i class="fas fa-info-circle mr-2"></i>About
-                </a>
-            </div>
 
-            <!-- Auth Buttons -->
-            <div class="hidden lg:flex items-center space-x-4">
-                <a href="register.html" class="px-4 py-2 rounded-lg bg-gradient-to-r from-yellow-500 to-red-500 text-black font-medium hover:from-yellow-400 hover:to-red-400 transition-all transform hover:scale-105">
-                    <i class="fas fa-user-plus mr-2"></i>Join Now
-                </a>
-            </div>
+<body>
+  <!-- ── NAVBAR ── -->
+  <nav id="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="logo-wrap">
+        <img src="./assets/logo.png" alt="Fire Village Logo" onerror="this.style.display='none'">
+        <span>FIRE VILLAGE</span>
+      </a>
 
-            <!-- Mobile Menu Button -->
-            <div class="lg:hidden">
-                <button id="mobileMenuBtn" class="text-gray-300 hover:text-yellow-400 focus:outline-none">
-                    <i class="fas fa-bars text-2xl"></i>
-                </button>
-            </div>
-        </div>
+      <ul class="nav-links">
+        <li><a href="index.html"><i class="fas fa-home"></i>Home</a></li>
+        <li><a href="tournaments.html" class="active"><i class="fas fa-trophy"></i>Tournaments</a></li>
+        <li><a href="leaderboard.html"><i class="fas fa-medal"></i>Leaderboard</a></li>
+        <li><a href="teams.html"><i class="fas fa-users"></i>Teams</a></li>
+        <li><a href="register.html"><i class="fas fa-user-plus"></i>Register</a></li>
+        <li><a href="contact.html"><i class="fas fa-envelope"></i>Contact</a></li>
+        <li><a href="about.html"><i class="fas fa-info-circle"></i>About</a></li>
+      </ul>
 
-        <!-- Mobile Menu -->
-        <div id="mobileMenu" class="lg:hidden hidden bg-gray-900 bg-opacity-95 absolute top-16 left-0 right-0 p-4 backdrop-blur-md">
-            <div class="flex flex-col space-y-3">
-                <a href="index.html" class="mobile-nav-link px-5 py-4 rounded-lg text-gray-300 font-medium hover:bg-yellow-400 hover:text-black transition-all">
-                    <i class="fas fa-home mr-3 text-lg"></i>Home
-                </a>
-                <a href="tournaments.html" class="mobile-nav-link active px-5 py-4 rounded-lg text-yellow-400 font-medium hover:bg-yellow-400 hover:text-black transition-all">
-                    <i class="fas fa-trophy mr-3 text-lg"></i>Tournaments
-                </a>
-                <a href="leaderboard.html" class="mobile-nav-link px-5 py-4 rounded-lg text-gray-300 font-medium hover:bg-yellow-400 hover:text-black transition-all">
-                    <i class="fas fa-medal mr-3 text-lg"></i>Leaderboard
-                </a>
-                <a href="teams.html" class="mobile-nav-link px-5 py-4 rounded-lg text-gray-300 font-medium hover:bg-yellow-400 hover:text-black transition-all">
-                    <i class="fas fa-users mr-3 text-lg"></i>Teams
-                </a>
-                <a href="register.html" class="mobile-nav-link px-5 py-4 rounded-lg text-gray-300 font-medium hover:bg-yellow-400 hover:text-black transition-all">
-                    <i class="fas fa-user-plus mr-3 text-lg"></i>Register
-                </a>
-                <a href="contact.html" class="mobile-nav-link px-5 py-4 rounded-lg text-gray-300 font-medium hover:bg-yellow-400 hover:text-black transition-all">
-                    <i class="fas fa-envelope mr-3 text-lg"></i>Contact
-                </a>
-                <a href="about.html" class="mobile-nav-link px-5 py-4 rounded-lg text-gray-300 font-medium hover:bg-yellow-400 hover:text-black transition-all">
-                    <i class="fas fa-info-circle mr-3 text-lg"></i>About
-                </a>
-                <div class="pt-4 border-t border-gray-700">
-                    <a href="register.html" class="block mt-3 px-5 py-4 rounded-lg bg-gradient-to-r from-yellow-500 to-red-500 text-black font-medium text-center hover:from-yellow-400 hover:to-red-400 transition-all">
-                        <i class="fas fa-user-plus mr-3 text-lg"></i>Join Now
-                    </a>
-                </div>
-            </div>
-        </div>
-    </nav>
+      <div class="auth-area" id="authArea"></div>
 
-    <!-- Tournament Banner -->
-    <div class="tournament-banner" style="background-image: url('./assets/Tournament-Banner1.jpg');">
-        <div class="container mx-auto px-4 h-full flex items-center">
-            <div class="relative z-10 max-w-3xl">
-                <h1 class="text-4xl md:text-5xl font-heading font-bold text-yellow-400 mb-4">Village Warriors Cup</h1>
-                <div class="flex flex-wrap gap-4 mb-6">
-                    <span class="bg-yellow-500 bg-opacity-90 text-black px-4 py-1 rounded-full text-sm font-bold">
-                        SQUAD
-                    </span>
-                    <span class="bg-red-500 bg-opacity-90 text-white px-4 py-1 rounded-full text-sm font-bold">
-                        Entry Fee: ₹2,000
-                    </span>
-                    <span class="bg-blue-500 bg-opacity-90 text-white px-4 py-1 rounded-full text-sm font-bold">
-                        Prize Pool: ₹10,000
-                    </span>
-                </div>
-                <p class="text-gray-300 text-lg mb-8">Join the most competitive Free Fire tournament in India. Show your skills, compete with the best, and win exciting prizes!</p>
-                <div class="flex flex-wrap gap-4">
-                    <a href="#register" class="bg-gradient-to-r from-yellow-500 to-red-500 text-black py-3 px-6 rounded-lg font-bold hover:from-yellow-400 hover:to-red-400 transition-all transform hover:scale-105">
-                        Register Now <i class="fas fa-user-plus ml-2"></i>
-                    </a>
-                    <a href="#rules" class="bg-gray-800 text-white py-3 px-6 rounded-lg font-bold hover:bg-gray-700 transition-all border-2 border-yellow-400">
-                        View Rules <i class="fas fa-scroll ml-2"></i>
-                    </a>
-                </div>
-            </div>
-        </div>
+      <button class="hamburger" id="hamburger" aria-label="Menu">
+        <i class="fas fa-bars" id="hamburgerIcon"></i>
+      </button>
     </div>
 
-    <!-- Tournament Details -->
-    <section class="py-12">
-        <div class="container mx-auto px-4">
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                <!-- Main Content -->
-                <div class="lg:col-span-2 space-y-8">
-                    <!-- About Tournament -->
-                    <div class="glass-card rounded-xl p-6">
-                        <h2 class="text-2xl font-heading text-yellow-400 mb-4">About Tournament</h2>
-                        <p class="text-gray-300 mb-4">The Village Warriors Cup is a premier Free Fire tournament that brings together the best squads from across India. This tournament is designed to test your skills, strategy, and teamwork in intense competitive matches.</p>
-                        <p class="text-gray-300">With a significant prize pool and recognition in the gaming community, this tournament is your chance to prove yourself and take your gaming career to the next level.</p>
-                    </div>
+    <!-- Mobile menu -->
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="index.html"><i class="fas fa-home" style="margin-right:10px;color:var(--fire-yellow)"></i>Home</a>
+      <a href="tournaments.html" class="active"><i class="fas fa-trophy" style="margin-right:10px;color:var(--fire-yellow)"></i>Tournaments</a>
+      <a href="leaderboard.html"><i class="fas fa-medal" style="margin-right:10px;color:var(--fire-yellow)"></i>Leaderboard</a>
+      <a href="teams.html"><i class="fas fa-users" style="margin-right:10px;color:var(--fire-yellow)"></i>Teams</a>
+      <a href="register.html"><i class="fas fa-user-plus" style="margin-right:10px;color:var(--fire-yellow)"></i>Register</a>
+      <a href="contact.html"><i class="fas fa-envelope" style="margin-right:10px;color:var(--fire-yellow)"></i>Contact</a>
+      <a href="about.html"><i class="fas fa-info-circle" style="margin-right:10px;color:var(--fire-yellow)"></i>About</a>
+      <div class="mobile-auth" id="mobileAuthArea"></div>
+    </div>
+  </nav>
 
-                    <!-- Tournament Schedule -->
-                    <div class="glass-card rounded-xl p-6">
-                        <h2 class="text-2xl font-heading text-yellow-400 mb-4">Tournament Schedule</h2>
-                        <div class="space-y-4">
-                            <div class="flex items-center text-gray-300">
-                                <i class="far fa-calendar-alt w-8 text-yellow-400"></i>
-                                <span class="ml-2">Registration Deadline: 15 May 2025</span>
-                            </div>
-                            <div class="flex items-center text-gray-300">
-                                <i class="far fa-calendar-alt w-8 text-yellow-400"></i>
-                                <span class="ml-2">Tournament Date: 18 May 2025</span>
-                            </div>
-                            <div class="flex items-center text-gray-300">
-                                <i class="far fa-clock w-8 text-yellow-400"></i>
-                                <span class="ml-2">Start Time: 03:00 PM IST</span>
-                            </div>
-                            <div class="flex items-center text-gray-300">
-                                <i class="fas fa-clock w-8 text-yellow-400"></i>
-                                <span class="ml-2">Duration: 4-6 hours</span>
-                            </div>
-                        </div>
-                    </div>
+  <!-- Placeholder container while loading -->
+  <div id="contentContainer">
+    <div class="loading-view">
+      <div class="spinner" style="border-top-color: var(--fire-yellow);"></div>
+      <p>Loading details...</p>
+    </div>
+  </div>
 
-                    <!-- Tournament Rules -->
-                    <div id="rules" class="glass-card rounded-xl p-6">
-                        <h2 class="text-2xl font-heading text-yellow-400 mb-4">Tournament Rules</h2>
-                        <div class="space-y-4">
-                            <div class="rule-item p-4 rounded-lg bg-gray-800">
-                                <h3 class="text-lg font-bold text-yellow-400 mb-2">1. Team Composition</h3>
-                                <p class="text-gray-300">Each team must consist of exactly 4 players. No substitutes are allowed during the tournament.</p>
-                            </div>
-                            <div class="rule-item p-4 rounded-lg bg-gray-800">
-                                <h3 class="text-lg font-bold text-yellow-400 mb-2">2. Game Settings</h3>
-                                <p class="text-gray-300">All matches will be played in the Classic Squad mode with default settings. Custom rooms will be created by the tournament organizers.</p>
-                            </div>
-                            <div class="rule-item p-4 rounded-lg bg-gray-800">
-                                <h3 class="text-lg font-bold text-yellow-400 mb-2">3. Scoring System</h3>
-                                <p class="text-gray-300">Points will be awarded based on placement and kills. Each kill = 1 point. Placement points: 1st = 15, 2nd = 12, 3rd = 10, and so on.</p>
-                            </div>
-                            <div class="rule-item p-4 rounded-lg bg-gray-800">
-                                <h3 class="text-lg font-bold text-yellow-400 mb-2">4. Fair Play</h3>
-                                <p class="text-gray-300">Any form of cheating, hacking, or exploiting game bugs will result in immediate disqualification.</p>
-                            </div>
-                            <div class="rule-item p-4 rounded-lg bg-gray-800">
-                                <h3 class="text-lg font-bold text-yellow-400 mb-2">5. Communication</h3>
-                                <p class="text-gray-300">Teams must join the designated Discord server for tournament communication and updates.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+  <!-- ── FOOTER ── -->
+  <footer>
+    <div class="footer-links">
+      <a href="privacy-policy.html">Privacy Policy</a>
+      <a href="terms.html">Terms of Service</a>
+      <a href="shipping.html">Shipping Policy</a>
+      <a href="contact.html">Contact Us</a>
+    </div>
+    <p>&copy; <span id="copyright-year"></span> Fire Village Tournament. All rights reserved.</p>
+  </footer>
 
-                <!-- Sidebar -->
-                <div class="space-y-8">
-                    <!-- Countdown Timer -->
-                    <div class="glass-card rounded-xl p-6">
-                        <h2 class="text-2xl font-heading text-yellow-400 mb-4">Tournament Starts In</h2>
-                        <div class="grid grid-cols-4 gap-4">
-                            <div class="countdown-item rounded-lg p-4 text-center">
-                                <div class="text-2xl font-bold text-yellow-400" id="days">15</div>
-                                <div class="text-sm text-gray-400">Days</div>
-                            </div>
-                            <div class="countdown-item rounded-lg p-4 text-center">
-                                <div class="text-2xl font-bold text-yellow-400" id="hours">12</div>
-                                <div class="text-sm text-gray-400">Hours</div>
-                            </div>
-                            <div class="countdown-item rounded-lg p-4 text-center">
-                                <div class="text-2xl font-bold text-yellow-400" id="minutes">45</div>
-                                <div class="text-sm text-gray-400">Minutes</div>
-                            </div>
-                            <div class="countdown-item rounded-lg p-4 text-center">
-                                <div class="text-2xl font-bold text-yellow-400" id="seconds">30</div>
-                                <div class="text-sm text-gray-400">Seconds</div>
-                            </div>
-                        </div>
-                    </div>
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
 
-                    <!-- Prize Pool -->
-                    <div class="glass-card rounded-xl p-6">
-                        <h2 class="text-2xl font-heading text-yellow-400 mb-4">Prize Pool</h2>
-                        <div class="space-y-4">
-                            <div class="flex items-center justify-between p-4 rounded-lg bg-gray-800">
-                                <div class="flex items-center">
-                                    <div class="w-8 h-8 rounded-full bg-yellow-500 flex items-center justify-center text-black font-bold">1</div>
-                                    <span class="ml-3 text-gray-300">1st Place</span>
-                                </div>
-                                <span class="prize-pool font-bold">₹5,000</span>
-                            </div>
-                            <div class="flex items-center justify-between p-4 rounded-lg bg-gray-800">
-                                <div class="flex items-center">
-                                    <div class="w-8 h-8 rounded-full bg-gray-400 flex items-center justify-center text-black font-bold">2</div>
-                                    <span class="ml-3 text-gray-300">2nd Place</span>
-                                </div>
-                                <span class="prize-pool font-bold">₹3,000</span>
-                            </div>
-                            <div class="flex items-center justify-between p-4 rounded-lg bg-gray-800">
-                                <div class="flex items-center">
-                                    <div class="w-8 h-8 rounded-full bg-yellow-700 flex items-center justify-center text-black font-bold">3</div>
-                                    <span class="ml-3 text-gray-300">3rd Place</span>
-                                </div>
-                                <span class="prize-pool font-bold">₹2,000</span>
-                            </div>
-                        </div>
-                    </div>
+  <script>
+  // ════════════════════════════════════════════════
+  // FIREBASE CONFIG
+  // ════════════════════════════════════════════════
+  const firebaseConfig = {
+    apiKey: "AIzaSyDFjHR5_D6yQ9tXrEut-3c2o4oA1ddz6hQ",
+    authDomain: "firevillagetournament.firebaseapp.com",
+    projectId: "firevillagetournament",
+    storageBucket: "firevillagetournament.firebasestorage.app",
+    messagingSenderId: "511246704009",
+    appId: "1:511246704009:web:8ae5e484591a64bb735558",
+    measurementId: "G-ZCQ2V6DEGX"
+  };
 
-                    <!-- Registration Form -->
-                    <div id="register" class="glass-card rounded-xl p-6">
-                        <h2 class="text-2xl font-heading text-yellow-400 mb-4">Register Now</h2>
-                        <form class="space-y-4">
-                            <div>
-                                <label class="block text-gray-300 mb-2">Team Name</label>
-                                <input type="text" class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-yellow-400" required>
-                            </div>
-                            <div>
-                                <label class="block text-gray-300 mb-2">Team Leader Name</label>
-                                <input type="text" class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-yellow-400" required>
-                            </div>
-                            <div>
-                                <label class="block text-gray-300 mb-2">Contact Number</label>
-                                <input type="tel" class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-yellow-400" required>
-                            </div>
-                            <div>
-                                <label class="block text-gray-300 mb-2">Email</label>
-                                <input type="email" class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-yellow-400" required>
-                            </div>
-                            <div>
-                                <label class="block text-gray-300 mb-2">Payment Method</label>
-                                <select class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-yellow-400" required>
-                                    <option value="">Select payment method</option>
-                                    <option value="upi">UPI</option>
-                                    <option value="card">Credit/Debit Card</option>
-                                    <option value="netbanking">Net Banking</option>
-                                </select>
-                            </div>
-                            <button type="submit" class="w-full bg-gradient-to-r from-yellow-500 to-red-500 text-black py-3 rounded-lg font-bold hover:from-yellow-400 hover:to-red-400 transition-all transform hover:scale-105">
-                                Pay & Register
-                            </button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+  let db = null, auth = null;
+  let firebaseReady = false;
 
-    <!-- Footer -->
-    <footer class="bg-gray-900 py-8">
-        <div class="container mx-auto px-4">
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
-                <div>
-                    <div class="flex items-center mb-4">
-                        <img src="./assets/logo.png" alt="Fire Village Logo" class="h-10 w-auto">
-                        <span class="ml-2 text-yellow-400 font-heading text-xl">FIRE VILLAGE</span>
-                    </div>
-                    <p class="text-gray-400">Join the ultimate gaming community. Compete in tournaments, form teams, and climb the leaderboard to become a legend.</p>
-                </div>
-                <div>
-                    <h3 class="text-yellow-400 font-bold mb-4">Quick Links</h3>
-                    <ul class="space-y-2">
-                        <li><a href="index.html" class="text-gray-400 hover:text-yellow-400 transition py-2 block">Home</a></li>
-                        <li><a href="tournaments.html" class="text-gray-400 hover:text-yellow-400 transition py-2 block">Tournaments</a></li>
-                        <li><a href="leaderboard.html" class="text-gray-400 hover:text-yellow-400 transition py-2 block">Leaderboard</a></li>
-                        <li><a href="teams.html" class="text-gray-400 hover:text-yellow-400 transition py-2 block">Teams</a></li>
-                        <li><a href="register.html" class="text-gray-400 hover:text-yellow-400 transition py-2 block">Register</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h3 class="text-yellow-400 font-bold mb-4">Contact Us</h3>
-                    <ul class="space-y-2">
-                        <li class="flex items-center text-gray-400 py-2">
-                            <i class="fas fa-envelope mr-2 text-yellow-400"></i>
-                            <span>firevillage.in@gmail.com</span>
-                        </li>
-                        <li class="flex items-center text-gray-400 py-2">
-                            <i class="fas fa-phone mr-2 text-yellow-400"></i>
-                            <span>+91 9015202443</span>
-                        </li>
-                        <li class="flex items-center text-gray-400 py-2">
-                            <i class="fas fa-map-marker-alt mr-2 text-yellow-400"></i>
-                            <span>Shimla, Himachal Pradesh, India</span>
-                        </li>
-                    </ul>
-                </div>
-                <div>
-                    <h3 class="text-yellow-400 font-bold mb-4">Follow Us</h3>
-                    <div class="flex space-x-4">
-                        <a href="#" class="text-gray-400 hover:text-yellow-400 transition p-2">
-                            <i class="fab fa-facebook-f text-xl"></i>
-                        </a>
-                        <a href="#" class="text-gray-400 hover:text-yellow-400 transition p-2">
-                            <i class="fab fa-twitter text-xl"></i>
-                        </a>
-                        <a href="#" class="text-gray-400 hover:text-yellow-400 transition p-2">
-                            <i class="fab fa-instagram text-xl"></i>
-                        </a>
-                        <a href="#" class="text-gray-400 hover:text-yellow-400 transition p-2">
-                            <i class="fab fa-discord text-xl"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
-                <p>&copy; 2025 Fire Village. All rights reserved.</p>
-            </div>
-        </div>
-    </footer>
+  try {
+    firebase.initializeApp(firebaseConfig);
+    db   = firebase.firestore();
+    auth = firebase.auth();
+    firebaseReady = true;
+  } catch(e) {
+    console.warn("Firebase not configured — using demo data.", e);
+  }
 
-    <script>
-        // Mobile Menu Toggle
-        document.getElementById('mobileMenuBtn').addEventListener('click', function() {
-            const mobileMenu = document.getElementById('mobileMenu');
-            const icon = this.querySelector('i');
+  // DEMO DATA (Fallback if DB query fails)
+  const ALL_DEMO_TOURNAMENTS = [
+    { id:'t1', name:'Village Cup — Season 8', status:'open', date:'April 15, 2026', time:'6:00 PM', mode:'Squad (4v4)', slots:16, registered:11, prize:'₹10,000', fee:'₹100 per team',
+      description:'Welcome to the ultimate BGMI Village Cup! Gather your squad and fight for glory and the massive ₹10,000 prize pool. This is the stage where legends are born.',
+      rules:['No emulators allowed. Mobile players only.','Use of hacks/scripts will result in an instant permanent ban.','Teams must join the custom room 10 minutes before the start time.','Teaming up with other squads is strictly prohibited.']
+    },
+    { id:'t2', name:'Valorant Spike Rush', status:'upcoming', date:'April 22, 2026', time:'7:00 PM', mode:'Team (5v5)', slots:16, registered:8, prize:'₹15,000', fee:'₹250 per team',
+      description:'Fast-paced 5v5 tactical shooter action. Coordinate with your team to plant or defuse the spike!',
+      rules:['Standard competitive rules apply.','Room IDs will be shared via Discord 15 mins prior.']
+    },
+    { id:'t3', name:'Free Fire Grand Prix', status:'full', date:'May 1, 2026', time:'5:30 PM', mode:'Squad (4v4)', slots:20, registered:20, prize:'₹8,000', fee:'₹80 per team',
+      description:'The biggest tournament of the season. High stakes, intense battles.',
+      rules:['Registration is closed once slots are full.','Streamed live on our official YouTube channel.']
+    },
+    { id:'t4', name:'CODM: Solo King Clash', status:'full', date:'April 10, 2026', time:'4:00 PM', mode:'Solo (1v1)', slots:50, registered:50, prize:'₹3,000', fee:'₹30 per player', description:'1v1 classic showdown.', rules:['Only solo. No teaming.'] },
+    { id:'t5', name:'Clash Royale: 1v1 Duel', status:'upcoming', date:'May 15, 2026', time:'11:00 PM', mode:'1v1', slots:64, registered:2, prize:'₹5,000', fee:'₹20 per player', description:'Late night brawls.', rules:['Respect match timings.'] },
+    { id:'t6', name:'CS2: Rookie Showdown', status:'open', date:'April 18, 2026', time:'3:00 PM', mode:'Team (5v5)', slots:16, registered:15, prize:'₹12,000', fee:'₹200 per team', description:'For the rising stars.', rules:['Accounts must be below Legendary Eagle rank.'] }
+  ];
+
+  // ════════════════════════════════
+  // NAVBAR LOGIC
+  // ════════════════════════════════
+  const navbar       = document.getElementById('navbar');
+  const hamburger    = document.getElementById('hamburger');
+  const hamburgerIcon= document.getElementById('hamburgerIcon');
+  const mobileMenu   = document.getElementById('mobileMenu');
+
+  window.addEventListener('scroll', ()=>{
+    navbar.classList.toggle('scrolled', window.scrollY > 40);
+  }, {passive:true});
+
+  hamburger.addEventListener('click', ()=>{
+    const open = mobileMenu.classList.toggle('open');
+    hamburgerIcon.className = open ? 'fas fa-times' : 'fas fa-bars';
+  });
+  mobileMenu.querySelectorAll('a').forEach(a=>{
+    a.addEventListener('click', ()=>{
+      mobileMenu.classList.remove('open');
+      hamburgerIcon.className = 'fas fa-bars';
+    });
+  });
+
+  function renderAuth(user) {
+    const authArea   = document.getElementById('authArea');
+    const mobileAuth = document.getElementById('mobileAuthArea');
+    if (user) {
+      const displayName = user.displayName || user.email?.split('@')[0] || 'Player';
+      authArea.innerHTML = `
+        <div class="user-menu-wrap">
+          <button class="user-btn" id="userBtn"><i class="fas fa-user-circle"></i> <span>${displayName}</span> <i class="fas fa-chevron-down" style="font-size:.7rem;"></i></button>
+          <div class="user-dropdown" id="userDropdown">
+            <a href="profile.html"><i class="fas fa-user-circle" style="margin-right:8px;color:var(--fire-yellow)"></i>Profile</a>
+            <a href="#" id="logoutBtn" class="logout"><i class="fas fa-sign-out-alt" style="margin-right:8px;"></i>Logout</a>
+          </div>
+        </div>`;
+      mobileAuth.innerHTML = `
+        <a href="profile.html"><i class="fas fa-user-circle" style="margin-right:10px;color:var(--fire-yellow)"></i>${displayName}'s Profile</a>
+        <a href="#" id="mobileLogout" style="color:#f87171;"><i class="fas fa-sign-out-alt" style="margin-right:10px;"></i>Logout</a>`;
+
+      document.getElementById('userBtn')?.addEventListener('click', e=>{
+        e.stopPropagation(); document.getElementById('userDropdown')?.classList.toggle('open');
+      });
+      document.getElementById('logoutBtn')?.addEventListener('click', e=>{
+        e.preventDefault(); if(auth) auth.signOut();
+      });
+      document.getElementById('mobileLogout')?.addEventListener('click', e=>{
+        e.preventDefault(); if(auth) auth.signOut();
+      });
+    } else {
+      authArea.innerHTML = `<a href="login.html" class="btn-login"><i class="fas fa-sign-in-alt" style="margin-right:6px;"></i>Login</a><a href="register.html" class="btn-join"><i class="fas fa-user-plus" style="margin-right:6px;"></i>Join Now</a>`;
+      mobileAuth.innerHTML = `<a href="login.html"><i class="fas fa-sign-in-alt" style="margin-right:10px;color:var(--fire-yellow)"></i>Login</a><a href="register.html" class="btn-join-mobile"><i class="fas fa-user-plus" style="margin-right:8px;"></i>Join Now</a>`;
+    }
+    document.addEventListener('click', ()=>document.getElementById('userDropdown')?.classList.remove('open'));
+  }
+
+  if (firebaseReady && auth) auth.onAuthStateChanged(user => renderAuth(user));
+  else renderAuth(null);
+
+  // ════════════════════════════════
+  // RENDER TOURNAMENT DETAILS
+  // ════════════════════════════════
+  function renderTournament(t) {
+    const container = document.getElementById('contentContainer');
+    if(!t) {
+      container.innerHTML = `
+        <div class="loading-view" style="color:#ef4444;">
+          <i class="fas fa-exclamation-triangle" style="font-size:3rem; margin-bottom:16px;"></i>
+          <h2>Tournament Not Found</h2>
+          <p>The tournament you are looking for does not exist or has been removed.</p>
+          <br><a href="tournaments.html" style="color:var(--fire-yellow); text-decoration:underline;">Back to Tournaments</a>
+        </div>`;
+      return;
+    }
+
+    const pct = Math.round((t.registered / t.slots) * 100);
+    const isFull = t.registered >= t.slots;
+    let statusClass = isFull ? 'full' : (t.status === 'upcoming' ? 'upcoming' : 'open');
+    let statusLabel = isFull ? 'FULL' : (t.status === 'upcoming' ? 'UPCOMING' : 'OPEN');
+
+    // Default descriptions and rules if missing
+    const desc = t.description || 'Gear up and jump into the battlefield. Register your team to secure a slot in this upcoming tournament.';
+    const rules = t.rules && t.rules.length > 0 ? t.rules : [
+      'Cheating of any kind, including use of unauthorized software or hardware, is forbidden.',
+      'All players must be registered with their correct IGNs.',
+      'Match timing is final. Late entries will be disqualified.'
+    ];
+    const rulesHtml = rules.map(r => `<li><i class="fas fa-check-circle"></i> <span>${r}</span></li>`).join('');
+
+    container.innerHTML = `
+      <section class="page-header">
+        <h1 class="t-title">${t.name}</h1>
+        <span class="t-status-badge ${statusClass}">${statusLabel}</span>
+      </section>
+
+      <main>
+        <div class="details-wrap">
+          <!-- Left Column -->
+          <div class="left-col">
+            <section>
+              <h2 class="sec-title">About the Tournament</h2>
+              <p class="desc-text">${desc}</p>
+            </section>
             
-            mobileMenu.classList.toggle('hidden');
-            
-            if (mobileMenu.classList.contains('hidden')) {
-                icon.classList.remove('fa-times');
-                icon.classList.add('fa-bars');
-            } else {
-                icon.classList.remove('fa-bars');
-                icon.classList.add('fa-times');
-            }
-        });
+            <section>
+              <h2 class="sec-title">Rules & Guidelines</h2>
+              <ul class="rules-list">
+                ${rulesHtml}
+              </ul>
+            </section>
+          </div>
 
-        // Countdown Timer
-        function updateCountdown() {
-            const tournamentDate = new Date('2025-05-18T15:00:00+05:30').getTime();
-            const now = new Date().getTime();
-            const distance = tournamentDate - now;
+          <!-- Right Column -->
+          <div class="right-col">
+            <div class="sidebar-card">
+              <div class="s-prize">
+                <h4>${t.prize}</h4>
+                <span>Total Prize Pool</span>
+              </div>
 
-            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+              <div class="s-meta">
+                <div class="s-meta-item">
+                  <span class="s-meta-lbl"><i class="fas fa-calendar-alt"></i> Date</span>
+                  <span class="s-meta-val">${t.date}</span>
+                </div>
+                <div class="s-meta-item">
+                  <span class="s-meta-lbl"><i class="fas fa-clock"></i> Time</span>
+                  <span class="s-meta-val">${t.time}</span>
+                </div>
+                <div class="s-meta-item">
+                  <span class="s-meta-lbl"><i class="fas fa-gamepad"></i> Mode</span>
+                  <span class="s-meta-val">${t.mode}</span>
+                </div>
+                <div class="s-meta-item">
+                  <span class="s-meta-lbl"><i class="fas fa-rupee-sign"></i> Entry Fee</span>
+                  <span class="s-meta-val">${t.fee}</span>
+                </div>
+              </div>
 
-            document.getElementById('days').textContent = days;
-            document.getElementById('hours').textContent = hours;
-            document.getElementById('minutes').textContent = minutes;
-            document.getElementById('seconds').textContent = seconds;
+              <div class="s-progress-wrap">
+                <div class="s-progress-lbl">
+                  <span>Registered Teams</span>
+                  <span>${t.registered} / ${t.slots}</span>
+                </div>
+                <div class="s-progress-bar">
+                  <div class="s-progress-fill" id="progressFill" style="width:0%;"></div>
+                </div>
+              </div>
+
+              <button class="btn-main ${isFull ? 'disabled' : ''}" onclick="${isFull ? '' : `window.location.href='payment.html?tournament=${t.id}'`}">
+                ${isFull ? '<i class="fas fa-ban"></i> Slots Full' : '<i class="fas fa-user-plus"></i> Register Team Now'}
+              </button>
+            </div>
+          </div>
+        </div>
+      </main>
+    `;
+
+    // Animate progress bar after render
+    setTimeout(() => {
+      const bar = document.getElementById('progressFill');
+      if(bar) bar.style.width = `${pct}%`;
+    }, 100);
+  }
+
+  // ════════════════════════════════
+  // INITIALIZATION / LOAD DATA
+  // ════════════════════════════════
+  async function initPage() {
+    const params = new URLSearchParams(window.location.search);
+    const tId = params.get('id');
+
+    if(!tId) {
+      // Default fallback if reached without ID
+      renderTournament(ALL_DEMO_TOURNAMENTS[0]);
+      return;
+    }
+
+    if(firebaseReady && db) {
+      try {
+        const doc = await db.collection('tournaments').doc(tId).get();
+        if(doc.exists) {
+          renderTournament({ id: doc.id, ...doc.data() });
+        } else {
+          // Try to find it in demo data just in case
+          const fallback = ALL_DEMO_TOURNAMENTS.find(t => t.id === tId);
+          renderTournament(fallback || null);
         }
+      } catch(err) {
+        console.warn('Firestore error:', err);
+        const fallback = ALL_DEMO_TOURNAMENTS.find(t => t.id === tId);
+        renderTournament(fallback || null);
+      }
+    } else {
+      // Demo Mode
+      setTimeout(() => {
+        const t = ALL_DEMO_TOURNAMENTS.find(item => item.id === tId);
+        renderTournament(t || null);
+      }, 600);
+    }
+  }
 
-        setInterval(updateCountdown, 1000);
-        updateCountdown();
-
-        // Smooth Scroll
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
-    </script>
+  document.getElementById('copyright-year').textContent = new Date().getFullYear();
+  initPage();
+  </script>
 </body>
-</html> 
+</html>
