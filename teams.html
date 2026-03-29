@@ -324,12 +324,21 @@
       color: #000;
       margin: 0 auto 16px;
       box-shadow: 0 4px 15px rgba(239,68,68,0.3);
+      transition: all 0.4s ease;
+    }
+    .team-card:hover .team-avatar {
+        transform: scale(1.1);
+        box-shadow: 0 8px 25px rgba(239,68,68,0.5);
     }
     .team-card h3 { font-family: var(--font-head); font-size: 1.3rem; color: var(--fire-yellow); margin-bottom: 6px; }
-    .team-stats { display: flex; justify-content: center; gap: 16px; margin: 16px 0; border-top: 1px solid rgba(255,255,255,0.05); border-bottom: 1px solid rgba(255,255,255,0.05); padding: 12px 0; }
+    .team-stats { display: flex; justify-content: center; gap: 16px; margin: 16px 0; border-top: 1px solid rgba(255,255,255,0.05); border-bottom: 1px solid rgba(255,255,255,0.05); padding: 12px 0; opacity: 0; transform: translateY(10px); transition: all 0.4s ease; }
     .stat-item { display: flex; flex-direction: column; align-items: center; }
     .stat-val { color: #fff; font-weight: 700; font-size: 1.1rem; }
     .stat-lbl { color: #9ca3af; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; }
+    .team-card:hover .team-stats {
+        opacity: 1;
+        transform: translateY(0);
+    }
     .btn-view-team {
       display: inline-block;
       padding: 8px 24px;
@@ -338,12 +347,18 @@
       color: var(--fire-yellow);
       font-weight: 500;
       font-size: 0.9rem;
-      transition: all .3s;
       margin-top: 8px;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: all 0.4s ease 0.1s;
     }
     .btn-view-team:hover {
       background: var(--fire-yellow);
       color: #000;
+    }
+    .team-card:hover .btn-view-team {
+        opacity: 1;
+        transform: translateY(0);
     }
     .no-data {
       text-align: center;
@@ -385,7 +400,7 @@
     <div class="nav-inner">
       <a href="index.html" class="logo-wrap">
         <img src="./assets/logo.png" alt="Fire Village Logo" onerror="this.style.display='none'">
-        <span>FIRE VILLAGE</span>
+
       </a>
 
       <ul class="nav-links">
@@ -395,7 +410,6 @@
         <li><a href="teams.html" class="active"><i class="fas fa-users"></i>Teams</a></li>
         <li><a href="register.html"><i class="fas fa-user-plus"></i>Register</a></li>
         <li><a href="contact.html"><i class="fas fa-envelope"></i>Contact</a></li>
-        <li><a href="about.html"><i class="fas fa-info-circle"></i>About</a></li>
       </ul>
 
       <div class="auth-area" id="authArea"></div>
@@ -405,17 +419,8 @@
       </button>
     </div>
 
-    <!-- Mobile menu -->
-    <div class="mobile-menu" id="mobileMenu">
-      <a href="index.html"><i class="fas fa-home" style="margin-right:10px;color:var(--fire-yellow)"></i>Home</a>
-      <a href="tournaments.html"><i class="fas fa-trophy" style="margin-right:10px;color:var(--fire-yellow)"></i>Tournaments</a>
-      <a href="leaderboard.html"><i class="fas fa-medal" style="margin-right:10px;color:var(--fire-yellow)"></i>Leaderboard</a>
-      <a href="teams.html" class="active"><i class="fas fa-users" style="margin-right:10px;color:var(--fire-yellow)"></i>Teams</a>
-      <a href="register.html"><i class="fas fa-user-plus" style="margin-right:10px;color:var(--fire-yellow)"></i>Register</a>
-      <a href="contact.html"><i class="fas fa-envelope" style="margin-right:10px;color:var(--fire-yellow)"></i>Contact</a>
-      <a href="about.html"><i class="fas fa-info-circle" style="margin-right:10px;color:var(--fire-yellow)"></i>About</a>
-      <div class="mobile-auth" id="mobileAuthArea"></div>
-    </div>
+    <!-- Mobile menu (populated by JS) -->
+    <div class="mobile-menu" id="mobileMenu"></div>
   </nav>
 
   <!-- ── PAGE HEADER ── -->
@@ -501,66 +506,74 @@
   // ════════════════════════════════
   // NAVBAR LOGIC
   // ════════════════════════════════
-  const navbar       = document.getElementById('navbar');
-  const hamburger    = document.getElementById('hamburger');
-  const hamburgerIcon= document.getElementById('hamburgerIcon');
-  const mobileMenu   = document.getElementById('mobileMenu');
+    const navbar = document.getElementById('navbar');
+    const hamburger = document.getElementById('hamburger');
+    const hamburgerIcon = document.getElementById('hamburgerIcon');
+    const mobileMenu = document.getElementById('mobileMenu');
 
-  window.addEventListener('scroll', ()=>{
-    navbar.classList.toggle('scrolled', window.scrollY > 40);
-  }, {passive:true});
+    window.addEventListener('scroll', () => {
+        navbar.classList.toggle('scrolled', window.scrollY > 40);
+    }, { passive: true });
 
-  hamburger.addEventListener('click', ()=>{
-    const open = mobileMenu.classList.toggle('open');
-    hamburgerIcon.className = open ? 'fas fa-times' : 'fas fa-bars';
-  });
-  mobileMenu.querySelectorAll('a').forEach(a=>{
-    a.addEventListener('click', ()=>{
-      mobileMenu.classList.remove('open');
-      hamburgerIcon.className = 'fas fa-bars';
+    hamburger.addEventListener('click', () => {
+        const open = mobileMenu.classList.toggle('open');
+        hamburgerIcon.className = open ? 'fas fa-times' : 'fas fa-bars';
     });
-  });
 
-  function renderAuth(user) {
-    const authArea   = document.getElementById('authArea');
-    const mobileAuth = document.getElementById('mobileAuthArea');
+    function renderAuth(user) {
+        const authArea = document.getElementById('authArea');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const navRegisterLink = document.querySelector('.nav-links a[href="register.html"]');
 
-    if (user) {
-      const displayName = user.displayName || user.email?.split('@')[0] || 'Player';
-      authArea.innerHTML = `
-        <div class="user-menu-wrap">
-          <button class="user-btn" id="userBtn">
-            <i class="fas fa-user-circle"></i> <span>${displayName}</span>
-            <i class="fas fa-chevron-down" style="font-size:.7rem;"></i>
-          </button>
-          <div class="user-dropdown" id="userDropdown">
-            <a href="profile.html"><i class="fas fa-user-circle" style="margin-right:8px;color:var(--fire-yellow)"></i>Profile</a>
-            <a href="#" id="logoutBtn" class="logout"><i class="fas fa-sign-out-alt" style="margin-right:8px;"></i>Logout</a>
-          </div>
-        </div>`;
-      mobileAuth.innerHTML = `
-        <a href="profile.html"><i class="fas fa-user-circle" style="margin-right:10px;color:var(--fire-yellow)"></i>${displayName}'s Profile</a>
-        <a href="#" id="mobileLogout" style="color:#f87171;"><i class="fas fa-sign-out-alt" style="margin-right:10px;"></i>Logout</a>`;
+        const mobileNavLinks = `
+            <a href="index.html"><i class="fas fa-home" style="margin-right:10px;color:var(--fire-yellow)"></i>Home</a>
+            <a href="tournaments.html"><i class="fas fa-trophy" style="margin-right:10px;color:var(--fire-yellow)"></i>Tournaments</a>
+            <a href="leaderboard.html"><i class="fas fa-medal" style="margin-right:10px;color:var(--fire-yellow)"></i>Leaderboard</a>
+            <a href="teams.html" class="active"><i class="fas fa-users" style="margin-right:10px;color:var(--fire-yellow)"></i>Teams</a>
+            <a href="register.html"><i class="fas fa-user-plus" style="margin-right:10px;color:var(--fire-yellow)"></i>Register</a>
+            <a href="contact.html"><i class="fas fa-envelope" style="margin-right:10px;color:var(--fire-yellow)"></i>Contact</a>
+        `;
 
-      document.getElementById('userBtn')?.addEventListener('click', e=>{
-        e.stopPropagation(); document.getElementById('userDropdown')?.classList.toggle('open');
-      });
-      document.getElementById('logoutBtn')?.addEventListener('click', e=>{
-        e.preventDefault(); if(auth) auth.signOut();
-      });
-      document.getElementById('mobileLogout')?.addEventListener('click', e=>{
-        e.preventDefault(); if(auth) auth.signOut();
-      });
-    } else {
-      authArea.innerHTML = `
-        <a href="login.html" class="btn-login"><i class="fas fa-sign-in-alt" style="margin-right:6px;"></i>Login</a>
-        <a href="register.html" class="btn-join"><i class="fas fa-user-plus" style="margin-right:6px;"></i>Join Now</a>`;
-      mobileAuth.innerHTML = `
-        <a href="login.html"><i class="fas fa-sign-in-alt" style="margin-right:10px;color:var(--fire-yellow)"></i>Login</a>
-        <a href="register.html" class="btn-join-mobile"><i class="fas fa-user-plus" style="margin-right:8px;"></i>Join Now</a>`;
+        if (user) {
+            const displayName = user.displayName || user.email?.split('@')[0] || 'Player';
+            if (navRegisterLink) navRegisterLink.parentElement.style.display = 'none';
+            const mobileNavRegisterLink = document.querySelector('.mobile-menu a[href="register.html"]');
+            if (mobileNavRegisterLink) mobileNavRegisterLink.style.display = 'none';
+
+            authArea.innerHTML = `
+                <div class="user-menu-wrap">
+                    <button class="user-btn" id="userBtn"><i class="fas fa-user-circle"></i> <span>${displayName}</span> <i class="fas fa-chevron-down" style="font-size:.7rem;"></i></button>
+                    <div class="user-dropdown" id="userDropdown">
+                        <a href="profile.html"><i class="fas fa-user-circle" style="margin-right:8px;color:var(--fire-yellow)"></i>Profile</a>
+                        <a href="#" id="logoutBtn" class="logout"><i class="fas fa-sign-out-alt" style="margin-right:8px;"></i>Logout</a>
+                    </div>
+                </div>`;
+            mobileMenu.innerHTML = mobileNavLinks + `
+                <div class="mobile-auth">
+                    <a href="profile.html"><i class="fas fa-user-circle" style="margin-right:10px;color:var(--fire-yellow)"></i>${displayName}'s Profile</a>
+                    <a href="#" id="mobileLogout" style="color:#f87171;"><i class="fas fa-sign-out-alt" style="margin-right:10px;"></i>Logout</a>
+                </div>`;
+
+            document.getElementById('userBtn')?.addEventListener('click', e => { e.stopPropagation(); document.getElementById('userDropdown')?.classList.toggle('open'); });
+            document.getElementById('logoutBtn')?.addEventListener('click', e => { e.preventDefault(); if (auth) auth.signOut(); });
+            document.getElementById('mobileLogout')?.addEventListener('click', e => { e.preventDefault(); if (auth) auth.signOut(); });
+        } else {
+            if (navRegisterLink) navRegisterLink.parentElement.style.display = '';
+            authArea.innerHTML = `<a href="login.html" class="btn-login"><i class="fas fa-sign-in-alt" style="margin-right:6px;"></i>Login</a><a href="register.html" class="btn-join"><i class="fas fa-user-plus" style="margin-right:6px;"></i>Join Now</a>`;
+            mobileMenu.innerHTML = mobileNavLinks + `
+                <div class="mobile-auth">
+                    <a href="login.html"><i class="fas fa-sign-in-alt" style="margin-right:10px;color:var(--fire-yellow)"></i>Login</a>
+                    <a href="register.html" class="btn-join-mobile"><i class="fas fa-user-plus" style="margin-right:8px;"></i>Join Now</a>
+                </div>`;
+        }
+        document.addEventListener('click', () => document.getElementById('userDropdown')?.classList.remove('open'));
+        mobileMenu.querySelectorAll('a').forEach(a => {
+            a.addEventListener('click', () => {
+                mobileMenu.classList.remove('open');
+                hamburgerIcon.className = 'fas fa-bars';
+            });
+        });
     }
-    document.addEventListener('click', ()=>document.getElementById('userDropdown')?.classList.remove('open'));
-  }
 
   if (firebaseReady && auth) {
     auth.onAuthStateChanged(user => renderAuth(user));
@@ -583,7 +596,7 @@
     }
 
     container.innerHTML = list.map((t, index) => {
-      const initials = t.initials || t.name.substring(0,2).toUpperCase();
+      const initials = t.initials || t.name?.substring(0,2).toUpperCase() || 'NA';
       return `
         <div class="team-card" style="opacity:0; transform:translateY(20px); transition: all 0.4s ease ${index * 0.05}s;">
           <div class="team-avatar">${initials}</div>
@@ -591,15 +604,15 @@
           
           <div class="team-stats">
             <div class="stat-item">
-              <span class="stat-val">${t.members}</span>
+              <span class="stat-val">${t.members?.length || 1}</span>
               <span class="stat-lbl">Members</span>
             </div>
             <div class="stat-item" style="border-left:1px solid rgba(255,255,255,0.1); border-right:1px solid rgba(255,255,255,0.1); padding:0 16px;">
-              <span class="stat-val" style="color:var(--fire-yellow);">${t.wins}</span>
+              <span class="stat-val" style="color:var(--fire-yellow);">${t.wins || 0}</span>
               <span class="stat-lbl">Wins</span>
             </div>
             <div class="stat-item">
-              <span class="stat-val">${t.played || 0}</span>
+              <span class="stat-val">${t.totalMatches || t.played || 0}</span>
               <span class="stat-lbl">Played</span>
             </div>
           </div>
