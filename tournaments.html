@@ -4,28 +4,26 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Esports Tournaments - Fire Village Gaming</title>
-  <meta name="description" content="Join India's best esports tournaments for BGMI, Valorant, Free Fire, and more. Check out upcoming, open, and past tournaments at Fire Village.">
+  <meta name="description" content="Join India's best esports tournaments for BGMI, Valorant, Free Fire, and more.">
   <link rel="icon" href="./assets/logo.png" type="image/png">
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link rel="stylesheet" href="style.css">
 
   <style>
-    /* ── ROOT VARS ── */
     :root {
       --fire-yellow: #facc15;
       --fire-orange: #f59e0b;
-      --fire-red:    #ef4444;
-      --fire-dark:   #0f0f0f;
-      --fire-gray:   #1f2937;
-      --fire-light:  #374151;
-      --fire-bg:     #111827;
-      --font-head:   'Oswald', sans-serif;
-      --font-body:   'Poppins', sans-serif;
+      --fire-red: #ef4444;
+      --fire-dark: #0f0f0f;
+      --fire-gray: #1f2937;
+      --fire-light: #374151;
+      --fire-bg: #111827;
+      --font-head: 'Oswald', sans-serif;
+      --font-body: 'Poppins', sans-serif;
     }
 
-    * { margin:0; padding:0; box-sizing:border-box; }
-    html { scroll-behavior:smooth; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
 
     body {
       font-family: var(--font-body);
@@ -35,19 +33,16 @@
       overflow-x: hidden;
     }
 
-    /* Scrollbar */
-    ::-webkit-scrollbar { width:6px; }
-    ::-webkit-scrollbar-track { background:#111; }
-    ::-webkit-scrollbar-thumb { background: var(--fire-orange); border-radius:3px; }
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #111; }
+    ::-webkit-scrollbar-thumb { background: var(--fire-orange); border-radius: 3px; }
 
-    a { text-decoration:none; color:inherit; transition:all .3s ease; }
-    img { display:block; max-width:100%; }
+    a { text-decoration: none; color: inherit; transition: all .3s ease; }
+    img { display: block; max-width: 100%; }
 
-    /* ── NAVBAR ── */
     nav {
       background: rgba(17,24,39,0.95);
       backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
       padding: 0 24px;
       height: 68px;
       display: flex;
@@ -56,11 +51,6 @@
       top: 0;
       z-index: 1000;
       border-bottom: 1px solid rgba(250,204,21,0.12);
-      transition: background .3s;
-    }
-    nav.scrolled {
-      background: rgba(10,10,10,0.98);
-      box-shadow: 0 4px 24px rgba(0,0,0,0.5);
     }
     .nav-inner {
       max-width: 1280px;
@@ -74,49 +64,33 @@
       display: flex;
       align-items: center;
       gap: 10px;
-      text-decoration: none;
     }
-    .logo-wrap img {
-      height: 44px;
-      width: auto;
-      transition: transform .3s;
-    }
-    .logo-wrap:hover img { transform: scale(1.08); }
+    .logo-wrap img { height: 44px; width: auto; }
     .logo-wrap span {
       font-family: var(--font-head);
       font-size: 1.5rem;
       color: var(--fire-yellow);
-      letter-spacing: 1px;
     }
-
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      list-style: none;
-    }
+    .nav-links { display: flex; align-items: center; gap: 4px; list-style: none; }
     .nav-links a {
       padding: 8px 14px;
       border-radius: 8px;
       font-size: 0.9rem;
       font-weight: 500;
       color: #d1d5db;
-      transition: all .25s;
     }
     .nav-links a:hover, .nav-links a.active {
       background: var(--fire-yellow);
       color: #000;
     }
-    .nav-links a i { margin-right:6px; }
+    .nav-links a i { margin-right: 6px; }
 
-    /* Auth buttons */
-    .auth-area { display:flex; align-items:center; gap:10px; }
+    .auth-area { display: flex; align-items: center; gap: 10px; }
     .btn-login {
       padding: 8px 18px;
       border-radius: 8px;
       color: #d1d5db;
       font-weight: 500;
-      font-size: 0.88rem;
     }
     .btn-login:hover { color: var(--fire-yellow); }
     .btn-join {
@@ -125,30 +99,23 @@
       background: linear-gradient(to right, var(--fire-orange), var(--fire-red));
       color: #000;
       font-weight: 700;
-      font-size: 0.88rem;
-      transition: all .3s;
     }
     .btn-join:hover {
       background: linear-gradient(to right, var(--fire-yellow), var(--fire-orange));
       transform: scale(1.05);
-      box-shadow: 0 0 18px rgba(245,158,11,0.4);
     }
 
-    /* User menu */
-    .user-menu-wrap { position:relative; }
+    .user-menu-wrap { position: relative; }
     .user-btn {
       background: none;
       border: 1px solid rgba(250,204,21,0.3);
       border-radius: 8px;
       padding: 8px 16px;
       color: #d1d5db;
-      font-family: var(--font-body);
-      font-size: 0.88rem;
       cursor: pointer;
       display: flex;
       align-items: center;
       gap: 8px;
-      transition: all .25s;
     }
     .user-btn:hover { border-color: var(--fire-yellow); color: var(--fire-yellow); }
     .user-dropdown {
@@ -161,21 +128,17 @@
       border: 1px solid rgba(250,204,21,0.15);
       border-radius: 10px;
       padding: 8px 0;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
       z-index: 200;
     }
-    .user-dropdown.open { display:block; }
+    .user-dropdown.open { display: block; }
     .user-dropdown a {
       display: block;
       padding: 10px 16px;
-      font-size: 0.88rem;
       color: #d1d5db;
     }
     .user-dropdown a:hover { background: rgba(255,255,255,0.06); color: var(--fire-yellow); }
     .user-dropdown a.logout { color: #f87171; }
-    .user-dropdown a.logout:hover { background: rgba(248,113,113,0.08); }
 
-    /* Hamburger */
     .hamburger {
       display: none;
       background: none;
@@ -183,13 +146,7 @@
       color: #d1d5db;
       font-size: 1.6rem;
       cursor: pointer;
-      padding: 6px;
-      border-radius: 6px;
-      transition: color .25s;
     }
-    .hamburger:hover { color: var(--fire-yellow); }
-
-    /* Mobile menu */
     .mobile-menu {
       display: none;
       position: absolute;
@@ -198,68 +155,39 @@
       right: 0;
       background: rgba(10,10,15,0.98);
       backdrop-filter: blur(16px);
-      border-bottom: 1px solid rgba(250,204,21,0.1);
       padding: 16px;
       z-index: 999;
       flex-direction: column;
       gap: 6px;
     }
-    .mobile-menu.open { display:flex; }
+    .mobile-menu.open { display: flex; }
     .mobile-menu a {
       padding: 13px 18px;
       border-radius: 8px;
-      font-weight: 500;
       color: #d1d5db;
-      font-size: 1rem;
     }
     .mobile-menu a:hover, .mobile-menu a.active {
       background: var(--fire-yellow);
       color: #000;
     }
-    .mobile-menu .mobile-auth {
-      border-top: 1px solid rgba(255,255,255,0.08);
-      margin-top: 8px;
-      padding-top: 12px;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-    .mobile-menu .btn-join-mobile {
-      text-align: center;
-      padding: 13px;
-      border-radius: 8px;
-      background: linear-gradient(to right, var(--fire-orange), var(--fire-red));
-      color: #000;
-      font-weight: 700;
-    }
 
-    /* ── PAGE HEADER ── */
     .page-header {
       padding: 80px 24px 60px;
       background: linear-gradient(to bottom, rgba(17,24,39,0.9), rgba(15,15,15,1));
       text-align: center;
-      border-bottom: 1px solid rgba(250,204,21,0.1);
     }
     .page-title {
       font-family: var(--font-head);
       font-size: clamp(2.5rem, 5vw, 4rem);
       color: var(--fire-yellow);
-      margin-bottom: 12px;
     }
-    .page-desc {
-      color: #9ca3af;
-      font-size: 1.1rem;
-      max-width: 600px;
-      margin: 0 auto;
-    }
+    .page-desc { color: #9ca3af; font-size: 1.1rem; max-width: 600px; margin: 0 auto; }
 
-    /* ── FILTERS ── */
     .filters-wrap {
       display: flex;
       justify-content: center;
       gap: 12px;
       margin: 40px auto;
-      max-width: 1200px;
       flex-wrap: wrap;
       padding: 0 24px;
     }
@@ -269,30 +197,19 @@
       color: #d1d5db;
       padding: 10px 24px;
       border-radius: 99px;
-      font-family: var(--font-body);
       font-weight: 500;
-      font-size: 0.95rem;
       cursor: pointer;
-      transition: all .3s;
-    }
-    .filter-btn:hover {
-      background: rgba(250,204,21,0.1);
-      border-color: rgba(250,204,21,0.3);
-      color: var(--fire-yellow);
     }
     .filter-btn.active {
       background: var(--fire-yellow);
       color: #000;
       border-color: var(--fire-yellow);
-      font-weight: 600;
-      box-shadow: 0 0 15px rgba(250,204,21,0.3);
     }
 
-    /* ── TOURNAMENTS ── */
     .tournaments-section { background: #0f1117; padding-bottom: 80px; }
     .tournaments-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
       gap: 24px;
       max-width: 1200px;
       margin: 0 auto;
@@ -308,16 +225,13 @@
     .t-card:hover {
       border-color: rgba(250,204,21,0.4);
       transform: translateY(-5px);
-      box-shadow: 0 12px 36px rgba(0,0,0,0.5);
     }
     .t-card-header {
       padding: 20px 22px 14px;
       background: linear-gradient(135deg, rgba(245,158,11,0.12), rgba(239,68,68,0.08));
-      border-bottom: 1px solid rgba(250,204,21,0.1);
       display: flex;
-      align-items: flex-start;
       justify-content: space-between;
-      gap: 10px;
+      align-items: center;
     }
     .t-card-header h3 {
       font-family: var(--font-head);
@@ -327,15 +241,12 @@
     .t-status {
       font-size: 0.7rem;
       font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 1px;
       padding: 4px 10px;
       border-radius: 99px;
-      white-space: nowrap;
     }
-    .t-status.open { background: rgba(34,197,94,0.15); color: #4ade80; border: 1px solid rgba(34,197,94,0.3); }
-    .t-status.upcoming { background: rgba(250,204,21,0.12); color: var(--fire-yellow); border: 1px solid rgba(250,204,21,0.3); }
-    .t-status.full { background: rgba(239,68,68,0.12); color: #f87171; border: 1px solid rgba(239,68,68,0.3); }
+    .t-status.open { background: rgba(34,197,94,0.15); color: #4ade80; }
+    .t-status.upcoming { background: rgba(250,204,21,0.12); color: var(--fire-yellow); }
+    .t-status.full { background: rgba(239,68,68,0.12); color: #f87171; }
     .t-card-body { padding: 18px 22px; }
     .t-meta {
       display: grid;
@@ -343,9 +254,8 @@
       gap: 10px;
       margin-bottom: 16px;
     }
-    .t-meta-item { display: flex; align-items: center; gap: 8px; }
-    .t-meta-item i { color: var(--fire-orange); font-size: 0.85rem; width: 14px; }
-    .t-meta-item span { font-size: 0.85rem; color: #d1d5db; }
+    .t-meta-item { display: flex; align-items: center; gap: 8px; font-size: 0.85rem; color: #d1d5db; }
+    .t-meta-item i { color: var(--fire-orange); width: 14px; }
     .t-prize {
       font-family: var(--font-head);
       font-size: 1.3rem;
@@ -353,7 +263,7 @@
       text-align: center;
       margin-bottom: 16px;
     }
-    .t-prize small { font-family: var(--font-body); font-size: 0.75rem; color: #9ca3af; display: block; }
+    .t-prize small { font-size: 0.75rem; color: #9ca3af; display: block; }
     .t-progress-wrap { margin-bottom: 16px; }
     .t-progress-label {
       display: flex;
@@ -371,8 +281,8 @@
     .t-progress-fill {
       height: 100%;
       background: linear-gradient(to right, var(--fire-orange), var(--fire-red));
-      border-radius: 3px;
-      transition: width 1.2s ease;
+      width: 0%;
+      transition: width 1s ease;
     }
     .btn-register {
       display: block;
@@ -383,14 +293,13 @@
       background: linear-gradient(to right, var(--fire-orange), var(--fire-red));
       color: #000;
       font-weight: 700;
-      font-size: 0.88rem;
-      transition: all .3s;
+      cursor: pointer;
+      border: none;
     }
     .btn-register:hover {
       background: linear-gradient(to right, var(--fire-yellow), var(--fire-orange));
-      box-shadow: 0 0 18px rgba(245,158,11,0.4);
     }
-    .btn-register:disabled, .btn-register.disabled {
+    .btn-register.disabled {
       background: #374151;
       color: #6b7280;
       cursor: not-allowed;
@@ -399,65 +308,54 @@
     .no-data {
       text-align: center;
       color: #6b7280;
-      padding: 40px;
-      font-size: 1rem;
+      padding: 60px;
       grid-column: 1/-1;
     }
+    .spinner {
+      display: inline-block;
+      width: 32px;
+      height: 32px;
+      border: 3px solid rgba(250,204,21,0.2);
+      border-top-color: var(--fire-yellow);
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
 
-    /* ── FOOTER ── */
+    .toast {
+      position: fixed;
+      bottom: 28px;
+      right: 28px;
+      background: #1f2937;
+      border: 1px solid rgba(250,204,21,0.3);
+      border-radius: 10px;
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      z-index: 9999;
+      transform: translateY(80px);
+      opacity: 0;
+      transition: all .35s ease;
+      max-width: 340px;
+    }
+    .toast.show { transform: translateY(0); opacity: 1; }
+    .toast.success { border-color: rgba(74,222,128,0.4); }
+    .toast.error { border-color: rgba(248,113,113,0.4); }
+    .toast.success i { color: #4ade80; }
+    .toast.error i { color: #f87171; }
+
     footer {
       background: #111827;
       border-top: 1px solid rgba(255,255,255,0.06);
       padding: 32px 24px;
       text-align: center;
     }
-    .footer-links {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 8px 24px;
-      margin-bottom: 18px;
-    }
+    .footer-links { display: flex; justify-content: center; gap: 24px; margin-bottom: 18px; flex-wrap: wrap; }
     .footer-links a { color: #9ca3af; font-size: 0.88rem; }
     .footer-links a:hover { color: var(--fire-yellow); }
     footer p { color: #4b5563; font-size: 0.82rem; }
 
-    /* ── TOAST ── */
-    .toast {
-      position: fixed;
-      bottom: 28px; right: 28px;
-      background: #1f2937;
-      border: 1px solid rgba(250,204,21,0.3);
-      border-radius: 10px;
-      padding: 14px 20px;
-      display: flex; align-items: center; gap: 10px;
-      font-size: 0.9rem;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.5);
-      z-index: 9999;
-      transform: translateY(80px);
-      opacity: 0;
-      transition: all .35s cubic-bezier(0.4,0,0.2,1);
-      max-width: 340px;
-    }
-    .toast.show { transform: translateY(0); opacity: 1; }
-    .toast.success { border-color: rgba(74,222,128,0.4); }
-    .toast.error { border-color: rgba(248,113,113,0.4); }
-    .toast i { font-size: 1.1rem; flex-shrink: 0; }
-    .toast.success i { color: #4ade80; }
-    .toast.error i { color: #f87171; }
-
-    /* ── SPINNER ── */
-    .spinner {
-      display: inline-block;
-      width: 20px; height: 20px;
-      border: 2px solid rgba(250,204,21,0.2);
-      border-top-color: var(--fire-yellow);
-      border-radius: 50%;
-      animation: spin .7s linear infinite;
-    }
-    @keyframes spin { to { transform: rotate(360deg); } }
-
-    /* ── RESPONSIVE ── */
     @media (max-width: 1024px) {
       .nav-links, .auth-area { display: none; }
       .hamburger { display: block; }
@@ -469,14 +367,11 @@
 </head>
 
 <body>
-  <!-- ── NAVBAR ── -->
   <nav id="navbar">
     <div class="nav-inner">
       <a href="index.html" class="logo-wrap">
         <img src="./assets/logo.png" alt="Fire Village Logo" onerror="this.style.display='none'">
-        <span>FIRE VILLAGE</span>
       </a>
-
       <ul class="nav-links">
         <li><a href="index.html"><i class="fas fa-home"></i>Home</a></li>
         <li><a href="tournaments.html" class="active"><i class="fas fa-trophy"></i>Tournaments</a></li>
@@ -484,16 +379,10 @@
         <li><a href="teams.html"><i class="fas fa-users"></i>Teams</a></li>
         <li><a href="register.html"><i class="fas fa-user-plus"></i>Register</a></li>
         <li><a href="contact.html"><i class="fas fa-envelope"></i>Contact</a></li>
-        <li><a href="about.html"><i class="fas fa-info-circle"></i>About</a></li>
       </ul>
-
       <div class="auth-area" id="authArea"></div>
-
-      <button class="hamburger" id="hamburger" aria-label="Menu">
-        <i class="fas fa-bars" id="hamburgerIcon"></i>
-      </button>
+      <button class="hamburger" id="hamburger" aria-label="Menu"><i class="fas fa-bars" id="hamburgerIcon"></i></button>
     </div>
-
     <!-- Mobile menu -->
     <div class="mobile-menu" id="mobileMenu">
       <a href="index.html"><i class="fas fa-home" style="margin-right:10px;color:var(--fire-yellow)"></i>Home</a>
@@ -502,320 +391,200 @@
       <a href="teams.html"><i class="fas fa-users" style="margin-right:10px;color:var(--fire-yellow)"></i>Teams</a>
       <a href="register.html"><i class="fas fa-user-plus" style="margin-right:10px;color:var(--fire-yellow)"></i>Register</a>
       <a href="contact.html"><i class="fas fa-envelope" style="margin-right:10px;color:var(--fire-yellow)"></i>Contact</a>
-      <a href="about.html"><i class="fas fa-info-circle" style="margin-right:10px;color:var(--fire-yellow)"></i>About</a>
       <div class="mobile-auth" id="mobileAuthArea"></div>
     </div>
   </nav>
 
-  <!-- ── PAGE HEADER ── -->
   <section class="page-header">
     <h1 class="page-title">TOURNAMENTS</h1>
-    <p class="page-desc">Explore ongoing and upcoming tournaments for your favorite games. Gear up, register your squad, and claim your victory.</p>
+    <p class="page-desc">Join tournaments after payment verification. Only verified teams can register.</p>
   </section>
 
-  <!-- ── FILTERS ── -->
   <div class="filters-wrap" id="filters">
     <button class="filter-btn active" data-filter="all">All</button>
     <button class="filter-btn" data-filter="open">Open</button>
     <button class="filter-btn" data-filter="upcoming">Upcoming</button>
-    <button class="filter-btn" data-filter="full">Full/Closed</button>
+    <button class="filter-btn" data-filter="full">Full</button>
   </div>
 
-  <!-- ── TOURNAMENTS GRID ── -->
   <section class="tournaments-section">
     <div class="tournaments-grid" id="tournamentsContainer">
-      <div style="grid-column:1/-1;text-align:center;padding:40px 0;">
-        <div class="spinner" style="width:32px;height:32px;border-width:3px;"></div>
-        <p style="color:#9ca3af;margin-top:14px;font-size:0.9rem;">Loading tournaments...</p>
-      </div>
+      <div style="grid-column:1/-1;text-align:center;padding:40px;"><div class="spinner"></div><p style="margin-top:14px;">Loading tournaments...</p></div>
     </div>
   </section>
 
-  <!-- ── FOOTER ── -->
   <footer>
     <div class="footer-links">
       <a href="privacy-policy.html">Privacy Policy</a>
       <a href="terms.html">Terms of Service</a>
-      <a href="shipping.html">Shipping Policy</a>
       <a href="contact.html">Contact Us</a>
     </div>
     <p>&copy; <span id="copyright-year"></span> Fire Village Tournament. All rights reserved.</p>
   </footer>
 
-  <!-- ── TOAST ── -->
-  <div class="toast" id="toast">
-    <i class="fas fa-check-circle"></i>
-    <span id="toastMsg"></span>
-  </div>
+  <div class="toast" id="toast"><i class="fas fa-check-circle"></i><span id="toastMsg"></span></div>
 
-  <!-- Firebase -->
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
 
   <script>
-  // ════════════════════════════════════════════════
-  // FIREBASE CONFIG
-  // ════════════════════════════════════════════════
-  const firebaseConfig = {
-    apiKey: "AIzaSyDFjHR5_D6yQ9tXrEut-3c2o4oA1ddz6hQ",
-    authDomain: "firevillagetournament.firebaseapp.com",
-    projectId: "firevillagetournament",
-    storageBucket: "firevillagetournament.firebasestorage.app",
-    messagingSenderId: "511246704009",
-    appId: "1:511246704009:web:8ae5e484591a64bb735558",
-    measurementId: "G-ZCQ2V6DEGX"
-  };
+    const firebaseConfig = {
+      apiKey: "AIzaSyDFjHR5_D6yQ9tXrEut-3c2o4oA1ddz6hQ",
+      authDomain: "firevillagetournament.firebaseapp.com",
+      projectId: "firevillagetournament",
+      storageBucket: "firevillagetournament.firebasestorage.app",
+      messagingSenderId: "511246704009",
+      appId: "1:511246704009:web:8ae5e484591a64bb735558"
+    };
 
-  let db = null, auth = null;
-  let firebaseReady = false;
+    let db, auth;
+    let currentUser = null;
+    let tournaments = [];
 
-  try {
     firebase.initializeApp(firebaseConfig);
-    db   = firebase.firestore();
+    db = firebase.firestore();
     auth = firebase.auth();
-    firebaseReady = true;
-  } catch(e) {
-    console.warn("Firebase not configured — using demo data.", e);
-  }
 
-  // DEMO DATA
-  const ALL_DEMO_TOURNAMENTS = [
-    { id:'t1', name:'BGMI: Village Cup S8', status:'open', date:'April 15, 2026', time:'6:00 PM', mode:'Squad (4v4)', slots:25, registered:11, prize:'₹10,000', fee:'₹100 per team' },
-    { id:'t2', name:'Valorant: Spike Rush', status:'upcoming', date:'April 22, 2026', time:'7:00 PM', mode:'Team (5v5)', slots:16, registered:8, prize:'₹15,000', fee:'₹250 per team' },
-    { id:'t3', name:'Free Fire: Grand Prix', status:'open', date:'May 1, 2026', time:'5:30 PM', mode:'Squad (4v4)', slots:20, registered:20, prize:'₹8,000', fee:'₹80 per team' },
-    { id:'t4', name:'CODM: Solo King Clash', status:'full', date:'April 10, 2026', time:'4:00 PM', mode:'Solo (1v1)', slots:50, registered:50, prize:'₹3,000', fee:'₹30 per player' },
-    { id:'t5', name:'Clash Royale: 1v1 Duel', status:'upcoming', date:'May 15, 2026', time:'11:00 PM', mode:'1v1', slots:64, registered:2, prize:'₹5,000', fee:'₹20 per player' },
-    { id:'t6', name:'CS2: Rookie Showdown', status:'open', date:'April 18, 2026', time:'3:00 PM', mode:'Team (5v5)', slots:16, registered:15, prize:'₹12,000', fee:'₹200 per team' },
-  ];
-
-  let currentTournaments = [];
-
-  // ════════════════════════════════
-  // TOAST UTILITY
-  // ════════════════════════════════
-  let toastTimer;
-  function showToast(msg, type='success') {
-    const t = document.getElementById('toast');
-    const i = t.querySelector('i');
-    t.querySelector('#toastMsg').textContent = msg;
-    t.className = `toast ${type}`;
-    i.className = type==='success' ? 'fas fa-check-circle' : 'fas fa-exclamation-circle';
-    t.classList.add('show');
-    clearTimeout(toastTimer);
-    toastTimer = setTimeout(()=>t.classList.remove('show'), 3500);
-  }
-
-  // ════════════════════════════════
-  // NAVBAR UI
-  // ════════════════════════════════
-  const navbar       = document.getElementById('navbar');
-  const hamburger    = document.getElementById('hamburger');
-  const hamburgerIcon= document.getElementById('hamburgerIcon');
-  const mobileMenu   = document.getElementById('mobileMenu');
-
-  window.addEventListener('scroll', ()=>{
-    navbar.classList.toggle('scrolled', window.scrollY > 40);
-  }, {passive:true});
-
-  hamburger.addEventListener('click', ()=>{
-    const open = mobileMenu.classList.toggle('open');
-    hamburgerIcon.className = open ? 'fas fa-times' : 'fas fa-bars';
-    hamburger.setAttribute('aria-expanded', open);
-  });
-
-  mobileMenu.querySelectorAll('a').forEach(a=>{
-    a.addEventListener('click', ()=>{
-      mobileMenu.classList.remove('open');
-      hamburgerIcon.className = 'fas fa-bars';
-    });
-  });
-
-  // ════════════════════════════════
-  // AUTH UI
-  // ════════════════════════════════
-  function renderAuth(user) {
-    const authArea   = document.getElementById('authArea');
-    const mobileAuth = document.getElementById('mobileAuthArea');
-
-    if (user) {
-      const displayName = user.displayName || user.email?.split('@')[0] || 'Player';
-      authArea.innerHTML = `
-        <div class="user-menu-wrap">
-          <button class="user-btn" id="userBtn">
-            <i class="fas fa-user-circle"></i>
-            <span>${displayName}</span>
-            <i class="fas fa-chevron-down" style="font-size:.7rem;"></i>
-          </button>
-          <div class="user-dropdown" id="userDropdown">
-            <a href="profile.html"><i class="fas fa-user-circle" style="margin-right:8px;color:var(--fire-yellow)"></i>Profile</a>
-            <a href="#" id="logoutBtn" class="logout"><i class="fas fa-sign-out-alt" style="margin-right:8px;"></i>Logout</a>
-          </div>
-        </div>`;
-      mobileAuth.innerHTML = `
-        <a href="profile.html"><i class="fas fa-user-circle" style="margin-right:10px;color:var(--fire-yellow)"></i>${displayName}'s Profile</a>
-        <a href="#" id="mobileLogout" style="color:#f87171;"><i class="fas fa-sign-out-alt" style="margin-right:10px;"></i>Logout</a>`;
-
-      document.getElementById('userBtn')?.addEventListener('click', e=>{
-        e.stopPropagation();
-        document.getElementById('userDropdown')?.classList.toggle('open');
-      });
-      document.getElementById('logoutBtn')?.addEventListener('click', e=>{
-        e.preventDefault(); doLogout();
-      });
-      document.getElementById('mobileLogout')?.addEventListener('click', e=>{
-        e.preventDefault(); doLogout();
-      });
-    } else {
-      authArea.innerHTML = `
-        <a href="login.html" class="btn-login"><i class="fas fa-sign-in-alt" style="margin-right:6px;"></i>Login</a>
-        <a href="register.html" class="btn-join"><i class="fas fa-user-plus" style="margin-right:6px;"></i>Join Now</a>`;
-      mobileAuth.innerHTML = `
-        <a href="login.html"><i class="fas fa-sign-in-alt" style="margin-right:10px;color:var(--fire-yellow)"></i>Login</a>
-        <a href="register.html" class="btn-join-mobile"><i class="fas fa-user-plus" style="margin-right:8px;"></i>Join Now</a>`;
+    function showToast(msg, type = 'success') {
+      const toast = document.getElementById('toast');
+      toast.querySelector('#toastMsg').textContent = msg;
+      toast.className = `toast ${type}`;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 3500);
     }
 
-    document.addEventListener('click', ()=>{
-      document.getElementById('userDropdown')?.classList.remove('open');
-    });
-  }
+    // Unified Navbar Logic
+    const navbar = document.getElementById('navbar');
+    const hamburger = document.getElementById('hamburger');
+    const hamburgerIcon = document.getElementById('hamburgerIcon');
+    const mobileMenu = document.getElementById('mobileMenu');
 
-  function doLogout() {
-    if(auth) {
-      auth.signOut().then(()=>{
-        showToast('Logged out successfully.');
-        renderAuth(null);
+    window.addEventListener('scroll', () => {
+      if(navbar) navbar.classList.toggle('scrolled', window.scrollY > 40);
+    }, { passive: true });
+
+    if(hamburger) {
+      hamburger.addEventListener('click', () => {
+        const open = mobileMenu.classList.toggle('open');
+        if(hamburgerIcon) hamburgerIcon.className = open ? 'fas fa-times' : 'fas fa-bars';
       });
-    } else {
-      showToast('Logged out.');
-      renderAuth(null);
     }
-  }
 
-  if (firebaseReady && auth) {
-    auth.onAuthStateChanged(user => renderAuth(user));
-  } else {
-    renderAuth(null);
-  }
+    function renderAuth(user) {
+      const authArea = document.getElementById('authArea');
+      const mobileAuth = document.getElementById('mobileAuthArea');
+      const navRegisterLink = document.querySelector('.nav-links a[href="register.html"]');
+      const mobileNavRegisterLink = document.querySelector('.mobile-menu a[href="register.html"]');
 
-  // ════════════════════════════════
-  // RENDER TOURNAMENTS
-  // ════════════════════════════════
-  function renderTournaments(list) {
-    const container = document.getElementById('tournamentsContainer');
-    if(!list || list.length===0){
-      container.innerHTML='<div class="no-data"><i class="fas fa-calendar-times" style="font-size:2.5rem;color:#374151;display:block;margin-bottom:12px;"></i>No tournaments found for the selected category.</div>';
-      return;
-    }
-    container.innerHTML = list.map(t=>{
-      const pct   = Math.round((t.registered / t.slots) * 100);
-      const isFull = t.registered >= t.slots;
-      
-      // Recalculate status strictly locally in case data acts strange
-      let statusClass = t.status;
-      let statusLabel = t.status.toUpperCase();
-      if (isFull) {
-        statusClass = 'full';
-        statusLabel = 'FULL';
-      } else if (t.status === 'open') {
-        statusClass = 'open';
-        statusLabel = 'OPEN';
-      } else if (t.status === 'upcoming') {
-        statusClass = 'upcoming';
-        statusLabel = 'UPCOMING';
+      if (user) {
+        const name = user.displayName || user.email?.split('@')[0] || 'Player';
+        if (navRegisterLink) navRegisterLink.parentElement.style.display = 'none';
+        if (mobileNavRegisterLink) mobileNavRegisterLink.style.display = 'none';
+
+        if(authArea) {
+          authArea.innerHTML = `<div class="user-menu-wrap"><button class="user-btn" id="userBtn"><i class="fas fa-user-circle"></i> <span>${name}</span> <i class="fas fa-chevron-down" style="font-size:0.7rem;"></i></button><div class="user-dropdown" id="userDropdown"><a href="profile.html"><i class="fas fa-user"></i> Profile</a><a href="#" id="logoutBtn" class="logout"><i class="fas fa-sign-out-alt"></i> Logout</a></div></div>`;
+        }
+        if(mobileAuth) {
+          mobileAuth.innerHTML = `<a href="profile.html"><i class="fas fa-user-circle" style="margin-right:10px;color:var(--fire-yellow)"></i>${name}'s Profile</a><a href="#" id="mobileLogout" style="color:#f87171;"><i class="fas fa-sign-out-alt" style="margin-right:10px;"></i>Logout</a>`;
+        }
+
+        document.getElementById('userBtn')?.addEventListener('click', (e) => { e.stopPropagation(); document.getElementById('userDropdown')?.classList.toggle('open'); });
+        document.getElementById('logoutBtn')?.addEventListener('click', (e) => { e.preventDefault(); auth.signOut(); });
+        document.getElementById('mobileLogout')?.addEventListener('click', (e) => { e.preventDefault(); auth.signOut(); });
+      } else {
+        if (navRegisterLink) navRegisterLink.parentElement.style.display = '';
+        if (mobileNavRegisterLink) mobileNavRegisterLink.style.display = '';
+
+        if(authArea) {
+          authArea.innerHTML = `<a href="login.html" class="btn-login"><i class="fas fa-sign-in-alt" style="margin-right:6px;"></i>Login</a><a href="register.html" class="btn-join"><i class="fas fa-user-plus" style="margin-right:6px;"></i>Join Now</a>`;
+        }
+        if(mobileAuth) {
+          mobileAuth.innerHTML = `<a href="login.html"><i class="fas fa-sign-in-alt" style="margin-right:10px;color:var(--fire-yellow)"></i>Login</a><a href="register.html" class="btn-join-mobile"><i class="fas fa-user-plus" style="margin-right:8px;"></i>Join Now</a>`;
+        }
       }
+      document.addEventListener('click', () => document.getElementById('userDropdown')?.classList.remove('open'));
+    }
 
-      return `
-        <div class="t-card" style="opacity:0; transform:translateY(20px); transition: all 0.4s ease;">
-          <div class="t-card-header">
-            <h3>${t.name}</h3>
-            <span class="t-status ${statusClass}">${statusLabel}</span>
-          </div>
-          <div class="t-card-body">
-            <div class="t-meta">
-              <div class="t-meta-item"><i class="fas fa-calendar"></i><span>${t.date}</span></div>
-              <div class="t-meta-item"><i class="fas fa-clock"></i><span>${t.time}</span></div>
-              <div class="t-meta-item"><i class="fas fa-gamepad"></i><span>${t.mode}</span></div>
-              <div class="t-meta-item"><i class="fas fa-rupee-sign"></i><span>${t.fee}</span></div>
-            </div>
-            <div class="t-prize">
-              ${t.prize}
-              <small>Prize Pool</small>
-            </div>
-            <div class="t-progress-wrap">
-              <div class="t-progress-label">
-                <span>Teams Registered</span>
-                <span>${t.registered}/${t.slots}</span>
-              </div>
-              <div class="t-progress-bar">
-                <div class="t-progress-fill" style="width:0%" data-width="${pct}%"></div>
-              </div>
-            </div>
-            <a href="tournament-details.html?id=${t.id}" class="btn-register ${isFull ? 'disabled' : ''}">
-              ${isFull ? '<i class="fas fa-ban"></i> Slots Full' : '<i class="fas fa-user-plus"></i> Register Now'}
-            </a>
-          </div>
-        </div>`;
-    }).join('');
-
-    // Animate progress bars and cards
-    requestAnimationFrame(()=>{
-      document.querySelectorAll('.t-progress-fill').forEach(bar=>{
-        setTimeout(()=>{ bar.style.width = bar.dataset.width; }, 100);
-      });
-      document.querySelectorAll('.t-card').forEach((card, index)=>{
-        setTimeout(()=>{
-          card.style.opacity = '1';
-          card.style.transform = 'translateY(0)';
-        }, index * 100);
-      });
-    });
-  }
-
-  // ════════════════════════════════
-  // FILTERS LOGIC
-  // ════════════════════════════════
-  const filterBtns = document.querySelectorAll('.filter-btn');
-  filterBtns.forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      filterBtns.forEach(b => b.classList.remove('active'));
-      e.target.classList.add('active');
-      const filter = e.target.dataset.filter;
-      
-      let filteredList = currentTournaments;
-      if (filter !== 'all') {
-        filteredList = currentTournaments.filter(t => {
-          const isFull = t.registered >= t.slots;
-          if (filter === 'full') return isFull || t.status === 'full';
-          if (filter === 'open') return t.status === 'open' && !isFull;
-          if (filter === 'upcoming') return t.status === 'upcoming' && !isFull;
-          return true;
-        });
-      }
-      renderTournaments(filteredList);
-    });
-  });
-
-  // ════════════════════════════════
-  // DATA LOADING
-  // ════════════════════════════════
-  async function loadData() {
-    if(firebaseReady && db) {
+    async function loadTournaments() {
+      const container = document.getElementById('tournamentsContainer');
       try {
-        const tSnap = await db.collection('tournaments').orderBy('date','asc').get();
-        currentTournaments = tSnap.empty ? ALL_DEMO_TOURNAMENTS : tSnap.docs.map(d=>({id:d.id,...d.data()}));
-      } catch(err) {
-        console.warn('Firestore error, using demo data:', err);
-        currentTournaments = ALL_DEMO_TOURNAMENTS;
+        const snap = await db.collection('tournaments').orderBy('startDate', 'asc').get();
+        tournaments = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        renderTournaments('all');
+      } catch (err) {
+        console.error(err);
+        container.innerHTML = '<div class="no-data"><i class="fas fa-exclamation-triangle"></i><p>Error loading tournaments</p></div>';
       }
-    } else {
-      currentTournaments = ALL_DEMO_TOURNAMENTS;
     }
-    renderTournaments(currentTournaments);
-  }
 
-  document.getElementById('copyright-year').textContent = new Date().getFullYear();
-  loadData();
+    function renderTournaments(filter) {
+      const container = document.getElementById('tournamentsContainer');
+      let filtered = [...tournaments];
+      
+      if (filter === 'open') filtered = filtered.filter(t => t.status === 'open' && t.registeredTeams < t.maxTeams);
+      else if (filter === 'upcoming') filtered = filtered.filter(t => t.status === 'upcoming');
+      else if (filter === 'full') filtered = filtered.filter(t => t.registeredTeams >= t.maxTeams);
+      
+      if (filtered.length === 0) {
+        container.innerHTML = '<div class="no-data"><i class="fas fa-calendar-times"></i><p>No tournaments found</p></div>';
+        return;
+      }
+
+      container.innerHTML = filtered.map(t => {
+        const isFull = t.registeredTeams >= t.maxTeams;
+        let statusClass = isFull ? 'full' : t.status;
+        let statusLabel = t.status.toUpperCase();
+        if (isFull) { statusLabel = 'FULL'; }
+        const pct = Math.round(((t.registeredTeams || 0) / t.maxTeams) * 100);
+        
+        return `
+          <div class="t-card" style="cursor: pointer;" onclick="window.location.href='tournament-details.html?id=${t.id}'">
+            <div class="t-card-header">
+              <h3>${t.name}</h3>
+              <span class="t-status ${statusClass}">${statusLabel}</span>
+            </div>
+            <div class="t-card-body">
+              <div class="t-meta">
+                <div class="t-meta-item"><i class="fas fa-calendar"></i><span>${new Date(t.startDate).toLocaleDateString()}</span></div>
+                <div class="t-meta-item"><i class="fas fa-gamepad"></i><span>${t.game}</span></div>
+                <div class="t-meta-item"><i class="fas fa-rupee-sign"></i><span>₹${t.fee}</span></div>
+                <div class="t-meta-item"><i class="fas fa-users"></i><span>${t.format || 'Team'}</span></div>
+              </div>
+              <div class="t-prize">₹${t.prizePool?.toLocaleString() || 0}<small>Prize Pool</small></div>
+              <div class="t-progress-wrap">
+                <div class="t-progress-label"><span>Teams</span><span>${t.registeredTeams}/${t.maxTeams}</span></div>
+                <div class="t-progress-bar"><div class="t-progress-fill" style="width:${pct}%"></div></div>
+              </div>
+              <button class="btn-register ${isFull || t.status !== 'open' ? 'disabled' : ''}"
+                onclick="event.stopPropagation(); ${!currentUser ? `window.location.href='login.html'` : `window.location.href='payment.html?tournament=${t.id}'`}">
+                ${!currentUser ? '<i class="fas fa-sign-in-alt"></i> Login to Register' : 
+                  isFull ? '<i class="fas fa-ban"></i> Slots Full' :
+                  t.status !== 'open' ? `<i class="fas fa-clock"></i> ${t.status.charAt(0).toUpperCase() + t.status.slice(1)}` :
+                  '<i class="fas fa-user-plus"></i> Register Now'
+                }
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        renderTournaments(btn.dataset.filter);
+      });
+    });
+
+    auth.onAuthStateChanged(async (user) => {
+      currentUser = user;
+      renderAuth(user);
+      await loadTournaments();
+    });
+
+    document.getElementById('copyright-year').textContent = new Date().getFullYear();
   </script>
 </body>
 </html>
