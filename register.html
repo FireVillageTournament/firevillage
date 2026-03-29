@@ -384,7 +384,6 @@
     <div class="nav-inner">
       <a href="index.html" class="logo-wrap">
         <img src="./assets/logo.png" alt="Fire Village Logo" onerror="this.style.display='none'">
-        <span>FIRE VILLAGE</span>
       </a>
 
       <ul class="nav-links">
@@ -394,11 +393,9 @@
         <li><a href="teams.html"><i class="fas fa-users"></i>Teams</a></li>
         <li><a href="register.html" class="active"><i class="fas fa-user-plus"></i>Register</a></li>
         <li><a href="contact.html"><i class="fas fa-envelope"></i>Contact</a></li>
-        <li><a href="about.html"><i class="fas fa-info-circle"></i>About</a></li>
       </ul>
 
       <div class="auth-area" id="authArea">
-        <!-- Rendered based on auth state, mostly hidden on this page if already logged in -->
       </div>
 
       <button class="hamburger" id="hamburger" aria-label="Menu">
@@ -414,7 +411,6 @@
       <a href="teams.html"><i class="fas fa-users" style="margin-right:10px;color:var(--fire-yellow)"></i>Teams</a>
       <a href="register.html" class="active"><i class="fas fa-user-plus" style="margin-right:10px;color:var(--fire-yellow)"></i>Register</a>
       <a href="contact.html"><i class="fas fa-envelope" style="margin-right:10px;color:var(--fire-yellow)"></i>Contact</a>
-      <a href="about.html"><i class="fas fa-info-circle" style="margin-right:10px;color:var(--fire-yellow)"></i>About</a>
       <div class="mobile-auth" id="mobileAuthArea"></div>
     </div>
   </nav>
@@ -578,9 +574,14 @@
   function renderAuth(user) {
     const authArea   = document.getElementById('authArea');
     const mobileAuth = document.getElementById('mobileAuthArea');
+    const navRegisterLink = document.querySelector('.nav-links a[href="register.html"]');
+    const mobileNavRegisterLink = document.querySelector('.mobile-menu a[href="register.html"]');
 
     if (user) {
       const displayName = user.displayName || user.email?.split('@')[0] || 'Player';
+      if (navRegisterLink) navRegisterLink.parentElement.style.display = 'none';
+      if (mobileNavRegisterLink) mobileNavRegisterLink.style.display = 'none';
+
       authArea.innerHTML = `
         <div class="user-menu-wrap">
           <button class="user-btn" id="userBtn">
@@ -612,6 +613,9 @@
         showToast('You are already logged in! Redirecting...', 'success');
       }
     } else {
+      if (navRegisterLink) navRegisterLink.parentElement.style.display = '';
+      if (mobileNavRegisterLink) mobileNavRegisterLink.style.display = '';
+
       authArea.innerHTML = `
         <a href="login.html" class="btn-login"><i class="fas fa-sign-in-alt" style="margin-right:6px;"></i>Login</a>`;
       mobileAuth.innerHTML = `
