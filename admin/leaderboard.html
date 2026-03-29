@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Live Leaderboard - Admin Dashboard</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%23facc15'/%3E%3Ctext x='50' y='70' text-anchor='middle' fill='%23000' font-size='48' font-weight='bold'%3EFV%3C/text%3E%3C/svg%3E">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #facc15;
+      --primary-dark: #f59e0b;
+      --secondary: #3b82f6;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --info: #06b6d4;
+      
+      --bg-primary: #0f172a;
+      --bg-secondary: #1e293b;
+      --bg-tertiary: #334155;
+      --bg-card: #1e293b;
+      
+      --text-primary: #f1f5f9;
+      --text-secondary: #cbd5e1;
+      --text-tertiary: #94a3b8;
+      
+      --border-color: #334155;
+      --border-light: #475569;
+      
+      --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+      --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+      --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.4);
+      
+      --font-main: 'Inter', -apple-system, system-ui, sans-serif;
+      --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+      
+      --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      --transition-slow: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: var(--font-main);
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
+    ::-webkit-scrollbar-track { background: var(--bg-secondary); }
+    ::-webkit-scrollbar-thumb { background: var(--bg-tertiary); border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--border-light); }
+
+    /* Layout */
+    .dashboard-container {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 280px;
+      background: var(--bg-secondary);
+      border-right: 1px solid var(--border-color);
+      position: fixed;
+      height: 100vh;
+      overflow-y: auto;
+      transition: var(--transition-slow);
+      z-index: 1000;
+    }
+
+    .sidebar-header {
+      padding: 24px 20px;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo-section {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+    }
+
+    .logo-icon {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 1.2rem;
+      color: var(--bg-primary);
+      flex-shrink: 0;
+    }
+
+    .logo-text {
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: var(--primary);
+      white-space: nowrap;
+      transition: var(--transition);
+    }
+
+    /* Navigation */
+    .nav-menu {
+      padding: 20px 12px;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      color: var(--text-secondary);
+      border-radius: 8px;
+      margin-bottom: 4px;
+      cursor: pointer;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+      text-decoration: none;
+    }
+
+    .nav-item:hover {
+      background: rgba(251, 191, 36, 0.1);
+      color: var(--primary);
+    }
+
+    .nav-item.active {
+      background: rgba(251, 191, 36, 0.15);
+      color: var(--primary);
+      font-weight: 600;
+    }
+
+    .nav-item i {
+      width: 20px;
+      text-align: center;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+
+    /* Main Content */
+    .main-content {
+      flex: 1;
+      margin-left: 280px;
+      transition: var(--transition-slow);
+      min-height: 100vh;
+      background: var(--bg-primary);
+    }
+
+    /* Topbar */
+    .topbar {
+      background: var(--bg-secondary);
+      border-bottom: 1px solid var(--border-color);
+      padding: 16px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(10px);
+      background: rgba(30, 41, 59, 0.95);
+    }
+
+    .page-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    /* Content Area */
+    .content-area {
+      padding: 32px;
+    }
+
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      margin-bottom: 24px;
+      overflow: hidden;
+    }
+
+    .card-header {
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .card-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .card-body {
+      padding: 24px;
+    }
+
+    .form-group { margin-bottom: 20px; }
+    .form-label { display: block; margin-bottom: 8px; font-weight: 600; font-size: 0.9rem; color: var(--text-secondary); }
+    .form-control {
+      width: 100%;
+      padding: 12px 16px;
+      background: var(--bg-tertiary);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      color: var(--text-primary);
+      font-size: 0.9rem;
+      font-family: var(--font-main);
+      transition: var(--transition);
+    }
+    .form-control:focus { outline: none; border-color: var(--primary); background: var(--bg-primary); }
+
+    .table-container { overflow-x: auto; }
+    .table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+    .table thead { background: var(--bg-tertiary); }
+    .table th, .table td { padding: 14px 16px; border-bottom: 1px solid var(--border-color); text-align: left; }
+    .table tbody tr:hover { background: rgba(251, 191, 36, 0.05); }
+
+    .btn { padding: 10px 20px; border-radius: 8px; border: none; font-weight: 600; cursor: pointer; transition: var(--transition); display: inline-flex; align-items: center; gap: 8px; }
+    .btn-sm { padding: 6px 12px; font-size: 0.8rem; }
+    .btn-primary { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: var(--bg-primary); }
+    .btn-outline { background: transparent; border: 1px solid var(--border-light); color: var(--text-secondary); }
+    .btn-outline:hover { background: var(--bg-tertiary); border-color: var(--primary); color: var(--primary); }
+
+    .loading-spinner { display: inline-block; width: 20px; height: 20px; border: 3px solid var(--border-color); border-top-color: var(--primary); border-radius: 50%; animation: spin 0.8s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .empty-state { text-align: center; padding: 40px 20px; color: var(--text-tertiary); }
+    .empty-state i { font-size: 3rem; color: var(--border-light); margin-bottom: 16px; }
+
+    .toast { position: fixed; bottom: 24px; right: 24px; background: var(--bg-card); border: 1px solid var(--border-color); border-left: 4px solid var(--primary); border-radius: 8px; padding: 16px 20px; min-width: 300px; box-shadow: var(--shadow-xl); z-index: 10000; transform: translateX(500px); opacity: 0; transition: var(--transition-slow); display: flex; align-items: flex-start; gap: 12px; }
+    .toast.show { transform: translateX(0); opacity: 1; }
+    .toast.success { border-left-color: var(--success); }
+    .toast.error { border-left-color: var(--danger); }
+    .toast-icon { font-size: 1.3rem; flex-shrink: 0; }
+    .toast.success .toast-icon { color: var(--success); }
+    .toast.error .toast-icon { color: var(--danger); }
+    .toast-content { flex: 1; }
+    .toast-title { font-weight: 600; margin-bottom: 4px; color: var(--text-primary); }
+    .toast-message { font-size: 0.85rem; color: var(--text-tertiary); }
+    .toast-close { background: transparent; border: none; color: var(--text-tertiary); cursor: pointer; padding: 4px; }
+    
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+
+    /* Modals */
+    .modal-overlay {
+      position: fixed; inset: 0; background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(4px); z-index: 9999; display: none; align-items: center; justify-content: center; padding: 20px;
+    }
+    .modal-overlay.show { display: flex; }
+    .modal {
+      background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; max-width: 500px; width: 100%; box-shadow: var(--shadow-xl); padding: 24px; animation: modalSlideIn 0.3s ease;
+    }
+    @keyframes modalSlideIn {
+      from { opacity: 0; transform: scale(0.95) translateY(-20px); }
+      to { opacity: 1; transform: scale(1) translateY(0); }
+    }
+    .modal-header {
+      display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; border-bottom: 1px solid var(--border-color); padding-bottom: 16px;
+    }
+    .modal-title { font-size: 1.3rem; font-weight: 700; color: var(--text-primary); }
+    .modal-close {
+      background: transparent; border: none; color: var(--text-tertiary); font-size: 1.5rem; cursor: pointer; transition: var(--transition);
+    }
+    .modal-close:hover { color: var(--text-primary); }
+    .modal-footer {
+      display: flex; justify-content: flex-end; gap: 12px; margin-top: 24px; border-top: 1px solid var(--border-color); padding-top: 16px;
+    }
+  </style>
+</head>
+<body>
+  <div class="dashboard-container">
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <a href="dashboard.html" class="logo-section">
+          <div class="logo-icon">FV</div>
+          <div class="logo-text">Fire Village</div>
+        </a>
+      </div>
+      <nav class="nav-menu">
+        <a href="dashboard.html" class="nav-item">
+          <i class="fas fa-chart-line"></i>
+          <span>Dashboard</span>
+        </a>
+        <a href="leaderboard.html" class="nav-item active">
+          <i class="fas fa-edit"></i>
+          <span>Leaderboard</span>
+        </a>
+      </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div class="topbar">
+        <h1 class="page-title" id="pageTitle">Leaderboard Management</h1>
+      </div>
+
+      <div class="content-area">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">
+              <i class="fas fa-broadcast-tower"></i>
+              Live Tournament Editor
+            </h3>
+          </div>
+          <div class="card-body">
+            <div class="form-group">
+              <label class="form-label">Select an Ongoing Tournament</label>
+              <select id="tournamentSelector" class="form-control">
+                <option value="">-- Loading Tournaments --</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div id="teamsContainer" style="margin-top: 24px;">
+          <div class="empty-state">
+            <i class="fas fa-sitemap"></i>
+            <h3>Select a tournament to begin</h3>
+            <p>Teams and players will be displayed here for live editing.</p>
+          </div>
+        </div>
+        
+        <!-- Global Leaderboard Management -->
+        <div class="card" style="margin-top: 40px;">
+          <div class="card-header" style="display: flex; flex-wrap: wrap; gap: 16px; justify-content: space-between; align-items: center;">
+            <h3 class="card-title"><i class="fas fa-trophy"></i> Top Players</h3>
+            <input type="text" id="searchPlayers" class="form-control" placeholder="Search Players..." onkeyup="filterPlayers()" style="width: 250px;">
+          </div>
+          <div class="card-body">
+            <div class="table-container">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Rank</th>
+                    <th>Player</th>
+                    <th>Game</th>
+                    <th>Team</th>
+                    <th>Matches</th>
+                    <th>Kills</th>
+                    <th>Wins</th>
+                    <th>Points</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="topPlayersList">
+                  <tr><td colspan="9"><div class="empty-state"><div class="loading-spinner"></div><p style="margin-top: 16px;">Loading leaderboard...</p></div></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" style="margin-top: 32px;">
+          <div class="card-header" style="display: flex; flex-wrap: wrap; gap: 16px; justify-content: space-between; align-items: center;">
+            <h3 class="card-title"><i class="fas fa-medal"></i> Top Teams</h3>
+            <input type="text" id="searchTeams" class="form-control" placeholder="Search Teams..." onkeyup="filterTeams()" style="width: 250px;">
+          </div>
+          <div class="card-body">
+            <div class="table-container">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Rank</th>
+                    <th>Team</th>
+                    <th>Game</th>
+                    <th>Matches</th>
+                    <th>Wins</th>
+                    <th>Points</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="topTeamsList">
+                  <tr><td colspan="7"><div class="empty-state"><div class="loading-spinner"></div><p style="margin-top: 16px;">Loading team rankings...</p></div></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Toast Notification -->
+  <div class="toast" id="toast">
+    <div class="toast-icon"><i class="fas fa-check-circle"></i></div>
+    <div class="toast-content">
+      <div class="toast-title" id="toastTitle">Success</div>
+      <div class="toast-message" id="toastMessage">Operation completed.</div>
+    </div>
+    <button class="toast-close" onclick="hideToast()"><i class="fas fa-times"></i></button>
+  </div>
+
+  <!-- Edit Team Stats Modal -->
+  <div class="modal-overlay" id="editTeamStatsModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 class="modal-title">Edit Team Stats</h3>
+        <button class="modal-close" onclick="closeEditTeamStatsModal()"><i class="fas fa-times"></i></button>
+      </div>
+      <form id="editTeamStatsForm">
+        <input type="hidden" id="editStatsTeamId">
+        <div class="form-group"><label class="form-label">Total Matches</label><input type="number" id="editTeamMatches" class="form-control" required></div>
+        <div class="form-group"><label class="form-label">Total Wins</label><input type="number" id="editTeamWins" class="form-control" required></div>
+        <div class="form-group"><label class="form-label">Total Points</label><input type="number" id="editTeamPoints" class="form-control" required></div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline" onclick="closeEditTeamStatsModal()">Cancel</button>
+          <button type="button" class="btn btn-primary" onclick="saveTeamStats()"><i class="fas fa-save"></i> Save Changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Edit Player Stats Modal -->
+  <div class="modal-overlay" id="editPlayerStatsModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 class="modal-title">Edit Player Stats</h3>
+        <button class="modal-close" onclick="closeEditPlayerStatsModal()"><i class="fas fa-times"></i></button>
+      </div>
+      <form id="editPlayerStatsForm">
+        <input type="hidden" id="editStatsPlayerTeamId">
+        <input type="hidden" id="editStatsPlayerIndex">
+        <div class="form-group"><label class="form-label">Player IGN</label><input type="text" id="editPlayerName" class="form-control" disabled></div>
+        <div class="form-group"><label class="form-label">Matches</label><input type="number" id="editPlayerMatches" class="form-control" required></div>
+        <div class="form-group"><label class="form-label">Kills</label><input type="number" id="editPlayerKills" class="form-control" required></div>
+        <div class="form-group"><label class="form-label">Wins</label><input type="number" id="editPlayerWins" class="form-control" required></div>
+        <div class="form-group"><label class="form-label">Points</label><input type="number" id="editPlayerPoints" class="form-control" required></div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline" onclick="closeEditPlayerStatsModal()">Cancel</button>
+          <button type="button" class="btn btn-primary" onclick="savePlayerStats()"><i class="fas fa-save"></i> Save Changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyDFjHR5_D6yQ9tXrEut-3c2o4oA1ddz6hQ",
+      authDomain: "firevillagetournament.firebaseapp.com",
+      projectId: "firevillagetournament",
+      storageBucket: "firevillagetournament.firebasestorage.app",
+      messagingSenderId: "511246704009",
+      appId: "1:511246704009:web:8ae5e484591a64bb735558"
+    };
+
+    let auth, db;
+    firebase.initializeApp(firebaseConfig);
+    auth = firebase.auth();
+    db = firebase.firestore();
+
+    // Toast Notification System
+    function showToast(title, message, type = 'success') {
+      const toast = document.getElementById('toast');
+      toast.querySelector('#toastTitle').textContent = title;
+      toast.querySelector('#toastMessage').textContent = message;
+      toast.querySelector('.toast-icon i').className = `fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}`;
+      toast.className = 'toast ' + type;
+      toast.classList.add('show');
+      setTimeout(() => hideToast(), 4000);
+    }
+    function hideToast() { document.getElementById('toast').classList.remove('show'); }
+
+    // Auth Check
+    auth.onAuthStateChanged(async (user) => {
+      if (!user) {
+        window.location.href = 'login.html';
+        return;
+      }
+      const userDoc = await db.collection('users').doc(user.uid).get();
+      if (!userDoc.exists || userDoc.data()?.role !== 'admin') {
+        await auth.signOut();
+        window.location.href = 'login.html';
+      } else {
+        loadOngoingTournaments();
+        loadGlobalLeaderboard();
+      }
+    });
+
+    const tournamentSelector = document.getElementById('tournamentSelector');
+    const teamsContainer = document.getElementById('teamsContainer');
+
+    async function loadOngoingTournaments() {
+      try {
+        const snap = await db.collection('tournaments').where('status', 'in', ['ongoing', 'open', 'upcoming']).get();
+        if (snap.empty) {
+          tournamentSelector.innerHTML = '<option value="">No active tournaments found</option>';
+          return;
+        }
+        tournamentSelector.innerHTML = '<option value="">-- Select a Tournament --</option>';
+        snap.docs.forEach(doc => {
+          const t = doc.data();
+          const option = document.createElement('option');
+          option.value = doc.id;
+          option.textContent = `${t.name} (${t.status})`;
+          tournamentSelector.appendChild(option);
+        });
+      } catch (err) {
+        showToast('Error', 'Failed to load tournaments.', 'error');
+        tournamentSelector.innerHTML = '<option value="">Error loading tournaments</option>';
+      }
+    }
+
+    tournamentSelector.addEventListener('change', (e) => {
+      const tournamentId = e.target.value;
+      if (tournamentId) {
+        loadTournamentTeams(tournamentId);
+      } else {
+        teamsContainer.innerHTML = `<div class="empty-state">
+            <i class="fas fa-sitemap"></i>
+            <h3>Select a tournament to begin</h3>
+            <p>Teams and players will be displayed here for live editing.</p>
+          </div>`;
+      }
+    });
+
+    async function loadTournamentTeams(tournamentId) {
+      teamsContainer.innerHTML = '<div style="text-align: center; padding: 40px;"><div class="loading-spinner"></div><p style="margin-top: 16px;">Loading teams...</p></div>';
+      try {
+        const regSnap = await db.collection('registrations')
+          .where('tournamentId', '==', tournamentId)
+          .where('status', '==', 'confirmed')
+          .get();
+
+        if (regSnap.empty) {
+          teamsContainer.innerHTML = '<div class="empty-state"><i class="fas fa-users-slash"></i><h3>No Confirmed Teams</h3><p>No teams have been confirmed for this tournament yet.</p></div>';
+          return;
+        }
+
+        const teamPromises = regSnap.docs.map(regDoc => db.collection('teams').doc(regDoc.data().teamId).get());
+        const teamDocs = await Promise.all(teamPromises);
+
+        let html = '<div style="display: grid; grid-template-columns: 1fr; gap: 24px;">';
+        
+        for (const teamDoc of teamDocs) {
+          if (teamDoc.exists) {
+            const team = { id: teamDoc.id, ...teamDoc.data() };
+            html += `
+              <div class="card">
+                <div class="card-header"><h3 class="card-title">${team.name}</h3></div>
+                <div class="card-body">
+                  <div class="table-container">
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th>Player IGN</th>
+                          <th>Current Kills</th>
+                          <th style="width: 200px;">Live Kills Edit</th>
+                          <th style="width: 120px;">Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        ${(team.members || []).map((member, index) => `
+                          <tr>
+                            <td><strong>${member.gameId || member.name}</strong></td>
+                            <td id="kills-${team.id}-${index}">${member.kills || 0}</td>
+                            <td>
+                              <div style="display: flex; align-items: center; gap: 8px;">
+                                <button class="btn btn-sm btn-outline" onclick="updateKills('${team.id}', ${index}, -1, true)">-</button>
+                                <input type="number" class="form-control" id="input-kills-${team.id}-${index}" value="${member.kills || 0}" style="width: 80px; text-align: center;">
+                                <button class="btn btn-sm btn-outline" onclick="updateKills('${team.id}', ${index}, 1, true)">+</button>
+                              </div>
+                            </td>
+                            <td>
+                              <button class="btn btn-sm btn-primary" onclick="updateKills('${team.id}', ${index}, null, false)">
+                                <i class="fas fa-save"></i> Save
+                              </button>
+                            </td>
+                          </tr>
+                        `).join('')}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            `;
+          }
+        }
+        html += '</div>';
+        teamsContainer.innerHTML = html;
+
+      } catch (err) {
+        showToast('Error', `Failed to load teams: ${err.message}`, 'error');
+        teamsContainer.innerHTML = `<div class="empty-state"><i class="fas fa-exclamation-triangle"></i><h3>Error Loading Data</h3><p>${err.message}</p></div>`;
+      }
+    }
+
+    async function updateKills(teamId, memberIndex, change, isIncrement = false) {
+      const input = document.getElementById(`input-kills-${teamId}-${memberIndex}`);
+      let newKills;
+
+      if (isIncrement) {
+        newKills = (parseInt(input.value) || 0) + change;
+        input.value = newKills;
+      } else {
+        newKills = parseInt(input.value);
+      }
+
+      if (isNaN(newKills) || newKills < 0) {
+        showToast('Error', 'Invalid kill count.', 'error');
+        return;
+      }
+
+      try {
+        const teamRef = db.collection('teams').doc(teamId);
+        let memberName = 'Player';
+
+        await db.runTransaction(async (transaction) => {
+          const teamDoc = await transaction.get(teamRef);
+          if (!teamDoc.exists) throw "Team not found!";
+
+          const teamData = teamDoc.data();
+          const members = [...teamData.members]; // Create a mutable copy
+          if (!members[memberIndex]) throw "Player not found in team!";
+
+          memberName = members[memberIndex].gameId || 'Player';
+          const oldPlayerKills = members[memberIndex].kills || 0;
+          const killDifference = newKills - oldPlayerKills;
+
+          // Update player kills and points (assuming 10 points per kill)
+          members[memberIndex].kills = newKills;
+          members[memberIndex].points = (members[memberIndex].points || 0) + (killDifference * 10);
+
+          // Update team total kills and points
+          const newTotalKills = (teamData.totalKills || 0) + killDifference;
+          const newTotalPoints = (teamData.totalPoints || 0) + (killDifference * 10);
+
+          transaction.update(teamRef, {
+            members: members,
+            totalKills: newTotalKills,
+            totalPoints: newTotalPoints
+          });
+        });
+
+        document.getElementById(`kills-${teamId}-${memberIndex}`).textContent = newKills;
+        showToast('Success', `Kills updated for ${memberName}`, 'success');
+
+      } catch (err) {
+        console.error("Error updating kills: ", err);
+        showToast('Error', `Failed to update kills: ${err}`, 'error');
+        // Revert input value on failure
+        loadTournamentTeams(tournamentSelector.value);
+      }
+    }
+    window.updateKills = updateKills;
+
+    // Global Leaderboard logic
+    let currentTeamMembers = [];
+
+    async function loadGlobalLeaderboard() {
+      try {
+        const teamsSnap = await db.collection('teams')
+          .where('status', '==', 'active')
+          .get();
+        
+        const teamsTbody = document.getElementById('topTeamsList');
+        const playersTbody = document.getElementById('topPlayersList');
+        
+        if (teamsSnap.empty) {
+          teamsTbody.innerHTML = '<tr><td colspan="7"><div class="empty-state">No Teams Found</div></td></tr>';
+          playersTbody.innerHTML = '<tr><td colspan="9"><div class="empty-state">No Players Found</div></td></tr>';
+          return;
+        }
+
+        let allTeams = teamsSnap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        allTeams.sort((a, b) => (b.totalPoints !== undefined ? b.totalPoints : (b.wins || 0) * 100) - (a.totalPoints !== undefined ? a.totalPoints : (a.wins || 0) * 100));
+
+        let rank = 1;
+        teamsTbody.innerHTML = allTeams.map(t => {
+          const currentRank = rank++;
+          const points = t.totalPoints !== undefined ? t.totalPoints : (t.wins || 0) * 100;
+          return `
+            <tr class="team-row">
+              <td><strong>#${currentRank}</strong></td>
+              <td class="team-name"><strong>${t.name}</strong></td>
+              <td><span class="badge" style="background: rgba(6, 182, 212, 0.15); color: var(--info);"><i class="fas fa-gamepad"></i> ${t.primaryGame || 'N/A'}</span></td>
+              <td><strong>${t.totalMatches || 0}</strong></td>
+              <td><strong>${t.wins || 0}</strong></td>
+              <td><strong style="color: var(--primary);">${points}</strong></td>
+              <td>
+                <button class="btn btn-sm btn-outline" onclick="openEditTeamStats('${t.id}', ${t.totalMatches || 0}, ${t.wins || 0}, ${points})">
+                  <i class="fas fa-edit"></i> Edit
+                </button>
+              </td>
+            </tr>`;
+        }).join('');
+
+        let allPlayers = [];
+        allTeams.forEach(t => {
+          if(t.members && Array.isArray(t.members)) {
+            t.members.forEach((m, idx) => {
+              if(m.gameId || m.name) {
+                allPlayers.push({
+                  teamId: t.id,
+                  memberIndex: idx,
+                  name: m.gameId || m.name,
+                  game: t.primaryGame || 'N/A',
+                  teamName: t.name,
+                  matches: m.matches || 0,
+                  kills: m.kills || 0,
+                  wins: m.wins || 0,
+                  points: m.points || 0
+                });
+              }
+            });
+          }
+        });
+
+        allPlayers.sort((a, b) => b.points - a.points);
+        let pRank = 1;
+        playersTbody.innerHTML = allPlayers.map(p => {
+          const currentRank = pRank++;
+          return `
+            <tr class="player-row">
+              <td><strong>#${currentRank}</strong></td>
+              <td class="player-name"><strong>${p.name}</strong></td>
+              <td><span class="badge" style="background: rgba(6, 182, 212, 0.15); color: var(--info);">${p.game}</span></td>
+              <td class="player-team">${p.teamName}</td>
+              <td><strong>${p.matches}</strong></td>
+              <td><strong>${p.kills}</strong></td>
+              <td><strong>${p.wins}</strong></td>
+              <td><strong style="color: var(--primary);">${p.points}</strong></td>
+              <td>
+                <button class="btn btn-sm btn-outline" onclick="openEditPlayerStats('${p.teamId}', ${p.memberIndex}, '${p.name}', ${p.matches}, ${p.kills}, ${p.wins}, ${p.points})">
+                  <i class="fas fa-edit"></i> Edit
+                </button>
+              </td>
+            </tr>`;
+        }).join('');
+
+      } catch (err) {
+        console.error('Error loading leaderboard:', err);
+        showToast('Error', 'Failed to load leaderboard.', 'error');
+      }
+    }
+
+    function filterPlayers() {
+      const q = document.getElementById('searchPlayers').value.toLowerCase();
+      document.querySelectorAll('.player-row').forEach(row => {
+        const name = row.querySelector('.player-name').innerText.toLowerCase();
+        const team = row.querySelector('.player-team').innerText.toLowerCase();
+        if(name.includes(q) || team.includes(q)) row.style.display = '';
+        else row.style.display = 'none';
+      });
+    }
+
+    function filterTeams() {
+      const q = document.getElementById('searchTeams').value.toLowerCase();
+      document.querySelectorAll('.team-row').forEach(row => {
+        const name = row.querySelector('.team-name').innerText.toLowerCase();
+        if(name.includes(q)) row.style.display = '';
+        else row.style.display = 'none';
+      });
+    }
+
+    function openEditTeamStats(teamId, matches, wins, points) {
+      document.getElementById('editStatsTeamId').value = teamId;
+      document.getElementById('editTeamMatches').value = matches;
+      document.getElementById('editTeamWins').value = wins;
+      document.getElementById('editTeamPoints').value = points;
+      document.getElementById('editTeamStatsModal').classList.add('show');
+    }
+    function closeEditTeamStatsModal() { document.getElementById('editTeamStatsModal').classList.remove('show'); }
+
+    async function saveTeamStats() {
+      const teamId = document.getElementById('editStatsTeamId').value;
+      const matches = parseInt(document.getElementById('editTeamMatches').value) || 0;
+      const wins = parseInt(document.getElementById('editTeamWins').value) || 0;
+      const points = parseInt(document.getElementById('editTeamPoints').value) || 0;
+      
+      try {
+        await db.collection('teams').doc(teamId).update({ 
+          totalMatches: matches,
+          wins: wins,
+          totalPoints: points
+        });
+        showToast('Success', 'Team stats updated successfully', 'success');
+        closeEditTeamStatsModal();
+        loadGlobalLeaderboard();
+      } catch (err) { showToast('Error', err.message, 'error'); }
+    }
+
+    async function openEditPlayerStats(teamId, memberIndex, playerName, matches, kills, wins, points) {
+      try {
+        const doc = await db.collection('teams').doc(teamId).get();
+        if(doc.exists) {
+          currentTeamMembers = doc.data().members || [];
+          document.getElementById('editStatsPlayerTeamId').value = teamId;
+          document.getElementById('editStatsPlayerIndex').value = memberIndex;
+          document.getElementById('editPlayerName').value = playerName;
+          document.getElementById('editPlayerMatches').value = matches;
+          document.getElementById('editPlayerKills').value = kills;
+          document.getElementById('editPlayerWins').value = wins;
+          document.getElementById('editPlayerPoints').value = points;
+          document.getElementById('editPlayerStatsModal').classList.add('show');
+        }
+      } catch (err) { showToast('Error', 'Failed to fetch data', 'error'); }
+    }
+    function closeEditPlayerStatsModal() { document.getElementById('editPlayerStatsModal').classList.remove('show'); }
+
+    async function savePlayerStats() {
+      const teamId = document.getElementById('editStatsPlayerTeamId').value;
+      const index = parseInt(document.getElementById('editStatsPlayerIndex').value);
+      if(!currentTeamMembers[index]) return;
+      
+      currentTeamMembers[index].matches = parseInt(document.getElementById('editPlayerMatches').value) || 0;
+      currentTeamMembers[index].kills = parseInt(document.getElementById('editPlayerKills').value) || 0;
+      currentTeamMembers[index].wins = parseInt(document.getElementById('editPlayerWins').value) || 0;
+      currentTeamMembers[index].points = parseInt(document.getElementById('editPlayerPoints').value) || 0;
+      
+      try {
+        await db.runTransaction(async (transaction) => {
+          const teamRef = db.collection('teams').doc(teamId);
+          const teamDoc = await transaction.get(teamRef);
+          if (!teamDoc.exists) throw "Team does not exist!";
+          
+          transaction.update(teamRef, { members: currentTeamMembers });
+        });
+        showToast('Success', 'Player stats updated', 'success');
+        closeEditPlayerStatsModal();
+        loadGlobalLeaderboard();
+      } catch (err) { showToast('Error', err, 'error'); }
+    }
+
+  </script>
+</body>
+</html>
