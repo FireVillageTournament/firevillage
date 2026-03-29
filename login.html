@@ -394,7 +394,6 @@
     <div class="nav-inner">
       <a href="index.html" class="logo-wrap">
         <img src="./assets/logo.png" alt="Fire Village Logo" onerror="this.style.display='none'">
-        <span>FIRE VILLAGE</span>
       </a>
 
       <ul class="nav-links">
@@ -608,9 +607,14 @@
   function renderAuth(user) {
     const authArea   = document.getElementById('authArea');
     const mobileAuth = document.getElementById('mobileAuthArea');
+    const navRegisterLink = document.querySelector('.nav-links a[href="register.html"]');
+    const mobileNavRegisterLink = document.querySelector('.mobile-menu a[href="register.html"]');
 
     if (user) {
       const displayName = user.displayName || user.email?.split('@')[0] || 'Player';
+      if (navRegisterLink) navRegisterLink.parentElement.style.display = 'none';
+      if (mobileNavRegisterLink) mobileNavRegisterLink.style.display = 'none';
+
       authArea.innerHTML = `
         <div class="user-menu-wrap">
           <button class="user-btn" id="userBtn">
@@ -642,6 +646,9 @@
         showToast('You are already logged in! Redirecting...', 'success');
       }
     } else {
+      if (navRegisterLink) navRegisterLink.parentElement.style.display = '';
+      if (mobileNavRegisterLink) mobileNavRegisterLink.style.display = '';
+
       authArea.innerHTML = `
         <a href="login.html" class="btn-login"><i class="fas fa-sign-in-alt" style="margin-right:6px;"></i>Login</a>
         <a href="register.html" class="btn-join"><i class="fas fa-user-plus" style="margin-right:6px;"></i>Join Now</a>`;
