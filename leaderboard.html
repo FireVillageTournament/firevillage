@@ -8,46 +8,42 @@
   <link rel="icon" href="./assets/logo.png" type="image/png">
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link rel="stylesheet" href="style.css">
 
   <style>
     /* ── ROOT VARS ── */
     :root {
       --fire-yellow: #facc15;
       --fire-orange: #f59e0b;
-      --fire-red:    #ef4444;
-      --fire-dark:   #0f0f0f;
-      --fire-gray:   #1f2937;
-      --fire-light:  #374151;
-      --fire-bg:     #111827;
-      --font-head:   'Oswald', sans-serif;
-      --font-body:   'Poppins', sans-serif;
+      --fire-red: #ef4444;
+      --fire-dark: #0f0f0f;
+      --fire-gray: #1f2937;
+      --fire-light: #374151;
+      --font-head: 'Oswald', sans-serif;
+      --font-body: 'Poppins', sans-serif;
     }
 
-    * { margin:0; padding:0; box-sizing:border-box; }
-    html { scroll-behavior:smooth; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
 
     body {
       font-family: var(--font-body);
       background: var(--fire-dark);
       color: #fff;
       min-height: 100vh;
-      overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
     }
 
-    /* Scrollbar */
-    ::-webkit-scrollbar { width:6px; }
-    ::-webkit-scrollbar-track { background:#111; }
-    ::-webkit-scrollbar-thumb { background: var(--fire-orange); border-radius:3px; }
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #111; }
+    ::-webkit-scrollbar-thumb { background: var(--fire-orange); border-radius: 3px; }
 
-    a { text-decoration:none; color:inherit; transition:all .3s ease; }
-    img { display:block; max-width:100%; }
-
+    a { text-decoration: none; color: inherit; transition: all .3s ease; }
+    
     /* ── NAVBAR ── */
     nav {
       background: rgba(17,24,39,0.95);
       backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
       padding: 0 24px;
       height: 68px;
       display: flex;
@@ -56,11 +52,6 @@
       top: 0;
       z-index: 1000;
       border-bottom: 1px solid rgba(250,204,21,0.12);
-      transition: background .3s;
-    }
-    nav.scrolled {
-      background: rgba(10,10,10,0.98);
-      box-shadow: 0 4px 24px rgba(0,0,0,0.5);
     }
     .nav-inner {
       max-width: 1280px;
@@ -74,49 +65,34 @@
       display: flex;
       align-items: center;
       gap: 10px;
-      text-decoration: none;
     }
-    .logo-wrap img {
-      height: 44px;
-      width: auto;
-      transition: transform .3s;
-    }
+    .logo-wrap img { height: 44px; width: auto; transition: transform .3s; }
     .logo-wrap:hover img { transform: scale(1.08); }
     .logo-wrap span {
       font-family: var(--font-head);
       font-size: 1.5rem;
       color: var(--fire-yellow);
-      letter-spacing: 1px;
     }
-
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      list-style: none;
-    }
+    .nav-links { display: flex; align-items: center; gap: 4px; list-style: none; }
     .nav-links a {
       padding: 8px 14px;
       border-radius: 8px;
       font-size: 0.9rem;
       font-weight: 500;
       color: #d1d5db;
-      transition: all .25s;
     }
     .nav-links a:hover, .nav-links a.active {
       background: var(--fire-yellow);
       color: #000;
     }
-    .nav-links a i { margin-right:6px; }
+    .nav-links a i { margin-right: 6px; }
 
-    /* Auth buttons */
-    .auth-area { display:flex; align-items:center; gap:10px; }
+    .auth-area { display: flex; align-items: center; gap: 10px; }
     .btn-login {
       padding: 8px 18px;
       border-radius: 8px;
       color: #d1d5db;
       font-weight: 500;
-      font-size: 0.88rem;
     }
     .btn-login:hover { color: var(--fire-yellow); }
     .btn-join {
@@ -125,30 +101,23 @@
       background: linear-gradient(to right, var(--fire-orange), var(--fire-red));
       color: #000;
       font-weight: 700;
-      font-size: 0.88rem;
-      transition: all .3s;
     }
     .btn-join:hover {
       background: linear-gradient(to right, var(--fire-yellow), var(--fire-orange));
       transform: scale(1.05);
-      box-shadow: 0 0 18px rgba(245,158,11,0.4);
     }
 
-    /* User menu */
-    .user-menu-wrap { position:relative; }
+    .user-menu-wrap { position: relative; }
     .user-btn {
       background: none;
       border: 1px solid rgba(250,204,21,0.3);
       border-radius: 8px;
       padding: 8px 16px;
       color: #d1d5db;
-      font-family: var(--font-body);
-      font-size: 0.88rem;
       cursor: pointer;
       display: flex;
       align-items: center;
       gap: 8px;
-      transition: all .25s;
     }
     .user-btn:hover { border-color: var(--fire-yellow); color: var(--fire-yellow); }
     .user-dropdown {
@@ -161,21 +130,19 @@
       border: 1px solid rgba(250,204,21,0.15);
       border-radius: 10px;
       padding: 8px 0;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
       z-index: 200;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
     }
-    .user-dropdown.open { display:block; }
+    .user-dropdown.open { display: block; }
     .user-dropdown a {
       display: block;
       padding: 10px 16px;
-      font-size: 0.88rem;
       color: #d1d5db;
+      font-size: 0.88rem;
     }
     .user-dropdown a:hover { background: rgba(255,255,255,0.06); color: var(--fire-yellow); }
     .user-dropdown a.logout { color: #f87171; }
-    .user-dropdown a.logout:hover { background: rgba(248,113,113,0.08); }
 
-    /* Hamburger */
     .hamburger {
       display: none;
       background: none;
@@ -184,12 +151,8 @@
       font-size: 1.6rem;
       cursor: pointer;
       padding: 6px;
-      border-radius: 6px;
-      transition: color .25s;
     }
     .hamburger:hover { color: var(--fire-yellow); }
-
-    /* Mobile menu */
     .mobile-menu {
       display: none;
       position: absolute;
@@ -198,44 +161,28 @@
       right: 0;
       background: rgba(10,10,15,0.98);
       backdrop-filter: blur(16px);
-      border-bottom: 1px solid rgba(250,204,21,0.1);
       padding: 16px;
       z-index: 999;
       flex-direction: column;
       gap: 6px;
+      border-bottom: 1px solid rgba(250,204,21,0.1);
     }
-    .mobile-menu.open { display:flex; }
+    .mobile-menu.open { display: flex; }
     .mobile-menu a {
       padding: 13px 18px;
       border-radius: 8px;
-      font-weight: 500;
       color: #d1d5db;
-      font-size: 1rem;
+      font-weight: 500;
     }
     .mobile-menu a:hover, .mobile-menu a.active {
       background: var(--fire-yellow);
       color: #000;
     }
-    .mobile-menu .mobile-auth {
-      border-top: 1px solid rgba(255,255,255,0.08);
-      margin-top: 8px;
-      padding-top: 12px;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-    .mobile-menu .btn-join-mobile {
-      text-align: center;
-      padding: 13px;
-      border-radius: 8px;
-      background: linear-gradient(to right, var(--fire-orange), var(--fire-red));
-      color: #000;
-      font-weight: 700;
-    }
+    .mobile-auth { border-top: 1px solid rgba(255,255,255,0.08); margin-top: 8px; padding-top: 12px; display: flex; flex-direction: column; gap: 8px; }
 
     /* ── PAGE HEADER ── */
     .page-header {
-      padding: 80px 24px 60px;
+      padding: 80px 24px 40px;
       background: linear-gradient(to bottom, rgba(17,24,39,0.9), rgba(15,15,15,1));
       text-align: center;
       border-bottom: 1px solid rgba(250,204,21,0.1);
@@ -244,14 +191,10 @@
       font-family: var(--font-head);
       font-size: clamp(2.5rem, 5vw, 4rem);
       color: var(--fire-yellow);
-      margin-bottom: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
     }
-    .page-desc {
-      color: #9ca3af;
-      font-size: 1.1rem;
-      max-width: 600px;
-      margin: 0 auto;
-    }
+    .page-desc { color: #9ca3af; font-size: 1.1rem; max-width: 600px; margin: 10px auto 0; }
 
     /* ── TABS ── */
     .tabs-wrap {
@@ -265,71 +208,81 @@
       background: rgba(31,41,55,0.8);
       border: 1px solid rgba(255,255,255,0.1);
       color: #d1d5db;
-      padding: 10px 32px;
+      padding: 12px 36px;
       border-radius: 99px;
+      font-weight: 600;
       font-family: var(--font-body);
-      font-weight: 500;
-      font-size: 1rem;
       cursor: pointer;
       transition: all .3s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 1rem;
     }
-    .tab-btn:hover {
-      background: rgba(250,204,21,0.1);
-      border-color: rgba(250,204,21,0.3);
-      color: var(--fire-yellow);
-    }
+    .tab-btn:hover { background: rgba(255,255,255,0.05); }
     .tab-btn.active {
       background: var(--fire-yellow);
       color: #000;
       border-color: var(--fire-yellow);
-      font-weight: 600;
       box-shadow: 0 0 15px rgba(250,204,21,0.3);
     }
 
     /* ── LEADERBOARD TABLE ── */
-    .leaderboard-section { background: #0f1117; padding-bottom: 80px; min-height: 50vh; }
+    main { flex: 1; }
+    .leaderboard-section { background: #0f1117; padding: 0 24px 80px; }
     .lb-table-wrap {
       max-width: 1000px;
       margin: 0 auto;
       background: rgba(0,0,0,0.4);
-      border: 1px solid rgba(250,204,21,0.1);
+      border: 1px solid rgba(250,204,21,0.2);
       border-radius: 14px;
       overflow-x: auto;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
     }
-    .lb-table { width: 100%; border-collapse: collapse; min-width: 600px; }
-    .lb-table thead tr {
-      background: #1f2937;
-      border-bottom: 1px solid rgba(250,204,21,0.15);
-    }
+    .lb-table { width: 100%; border-collapse: collapse; min-width: 650px; }
+    .lb-table thead tr { background: #1f2937; border-bottom: 2px solid rgba(250,204,21,0.2); }
     .lb-table th {
       text-align: left;
-      padding: 16px 20px;
+      padding: 18px 20px;
       font-family: var(--font-head);
-      font-size: 0.95rem;
+      font-size: 1rem;
       color: var(--fire-yellow);
-      letter-spacing: 1px;
+      letter-spacing: 0.5px;
     }
-    .lb-table tbody tr {
-      border-bottom: 1px solid rgba(255,255,255,0.04);
-      transition: background .2s;
-    }
-    .lb-table tbody tr:hover { background: rgba(250,204,21,0.04); }
-    .lb-table td { padding: 14px 20px; font-size: 0.95rem; color: #d1d5db; }
+    .lb-table tbody tr { border-bottom: 1px solid rgba(255,255,255,0.04); transition: background .2s; }
+    .lb-table tbody tr:hover { background: rgba(250,204,21,0.05); }
+    .lb-table td { padding: 16px 20px; font-size: 0.95rem; color: #d1d5db; vertical-align: middle; }
+    
     .rank-badge {
-      display: inline-flex; align-items: center; justify-content: center;
-      width: 32px; height: 32px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
       border-radius: 8px;
       font-weight: 700;
-      font-size: 0.9rem;
+      font-family: var(--font-head);
+      font-size: 1.1rem;
     }
-    .rank-1 { background: linear-gradient(135deg,#facc15,#f59e0b); color:#000; box-shadow: 0 0 10px rgba(250,204,21,0.4); }
-    .rank-2 { background: linear-gradient(135deg,#d1d5db,#9ca3af); color:#000; }
+    .rank-1 { background: linear-gradient(135deg,#facc15,#f59e0b); color:#000; box-shadow: 0 0 10px rgba(250,204,21,0.5); }
+    .rank-2 { background: linear-gradient(135deg,#e5e7eb,#9ca3af); color:#000; }
     .rank-3 { background: linear-gradient(135deg,#f97316,#b45309); color:#fff; }
-    .rank-other { background: rgba(255,255,255,0.06); color: #9ca3af; }
-    .player-name { font-weight: 600; color: #fff; }
-    .team-name { color: #e5e7eb; font-weight: 500; }
-    .highlight-count { color: var(--fire-red); font-weight: 700; }
-    .points-count { color: var(--fire-yellow); font-weight: 700; font-size: 1.05rem; }
+    .rank-other { background: rgba(255,255,255,0.08); color: #9ca3af; border: 1px solid rgba(255,255,255,0.1); }
+    
+    .player-name, .team-name { font-weight: 600; color: #fff; font-size: 1.05rem; }
+    .highlight-count { color: #fff; font-weight: 600; }
+    .points-count { color: var(--fire-yellow); font-weight: 700; font-family: var(--font-head); font-size: 1.1rem; }
+    
+    .spinner {
+      display: inline-block;
+      width: 40px;
+      height: 40px;
+      border: 4px solid rgba(250,204,21,0.1);
+      border-top-color: var(--fire-yellow);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
 
     /* ── FOOTER ── */
     footer {
@@ -337,35 +290,30 @@
       border-top: 1px solid rgba(255,255,255,0.06);
       padding: 32px 24px;
       text-align: center;
+      margin-top: auto;
     }
-    .footer-links {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 8px 24px;
-      margin-bottom: 18px;
-    }
+    .footer-links { display: flex; justify-content: center; gap: 24px; margin-bottom: 18px; flex-wrap: wrap; }
     .footer-links a { color: #9ca3af; font-size: 0.88rem; }
     .footer-links a:hover { color: var(--fire-yellow); }
     footer p { color: #4b5563; font-size: 0.82rem; }
 
-    /* ── RESPONSIVE ── */
+    /* RESPONSIVE */
     @media (max-width: 1024px) {
       .nav-links, .auth-area { display: none; }
       .hamburger { display: block; }
+    }
+    @media (max-width: 600px) {
+      .tab-btn { padding: 10px 20px; font-size: 0.9rem; }
     }
   </style>
 </head>
 
 <body>
-  <!-- ── NAVBAR ── -->
   <nav id="navbar">
     <div class="nav-inner">
       <a href="index.html" class="logo-wrap">
         <img src="./assets/logo.png" alt="Fire Village Logo" onerror="this.style.display='none'">
-        <span>FIRE VILLAGE</span>
       </a>
-
       <ul class="nav-links">
         <li><a href="index.html"><i class="fas fa-home"></i>Home</a></li>
         <li><a href="tournaments.html"><i class="fas fa-trophy"></i>Tournaments</a></li>
@@ -373,17 +321,11 @@
         <li><a href="teams.html"><i class="fas fa-users"></i>Teams</a></li>
         <li><a href="register.html"><i class="fas fa-user-plus"></i>Register</a></li>
         <li><a href="contact.html"><i class="fas fa-envelope"></i>Contact</a></li>
-        <li><a href="about.html"><i class="fas fa-info-circle"></i>About</a></li>
       </ul>
-
       <div class="auth-area" id="authArea"></div>
-
-      <button class="hamburger" id="hamburger" aria-label="Menu">
-        <i class="fas fa-bars" id="hamburgerIcon"></i>
-      </button>
+      <button class="hamburger" id="hamburger"><i class="fas fa-bars" id="hamburgerIcon"></i></button>
     </div>
-
-    <!-- Mobile menu -->
+    
     <div class="mobile-menu" id="mobileMenu">
       <a href="index.html"><i class="fas fa-home" style="margin-right:10px;color:var(--fire-yellow)"></i>Home</a>
       <a href="tournaments.html"><i class="fas fa-trophy" style="margin-right:10px;color:var(--fire-yellow)"></i>Tournaments</a>
@@ -391,40 +333,38 @@
       <a href="teams.html"><i class="fas fa-users" style="margin-right:10px;color:var(--fire-yellow)"></i>Teams</a>
       <a href="register.html"><i class="fas fa-user-plus" style="margin-right:10px;color:var(--fire-yellow)"></i>Register</a>
       <a href="contact.html"><i class="fas fa-envelope" style="margin-right:10px;color:var(--fire-yellow)"></i>Contact</a>
-      <a href="about.html"><i class="fas fa-info-circle" style="margin-right:10px;color:var(--fire-yellow)"></i>About</a>
       <div class="mobile-auth" id="mobileAuthArea"></div>
     </div>
   </nav>
 
-  <!-- ── PAGE HEADER ── -->
-  <section class="page-header">
-    <h1 class="page-title">GLOBAL LEADERBOARD</h1>
-    <p class="page-desc">The ultimate hall of fame. See who is dominating the battlegrounds across all games this season.</p>
-  </section>
+  <main>
+    <section class="page-header">
+      <h1 class="page-title">GLOBAL LEADERBOARD</h1>
+      <p class="page-desc">Only verified teams and active players appear on the leaderboard.</p>
+    </section>
 
-  <!-- ── TABS ── -->
-  <div class="tabs-wrap">
-    <button class="tab-btn active" id="tabPlayers"><i class="fas fa-user"></i> Top Players</button>
-    <button class="tab-btn" id="tabTeams"><i class="fas fa-users"></i> Top Teams</button>
-  </div>
-
-  <!-- ── LEADERBOARD TABLE ── -->
-  <section class="leaderboard-section">
-    <div class="lb-table-wrap" style="padding: 0 24px 0 24px;">
-      <table class="lb-table">
-        <thead id="tableHead">
-          <!-- Populated via JS -->
-        </thead>
-        <tbody id="tableBody">
-          <tr>
-            <td colspan="6" style="text-align:center;padding:40px;color:#6b7280;">Loading Data...</td>
-          </tr>
-        </tbody>
-      </table>
+    <div class="tabs-wrap">
+      <button class="tab-btn active" id="tabTeams"><i class="fas fa-users"></i> Top Teams</button>
+      <button class="tab-btn" id="tabPlayers"><i class="fas fa-user"></i> Top Players</button>
     </div>
-  </section>
 
-  <!-- ── FOOTER ── -->
+    <section class="leaderboard-section">
+      <div class="lb-table-wrap">
+        <table class="lb-table">
+          <thead id="tableHead"></thead>
+          <tbody id="tableBody">
+            <tr>
+              <td colspan="6" style="text-align:center;padding:60px;">
+                <div class="spinner"></div>
+                <p style="margin-top:16px; color:#9ca3af;">Crunching the latest stats...</p>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
   <footer>
     <div class="footer-links">
       <a href="privacy-policy.html">Privacy Policy</a>
@@ -435,243 +375,291 @@
     <p>&copy; <span id="copyright-year"></span> Fire Village Tournament. All rights reserved.</p>
   </footer>
 
-  <!-- Firebase -->
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
 
   <script>
-  // ════════════════════════════════════════════════
-  // FIREBASE CONFIG
-  // ════════════════════════════════════════════════
-  const firebaseConfig = {
-    apiKey: "AIzaSyDFjHR5_D6yQ9tXrEut-3c2o4oA1ddz6hQ",
-    authDomain: "firevillagetournament.firebaseapp.com",
-    projectId: "firevillagetournament",
-    storageBucket: "firevillagetournament.firebasestorage.app",
-    messagingSenderId: "511246704009",
-    appId: "1:511246704009:web:8ae5e484591a64bb735558",
-    measurementId: "G-ZCQ2V6DEGX"
-  };
+    // ════════════════════════════════════════════════
+    // FIREBASE CONFIGURATION
+    // ════════════════════════════════════════════════
+    const firebaseConfig = {
+      apiKey: "AIzaSyDFjHR5_D6yQ9tXrEut-3c2o4oA1ddz6hQ",
+      authDomain: "firevillagetournament.firebaseapp.com",
+      projectId: "firevillagetournament",
+      storageBucket: "firevillagetournament.firebasestorage.app",
+      messagingSenderId: "511246704009",
+      appId: "1:511246704009:web:8ae5e484591a64bb735558",
+      measurementId: "G-ZCQ2V6DEGX"
+    };
 
-  let db = null, auth = null;
-  let firebaseReady = false;
+    let db = null, auth = null;
+    let currentTab = 'teams';
+    let teamsData = [];
+    let playersData = [];
 
-  try {
-    firebase.initializeApp(firebaseConfig);
-    db   = firebase.firestore();
-    auth = firebase.auth();
-    firebaseReady = true;
-  } catch(e) {
-    console.warn("Firebase not configured — using demo data.", e);
-  }
-
-  // DEMO DATA
-  const DEMO_PLAYERS = [
-    { rank:1, name:'JONATHAN',    game: 'BGMI', team:'Godlike', kills:487, wins:22, points:4200 },
-    { rank:2, name:'Scout', game: 'BGMI', team:'Team XSpark',  kills:412, wins:18, points:3750 },
-    { rank:3, name:'s1mple',   game: 'CS2', team:'Natus Vincere',   kills:398, wins:15, points:3400 },
-    { rank:4, name:'TenZ',   game: 'Valorant', team:'Sentinels',    kills:365, wins:14, points:3100 },
-    { rank:5, name:'Faker',   game: 'LoL', team:'T1',  kills:340, wins:12, points:2900 },
-    { rank:6, name:'xHunter_99',   game: 'Free Fire', team:'Night Raid',   kills:310, wins:10, points:2600 },
-    { rank:7, name:'iFerg',   game: 'CODM', team:'Tribe Gaming',  kills:285, wins:9,  points:2300 },
-    { rank:8, name:'MortaL',     game: 'BGMI', team:'Team Soul',   kills:260, wins:7,  points:2000 },
-    { rank:9, name:'ZywOo',     game: 'CS2', team:'Team Vitality', kills:250, wins:6,  points:1900 },
-    { rank:10, name:'Bugha',    game: 'Fortnite', team:'Dignitas',  kills:240, wins:5,  points:1850 },
-  ];
-
-  const DEMO_TEAMS_LB = [
-    { rank:1, name:'Shadow Squad', played:50, wins:14, kills:1200, points:15000 },
-    { rank:2, name:'Fire Wolves',  played:48, wins:11, kills:1150, points:13500 },
-    { rank:3, name:'Blood Rush',   played:45, wins:9,  kills:1050, points:12000 },
-    { rank:4, name:'Toxic Elite',  played:42, wins:7,  kills:950,  points:10500 },
-    { rank:5, name:'Iron Fist',    played:40, wins:6,  kills:900,  points:9800 },
-    { rank:6, name:'Night Raid',   played:38, wins:5,  kills:850,  points:9000 },
-    { rank:7, name:'Venom Squad',  played:35, wins:4,  kills:800,  points:8200 },
-    { rank:8, name:'Chaos Crew',   played:30, wins:3,  kills:700,  points:7500 },
-  ];
-
-  // ════════════════════════════════
-  // NAVBAR LOGIC
-  // ════════════════════════════════
-  const navbar       = document.getElementById('navbar');
-  const hamburger    = document.getElementById('hamburger');
-  const hamburgerIcon= document.getElementById('hamburgerIcon');
-  const mobileMenu   = document.getElementById('mobileMenu');
-
-  window.addEventListener('scroll', ()=>{
-    navbar.classList.toggle('scrolled', window.scrollY > 40);
-  }, {passive:true});
-
-  hamburger.addEventListener('click', ()=>{
-    const open = mobileMenu.classList.toggle('open');
-    hamburgerIcon.className = open ? 'fas fa-times' : 'fas fa-bars';
-  });
-  mobileMenu.querySelectorAll('a').forEach(a=>{
-    a.addEventListener('click', ()=>{
-      mobileMenu.classList.remove('open');
-      hamburgerIcon.className = 'fas fa-bars';
-    });
-  });
-
-  function renderAuth(user) {
-    const authArea   = document.getElementById('authArea');
-    const mobileAuth = document.getElementById('mobileAuthArea');
-
-    if (user) {
-      const displayName = user.displayName || user.email?.split('@')[0] || 'Player';
-      authArea.innerHTML = `
-        <div class="user-menu-wrap">
-          <button class="user-btn" id="userBtn">
-            <i class="fas fa-user-circle"></i> <span>${displayName}</span>
-            <i class="fas fa-chevron-down" style="font-size:.7rem;"></i>
-          </button>
-          <div class="user-dropdown" id="userDropdown">
-            <a href="profile.html"><i class="fas fa-user-circle" style="margin-right:8px;color:var(--fire-yellow)"></i>Profile</a>
-            <a href="#" id="logoutBtn" class="logout"><i class="fas fa-sign-out-alt" style="margin-right:8px;"></i>Logout</a>
-          </div>
-        </div>`;
-      mobileAuth.innerHTML = `
-        <a href="profile.html"><i class="fas fa-user-circle" style="margin-right:10px;color:var(--fire-yellow)"></i>${displayName}'s Profile</a>
-        <a href="#" id="mobileLogout" style="color:#f87171;"><i class="fas fa-sign-out-alt" style="margin-right:10px;"></i>Logout</a>`;
-
-      document.getElementById('userBtn')?.addEventListener('click', e=>{
-        e.stopPropagation(); document.getElementById('userDropdown')?.classList.toggle('open');
-      });
-      document.getElementById('logoutBtn')?.addEventListener('click', e=>{
-        e.preventDefault(); if(auth) auth.signOut();
-      });
-      document.getElementById('mobileLogout')?.addEventListener('click', e=>{
-        e.preventDefault(); if(auth) auth.signOut();
-      });
-    } else {
-      authArea.innerHTML = `
-        <a href="login.html" class="btn-login"><i class="fas fa-sign-in-alt" style="margin-right:6px;"></i>Login</a>
-        <a href="register.html" class="btn-join"><i class="fas fa-user-plus" style="margin-right:6px;"></i>Join Now</a>`;
-      mobileAuth.innerHTML = `
-        <a href="login.html"><i class="fas fa-sign-in-alt" style="margin-right:10px;color:var(--fire-yellow)"></i>Login</a>
-        <a href="register.html" class="btn-join-mobile"><i class="fas fa-user-plus" style="margin-right:8px;"></i>Join Now</a>`;
+    // Initialize Firebase securely
+    try {
+      if (!firebase.apps.length) {
+        firebase.initializeApp(firebaseConfig);
+      }
+      db = firebase.firestore();
+      auth = firebase.auth();
+    } catch (e) {
+      console.error("Firebase Initialization Error:", e);
     }
-    document.addEventListener('click', ()=>document.getElementById('userDropdown')?.classList.remove('open'));
-  }
 
-  if (firebaseReady && auth) {
-    auth.onAuthStateChanged(user => renderAuth(user));
-  } else {
-    renderAuth(null);
-  }
+    // ════════════════════════════════════════════════
+    // AUTHENTICATION & UI LOGIC
+    // ════════════════════════════════════════════════
+    function renderAuth(user) {
+      const authArea = document.getElementById('authArea');
+      const mobileAuth = document.getElementById('mobileAuthArea');
+      const navRegisterLink = document.querySelector('.nav-links a[href="register.html"]');
 
-  // ════════════════════════════════
-  // LEADERBOARD LOGIC
-  // ════════════════════════════════
-  let currentTab = 'players';
-  let playersData = DEMO_PLAYERS;
-  let teamsData = DEMO_TEAMS_LB;
+      if (user) {
+        const name = user.displayName || user.email?.split('@')[0] || 'Player';
+        if (navRegisterLink) navRegisterLink.parentElement.style.display = 'none';
+        
+        // Desktop Auth UI
+        authArea.innerHTML = `
+          <div class="user-menu-wrap">
+            <button class="user-btn" id="userBtn"><i class="fas fa-user-circle"></i> ${name} <i class="fas fa-chevron-down" style="font-size:0.7rem;"></i></button>
+            <div class="user-dropdown" id="userDropdown">
+              <a href="profile.html"><i class="fas fa-user" style="margin-right:8px;color:var(--fire-yellow)"></i>Profile</a>
+              <a href="#" id="logoutBtn" class="logout"><i class="fas fa-sign-out-alt" style="margin-right:8px;"></i>Logout</a>
+            </div>
+          </div>`;
+          
+        // Mobile Auth UI
+        mobileAuth.innerHTML = `
+          <a href="profile.html"><i class="fas fa-user-circle" style="margin-right:8px;color:var(--fire-yellow)"></i>${name}'s Profile</a>
+          <a href="#" id="mobileLogout" style="color:#f87171;"><i class="fas fa-sign-out-alt" style="margin-right:8px;"></i>Logout</a>`;
 
-  const tabPlayers = document.getElementById('tabPlayers');
-  const tabTeams = document.getElementById('tabTeams');
-  const tableHead = document.getElementById('tableHead');
-  const tableBody = document.getElementById('tableBody');
-
-  tabPlayers.addEventListener('click', () => {
-    currentTab = 'players';
-    tabPlayers.classList.add('active');
-    tabTeams.classList.remove('active');
-    renderTable();
-  });
-
-  tabTeams.addEventListener('click', () => {
-    currentTab = 'teams';
-    tabTeams.classList.add('active');
-    tabPlayers.classList.remove('active');
-    renderTable();
-  });
-
-  function renderTable() {
-    if (currentTab === 'players') {
-      tableHead.innerHTML = `
-        <tr>
-          <th>RANK</th>
-          <th>PLAYER</th>
-          <th>GAME</th>
-          <th>TEAM</th>
-          <th>KILLS</th>
-          <th>WINS</th>
-          <th>POINTS</th>
-        </tr>
-      `;
-      tableBody.innerHTML = playersData.map((p, i) => {
-        const rank = p.rank || (i + 1);
-        const rankClass = rank <= 3 ? `rank-${rank}` : 'rank-other';
-        return `
-          <tr style="opacity:0; transform:translateX(-10px); transition: all 0.3s ease;">
-            <td><span class="rank-badge ${rankClass}">${rank}</span></td>
-            <td><span class="player-name">${p.name}</span></td>
-            <td>${p.game}</td>
-            <td>${p.team}</td>
-            <td><span class="highlight-count"><i class="fas fa-skull-crossbones" style="margin-right:5px;font-size:.8rem;"></i>${p.kills}</span></td>
-            <td>${p.wins}</td>
-            <td><span class="points-count">${p.points.toLocaleString('en-IN')}</span></td>
-          </tr>
-        `;
-      }).join('');
-    } else {
-      tableHead.innerHTML = `
-        <tr>
-          <th>RANK</th>
-          <th>TEAM NAME</th>
-          <th>MATCHES</th>
-          <th>TOTAL KILLS</th>
-          <th>WINS</th>
-          <th>TOTAL POINTS</th>
-        </tr>
-      `;
-      tableBody.innerHTML = teamsData.map((t, i) => {
-        const rank = t.rank || (i + 1);
-        const rankClass = rank <= 3 ? `rank-${rank}` : 'rank-other';
-        return `
-          <tr style="opacity:0; transform:translateX(-10px); transition: all 0.3s ease;">
-            <td><span class="rank-badge ${rankClass}">${rank}</span></td>
-            <td><span class="team-name">${t.name}</span></td>
-            <td>${t.played}</td>
-            <td><span class="highlight-count"><i class="fas fa-skull-crossbones" style="margin-right:5px;font-size:.8rem;"></i>${t.kills}</span></td>
-            <td>${t.wins}</td>
-            <td><span class="points-count">${t.points.toLocaleString('en-IN')}</span></td>
-          </tr>
-        `;
-      }).join('');
+        // Event Listeners for Dropdown & Logout
+        document.getElementById('userBtn')?.addEventListener('click', (e) => {
+          e.stopPropagation();
+          document.getElementById('userDropdown')?.classList.toggle('open');
+        });
+        document.getElementById('logoutBtn')?.addEventListener('click', (e) => { 
+          e.preventDefault(); 
+          if(auth) auth.signOut(); 
+        });
+        document.getElementById('mobileLogout')?.addEventListener('click', (e) => { 
+          e.preventDefault(); 
+          if(auth) auth.signOut(); 
+        });
+      } else {
+        if (navRegisterLink) navRegisterLink.parentElement.style.display = '';
+        authArea.innerHTML = `<a href="login.html" class="btn-login"><i class="fas fa-sign-in-alt" style="margin-right:6px;"></i>Login</a><a href="register.html" class="btn-join"><i class="fas fa-user-plus" style="margin-right:6px;"></i>Join Now</a>`;
+        mobileAuth.innerHTML = `<a href="login.html"><i class="fas fa-sign-in-alt" style="margin-right:8px;color:var(--fire-yellow)"></i>Login</a>`;
+      }
+      
+      // Close dropdown when clicking outside
+      document.addEventListener('click', () => {
+        document.getElementById('userDropdown')?.classList.remove('open');
+      });
     }
+
+    // Hamburger Menu Toggle
+    const hamburger = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const hamburgerIcon = document.getElementById('hamburgerIcon');
     
-    // Animate rows staggeredly
-    requestAnimationFrame(() => {
-      document.querySelectorAll('#tableBody tr').forEach((tr, index) => {
-        setTimeout(() => {
-          tr.style.opacity = '1';
-          tr.style.transform = 'translateX(0)';
-        }, index * 40);
-      });
+    hamburger.addEventListener('click', () => {
+      const isOpen = mobileMenu.classList.toggle('open');
+      hamburgerIcon.className = isOpen ? 'fas fa-times' : 'fas fa-bars';
     });
-  }
 
-  async function loadData() {
-    if(firebaseReady && db) {
+    // ════════════════════════════════════════════════
+    // FIRESTORE DATA FETCHING & PROCESSING
+    // ════════════════════════════════════════════════
+    async function loadLeaderboard() {
+      if (!db) {
+        document.getElementById('tableBody').innerHTML = '<tr><td colspan="6" style="text-align:center;padding:40px;color:#ef4444;">Database connection failed.</td></tr>';
+        return;
+      }
+
       try {
-        // Fetch players
-        const pSnap = await db.collection('leaderboard').orderBy('points','desc').limit(20).get();
-        if(!pSnap.empty) playersData = pSnap.docs.map((d,i)=>({rank:i+1, ...d.data()}));
+        // Fetch teams - We filter client side after fetching to avoid requiring a composite index immediately
+        const teamsSnap = await db.collection('teams').get();
+        
+        let rawTeams = [];
+        let rawPlayers = [];
 
-        // Fetch teams
-        const tSnap = await db.collection('team_leaderboard').orderBy('points','desc').limit(20).get();
-        if(!tSnap.empty) teamsData = tSnap.docs.map((d,i)=>({rank:i+1, ...d.data()}));
-      } catch(err) {
-        console.warn('Firestore error, using demo data:', err);
+        teamsSnap.docs.forEach((doc) => {
+          const data = doc.data();
+          
+          // Only process active/verified teams
+          if(data.status === 'active' || data.isVerified === true) {
+            
+            // Calculate team points (fallback to wins * 100 if totalPoints is missing)
+            let tWins = parseInt(data.wins) || 0;
+            let tKills = parseInt(data.totalKills) || parseInt(data.kills) || 0;
+            let tPoints = parseInt(data.totalPoints);
+            if(isNaN(tPoints)) tPoints = (tWins * 100) + (tKills * 10); // basic formula fallback
+
+            rawTeams.push({
+              id: doc.id,
+              name: data.name || 'Unnamed Team',
+              tag: data.tag || '',
+              game: data.primaryGame || 'Multiplayer',
+              wins: tWins,
+              kills: tKills,
+              points: tPoints
+            });
+
+            // Extract players from team roster
+            if (data.members && Array.isArray(data.members)) {
+              data.members.forEach(m => {
+                // Ensure player has a name/gameId to be listed
+                if (m.gameId || m.name) {
+                  let pWins = parseInt(m.wins) || 0;
+                  let pKills = parseInt(m.kills) || 0;
+                  let pPoints = parseInt(m.points);
+                  if(isNaN(pPoints)) pPoints = (pWins * 100) + (pKills * 10);
+
+                  rawPlayers.push({
+                    name: m.gameId || m.name,
+                    team: data.name || 'Unknown',
+                    game: data.primaryGame || 'Unknown',
+                    wins: pWins,
+                    kills: pKills,
+                    points: pPoints
+                  });
+                }
+              });
+            }
+          }
+        });
+
+        // Sort Teams by Points (Descending)
+        teamsData = rawTeams.sort((a, b) => b.points - a.points).slice(0, 50);
+        teamsData.forEach((t, i) => t.rank = i + 1);
+
+        // Sort Players by Points (Descending)
+        playersData = rawPlayers.sort((a, b) => b.points - a.points).slice(0, 50);
+        playersData.forEach((p, i) => p.rank = i + 1);
+
+        // Render Active Tab
+        renderTable();
+
+      } catch (err) {
+        console.error('Error loading leaderboard:', err);
+        document.getElementById('tableBody').innerHTML = `<tr><td colspan="6" style="text-align:center;padding:40px;color:#ef4444;"><i class="fas fa-exclamation-triangle"></i> Error loading leaderboard data.</td></tr>`;
       }
     }
-    renderTable();
-  }
 
-  document.getElementById('copyright-year').textContent = new Date().getFullYear();
-  loadData();
+    // ════════════════════════════════════════════════
+    // RENDER LEADERBOARD TABLE HTML
+    // ════════════════════════════════════════════════
+    function renderTable() {
+      const tableHead = document.getElementById('tableHead');
+      const tableBody = document.getElementById('tableBody');
+      
+      if (currentTab === 'teams') {
+        tableHead.innerHTML = `
+          <tr>
+            <th style="width: 80px; text-align:center;">RANK</th>
+            <th>TEAM NAME</th>
+            <th>GAME</th>
+            <th>WINS</th>
+            <th>KILLS</th>
+            <th>TOTAL POINTS</th>
+          </tr>
+        `;
+        
+        if (teamsData.length === 0) {
+          tableBody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:60px;color:#9ca3af;">No verified teams found for the current season.</td></tr>';
+          return;
+        }
+        
+        tableBody.innerHTML = teamsData.map(t => {
+          const rankClass = t.rank <= 3 ? `rank-${t.rank}` : 'rank-other';
+          const tagHtml = t.tag ? `<span style="color:#6b7280; font-size:0.85em;">[${t.tag}]</span>` : '';
+          return `
+            <tr>
+              <td style="text-align:center;"><span class="rank-badge ${rankClass}">${t.rank}</span></td>
+              <td>
+                <a href="team-details.html?id=${t.id}" class="team-name" style="text-decoration:none;">
+                  ${t.name} ${tagHtml}
+                </a>
+              </td>
+              <td><span style="color:#9ca3af; font-size:0.9rem;">${t.game}</span></td>
+              <td><span class="highlight-count">${t.wins}</span></td>
+              <td><span class="highlight-count">${t.kills}</span></td>
+              <td><span class="points-count">${t.points.toLocaleString()}</span></td>
+            </tr>
+          `;
+        }).join('');
+      } 
+      else if (currentTab === 'players') {
+        tableHead.innerHTML = `
+          <tr>
+            <th style="width: 80px; text-align:center;">RANK</th>
+            <th>PLAYER ID</th>
+            <th>TEAM</th>
+            <th>WINS</th>
+            <th>KILLS</th>
+            <th>INDIVIDUAL POINTS</th>
+          </tr>
+        `;
+        
+        if (playersData.length === 0) {
+          tableBody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:60px;color:#9ca3af;">No player statistics available.</td></tr>';
+          return;
+        }
+        
+        tableBody.innerHTML = playersData.map(p => {
+          const rankClass = p.rank <= 3 ? `rank-${p.rank}` : 'rank-other';
+          return `
+            <tr>
+              <td style="text-align:center;"><span class="rank-badge ${rankClass}">${p.rank}</span></td>
+              <td><span class="player-name">${p.name}</span></td>
+              <td><span style="color:#9ca3af;">${p.team}</span></td>
+              <td><span class="highlight-count">${p.wins}</span></td>
+              <td><span class="highlight-count">${p.kills}</span></td>
+              <td><span class="points-count">${p.points.toLocaleString()}</span></td>
+            </tr>
+          `;
+        }).join('');
+      }
+    }
+
+    // ════════════════════════════════════════════════
+    // EVENT LISTENERS & INITIALIZATION
+    // ════════════════════════════════════════════════
+    document.getElementById('tabTeams').addEventListener('click', () => {
+      currentTab = 'teams';
+      document.getElementById('tabTeams').classList.add('active');
+      document.getElementById('tabPlayers').classList.remove('active');
+      renderTable();
+    });
+    
+    document.getElementById('tabPlayers').addEventListener('click', () => {
+      currentTab = 'players';
+      document.getElementById('tabPlayers').classList.add('active');
+      document.getElementById('tabTeams').classList.remove('active');
+      renderTable();
+    });
+
+    // Set dynamic copyright year
+    document.getElementById('copyright-year').textContent = new Date().getFullYear();
+
+    // Listen to Auth State and Fetch Data
+    if (auth) {
+      auth.onAuthStateChanged((user) => {
+        renderAuth(user);
+      });
+    } else {
+      renderAuth(null);
+    }
+
+    // Initial Load
+    window.addEventListener('DOMContentLoaded', () => {
+      loadLeaderboard();
+    });
+
   </script>
 </body>
 </html>
