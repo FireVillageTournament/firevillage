@@ -8,7 +8,6 @@
   <link rel="icon" href="./assets/logo.png" type="image/png">
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link rel="stylesheet" href="style.css">
 
   <style>
     /* ── ROOT VARS ── */
@@ -257,6 +256,7 @@
       color: #000;
       box-shadow: 0 10px 30px rgba(239,68,68,0.4);
       margin-bottom: 20px;
+      text-transform: uppercase;
     }
     .t-title {
       font-family: var(--font-head);
@@ -380,7 +380,15 @@
 
     /* Loading state */
     .loading-view { text-align: center; padding: 80px 24px; color: #9ca3af; }
-    .loading-view .spinner { width: 40px; height: 40px; border-width: 4px; margin-bottom: 16px; }
+    .loading-view .spinner { 
+      width: 40px; height: 40px; 
+      border: 4px solid rgba(255,255,255,0.1);
+      border-radius: 50%;
+      border-top-color: var(--fire-yellow);
+      animation: spin 1s linear infinite;
+      margin: 0 auto 16px auto;
+    }
+    @keyframes spin { 100% { transform: rotate(360deg); } }
 
     /* ── FOOTER ── */
     footer {
@@ -408,7 +416,6 @@
     <div class="nav-inner">
       <a href="index.html" class="logo-wrap">
         <img src="./assets/logo.png" alt="Fire Village Logo" onerror="this.style.display='none'">
-        <span>FIRE VILLAGE</span>
       </a>
 
       <ul class="nav-links">
@@ -418,7 +425,6 @@
         <li><a href="teams.html" class="active"><i class="fas fa-users"></i>Teams</a></li>
         <li><a href="register.html"><i class="fas fa-user-plus"></i>Register</a></li>
         <li><a href="contact.html"><i class="fas fa-envelope"></i>Contact</a></li>
-        <li><a href="about.html"><i class="fas fa-info-circle"></i>About</a></li>
       </ul>
 
       <div class="auth-area" id="authArea"></div>
@@ -444,7 +450,7 @@
   <!-- Placeholder container while loading -->
   <div id="contentContainer">
     <div class="loading-view">
-      <div class="spinner" style="border-top-color: var(--fire-yellow);"></div>
+      <div class="spinner"></div>
       <p>Loading team profile...</p>
     </div>
   </div>
@@ -460,14 +466,14 @@
     <p>&copy; <span id="copyright-year"></span> Fire Village Tournament. All rights reserved.</p>
   </footer>
 
-  <!-- Firebase -->
+  <!-- Firebase Compatibility Libraries -->
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
 
   <script>
   // ════════════════════════════════════════════════
-  // FIREBASE CONFIG
+  // FIREBASE CONFIGURATION
   // ════════════════════════════════════════════════
   const firebaseConfig = {
     apiKey: "AIzaSyDFjHR5_D6yQ9tXrEut-3c2o4oA1ddz6hQ",
@@ -488,10 +494,10 @@
     auth = firebase.auth();
     firebaseReady = true;
   } catch(e) {
-    console.warn("Firebase not configured — using demo data.", e);
+    console.warn("Firebase initialization error — using demo fallback.", e);
   }
 
-  // DEMO DATA (Fallback if DB query fails)
+  // DEMO DATA (Fallback if Firebase DB query fails or document is missing)
   const ALL_DEMO_TEAMS = [
     {
       id: 'tm1', name: 'Shadow Squad', initials: 'SS',
@@ -508,25 +514,11 @@
         { event: 'Booyah Blitz — March', placement: '3rd Place' },
         { event: 'Solo King Clash', placement: 'Top 10' }
       ]
-    },
-    {
-      id: 'tm2', name: 'Fire Wolves', initials: 'FW',
-      stats: { played: 48, wins: 11, kills: 1150, points: 13500 },
-      description: 'A deeply strategic team that relies on tactical positioning and survival to secure victory.',
-      roster: [
-        { name: 'BloodRayne_FF', role: 'Captain', isCap: true },
-        { name: 'Viper_007', role: 'Assaulter', isCap: false },
-        { name: 'GhostStrike', role: 'Sniper', isCap: false },
-        { name: 'IceKing', role: 'Support', isCap: false }
-      ],
-      history: [
-        { event: 'Fire Village Grand Prix', placement: '2nd Place' }
-      ]
     }
   ];
 
   // ════════════════════════════════
-  // NAVBAR LOGIC
+  // NAVBAR & RESPONSIVE MENU LOGIC
   // ════════════════════════════════
   const navbar       = document.getElementById('navbar');
   const hamburger    = document.getElementById('hamburger');
@@ -551,8 +543,13 @@
   function renderAuth(user) {
     const authArea   = document.getElementById('authArea');
     const mobileAuth = document.getElementById('mobileAuthArea');
+    const navRegisterLink = document.querySelector('.nav-links a[href="register.html"]');
+    const mobileNavRegisterLink = document.querySelector('.mobile-menu a[href="register.html"]');
+
     if (user) {
       const displayName = user.displayName || user.email?.split('@')[0] || 'Player';
+      if (navRegisterLink) navRegisterLink.parentElement.style.display = 'none';
+      if (mobileNavRegisterLink) mobileNavRegisterLink.style.display = 'none';
       authArea.innerHTML = `
         <div class="user-menu-wrap">
           <button class="user-btn" id="userBtn"><i class="fas fa-user-circle"></i> <span>${displayName}</span> <i class="fas fa-chevron-down" style="font-size:.7rem;"></i></button>
@@ -575,6 +572,8 @@
         e.preventDefault(); if(auth) auth.signOut();
       });
     } else {
+      if (navRegisterLink) navRegisterLink.parentElement.style.display = '';
+      if (mobileNavRegisterLink) mobileNavRegisterLink.style.display = '';
       authArea.innerHTML = `<a href="login.html" class="btn-login"><i class="fas fa-sign-in-alt" style="margin-right:6px;"></i>Login</a><a href="register.html" class="btn-join"><i class="fas fa-user-plus" style="margin-right:6px;"></i>Join Now</a>`;
       mobileAuth.innerHTML = `<a href="login.html"><i class="fas fa-sign-in-alt" style="margin-right:10px;color:var(--fire-yellow)"></i>Login</a><a href="register.html" class="btn-join-mobile"><i class="fas fa-user-plus" style="margin-right:8px;"></i>Join Now</a>`;
     }
@@ -585,10 +584,12 @@
   else renderAuth(null);
 
   // ════════════════════════════════
-  // RENDER TEAM DETAILS
+  // RENDER TEAM DETAILS DYNAMICALLY
   // ════════════════════════════════
   function renderTeam(team) {
     const container = document.getElementById('contentContainer');
+    
+    // Team not found state
     if(!team) {
       container.innerHTML = `
         <div class="loading-view" style="color:#ef4444;">
@@ -600,36 +601,50 @@
       return;
     }
 
-    // Safe fallbacks if data missing
-    const desc = team.description || 'An active squad competing on the Fire Village platform.';
-    const stats = team.stats || { played: 0, wins: 0, kills: 0, points: 0 };
-    const roster = team.roster || [];
+    // Safely structure fetched document fields
+    const teamName = team.name || 'Unnamed Team';
+    const teamInitials = team.tag || teamName.substring(0,2).toUpperCase();
+    const desc = team.description || `Primary Game: ${team.primaryGame || 'Multiplayer'}<br>Captain: ${team.captainName || 'N/A'}`;
+    
+    const stats = team.stats || { 
+      played: team.totalMatches || 0, 
+      wins: team.wins || 0, 
+      kills: team.totalKills || team.kills || 0, 
+      points: team.totalPoints !== undefined ? team.totalPoints : ((team.wins || 0) * 100) 
+    };
+    
+    const roster = team.roster || team.members || [];
     const history = team.history || [];
 
+    // Construct Roster HTML
     const rosterHtml = roster.length > 0 ? roster.map(p => `
       <div class="roster-item">
         <div class="player-avatar"><i class="fas fa-user"></i></div>
         <div class="player-info">
-          <div class="player-name">${p.name}</div>
-          <div class="player-role">${p.role}</div>
+          <div class="player-name">${p.gameId || p.name || 'Unknown Player'}</div>
+          <div class="player-role">${p.role || 'Member'} ${p.kills ? `| Kills: ${p.kills}` : ''}</div>
         </div>
-        ${p.isCap ? '<div class="cap-badge" title="Team Captain"><i class="fas fa-crown"></i></div>' : ''}
+        ${p.isCap || p.isCaptain || p.role === 'Captain' ? '<div class="cap-badge" title="Team Captain"><i class="fas fa-crown"></i></div>' : ''}
       </div>
-    `).join('') : '<p class="desc-text">Roster details are currently private.</p>';
+    `).join('') : '<p class="desc-text">Roster details are currently empty or private.</p>';
 
+    // Construct History HTML
     const historyHtml = history.length > 0 ? history.map(h => `
       <div class="history-item">
-        <span class="history-event">${h.event}</span>
-        <span class="history-placement">${h.placement}</span>
+        <span class="history-event">${h.event || h.tournamentName || 'Tournament'}</span>
+        <span class="history-placement" style="font-size: ${h.placement ? '1.1rem' : '0.9rem'};">${h.placement || (h.status ? h.status.toUpperCase() : 'Registered')}</span>
       </div>
     `).join('') : '<p class="desc-text">No recent tournament history available.</p>';
 
+    // Output directly into the DOM
     container.innerHTML = `
       <section class="team-banner">
-        <div class="team-avatar-large">${team.initials || team.name.substring(0,2).toUpperCase()}</div>
-        <h1 class="t-title">${team.name}</h1>
-        <div class="t-status-badge">
-          <i class="fas fa-trophy"></i> Elite Squad
+        <div class="team-avatar-large">
+          ${team.logoUrl ? `<img src="${team.logoUrl}" alt="${teamName}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">` : teamInitials}
+        </div>
+        <h1 class="t-title">${teamName}</h1>
+        <div class="t-status-badge" style="background: ${team.status === 'active' ? 'rgba(16, 185, 129, 0.15)' : 'rgba(250,204,21,0.15)'}; color: ${team.status === 'active' ? '#10b981' : 'var(--fire-yellow)'}; border-color: ${team.status === 'active' ? '#10b981' : 'var(--fire-yellow)'};">
+          <i class="fas ${team.status === 'active' ? 'fa-check-circle' : 'fa-clock'}"></i> ${team.status === 'active' ? 'Verified Squad' : (team.status ? team.status.replace('_', ' ') : 'Pending')}
         </div>
       </section>
 
@@ -641,15 +656,15 @@
               <h2 class="sec-title"><i class="fas fa-chart-bar"></i> Team Statistics</h2>
               <div class="stats-grid">
                 <div class="stat-box">
-                  <div class="stat-value">${stats.played}</div>
+                  <div class="stat-value">${stats.played || 0}</div>
                   <div class="stat-label">Matches</div>
                 </div>
                 <div class="stat-box">
-                  <div class="stat-value">${stats.wins}</div>
+                  <div class="stat-value">${stats.wins || 0}</div>
                   <div class="stat-label">Wins</div>
                 </div>
                 <div class="stat-box">
-                  <div class="stat-value">${stats.kills}</div>
+                  <div class="stat-value">${stats.kills || 0}</div>
                   <div class="stat-label">Kills</div>
                 </div>
                 <div class="stat-box">
@@ -683,43 +698,60 @@
   }
 
   // ════════════════════════════════
-  // INITIALIZATION / LOAD DATA
+  // FETCH LOGIC FROM FIRESTORE
   // ════════════════════════════════
   async function initPage() {
+    // Set dynamic copyright year
+    document.getElementById('copyright-year').textContent = new Date().getFullYear();
+
+    // Grab 'id' from the URL (e.g. ?id=xyz123)
     const params = new URLSearchParams(window.location.search);
     const tId = params.get('id');
 
     if(!tId) {
-      // Default fallback if reached without ID
+      // If no ID is passed, show a default demo team for preview
       renderTeam(ALL_DEMO_TEAMS[0]);
       return;
     }
 
     if(firebaseReady && db) {
       try {
+        // Fetch the target team dynamically[cite: 1]
+        // This relies on 'allow read: if true;' rule for /teams/{teamId}
         const doc = await db.collection('teams').doc(tId).get();
+        
         if(doc.exists) {
-          renderTeam({ id: doc.id, ...doc.data() });
+          const teamData = { id: doc.id, ...doc.data() };
+          
+          // Fetch team tournament registrations for history
+          try {
+            const regSnap = await db.collection('registrations').where('teamId', '==', tId).get();
+            if(!regSnap.empty) {
+              teamData.history = regSnap.docs.map(d => d.data());
+            }
+          } catch(e) {
+            console.error('Error fetching history:', e);
+          }
+          
+          renderTeam(teamData);
         } else {
-          // Try to find it in demo data just in case
-          const fallback = ALL_DEMO_TEAMS.find(t => t.id === tId);
-          renderTeam(fallback || null);
+          // Document not found in DB
+          renderTeam(null);
         }
       } catch(err) {
-        console.warn('Firestore error:', err);
-        const fallback = ALL_DEMO_TEAMS.find(t => t.id === tId);
-        renderTeam(fallback || null);
+        console.error('Firestore Error Details:', err);
+        renderTeam(null);
       }
     } else {
-      // Demo Mode
+      // Fallback Demo Mode if Firebase wasn't initialized
       setTimeout(() => {
-        const t = ALL_DEMO_TEAMS.find(item => item.id === tId) || ALL_DEMO_TEAMS[0];
+        const t = ALL_DEMO_TEAMS.find(item => item.id === tId);
         renderTeam(t || null);
-      }, 500);
+      }, 600);
     }
   }
 
-  document.getElementById('copyright-year').textContent = new Date().getFullYear();
+  // Run on load
   initPage();
   </script>
 </body>
