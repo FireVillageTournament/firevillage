@@ -4,52 +4,43 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Tournament Details - Fire Village Gaming</title>
-  <meta name="description" content="View specific tournament details, rules, and register your team at Fire Village.">
+  <meta name="description" content="View specific tournament details, rules, and registered teams at Fire Village.">
   <link rel="icon" href="./assets/logo.png" type="image/png">
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link rel="stylesheet" href="style.css">
 
   <style>
-    /* ── ROOT VARS ── */
     :root {
       --fire-yellow: #facc15;
       --fire-orange: #f59e0b;
-      --fire-red:    #ef4444;
-      --fire-dark:   #0f0f0f;
-      --fire-gray:   #1f2937;
-      --fire-light:  #374151;
-      --fire-bg:     #111827;
-      --font-head:   'Oswald', sans-serif;
-      --font-body:   'Poppins', sans-serif;
+      --fire-red: #ef4444;
+      --fire-dark: #0f0f0f;
+      --fire-gray: #1f2937;
+      --font-head: 'Oswald', sans-serif;
+      --font-body: 'Poppins', sans-serif;
     }
 
-    * { margin:0; padding:0; box-sizing:border-box; }
-    html { scroll-behavior:smooth; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
 
     body {
       font-family: var(--font-body);
       background: var(--fire-dark);
       color: #fff;
       min-height: 100vh;
-      overflow-x: hidden;
       display: flex;
       flex-direction: column;
     }
 
-    /* Scrollbar */
-    ::-webkit-scrollbar { width:6px; }
-    ::-webkit-scrollbar-track { background:#111; }
-    ::-webkit-scrollbar-thumb { background: var(--fire-orange); border-radius:3px; }
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #111; }
+    ::-webkit-scrollbar-thumb { background: var(--fire-orange); border-radius: 3px; }
 
-    a { text-decoration:none; color:inherit; transition:all .3s ease; }
-    img { display:block; max-width:100%; }
+    a { text-decoration: none; color: inherit; }
 
-    /* ── NAVBAR ── */
     nav {
       background: rgba(17,24,39,0.95);
       backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
       padding: 0 24px;
       height: 68px;
       display: flex;
@@ -58,11 +49,6 @@
       top: 0;
       z-index: 1000;
       border-bottom: 1px solid rgba(250,204,21,0.12);
-      transition: background .3s;
-    }
-    nav.scrolled {
-      background: rgba(10,10,10,0.98);
-      box-shadow: 0 4px 24px rgba(0,0,0,0.5);
     }
     .nav-inner {
       max-width: 1280px;
@@ -72,53 +58,33 @@
       align-items: center;
       justify-content: space-between;
     }
-    .logo-wrap {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      text-decoration: none;
-    }
-    .logo-wrap img {
-      height: 44px;
-      width: auto;
-      transition: transform .3s;
-    }
-    .logo-wrap:hover img { transform: scale(1.08); }
+    .logo-wrap { display: flex; align-items: center; gap: 10px; }
+    .logo-wrap img { height: 44px; width: auto; }
     .logo-wrap span {
       font-family: var(--font-head);
       font-size: 1.5rem;
       color: var(--fire-yellow);
-      letter-spacing: 1px;
     }
-
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      list-style: none;
-    }
+    .nav-links { display: flex; align-items: center; gap: 4px; list-style: none; }
     .nav-links a {
       padding: 8px 14px;
       border-radius: 8px;
       font-size: 0.9rem;
       font-weight: 500;
       color: #d1d5db;
-      transition: all .25s;
     }
     .nav-links a:hover, .nav-links a.active {
       background: var(--fire-yellow);
       color: #000;
     }
-    .nav-links a i { margin-right:6px; }
+    .nav-links a i { margin-right: 6px; }
 
-    /* Auth buttons */
-    .auth-area { display:flex; align-items:center; gap:10px; }
+    .auth-area { display: flex; align-items: center; gap: 10px; }
     .btn-login {
       padding: 8px 18px;
       border-radius: 8px;
       color: #d1d5db;
       font-weight: 500;
-      font-size: 0.88rem;
     }
     .btn-login:hover { color: var(--fire-yellow); }
     .btn-join {
@@ -127,32 +93,20 @@
       background: linear-gradient(to right, var(--fire-orange), var(--fire-red));
       color: #000;
       font-weight: 700;
-      font-size: 0.88rem;
-      transition: all .3s;
-    }
-    .btn-join:hover {
-      background: linear-gradient(to right, var(--fire-yellow), var(--fire-orange));
-      transform: scale(1.05);
-      box-shadow: 0 0 18px rgba(245,158,11,0.4);
     }
 
-    /* User menu */
-    .user-menu-wrap { position:relative; }
+    .user-menu-wrap { position: relative; }
     .user-btn {
       background: none;
       border: 1px solid rgba(250,204,21,0.3);
       border-radius: 8px;
       padding: 8px 16px;
       color: #d1d5db;
-      font-family: var(--font-body);
-      font-size: 0.88rem;
       cursor: pointer;
       display: flex;
       align-items: center;
       gap: 8px;
-      transition: all .25s;
     }
-    .user-btn:hover { border-color: var(--fire-yellow); color: var(--fire-yellow); }
     .user-dropdown {
       display: none;
       position: absolute;
@@ -163,21 +117,16 @@
       border: 1px solid rgba(250,204,21,0.15);
       border-radius: 10px;
       padding: 8px 0;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
       z-index: 200;
     }
-    .user-dropdown.open { display:block; }
+    .user-dropdown.open { display: block; }
     .user-dropdown a {
       display: block;
       padding: 10px 16px;
-      font-size: 0.88rem;
       color: #d1d5db;
     }
     .user-dropdown a:hover { background: rgba(255,255,255,0.06); color: var(--fire-yellow); }
-    .user-dropdown a.logout { color: #f87171; }
-    .user-dropdown a.logout:hover { background: rgba(248,113,113,0.08); }
 
-    /* Hamburger */
     .hamburger {
       display: none;
       background: none;
@@ -185,13 +134,7 @@
       color: #d1d5db;
       font-size: 1.6rem;
       cursor: pointer;
-      padding: 6px;
-      border-radius: 6px;
-      transition: color .25s;
     }
-    .hamburger:hover { color: var(--fire-yellow); }
-
-    /* Mobile menu */
     .mobile-menu {
       display: none;
       position: absolute;
@@ -200,47 +143,22 @@
       right: 0;
       background: rgba(10,10,15,0.98);
       backdrop-filter: blur(16px);
-      border-bottom: 1px solid rgba(250,204,21,0.1);
       padding: 16px;
       z-index: 999;
       flex-direction: column;
       gap: 6px;
     }
-    .mobile-menu.open { display:flex; }
+    .mobile-menu.open { display: flex; }
     .mobile-menu a {
       padding: 13px 18px;
       border-radius: 8px;
-      font-weight: 500;
       color: #d1d5db;
-      font-size: 1rem;
-    }
-    .mobile-menu a:hover, .mobile-menu a.active {
-      background: var(--fire-yellow);
-      color: #000;
-    }
-    .mobile-menu .mobile-auth {
-      border-top: 1px solid rgba(255,255,255,0.08);
-      margin-top: 8px;
-      padding-top: 12px;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-    .mobile-menu .btn-join-mobile {
-      text-align: center;
-      padding: 13px;
-      border-radius: 8px;
-      background: linear-gradient(to right, var(--fire-orange), var(--fire-red));
-      color: #000;
-      font-weight: 700;
     }
 
-    /* ── PAGE HEADER ── */
     .page-header {
       padding: 60px 24px;
       background: linear-gradient(to bottom, rgba(17,24,39,0.9), rgba(15,15,15,1));
       text-align: center;
-      border-bottom: 1px solid rgba(250,204,21,0.1);
     }
     .t-title {
       font-family: var(--font-head);
@@ -252,16 +170,13 @@
       display: inline-block;
       font-size: 0.85rem;
       font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 1px;
       padding: 6px 16px;
       border-radius: 99px;
     }
-    .t-status-badge.open { background: rgba(34,197,94,0.15); color: #4ade80; border: 1px solid rgba(34,197,94,0.3); }
-    .t-status-badge.upcoming { background: rgba(250,204,21,0.15); color: var(--fire-yellow); border: 1px solid rgba(250,204,21,0.3); }
-    .t-status-badge.full { background: rgba(239,68,68,0.15); color: #f87171; border: 1px solid rgba(239,68,68,0.3); }
+    .t-status-badge.open { background: rgba(34,197,94,0.15); color: #4ade80; }
+    .t-status-badge.upcoming { background: rgba(250,204,21,0.15); color: var(--fire-yellow); }
+    .t-status-badge.full { background: rgba(239,68,68,0.15); color: #f87171; }
 
-    /* ── CONTENT LAYOUT ── */
     main { flex: 1; padding: 40px 24px; }
     .details-wrap {
       max-width: 1200px;
@@ -270,8 +185,6 @@
       grid-template-columns: 2fr 1fr;
       gap: 32px;
     }
-    
-    /* Left Column */
     .left-col section {
       background: rgba(17,24,39,0.6);
       border: 1px solid rgba(255,255,255,0.08);
@@ -287,13 +200,11 @@
       border-bottom: 1px solid rgba(255,255,255,0.08);
       padding-bottom: 10px;
     }
-    .desc-text { color: #d1d5db; font-size: 1rem; line-height: 1.7; margin-bottom: 16px; }
-    .rules-list { list-style: none; color: #d1d5db; font-size: 0.95rem; }
-    .rules-list li { margin-bottom: 12px; display: flex; align-items: flex-start; gap: 10px; }
+    .desc-text { color: #d1d5db; line-height: 1.7; }
+    .rules-list { list-style: none; color: #d1d5db; }
+    .rules-list li { margin-bottom: 12px; display: flex; gap: 10px; }
     .rules-list li i { color: var(--fire-orange); margin-top: 4px; }
 
-    /* Right Column / Sidebar */
-    .right-col { position: relative; }
     .sidebar-card {
       background: linear-gradient(145deg, rgba(15,15,15,0.9), rgba(17,24,39,1));
       border: 1px solid rgba(250,204,21,0.2);
@@ -301,381 +212,420 @@
       padding: 30px;
       position: sticky;
       top: 100px;
-      box-shadow: 0 15px 40px rgba(0,0,0,0.6);
     }
-    .s-meta { margin-bottom: 24px; }
     .s-meta-item {
-      display: flex; justify-content: space-between; align-items: center;
-      padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.06);
+      display: flex;
+      justify-content: space-between;
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
     }
-    .s-meta-item:last-child { border-bottom: none; }
-    .s-meta-lbl { color: #9ca3af; font-size: 0.9rem; display: flex; align-items: center; gap: 8px; }
-    .s-meta-lbl i { color: var(--fire-yellow); width: 16px; text-align: center; }
-    .s-meta-val { color: #fff; font-weight: 600; font-size: 0.95rem; text-align: right; }
+    .s-meta-lbl { color: #9ca3af; display: flex; align-items: center; gap: 8px; }
+    .s-meta-lbl i { color: var(--fire-yellow); width: 16px; }
+    .s-meta-val { color: #fff; font-weight: 600; }
     .s-prize {
-      text-align: center; background: rgba(250,204,21,0.05); border: 1px dashed rgba(250,204,21,0.2);
-      border-radius: 12px; padding: 20px; margin-bottom: 24px;
+      text-align: center;
+      background: rgba(250,204,21,0.05);
+      border: 1px dashed rgba(250,204,21,0.2);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 24px;
     }
-    .s-prize h4 { font-family: var(--font-head); color: var(--fire-yellow); font-size: 2rem; margin-bottom: 4px; }
-    .s-prize span { color: #9ca3af; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; }
-    
+    .s-prize h4 { font-family: var(--font-head); color: var(--fire-yellow); font-size: 2rem; }
     .s-progress-wrap { margin-bottom: 24px; }
     .s-progress-lbl { display: flex; justify-content: space-between; font-size: 0.85rem; color: #d1d5db; margin-bottom: 8px; }
     .s-progress-bar { height: 8px; background: rgba(255,255,255,0.1); border-radius: 4px; overflow: hidden; }
-    .s-progress-fill { height: 100%; background: linear-gradient(to right, var(--fire-orange), var(--fire-red)); border-radius: 4px; width: 0%; transition: width 1s ease-in-out; }
+    .s-progress-fill { height: 100%; background: linear-gradient(to right, var(--fire-orange), var(--fire-red)); width: 0%; }
 
     .btn-main {
-      display: block; width: 100%; text-align: center; padding: 14px;
-      border-radius: 8px; border: none; font-family: var(--font-body);
-      font-size: 1.05rem; font-weight: 700; color: #000; cursor: pointer; transition: all .3s;
+      display: block;
+      width: 100%;
+      text-align: center;
+      padding: 14px;
+      border-radius: 8px;
+      border: none;
+      font-weight: 700;
+      color: #000;
+      cursor: pointer;
       background: linear-gradient(to right, var(--fire-orange), var(--fire-red));
     }
     .btn-main:hover {
       background: linear-gradient(to right, var(--fire-yellow), var(--fire-orange));
-      transform: translateY(-2px); box-shadow: 0 8px 20px rgba(239,68,68,0.4);
+      transform: translateY(-2px);
     }
-    .btn-main:disabled, .btn-main.disabled {
-      background: #374151; color: #9ca3af; cursor: not-allowed; transform: none; box-shadow: none; pointer-events: none;
+    .btn-main.disabled {
+      background: #374151;
+      color: #9ca3af;
+      cursor: not-allowed;
+      pointer-events: none;
     }
 
-    /* Loading state */
+    /* Registered Teams Table */
+    .teams-table-container {
+      overflow-x: auto;
+      border-radius: 10px;
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+    .teams-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .teams-table th {
+      padding: 14px 16px;
+      text-align: left;
+      font-family: var(--font-head);
+      color: var(--fire-yellow);
+      background: rgba(0,0,0,0.3);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .teams-table td {
+      padding: 14px 16px;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      color: #d1d5db;
+    }
+    .teams-table tr:hover {
+      background: rgba(250,204,21,0.05);
+    }
+    .team-rank {
+      font-weight: 700;
+      color: var(--fire-yellow);
+      font-size: 1.1rem;
+    }
+    .captain-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(250,204,21,0.1);
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+    }
+    .captain-badge i { color: var(--fire-yellow); font-size: 0.7rem; }
+
     .loading-view { text-align: center; padding: 80px 24px; color: #9ca3af; }
-    .loading-view .spinner { width: 40px; height: 40px; border-width: 4px; margin-bottom: 16px; }
-
-    /* ── FOOTER ── */
-    footer {
-      background: #111827; border-top: 1px solid rgba(255,255,255,0.06);
-      padding: 32px 24px; text-align: center; margin-top: auto;
+    .spinner {
+      display: inline-block;
+      width: 40px;
+      height: 40px;
+      border: 4px solid rgba(250,204,21,0.2);
+      border-top-color: var(--fire-yellow);
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
     }
-    .footer-links { display: flex; justify-content: center; flex-wrap: wrap; gap: 8px 24px; margin-bottom: 18px; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    footer {
+      background: #111827;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      padding: 32px 24px;
+      text-align: center;
+      margin-top: auto;
+    }
+    .footer-links { display: flex; justify-content: center; gap: 24px; margin-bottom: 18px; flex-wrap: wrap; }
     .footer-links a { color: #9ca3af; font-size: 0.88rem; }
     .footer-links a:hover { color: var(--fire-yellow); }
-    footer p { color: #4b5563; font-size: 0.82rem; }
 
-    /* ── RESPONSIVE ── */
     @media (max-width: 1024px) {
       .nav-links, .auth-area { display: none; }
       .hamburger { display: block; }
       .details-wrap { grid-template-columns: 1fr; }
-      .sidebar-card { position: static; margin-bottom: 30px; }
-      .left-col { order: 2; }
-      .right-col { order: 1; }
+      .sidebar-card { position: static; }
     }
   </style>
 </head>
 
 <body>
-  <!-- ── NAVBAR ── -->
   <nav id="navbar">
     <div class="nav-inner">
-      <a href="index.html" class="logo-wrap">
-        <img src="./assets/logo.png" alt="Fire Village Logo" onerror="this.style.display='none'">
-        <span>FIRE VILLAGE</span>
-      </a>
-
+      <a href="index.html" class="logo-wrap"><img src="./assets/logo.png" alt="Logo" onerror="this.style.display='none'"><span>FIRE VILLAGE</span></a>
       <ul class="nav-links">
-        <li><a href="index.html"><i class="fas fa-home"></i>Home</a></li>
-        <li><a href="tournaments.html" class="active"><i class="fas fa-trophy"></i>Tournaments</a></li>
-        <li><a href="leaderboard.html"><i class="fas fa-medal"></i>Leaderboard</a></li>
-        <li><a href="teams.html"><i class="fas fa-users"></i>Teams</a></li>
-        <li><a href="register.html"><i class="fas fa-user-plus"></i>Register</a></li>
-        <li><a href="contact.html"><i class="fas fa-envelope"></i>Contact</a></li>
-        <li><a href="about.html"><i class="fas fa-info-circle"></i>About</a></li>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="tournaments.html" class="active">Tournaments</a></li>
+        <li><a href="leaderboard.html">Leaderboard</a></li>
+        <li><a href="teams.html">Teams</a></li>
+        <li><a href="register.html">Register</a></li>
+        <li><a href="contact.html">Contact</a></li>
       </ul>
-
       <div class="auth-area" id="authArea"></div>
-
-      <button class="hamburger" id="hamburger" aria-label="Menu">
-        <i class="fas fa-bars" id="hamburgerIcon"></i>
-      </button>
+      <button class="hamburger" id="hamburger"><i class="fas fa-bars"></i></button>
     </div>
-
-    <!-- Mobile menu -->
-    <div class="mobile-menu" id="mobileMenu">
-      <a href="index.html"><i class="fas fa-home" style="margin-right:10px;color:var(--fire-yellow)"></i>Home</a>
-      <a href="tournaments.html" class="active"><i class="fas fa-trophy" style="margin-right:10px;color:var(--fire-yellow)"></i>Tournaments</a>
-      <a href="leaderboard.html"><i class="fas fa-medal" style="margin-right:10px;color:var(--fire-yellow)"></i>Leaderboard</a>
-      <a href="teams.html"><i class="fas fa-users" style="margin-right:10px;color:var(--fire-yellow)"></i>Teams</a>
-      <a href="register.html"><i class="fas fa-user-plus" style="margin-right:10px;color:var(--fire-yellow)"></i>Register</a>
-      <a href="contact.html"><i class="fas fa-envelope" style="margin-right:10px;color:var(--fire-yellow)"></i>Contact</a>
-      <a href="about.html"><i class="fas fa-info-circle" style="margin-right:10px;color:var(--fire-yellow)"></i>About</a>
-      <div class="mobile-auth" id="mobileAuthArea"></div>
-    </div>
+    <div class="mobile-menu" id="mobileMenu"></div>
   </nav>
 
-  <!-- Placeholder container while loading -->
-  <div id="contentContainer">
-    <div class="loading-view">
-      <div class="spinner" style="border-top-color: var(--fire-yellow);"></div>
-      <p>Loading details...</p>
-    </div>
-  </div>
+  <div id="contentContainer"><div class="loading-view"><div class="spinner"></div><p>Loading tournament details...</p></div></div>
 
-  <!-- ── FOOTER ── -->
   <footer>
     <div class="footer-links">
       <a href="privacy-policy.html">Privacy Policy</a>
       <a href="terms.html">Terms of Service</a>
-      <a href="shipping.html">Shipping Policy</a>
       <a href="contact.html">Contact Us</a>
     </div>
     <p>&copy; <span id="copyright-year"></span> Fire Village Tournament. All rights reserved.</p>
   </footer>
 
-  <!-- Firebase -->
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
 
   <script>
-  // ════════════════════════════════════════════════
-  // FIREBASE CONFIG
-  // ════════════════════════════════════════════════
-  const firebaseConfig = {
-    apiKey: "AIzaSyDFjHR5_D6yQ9tXrEut-3c2o4oA1ddz6hQ",
-    authDomain: "firevillagetournament.firebaseapp.com",
-    projectId: "firevillagetournament",
-    storageBucket: "firevillagetournament.firebasestorage.app",
-    messagingSenderId: "511246704009",
-    appId: "1:511246704009:web:8ae5e484591a64bb735558",
-    measurementId: "G-ZCQ2V6DEGX"
-  };
+    const firebaseConfig = {
+      apiKey: "AIzaSyDFjHR5_D6yQ9tXrEut-3c2o4oA1ddz6hQ",
+      authDomain: "firevillagetournament.firebaseapp.com",
+      projectId: "firevillagetournament",
+      storageBucket: "firevillagetournament.firebasestorage.app",
+      messagingSenderId: "511246704009",
+      appId: "1:511246704009:web:8ae5e484591a64bb735558"
+    };
 
-  let db = null, auth = null;
-  let firebaseReady = false;
+    let db, auth;
+    let currentUser = null;
+    let tournament = null;
 
-  try {
     firebase.initializeApp(firebaseConfig);
-    db   = firebase.firestore();
+    db = firebase.firestore();
     auth = firebase.auth();
-    firebaseReady = true;
-  } catch(e) {
-    console.warn("Firebase not configured — using demo data.", e);
-  }
 
-  // DEMO DATA (Fallback if DB query fails)
-  const ALL_DEMO_TOURNAMENTS = [
-    { id:'t1', name:'Village Cup — Season 8', status:'open', date:'April 15, 2026', time:'6:00 PM', mode:'Squad (4v4)', slots:16, registered:11, prize:'₹10,000', fee:'₹100 per team',
-      description:'Welcome to the ultimate BGMI Village Cup! Gather your squad and fight for glory and the massive ₹10,000 prize pool. This is the stage where legends are born.',
-      rules:['No emulators allowed. Mobile players only.','Use of hacks/scripts will result in an instant permanent ban.','Teams must join the custom room 10 minutes before the start time.','Teaming up with other squads is strictly prohibited.']
-    },
-    { id:'t2', name:'Valorant Spike Rush', status:'upcoming', date:'April 22, 2026', time:'7:00 PM', mode:'Team (5v5)', slots:16, registered:8, prize:'₹15,000', fee:'₹250 per team',
-      description:'Fast-paced 5v5 tactical shooter action. Coordinate with your team to plant or defuse the spike!',
-      rules:['Standard competitive rules apply.','Room IDs will be shared via Discord 15 mins prior.']
-    },
-    { id:'t3', name:'Free Fire Grand Prix', status:'full', date:'May 1, 2026', time:'5:30 PM', mode:'Squad (4v4)', slots:20, registered:20, prize:'₹8,000', fee:'₹80 per team',
-      description:'The biggest tournament of the season. High stakes, intense battles.',
-      rules:['Registration is closed once slots are full.','Streamed live on our official YouTube channel.']
-    },
-    { id:'t4', name:'CODM: Solo King Clash', status:'full', date:'April 10, 2026', time:'4:00 PM', mode:'Solo (1v1)', slots:50, registered:50, prize:'₹3,000', fee:'₹30 per player', description:'1v1 classic showdown.', rules:['Only solo. No teaming.'] },
-    { id:'t5', name:'Clash Royale: 1v1 Duel', status:'upcoming', date:'May 15, 2026', time:'11:00 PM', mode:'1v1', slots:64, registered:2, prize:'₹5,000', fee:'₹20 per player', description:'Late night brawls.', rules:['Respect match timings.'] },
-    { id:'t6', name:'CS2: Rookie Showdown', status:'open', date:'April 18, 2026', time:'3:00 PM', mode:'Team (5v5)', slots:16, registered:15, prize:'₹12,000', fee:'₹200 per team', description:'For the rising stars.', rules:['Accounts must be below Legendary Eagle rank.'] }
-  ];
+    // Auth UI
+    function renderAuth(user) {
+      const authArea = document.getElementById('authArea');
+      const mobileMenu = document.getElementById('mobileMenu');
+      const navRegisterLink = document.querySelector('.nav-links a[href="register.html"]');
 
-  // ════════════════════════════════
-  // NAVBAR LOGIC
-  // ════════════════════════════════
-  const navbar       = document.getElementById('navbar');
-  const hamburger    = document.getElementById('hamburger');
-  const hamburgerIcon= document.getElementById('hamburgerIcon');
-  const mobileMenu   = document.getElementById('mobileMenu');
-
-  window.addEventListener('scroll', ()=>{
-    navbar.classList.toggle('scrolled', window.scrollY > 40);
-  }, {passive:true});
-
-  hamburger.addEventListener('click', ()=>{
-    const open = mobileMenu.classList.toggle('open');
-    hamburgerIcon.className = open ? 'fas fa-times' : 'fas fa-bars';
-  });
-  mobileMenu.querySelectorAll('a').forEach(a=>{
-    a.addEventListener('click', ()=>{
-      mobileMenu.classList.remove('open');
-      hamburgerIcon.className = 'fas fa-bars';
-    });
-  });
-
-  function renderAuth(user) {
-    const authArea   = document.getElementById('authArea');
-    const mobileAuth = document.getElementById('mobileAuthArea');
-    if (user) {
-      const displayName = user.displayName || user.email?.split('@')[0] || 'Player';
-      authArea.innerHTML = `
-        <div class="user-menu-wrap">
-          <button class="user-btn" id="userBtn"><i class="fas fa-user-circle"></i> <span>${displayName}</span> <i class="fas fa-chevron-down" style="font-size:.7rem;"></i></button>
-          <div class="user-dropdown" id="userDropdown">
-            <a href="profile.html"><i class="fas fa-user-circle" style="margin-right:8px;color:var(--fire-yellow)"></i>Profile</a>
-            <a href="#" id="logoutBtn" class="logout"><i class="fas fa-sign-out-alt" style="margin-right:8px;"></i>Logout</a>
-          </div>
-        </div>`;
-      mobileAuth.innerHTML = `
-        <a href="profile.html"><i class="fas fa-user-circle" style="margin-right:10px;color:var(--fire-yellow)"></i>${displayName}'s Profile</a>
-        <a href="#" id="mobileLogout" style="color:#f87171;"><i class="fas fa-sign-out-alt" style="margin-right:10px;"></i>Logout</a>`;
-
-      document.getElementById('userBtn')?.addEventListener('click', e=>{
-        e.stopPropagation(); document.getElementById('userDropdown')?.classList.toggle('open');
-      });
-      document.getElementById('logoutBtn')?.addEventListener('click', e=>{
-        e.preventDefault(); if(auth) auth.signOut();
-      });
-      document.getElementById('mobileLogout')?.addEventListener('click', e=>{
-        e.preventDefault(); if(auth) auth.signOut();
-      });
-    } else {
-      authArea.innerHTML = `<a href="login.html" class="btn-login"><i class="fas fa-sign-in-alt" style="margin-right:6px;"></i>Login</a><a href="register.html" class="btn-join"><i class="fas fa-user-plus" style="margin-right:6px;"></i>Join Now</a>`;
-      mobileAuth.innerHTML = `<a href="login.html"><i class="fas fa-sign-in-alt" style="margin-right:10px;color:var(--fire-yellow)"></i>Login</a><a href="register.html" class="btn-join-mobile"><i class="fas fa-user-plus" style="margin-right:8px;"></i>Join Now</a>`;
+      if (user) {
+        const name = user.displayName || user.email?.split('@')[0] || 'Player';
+        if (navRegisterLink) navRegisterLink.parentElement.style.display = 'none';
+        authArea.innerHTML = `
+          <div class="user-menu-wrap">
+            <button class="user-btn" id="userBtn"><i class="fas fa-user-circle"></i> ${name} <i class="fas fa-chevron-down"></i></button>
+            <div class="user-dropdown" id="userDropdown">
+              <a href="profile.html">Profile</a>
+              <a href="#" id="logoutBtn">Logout</a>
+            </div>
+          </div>`;
+        mobileMenu.innerHTML = `<a href="index.html">Home</a><a href="tournaments.html" class="active">Tournaments</a><a href="leaderboard.html">Leaderboard</a><a href="teams.html">Teams</a><a href="profile.html">Profile</a><a href="#" id="mobileLogout">Logout</a>`;
+        document.getElementById('userBtn')?.addEventListener('click', (e) => {
+          e.stopPropagation();
+          document.getElementById('userDropdown')?.classList.toggle('open');
+        });
+        document.getElementById('logoutBtn')?.addEventListener('click', (e) => { e.preventDefault(); auth.signOut(); });
+        document.getElementById('mobileLogout')?.addEventListener('click', (e) => { e.preventDefault(); auth.signOut(); });
+      } else {
+        if (navRegisterLink) navRegisterLink.parentElement.style.display = '';
+        authArea.innerHTML = `<a href="login.html" class="btn-login">Login</a><a href="register.html" class="btn-join">Join Now</a>`;
+        mobileMenu.innerHTML = `<a href="index.html">Home</a><a href="tournaments.html" class="active">Tournaments</a><a href="leaderboard.html">Leaderboard</a><a href="teams.html">Teams</a><a href="login.html">Login</a><a href="register.html">Register</a>`;
+      }
+      document.addEventListener('click', () => document.getElementById('userDropdown')?.classList.remove('open'));
     }
-    document.addEventListener('click', ()=>document.getElementById('userDropdown')?.classList.remove('open'));
-  }
 
-  if (firebaseReady && auth) auth.onAuthStateChanged(user => renderAuth(user));
-  else renderAuth(null);
+    function formatDate(val) {
+      if (!val) return 'TBD';
+      let date;
+      if (val.seconds) {
+        date = new Date(val.seconds * 1000);
+      } else {
+        date = new Date(val);
+      }
+      if (isNaN(date)) return 'Invalid Date';
+      return date.toLocaleString('en-IN', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+    }
 
-  // ════════════════════════════════
-  // RENDER TOURNAMENT DETAILS
-  // ════════════════════════════════
-  function renderTournament(t) {
-    const container = document.getElementById('contentContainer');
-    if(!t) {
+    function formatCurrency(amount) {
+      return `₹${(amount || 0).toLocaleString('en-IN')}`;
+    }
+
+    function handleRegisterClick() {
+      if (!currentUser) {
+        alert('Please login to register');
+        window.location.href = 'login.html';
+        return;
+      }
+      if (tournament && tournament.id) {
+        window.location.href = `payment.html?tournament=${tournament.id}`;
+      }
+    }
+
+    // Load registered teams for this tournament (only confirmed registrations)
+    async function loadRegisteredTeams(tournamentId) {
+      const tbody = document.getElementById('registeredTeamsList');
+      if (!tbody) return;
+
+      try {
+        // Get confirmed registrations for this tournament
+        const regSnap = await db.collection('registrations')
+          .where('tournamentId', '==', tournamentId)
+          .where('status', '==', 'confirmed')
+          .get();
+
+        if (regSnap.empty) {
+          tbody.innerHTML = `<tr><td colspan="4" style="text-align: center; padding: 40px; color: #9ca3af;">No teams have registered for this tournament yet.</td></tr>`;
+          return;
+        }
+        
+        let regs = regSnap.docs.map(doc => doc.data());
+        regs.sort((a, b) => {
+          const tA = a.createdAt ? (a.createdAt.seconds || 0) : 0;
+          const tB = b.createdAt ? (b.createdAt.seconds || 0) : 0;
+          return tA - tB;
+        });
+
+        let rank = 1;
+        tbody.innerHTML = regs.map(regData => {
+          const registrationDate = regData.createdAt ? formatDate(regData.createdAt) : 'N/A';
+          const captainName = regData.captainName || regData.teamCaptain || 'N/A';
+
+          return `
+            <tr>
+              <td><span class="team-rank">#${rank++}</span></td>
+              <td><a href="team-details.html?id=${regData.teamId}" style="color: #fff; font-weight: bold; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='var(--fire-yellow)'" onmouseout="this.style.color='#fff'">${escapeHtml(regData.teamName)}</a></td>
+              <td>
+                <span class="captain-badge">
+                  <i class="fas fa-crown"></i>
+                  ${escapeHtml(captainName)}
+                </span>
+              </td>
+              <td>${registrationDate}</td>
+            </tr>
+          `;
+        }).join('');
+
+      } catch (err) {
+        console.error("Error loading registered teams:", err);
+        tbody.innerHTML = `<tr><td colspan="4" style="text-align: center; padding: 40px; color: #ef4444;">Error loading teams. Please refresh.</td></tr>`;
+      }
+    }
+
+    function escapeHtml(str) {
+      if (!str) return '';
+      return str.replace(/[&<>]/g, function(m) {
+        if (m === '&') return '&amp;';
+        if (m === '<') return '&lt;';
+        if (m === '>') return '&gt;';
+        return m;
+      });
+    }
+
+    function renderTournament() {
+      const container = document.getElementById('contentContainer');
+      if (!tournament) {
+        container.innerHTML = `<div class="loading-view"><i class="fas fa-exclamation-triangle" style="font-size:3rem;"></i><h2>Tournament Not Found</h2><a href="tournaments.html" style="color:var(--fire-yellow);">Back to Tournaments</a></div>`;
+        return;
+      }
+
+      const pct = Math.min(100, Math.round(((tournament.registeredTeams || 0) / tournament.maxTeams) * 100));
+      const isFull = (tournament.registeredTeams || 0) >= tournament.maxTeams;
+      const statusClass = isFull ? 'full' : (tournament.status || 'upcoming');
+      const statusLabel = isFull ? 'FULL' : (tournament.status?.toUpperCase() || 'UPCOMING');
+
+      const rules = tournament.rules || [
+        'Cheating of any kind is strictly prohibited',
+        'All players must use registered in-game names',
+        'Match timings are final; late entries will be disqualified',
+        'Respect all players and admins'
+      ];
+
       container.innerHTML = `
-        <div class="loading-view" style="color:#ef4444;">
-          <i class="fas fa-exclamation-triangle" style="font-size:3rem; margin-bottom:16px;"></i>
-          <h2>Tournament Not Found</h2>
-          <p>The tournament you are looking for does not exist or has been removed.</p>
-          <br><a href="tournaments.html" style="color:var(--fire-yellow); text-decoration:underline;">Back to Tournaments</a>
-        </div>`;
-      return;
-    }
-
-    const pct = Math.round((t.registered / t.slots) * 100);
-    const isFull = t.registered >= t.slots;
-    let statusClass = isFull ? 'full' : (t.status === 'upcoming' ? 'upcoming' : 'open');
-    let statusLabel = isFull ? 'FULL' : (t.status === 'upcoming' ? 'UPCOMING' : 'OPEN');
-
-    // Default descriptions and rules if missing
-    const desc = t.description || 'Gear up and jump into the battlefield. Register your team to secure a slot in this upcoming tournament.';
-    const rules = t.rules && t.rules.length > 0 ? t.rules : [
-      'Cheating of any kind, including use of unauthorized software or hardware, is forbidden.',
-      'All players must be registered with their correct IGNs.',
-      'Match timing is final. Late entries will be disqualified.'
-    ];
-    const rulesHtml = rules.map(r => `<li><i class="fas fa-check-circle"></i> <span>${r}</span></li>`).join('');
-
-    container.innerHTML = `
-      <section class="page-header">
-        <h1 class="t-title">${t.name}</h1>
-        <span class="t-status-badge ${statusClass}">${statusLabel}</span>
-      </section>
-
-      <main>
-        <div class="details-wrap">
-          <!-- Left Column -->
-          <div class="left-col">
-            <section>
-              <h2 class="sec-title">About the Tournament</h2>
-              <p class="desc-text">${desc}</p>
-            </section>
-            
-            <section>
-              <h2 class="sec-title">Rules & Guidelines</h2>
-              <ul class="rules-list">
-                ${rulesHtml}
-              </ul>
-            </section>
-          </div>
-
-          <!-- Right Column -->
-          <div class="right-col">
-            <div class="sidebar-card">
-              <div class="s-prize">
-                <h4>${t.prize}</h4>
-                <span>Total Prize Pool</span>
+        <section class="page-header">
+          <h1 class="t-title">${escapeHtml(tournament.name)}</h1>
+          <span class="t-status-badge ${statusClass}">${statusLabel}</span>
+        </section>
+        <main>
+          <div class="details-wrap">
+            <div class="left-col">
+              <section>
+                <h2 class="sec-title">About the Tournament</h2>
+                <p class="desc-text">${escapeHtml(tournament.description || 'Compete against the best teams and win exciting prizes. Register your team now!')}</p>
+              </section>
+              <section>
+                <h2 class="sec-title">Rules & Guidelines</h2>
+                <ul class="rules-list">${rules.map(r => `<li><i class="fas fa-check-circle"></i> <span>${escapeHtml(r)}</span></li>`).join('')}</ul>
+              </section>
+              <section>
+                <h2 class="sec-title">
+                  <i class="fas fa-users"></i> Registered Teams 
+                  <span style="font-size: 0.9rem; color: var(--fire-yellow);">(${tournament.registeredTeams || 0}/${tournament.maxTeams})</span>
+                </h2>
+                <div class="teams-table-container">
+                  <table class="teams-table">
+                    <thead>
+                      <tr>
+                        <th style="width: 70px;">#</th>
+                        <th>Team Name</th>
+                        <th>Team Captain</th>
+                        <th>Registered On</th>
+                      </tr>
+                    </thead>
+                    <tbody id="registeredTeamsList">
+                      <tr><td colspan="4" style="text-align: center; padding: 40px;"><div class="spinner"></div><p>Loading registered teams...</p></td></tr>
+                    </tbody>
+                  </table>
+                </div>
+              </section>
+            </div>
+            <div class="right-col">
+              <div class="sidebar-card">
+                <div class="s-prize"><h4>${formatCurrency(tournament.prizePool)}</h4><span>Total Prize Pool</span></div>
+                <div class="s-meta">
+                  <div class="s-meta-item"><span class="s-meta-lbl"><i class="fas fa-calendar"></i> Starts</span><span class="s-meta-val" style="text-align: right; font-size: 0.9rem;">${formatDate(tournament.startDate)}</span></div>
+                  <div class="s-meta-item"><span class="s-meta-lbl"><i class="fas fa-calendar-check"></i> Ends</span><span class="s-meta-val" style="text-align: right; font-size: 0.9rem;">${formatDate(tournament.endDate)}</span></div>
+                  <div class="s-meta-item"><span class="s-meta-lbl"><i class="fas fa-gamepad"></i> Game</span><span class="s-meta-val">${escapeHtml(tournament.game || 'BGMI')}</span></div>
+                  <div class="s-meta-item"><span class="s-meta-lbl"><i class="fas fa-rupee-sign"></i> Entry Fee</span><span class="s-meta-val">${formatCurrency(tournament.fee)}</span></div>
+                  <div class="s-meta-item"><span class="s-meta-lbl"><i class="fas fa-users"></i> Format</span><span class="s-meta-val">${escapeHtml(tournament.format || 'Team')}</span></div>
+                </div>
+                <div class="s-progress-wrap">
+                  <div class="s-progress-lbl"><span>Teams Registered</span><span>${tournament.registeredTeams || 0}/${tournament.maxTeams}</span></div>
+                  <div class="s-progress-bar"><div class="s-progress-fill" style="width:${pct}%"></div></div>
+                </div>
+                <button class="btn-main ${isFull || tournament.status !== 'open' ? 'disabled' : ''}" onclick="handleRegisterClick()">
+                  ${!currentUser ? '<i class="fas fa-sign-in-alt"></i> Login to Register' : 
+                    isFull ? '<i class="fas fa-ban"></i> Slots Full' :
+                    tournament.status !== 'open' ? `<i class="fas fa-clock"></i> ${tournament.status?.toUpperCase() || 'Closed'}` : '<i class="fas fa-user-plus"></i> Register Now'}
+                </button>
               </div>
-
-              <div class="s-meta">
-                <div class="s-meta-item">
-                  <span class="s-meta-lbl"><i class="fas fa-calendar-alt"></i> Date</span>
-                  <span class="s-meta-val">${t.date}</span>
-                </div>
-                <div class="s-meta-item">
-                  <span class="s-meta-lbl"><i class="fas fa-clock"></i> Time</span>
-                  <span class="s-meta-val">${t.time}</span>
-                </div>
-                <div class="s-meta-item">
-                  <span class="s-meta-lbl"><i class="fas fa-gamepad"></i> Mode</span>
-                  <span class="s-meta-val">${t.mode}</span>
-                </div>
-                <div class="s-meta-item">
-                  <span class="s-meta-lbl"><i class="fas fa-rupee-sign"></i> Entry Fee</span>
-                  <span class="s-meta-val">${t.fee}</span>
-                </div>
-              </div>
-
-              <div class="s-progress-wrap">
-                <div class="s-progress-lbl">
-                  <span>Registered Teams</span>
-                  <span>${t.registered} / ${t.slots}</span>
-                </div>
-                <div class="s-progress-bar">
-                  <div class="s-progress-fill" id="progressFill" style="width:0%;"></div>
-                </div>
-              </div>
-
-              <button class="btn-main ${isFull ? 'disabled' : ''}" onclick="${isFull ? '' : `window.location.href='payment.html?tournament=${t.id}'`}">
-                ${isFull ? '<i class="fas fa-ban"></i> Slots Full' : '<i class="fas fa-user-plus"></i> Register Team Now'}
-              </button>
             </div>
           </div>
-        </div>
-      </main>
-    `;
+        </main>
+      `;
 
-    // Animate progress bar after render
-    setTimeout(() => {
-      const bar = document.getElementById('progressFill');
-      if(bar) bar.style.width = `${pct}%`;
-    }, 100);
-  }
-
-  // ════════════════════════════════
-  // INITIALIZATION / LOAD DATA
-  // ════════════════════════════════
-  async function initPage() {
-    const params = new URLSearchParams(window.location.search);
-    const tId = params.get('id');
-
-    if(!tId) {
-      // Default fallback if reached without ID
-      renderTournament(ALL_DEMO_TOURNAMENTS[0]);
-      return;
+      // Load registered teams after rendering
+      loadRegisteredTeams(tournament.id);
     }
 
-    if(firebaseReady && db) {
+    async function loadTournament() {
+      const params = new URLSearchParams(window.location.search);
+      const tId = params.get('id');
+      if (!tId) {
+        tournament = null;
+        renderTournament();
+        return;
+      }
+
       try {
         const doc = await db.collection('tournaments').doc(tId).get();
-        if(doc.exists) {
-          renderTournament({ id: doc.id, ...doc.data() });
+        if (doc.exists) {
+          tournament = { id: doc.id, ...doc.data() };
+          renderTournament();
         } else {
-          // Try to find it in demo data just in case
-          const fallback = ALL_DEMO_TOURNAMENTS.find(t => t.id === tId);
-          renderTournament(fallback || null);
+          tournament = null;
+          renderTournament();
         }
-      } catch(err) {
-        console.warn('Firestore error:', err);
-        const fallback = ALL_DEMO_TOURNAMENTS.find(t => t.id === tId);
-        renderTournament(fallback || null);
+      } catch (err) {
+        console.error(err);
+        tournament = null;
+        renderTournament();
       }
-    } else {
-      // Demo Mode
-      setTimeout(() => {
-        const t = ALL_DEMO_TOURNAMENTS.find(item => item.id === tId);
-        renderTournament(t || null);
-      }, 600);
     }
-  }
 
-  document.getElementById('copyright-year').textContent = new Date().getFullYear();
-  initPage();
+    const hamburger = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobileMenu');
+    hamburger.addEventListener('click', () => mobileMenu.classList.toggle('open'));
+
+    auth.onAuthStateChanged(async (user) => {
+      currentUser = user;
+      renderAuth(user);
+      await loadTournament();
+    });
+
+    document.getElementById('copyright-year').textContent = new Date().getFullYear();
+    window.handleRegisterClick = handleRegisterClick;
   </script>
 </body>
 </html>
