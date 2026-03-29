@@ -1303,6 +1303,14 @@
     auth = firebase.auth();
 
     // State
+    // Auth Guard: Immediately check if user is logged in.
+    auth.onAuthStateChanged(user => {
+      if (!user) {
+        showAlert('Please log in to access team registration.', 'warning');
+        setTimeout(() => { window.location.href = 'login.html'; }, 2000);
+      }
+    });
+
     let currentStep = 1;
     let selectedGame = '';
     let memberCount = 0;
@@ -1588,14 +1596,6 @@
       return date.toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
     }
 
-    function formatFileSize(bytes) {
-      if (bytes === 0) return '0 Bytes';
-      const k = 1024;
-      const sizes = ['Bytes', 'KB', 'MB'];
-      const i = Math.floor(Math.log(bytes) / Math.log(k));
-      return Math.round(bytes / Math.pow(k, i) * 100) / 100 + ' ' + sizes[i];
-    }
-
     // UPI Copy
     function copyUPI(upiId) {
       navigator.clipboard.writeText(upiId).then(() => {
@@ -1696,9 +1696,6 @@
           return;
         }
         const user = auth.currentUser;
-        
-        // Collect form data
-        const teamName = document.getElementById('teamName').value.trim();
         const teamTag = document.getElementById('teamTag').value.trim();
         const captainName = document.getElementById('captainName').value.trim();
         const email = document.getElementById('teamEmail').value.trim();
@@ -1708,14 +1705,11 @@
         const tournamentFee = parseInt(document.getElementById('tournamentFee').value);
         const transactionRef = document.getElementById('transactionRef').value.trim();
         
-        // Upload files
+        // File references
         const logoFile = document.getElementById('teamLogo').files[0];
         
         let logoUrl = null;
-        if (logoFile) {
-          logoUrl = await uploadFile(logoFile, 'team-logos');
-        }
-        
+
         // Create user document if needed
         const userDoc = await db.collection('users').doc(user.uid).get();
         if (!userDoc.exists) {
@@ -1727,8 +1721,11 @@
             createdAt: firebase.firestore.FieldValue.serverTimestamp()
           });
         }
-        
-        // Create team
+
+        // --- Start Atomic Batch Write ---
+        const batch = db.batch();
+
+        // 1. Create Team Document
         const teamData = {
           name: teamName,
           tag: teamTag || null,
@@ -1739,7 +1736,7 @@
           primaryGame: selectedGame,
           members: members,
           ownerId: user.uid,
-          logoUrl: logoUrl,
+          logoUrl: null, // Placeholder, will be updated after upload
           status: 'pending_payment',
           tournaments: [tournamentId],
           wins: 0,
@@ -1749,10 +1746,11 @@
           createdAt: firebase.firestore.FieldValue.serverTimestamp()
         };
         
-        const teamRef = await db.collection('teams').add(teamData);
+        const teamRef = db.collection('teams').doc(); // Generate a new doc reference
+        batch.set(teamRef, teamData);
         
-        // Create payment record
-        await db.collection('payments').add({
+        // 2. Create Payment Record
+        const paymentData = {
           userId: user.uid,
           teamId: teamRef.id,
           teamName: teamName,
@@ -1761,12 +1759,15 @@
           amount: tournamentFee,
           transactionRef: transactionRef,
           paymentMethod: 'UPI',
+          screenshotUrl: null, // Placeholder
           status: 'pending_verification',
           createdAt: firebase.firestore.FieldValue.serverTimestamp()
-        });
+        };
+        const paymentRef = db.collection('payments').doc();
+        batch.set(paymentRef, paymentData);
         
-        // Create registration record
-        await db.collection('registrations').add({
+        // 3. Create Registration Record
+        const registrationData = {
           userId: user.uid,
           teamId: teamRef.id,
           teamName: teamName,
@@ -1776,7 +1777,19 @@
           fee: tournamentFee,
           status: 'pending',
           createdAt: firebase.firestore.FieldValue.serverTimestamp()
-        });
+        };
+        const registrationRef = db.collection('registrations').doc();
+        batch.set(registrationRef, registrationData);
+
+        // Commit all writes
+        await batch.commit();
+        // --- End Atomic Batch Write ---
+
+        // Now upload files and update the doc URLs
+        if (logoFile) {
+          logoUrl = await uploadFile(logoFile, `team-logos/${teamRef.id}`);
+          await teamRef.update({ logoUrl: logoUrl });
+        }
         
         // Show greeting message
         const reviewContent = document.getElementById('reviewContent');
@@ -1807,14 +1820,6 @@
         showAlert(err.message || 'Registration failed. Please try again.', 'error');
         submitBtn.disabled = false;
         submitBtn.innerHTML = '<i class="fas fa-check-double"></i> Submit Registration';
-      }
-    });
-
-    // Auth State Check to prevent users from starting the form if logged out
-    auth.onAuthStateChanged(user => {
-      if (!user) {
-        showAlert('Please log in to access team registration.', 'warning');
-        setTimeout(() => { window.location.href = 'login.html'; }, 2000);
       }
     });
 
