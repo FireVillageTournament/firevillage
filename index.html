@@ -11,21 +11,18 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
   <style>
-    /* ── ROOT VARS ── */
     :root {
       --fire-yellow: #facc15;
       --fire-orange: #f59e0b;
-      --fire-red:    #ef4444;
-      --fire-dark:   #0f0f0f;
-      --fire-gray:   #1f2937;
-      --fire-light:  #374151;
-      --fire-bg:     #111827;
-      --font-head:   'Oswald', sans-serif;
-      --font-body:   'Poppins', sans-serif;
+      --fire-red: #ef4444;
+      --fire-dark: #0f0f0f;
+      --fire-gray: #1f2937;
+      --font-head: 'Oswald', sans-serif;
+      --font-body: 'Poppins', sans-serif;
     }
 
-    * { margin:0; padding:0; box-sizing:border-box; }
-    html { scroll-behavior:smooth; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
 
     body {
       font-family: var(--font-body);
@@ -35,19 +32,16 @@
       overflow-x: hidden;
     }
 
-    /* Scrollbar */
-    ::-webkit-scrollbar { width:6px; }
-    ::-webkit-scrollbar-track { background:#111; }
-    ::-webkit-scrollbar-thumb { background: var(--fire-orange); border-radius:3px; }
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #111; }
+    ::-webkit-scrollbar-thumb { background: var(--fire-orange); border-radius: 3px; }
 
-    a { text-decoration:none; color:inherit; transition:all .3s ease; }
-    img { display:block; max-width:100%; }
+    a { text-decoration: none; color: inherit; }
+    img { max-width: 100%; display: block; }
 
-    /* ── NAVBAR ── */
     nav {
       background: rgba(17,24,39,0.95);
       backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
       padding: 0 24px;
       height: 68px;
       display: flex;
@@ -56,11 +50,6 @@
       top: 0;
       z-index: 1000;
       border-bottom: 1px solid rgba(250,204,21,0.12);
-      transition: background .3s;
-    }
-    nav.scrolled {
-      background: rgba(10,10,10,0.98);
-      box-shadow: 0 4px 24px rgba(0,0,0,0.5);
     }
     .nav-inner {
       max-width: 1280px;
@@ -70,53 +59,33 @@
       align-items: center;
       justify-content: space-between;
     }
-    .logo-wrap {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      text-decoration: none;
-    }
-    .logo-wrap img {
-      height: 44px;
-      width: auto;
-      transition: transform .3s;
-    }
-    .logo-wrap:hover img { transform: scale(1.08); }
+    .logo-wrap { display: flex; align-items: center; gap: 10px; }
+    .logo-wrap img { height: 44px; width: auto; }
     .logo-wrap span {
       font-family: var(--font-head);
       font-size: 1.5rem;
       color: var(--fire-yellow);
-      letter-spacing: 1px;
     }
-
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      list-style: none;
-    }
+    .nav-links { display: flex; align-items: center; gap: 4px; list-style: none; }
     .nav-links a {
       padding: 8px 14px;
       border-radius: 8px;
       font-size: 0.9rem;
       font-weight: 500;
       color: #d1d5db;
-      transition: all .25s;
     }
     .nav-links a:hover, .nav-links a.active {
       background: var(--fire-yellow);
       color: #000;
     }
-    .nav-links a i { margin-right:6px; }
+    .nav-links a i { margin-right: 6px; }
 
-    /* Auth buttons */
-    .auth-area { display:flex; align-items:center; gap:10px; }
+    .auth-area { display: flex; align-items: center; gap: 10px; }
     .btn-login {
       padding: 8px 18px;
       border-radius: 8px;
       color: #d1d5db;
       font-weight: 500;
-      font-size: 0.88rem;
     }
     .btn-login:hover { color: var(--fire-yellow); }
     .btn-join {
@@ -125,30 +94,23 @@
       background: linear-gradient(to right, var(--fire-orange), var(--fire-red));
       color: #000;
       font-weight: 700;
-      font-size: 0.88rem;
-      transition: all .3s;
     }
     .btn-join:hover {
       background: linear-gradient(to right, var(--fire-yellow), var(--fire-orange));
       transform: scale(1.05);
-      box-shadow: 0 0 18px rgba(245,158,11,0.4);
     }
 
-    /* User menu */
-    .user-menu-wrap { position:relative; }
+    .user-menu-wrap { position: relative; }
     .user-btn {
       background: none;
       border: 1px solid rgba(250,204,21,0.3);
       border-radius: 8px;
       padding: 8px 16px;
       color: #d1d5db;
-      font-family: var(--font-body);
-      font-size: 0.88rem;
       cursor: pointer;
       display: flex;
       align-items: center;
       gap: 8px;
-      transition: all .25s;
     }
     .user-btn:hover { border-color: var(--fire-yellow); color: var(--fire-yellow); }
     .user-dropdown {
@@ -161,21 +123,17 @@
       border: 1px solid rgba(250,204,21,0.15);
       border-radius: 10px;
       padding: 8px 0;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
       z-index: 200;
     }
-    .user-dropdown.open { display:block; }
+    .user-dropdown.open { display: block; }
     .user-dropdown a {
       display: block;
       padding: 10px 16px;
-      font-size: 0.88rem;
       color: #d1d5db;
     }
     .user-dropdown a:hover { background: rgba(255,255,255,0.06); color: var(--fire-yellow); }
     .user-dropdown a.logout { color: #f87171; }
-    .user-dropdown a.logout:hover { background: rgba(248,113,113,0.08); }
 
-    /* Hamburger */
     .hamburger {
       display: none;
       background: none;
@@ -183,13 +141,7 @@
       color: #d1d5db;
       font-size: 1.6rem;
       cursor: pointer;
-      padding: 6px;
-      border-radius: 6px;
-      transition: color .25s;
     }
-    .hamburger:hover { color: var(--fire-yellow); }
-
-    /* Mobile menu */
     .mobile-menu {
       display: none;
       position: absolute;
@@ -198,42 +150,22 @@
       right: 0;
       background: rgba(10,10,15,0.98);
       backdrop-filter: blur(16px);
-      border-bottom: 1px solid rgba(250,204,21,0.1);
       padding: 16px;
       z-index: 999;
       flex-direction: column;
       gap: 6px;
     }
-    .mobile-menu.open { display:flex; }
+    .mobile-menu.open { display: flex; }
     .mobile-menu a {
       padding: 13px 18px;
       border-radius: 8px;
-      font-weight: 500;
       color: #d1d5db;
-      font-size: 1rem;
     }
     .mobile-menu a:hover, .mobile-menu a.active {
       background: var(--fire-yellow);
       color: #000;
     }
-    .mobile-menu .mobile-auth {
-      border-top: 1px solid rgba(255,255,255,0.08);
-      margin-top: 8px;
-      padding-top: 12px;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-    .mobile-menu .btn-join-mobile {
-      text-align: center;
-      padding: 13px;
-      border-radius: 8px;
-      background: linear-gradient(to right, var(--fire-orange), var(--fire-red));
-      color: #000;
-      font-weight: 700;
-    }
 
-    /* ── HERO ── */
     .hero {
       position: relative;
       min-height: 100vh;
@@ -251,7 +183,6 @@
       z-index: 0;
       opacity: 0.35;
     }
-    /* Fallback gradient if video fails */
     .hero-video-bg-fallback {
       position: absolute;
       inset: 0;
@@ -264,26 +195,12 @@
       background: linear-gradient(to bottom, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0.85) 100%);
       z-index: 1;
     }
-    /* Particles */
     #particles {
       position: absolute;
       inset: 0;
       z-index: 2;
       pointer-events: none;
     }
-    .particle {
-      position: absolute;
-      border-radius: 50%;
-      animation: floatParticle linear infinite;
-      pointer-events: none;
-    }
-    @keyframes floatParticle {
-      0%   { transform: translateY(100vh) scale(0); opacity: 0; }
-      10%  { opacity: 1; }
-      90%  { opacity: 1; }
-      100% { transform: translateY(-100px) scale(1); opacity: 0; }
-    }
-
     .hero-content {
       position: relative;
       z-index: 3;
@@ -294,9 +211,8 @@
     }
     @keyframes fadeUp {
       from { opacity:0; transform:translateY(30px); }
-      to   { opacity:1; transform:translateY(0); }
+      to { opacity:1; transform:translateY(0); }
     }
-
     .hero-badge {
       display: inline-flex;
       align-items: center;
@@ -308,11 +224,8 @@
       font-size: 0.8rem;
       font-weight: 600;
       color: var(--fire-yellow);
-      letter-spacing: 1px;
-      text-transform: uppercase;
       margin-bottom: 24px;
     }
-
     .hero-title {
       font-family: var(--font-head);
       font-size: clamp(2.8rem, 7vw, 6rem);
@@ -320,20 +233,13 @@
       line-height: 1.1;
       color: var(--fire-yellow);
       margin-bottom: 10px;
-      text-shadow: 0 0 40px rgba(250,204,21,0.25);
     }
     .fire-gradient-text {
       background: linear-gradient(to right, var(--fire-yellow), var(--fire-orange), var(--fire-red));
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
-      animation: firePulse 2s ease-in-out infinite;
     }
-    @keyframes firePulse {
-      0%,100% { filter: brightness(1); }
-      50% { filter: brightness(1.2) drop-shadow(0 0 12px rgba(239,68,68,0.5)); }
-    }
-
     .hero-desc {
       font-size: clamp(1rem, 2.2vw, 1.3rem);
       color: #d1d5db;
@@ -342,7 +248,6 @@
       margin-left: auto;
       margin-right: auto;
     }
-
     .hero-btns {
       display: flex;
       flex-wrap: wrap;
@@ -356,9 +261,7 @@
       background: linear-gradient(to right, var(--fire-orange), var(--fire-red));
       color: #000;
       font-weight: 700;
-      font-size: 1rem;
       transition: all .3s;
-      box-shadow: 0 0 20px rgba(239,68,68,0.3);
     }
     .btn-hero-primary:hover {
       transform: translateY(-3px) scale(1.04);
@@ -371,15 +274,12 @@
       border: 2px solid var(--fire-yellow);
       color: var(--fire-yellow);
       font-weight: 700;
-      font-size: 1rem;
-      transition: all .3s;
     }
     .btn-hero-secondary:hover {
       background: var(--fire-yellow);
       color: #000;
       transform: translateY(-3px);
     }
-
     .scroll-hint {
       display: flex;
       flex-direction: column;
@@ -387,16 +287,14 @@
       gap: 6px;
       color: #6b7280;
       font-size: 0.78rem;
-      letter-spacing: 2px;
       animation: bounce 2s ease infinite;
     }
-    .scroll-hint i { color: var(--fire-yellow); font-size: 1.1rem; }
+    .scroll-hint i { color: var(--fire-yellow); }
     @keyframes bounce {
       0%,100% { transform: translateY(0); }
       50% { transform: translateY(7px); }
     }
 
-    /* ── SECTIONS ── */
     section { padding: 70px 24px; }
     .section-title {
       font-family: var(--font-head);
@@ -413,7 +311,6 @@
     }
     .section-inner { max-width: 1280px; margin: 0 auto; }
 
-    /* ── STATS ── */
     .stats-section { background: rgba(17,24,39,0.85); padding: 50px 24px; }
     .stats-grid {
       display: grid;
@@ -428,12 +325,11 @@
       border-radius: 12px;
       padding: 28px 16px;
       text-align: center;
-      transition: border-color .3s, transform .3s;
+      transition: all .3s;
     }
     .stat-card:hover {
       border-color: rgba(250,204,21,0.4);
       transform: translateY(-4px);
-      box-shadow: 0 8px 24px rgba(0,0,0,0.4);
     }
     .stat-number {
       font-family: var(--font-head);
@@ -445,7 +341,6 @@
     }
     .stat-label { color: #9ca3af; font-size: 0.88rem; }
 
-    /* ── FEATURES ── */
     .features-section { background: #111827; }
     .features-grid {
       display: grid;
@@ -465,17 +360,13 @@
     .feature-card:hover {
       border-color: rgba(250,204,21,0.4);
       transform: translateY(-6px);
-      box-shadow: 0 12px 32px rgba(0,0,0,0.4);
-      background: rgba(250,204,21,0.04);
     }
     .feature-icon {
       font-size: 2.8rem;
       color: var(--fire-yellow);
       margin-bottom: 18px;
       display: block;
-      transition: transform .3s;
     }
-    .feature-card:hover .feature-icon { transform: scale(1.15); }
     .feature-card h3 {
       font-family: var(--font-head);
       font-size: 1.25rem;
@@ -484,7 +375,6 @@
     }
     .feature-card p { color: #9ca3af; font-size: 0.92rem; line-height: 1.6; }
 
-    /* ── TOURNAMENTS ── */
     .tournaments-section { background: #0f1117; }
     .tournaments-grid {
       display: grid;
@@ -503,16 +393,13 @@
     .t-card:hover {
       border-color: rgba(250,204,21,0.4);
       transform: translateY(-5px);
-      box-shadow: 0 12px 36px rgba(0,0,0,0.5);
     }
     .t-card-header {
       padding: 20px 22px 14px;
       background: linear-gradient(135deg, rgba(245,158,11,0.12), rgba(239,68,68,0.08));
-      border-bottom: 1px solid rgba(250,204,21,0.1);
       display: flex;
-      align-items: flex-start;
       justify-content: space-between;
-      gap: 10px;
+      align-items: center;
     }
     .t-card-header h3 {
       font-family: var(--font-head);
@@ -522,15 +409,12 @@
     .t-status {
       font-size: 0.7rem;
       font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 1px;
       padding: 4px 10px;
       border-radius: 99px;
-      white-space: nowrap;
     }
-    .t-status.open { background: rgba(34,197,94,0.15); color: #4ade80; border: 1px solid rgba(34,197,94,0.3); }
-    .t-status.upcoming { background: rgba(250,204,21,0.12); color: var(--fire-yellow); border: 1px solid rgba(250,204,21,0.3); }
-    .t-status.full { background: rgba(239,68,68,0.12); color: #f87171; border: 1px solid rgba(239,68,68,0.3); }
+    .t-status.open { background: rgba(34,197,94,0.15); color: #4ade80; }
+    .t-status.upcoming { background: rgba(250,204,21,0.12); color: var(--fire-yellow); }
+    .t-status.full { background: rgba(239,68,68,0.12); color: #f87171; }
     .t-card-body { padding: 18px 22px; }
     .t-meta {
       display: grid;
@@ -538,9 +422,8 @@
       gap: 10px;
       margin-bottom: 16px;
     }
-    .t-meta-item { display: flex; align-items: center; gap: 8px; }
-    .t-meta-item i { color: var(--fire-orange); font-size: 0.85rem; width: 14px; }
-    .t-meta-item span { font-size: 0.85rem; color: #d1d5db; }
+    .t-meta-item { display: flex; align-items: center; gap: 8px; font-size: 0.85rem; color: #d1d5db; }
+    .t-meta-item i { color: var(--fire-orange); width: 14px; }
     .t-prize {
       font-family: var(--font-head);
       font-size: 1.3rem;
@@ -548,7 +431,7 @@
       text-align: center;
       margin-bottom: 16px;
     }
-    .t-prize small { font-family: var(--font-body); font-size: 0.75rem; color: #9ca3af; display: block; }
+    .t-prize small { font-size: 0.75rem; color: #9ca3af; display: block; }
     .t-progress-wrap { margin-bottom: 16px; }
     .t-progress-label {
       display: flex;
@@ -566,8 +449,8 @@
     .t-progress-fill {
       height: 100%;
       background: linear-gradient(to right, var(--fire-orange), var(--fire-red));
-      border-radius: 3px;
-      transition: width 1.2s ease;
+      width: 0%;
+      transition: width 1s ease;
     }
     .btn-register {
       display: block;
@@ -578,28 +461,17 @@
       background: linear-gradient(to right, var(--fire-orange), var(--fire-red));
       color: #000;
       font-weight: 700;
-      font-size: 0.88rem;
-      transition: all .3s;
     }
     .btn-register:hover {
       background: linear-gradient(to right, var(--fire-yellow), var(--fire-orange));
-      box-shadow: 0 0 18px rgba(245,158,11,0.4);
     }
-    .btn-register:disabled, .btn-register.disabled {
+    .btn-register.disabled {
       background: #374151;
       color: #6b7280;
       cursor: not-allowed;
       pointer-events: none;
     }
-    .no-data {
-      text-align: center;
-      color: #6b7280;
-      padding: 40px;
-      font-size: 1rem;
-      grid-column: 1/-1;
-    }
 
-    /* ── TEAMS ── */
     .teams-section { background: #111827; }
     .teams-grid {
       display: grid;
@@ -614,37 +486,31 @@
       border-radius: 14px;
       padding: 28px 20px;
       text-align: center;
-      transition: all .3s;
     }
     .team-card:hover {
       border-color: rgba(250,204,21,0.4);
       transform: translateY(-5px);
-      box-shadow: 0 12px 30px rgba(0,0,0,0.45);
     }
     .team-avatar {
       width: 64px; height: 64px;
       border-radius: 50%;
       background: linear-gradient(135deg, var(--fire-orange), var(--fire-red));
       display: flex; align-items: center; justify-content: center;
-      font-family: var(--font-head);
-      font-size: 1.4rem;
       font-weight: 700;
+      font-size: 1.4rem;
       color: #000;
       margin: 0 auto 14px;
     }
-    .team-card h3 { font-family: var(--font-head); font-size: 1.1rem; color: var(--fire-yellow); margin-bottom: 6px; }
-    .team-card .team-members { font-size: 0.82rem; color: #9ca3af; margin-bottom: 12px; }
+    .team-card h3 { font-family: var(--font-head); color: var(--fire-yellow); margin-bottom: 6px; }
     .team-wins {
       display: inline-flex; align-items: center; gap: 6px;
       background: rgba(250,204,21,0.1);
-      border: 1px solid rgba(250,204,21,0.2);
       padding: 4px 12px;
       border-radius: 99px;
       font-size: 0.78rem;
       color: var(--fire-yellow);
     }
 
-    /* ── LEADERBOARD ── */
     .leaderboard-section { background: rgba(15,15,15,0.9); }
     .lb-header {
       max-width: 1200px;
@@ -653,18 +519,13 @@
       justify-content: space-between;
       align-items: flex-end;
       flex-wrap: wrap;
-      gap: 12px;
     }
     .lb-header h2 { font-family: var(--font-head); font-size: 2rem; color: var(--fire-yellow); }
-    .lb-header p { color: #9ca3af; font-size: 0.9rem; }
     .lb-view-all {
       display: inline-flex; align-items: center; gap: 6px;
       color: var(--fire-yellow);
       font-weight: 600;
-      font-size: 0.9rem;
-      transition: gap .25s;
     }
-    .lb-view-all:hover { gap: 10px; }
     .lb-table-wrap {
       max-width: 1200px;
       margin: 0 auto;
@@ -674,40 +535,29 @@
       overflow: hidden;
     }
     .lb-table { width: 100%; border-collapse: collapse; }
-    .lb-table thead tr {
-      background: #1f2937;
-      border-bottom: 1px solid rgba(250,204,21,0.15);
-    }
+    .lb-table thead tr { background: #1f2937; }
     .lb-table th {
       text-align: left;
       padding: 14px 18px;
       font-family: var(--font-head);
       font-size: 0.85rem;
       color: var(--fire-yellow);
-      letter-spacing: 1px;
     }
-    .lb-table tbody tr {
-      border-bottom: 1px solid rgba(255,255,255,0.04);
-      transition: background .2s;
-    }
-    .lb-table tbody tr:hover { background: rgba(250,204,21,0.04); }
     .lb-table td { padding: 13px 18px; font-size: 0.9rem; color: #d1d5db; }
     .rank-badge {
-      display: inline-flex; align-items: center; justify-content: center;
+      display: inline-flex;
       width: 30px; height: 30px;
       border-radius: 8px;
+      align-items: center;
+      justify-content: center;
       font-weight: 700;
-      font-size: 0.88rem;
     }
     .rank-1 { background: linear-gradient(135deg,#facc15,#f59e0b); color:#000; }
     .rank-2 { background: linear-gradient(135deg,#d1d5db,#9ca3af); color:#000; }
     .rank-3 { background: linear-gradient(135deg,#f97316,#b45309); color:#fff; }
     .rank-other { background: rgba(255,255,255,0.06); color: #9ca3af; }
-    .player-name { font-weight: 600; color: #fff; }
-    .kills-count { color: var(--fire-red); font-weight: 700; }
     .points-count { color: var(--fire-yellow); font-weight: 700; }
 
-    /* ── FOUNDERS ── */
     .founders-section { background: #0c1015; }
     .founders-grid {
       display: grid;
@@ -722,12 +572,6 @@
       border-radius: 16px;
       padding: 36px 24px;
       text-align: center;
-      transition: all .3s;
-    }
-    .founder-card:hover {
-      transform: translateY(-6px);
-      border-color: rgba(250,204,21,0.3);
-      box-shadow: 0 16px 40px rgba(0,0,0,0.5);
     }
     .founder-avatar {
       width: 110px; height: 110px;
@@ -737,50 +581,23 @@
       overflow: hidden;
       background: #1f2937;
     }
-    .founder-avatar img { width:100%; height:100%; object-fit:cover; }
     .founder-name {
       font-family: var(--font-head);
       font-size: 1.4rem;
       color: var(--fire-yellow);
-      margin-bottom: 4px;
     }
-    .founder-role { color: var(--fire-orange); font-weight: 500; font-size: 0.9rem; margin-bottom: 12px; }
-    .founder-bio { color: #d1d5db; font-size: 0.88rem; line-height: 1.6; margin-bottom: 18px; }
-    .founder-social a {
-      color: #6b7280;
-      font-size: 1.3rem;
-      transition: color .25s;
-    }
-    .founder-social a:hover { color: var(--fire-yellow); }
+    .founder-role { color: var(--fire-orange); font-size: 0.9rem; margin-bottom: 12px; }
+    .founder-bio { color: #d1d5db; font-size: 0.88rem; margin-bottom: 18px; }
     .ig-link {
       display: inline-flex; align-items: center; gap: 8px;
       color: var(--fire-yellow);
-      font-size: 1.1rem;
       font-weight: 500;
-      transition: color .25s;
     }
-    .ig-link:hover { color: var(--fire-orange); }
 
-    /* ── CTA ── */
     .cta-section {
       background: linear-gradient(135deg, rgba(20,10,0,0.95), rgba(10,5,0,0.98));
       text-align: center;
-      position: relative;
-      overflow: hidden;
     }
-    .cta-section::before {
-      content:'';
-      position:absolute; inset:0;
-      background: radial-gradient(ellipse at center, rgba(239,68,68,0.08) 0%, transparent 70%);
-      pointer-events:none;
-    }
-    .cta-section h2 {
-      font-family: var(--font-head);
-      font-size: clamp(1.8rem, 4vw, 2.8rem);
-      color: var(--fire-yellow);
-      margin-bottom: 14px;
-    }
-    .cta-section p { color: #d1d5db; font-size: 1.1rem; margin-bottom: 28px; max-width: 600px; margin-left: auto; margin-right: auto; }
     .btn-cta {
       display: inline-flex; align-items: center; gap: 10px;
       padding: 15px 40px;
@@ -788,17 +605,12 @@
       background: var(--fire-yellow);
       color: #000;
       font-weight: 700;
-      font-size: 1rem;
-      transition: all .3s;
-      box-shadow: 0 0 20px rgba(250,204,21,0.3);
     }
     .btn-cta:hover {
       background: var(--fire-orange);
       transform: translateY(-3px);
-      box-shadow: 0 0 35px rgba(250,204,21,0.5);
     }
 
-    /* ── FOOTER ── */
     footer {
       background: #111827;
       border-top: 1px solid rgba(255,255,255,0.06);
@@ -808,15 +620,14 @@
     .footer-links {
       display: flex;
       justify-content: center;
-      flex-wrap: wrap;
-      gap: 8px 24px;
+      gap: 24px;
       margin-bottom: 18px;
+      flex-wrap: wrap;
     }
     .footer-links a { color: #9ca3af; font-size: 0.88rem; }
     .footer-links a:hover { color: var(--fire-yellow); }
     footer p { color: #4b5563; font-size: 0.82rem; }
 
-    /* ── TOAST ── */
     .toast {
       position: fixed;
       bottom: 28px; right: 28px;
@@ -824,773 +635,416 @@
       border: 1px solid rgba(250,204,21,0.3);
       border-radius: 10px;
       padding: 14px 20px;
-      display: flex; align-items: center; gap: 10px;
-      font-size: 0.9rem;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+      display: flex;
+      align-items: center;
+      gap: 10px;
       z-index: 9999;
       transform: translateY(80px);
       opacity: 0;
-      transition: all .35s cubic-bezier(0.4,0,0.2,1);
-      max-width: 340px;
+      transition: all .35s ease;
     }
     .toast.show { transform: translateY(0); opacity: 1; }
-    .toast.success { border-color: rgba(74,222,128,0.4); }
-    .toast.error { border-color: rgba(248,113,113,0.4); }
-    .toast i { font-size: 1.1rem; flex-shrink: 0; }
-    .toast.success i { color: #4ade80; }
-    .toast.error i { color: #f87171; }
-
-    /* ── LOADING SPINNER ── */
     .spinner {
       display: inline-block;
-      width: 20px; height: 20px;
-      border: 2px solid rgba(250,204,21,0.2);
+      width: 32px; height: 32px;
+      border: 3px solid rgba(250,204,21,0.2);
       border-top-color: var(--fire-yellow);
       border-radius: 50%;
-      animation: spin .7s linear infinite;
+      animation: spin 0.7s linear infinite;
     }
     @keyframes spin { to { transform: rotate(360deg); } }
+    .no-data { text-align: center; color: #6b7280; padding: 40px; grid-column: 1/-1; }
 
-    /* ── RESPONSIVE ── */
     @media (max-width: 1024px) {
       .nav-links, .auth-area { display: none; }
       .hamburger { display: block; }
-    }
-    @media (max-width: 640px) {
-      .lb-table th:nth-child(3),
-      .lb-table td:nth-child(3),
-      .lb-table th:nth-child(5),
-      .lb-table td:nth-child(5) { display: none; }
-      .t-meta { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 
 <body>
-  <!-- ── NAVBAR ── -->
   <nav id="navbar">
     <div class="nav-inner">
       <a href="index.html" class="logo-wrap">
         <img src="./assets/logo.png" alt="Fire Village Logo" onerror="this.style.display='none'">
-        <span>FIRE VILLAGE</span>
       </a>
-
       <ul class="nav-links">
-        <li><a href="index.html" class="active"><i class="fas fa-home"></i>Home</a></li>
+        <li><a href="index.html"class="active"><i class="fas fa-home"></i>Home</a></li>
         <li><a href="tournaments.html"><i class="fas fa-trophy"></i>Tournaments</a></li>
         <li><a href="leaderboard.html"><i class="fas fa-medal"></i>Leaderboard</a></li>
         <li><a href="teams.html"><i class="fas fa-users"></i>Teams</a></li>
         <li><a href="register.html"><i class="fas fa-user-plus"></i>Register</a></li>
         <li><a href="contact.html"><i class="fas fa-envelope"></i>Contact</a></li>
-        <li><a href="about.html"><i class="fas fa-info-circle"></i>About</a></li>
       </ul>
-
-      <div class="auth-area" id="authArea">
-        <!-- Filled by JS -->
-      </div>
-
-      <button class="hamburger" id="hamburger" aria-label="Menu">
-        <i class="fas fa-bars" id="hamburgerIcon"></i>
-      </button>
+      <div class="auth-area" id="authArea"></div>
+      <button class="hamburger" id="hamburger"><i class="fas fa-bars" id="hamburgerIcon"></i></button>
     </div>
-
-    <!-- Mobile menu -->
+    
     <div class="mobile-menu" id="mobileMenu">
-      <a href="index.html" class="active"><i class="fas fa-home" style="margin-right:10px;color:var(--fire-yellow)"></i>Home</a>
+      <a href="index.html"><i class="fas fa-home" style="margin-right:10px;color:var(--fire-yellow)"></i>Home</a>
       <a href="tournaments.html"><i class="fas fa-trophy" style="margin-right:10px;color:var(--fire-yellow)"></i>Tournaments</a>
-      <a href="leaderboard.html"><i class="fas fa-medal" style="margin-right:10px;color:var(--fire-yellow)"></i>Leaderboard</a>
+      <a href="leaderboard.html" class="active"><i class="fas fa-medal" style="margin-right:10px;color:var(--fire-yellow)"></i>Leaderboard</a>
       <a href="teams.html"><i class="fas fa-users" style="margin-right:10px;color:var(--fire-yellow)"></i>Teams</a>
       <a href="register.html"><i class="fas fa-user-plus" style="margin-right:10px;color:var(--fire-yellow)"></i>Register</a>
       <a href="contact.html"><i class="fas fa-envelope" style="margin-right:10px;color:var(--fire-yellow)"></i>Contact</a>
-      <a href="about.html"><i class="fas fa-info-circle" style="margin-right:10px;color:var(--fire-yellow)"></i>About</a>
-      <div class="mobile-auth" id="mobileAuthArea">
-        <!-- Filled by JS -->
-      </div>
+      <div class="mobile-auth" id="mobileAuthArea"></div>
     </div>
   </nav>
 
-  <!-- ── HERO ── -->
   <section class="hero">
     <div class="hero-video-bg-fallback"></div>
-    <video autoplay muted loop playsinline class="hero-video-bg">
-      <source src="./assets/fire-bg-video.mp4" type="video/mp4">
-    </video>
+    <video autoplay muted loop playsinline class="hero-video-bg"><source src="./assets/fire-bg-video.mp4" type="video/mp4"></video>
     <div class="hero-overlay"></div>
     <canvas id="particles"></canvas>
-
     <div class="hero-content">
       <div class="hero-badge"><i class="fas fa-fire"></i> India's #1 Gaming Community</div>
-      <h1 class="hero-title">
-        WELCOME TO<br>
-        <span class="fire-gradient-text">FIRE VILLAGE</span>
-      </h1>
-      <p class="hero-desc">Join India's most electrifying esports tournament platform. Compete in games like BGMI, Valorant, CODM, and more. Dominate, and rise to legendary status.</p>
+      <h1 class="hero-title">WELCOME TO<br><span class="fire-gradient-text">FIRE VILLAGE</span></h1>
+      <p class="hero-desc">Join India's most electrifying esports tournament platform. Compete in games like BGMI, Valorant, CODM, and more.</p>
       <div class="hero-btns">
-        <a href="tournaments.html" class="btn-hero-primary">
-          <i class="fas fa-trophy"></i> View Tournaments
-        </a>
-        <a href="register.html" class="btn-hero-secondary">
-          <i class="fas fa-user-plus"></i> Create Account
-        </a>
+        <a href="tournaments.html" class="btn-hero-primary"><i class="fas fa-trophy"></i> View Tournaments</a>
+        <a href="register.html" class="btn-hero-secondary"><i class="fas fa-user-plus"></i> Create Account</a>
       </div>
-      <div class="scroll-hint">
-        <span>SCROLL</span>
-        <i class="fas fa-chevron-down"></i>
-      </div>
+      <div class="scroll-hint"><span>SCROLL</span><i class="fas fa-chevron-down"></i></div>
     </div>
   </section>
 
-  <!-- ── STATS ── -->
   <section class="stats-section">
     <div class="stats-grid">
-      <div class="stat-card">
-        <div class="stat-number" data-target="5000" data-suffix="+">0</div>
-        <div class="stat-label">Registered Players</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-number" data-target="250" data-suffix="+">0</div>
-        <div class="stat-label">Active Teams</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-number" data-target="50" data-suffix="+">0</div>
-        <div class="stat-label">Tournaments Held</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-number" data-target="100000" data-prefix="₹">0</div>
-        <div class="stat-label">Total Prize Pool</div>
-      </div>
+      <div class="stat-card"><div class="stat-number" id="statPlayers">0</div><div class="stat-label">Registered Players</div></div>
+      <div class="stat-card"><div class="stat-number" id="statTeams">0</div><div class="stat-label">Active Teams</div></div>
+      <div class="stat-card"><div class="stat-number" id="statTournaments">0</div><div class="stat-label">Tournaments Held</div></div>
+      <div class="stat-card"><div class="stat-number" id="statPrize">₹0</div><div class="stat-label">Total Prize Pool</div></div>
     </div>
   </section>
 
-  <!-- ── FEATURES ── -->
   <section class="features-section">
     <div class="section-inner">
       <h2 class="section-title">Why Choose Fire Village?</h2>
-      <p class="section-sub">Everything you need to go from player to champion across your favorite games.</p>
       <div class="features-grid">
-        <div class="feature-card">
-          <i class="fas fa-trophy feature-icon"></i>
-          <h3>Premium Tournaments</h3>
-          <p>Compete in high-stakes battles with massive prize pools, exclusive skins and real cash rewards.</p>
-        </div>
-        <div class="feature-card">
-          <i class="fas fa-users feature-icon"></i>
-          <h3>Team Building</h3>
-          <p>Find perfect teammates, build your dream squad and dominate every match together.</p>
-        </div>
-        <div class="feature-card">
-          <i class="fas fa-chart-line feature-icon"></i>
-          <h3>Live Statistics</h3>
-          <p>Track your kills, wins and performance with real-time stats and global leaderboards.</p>
-        </div>
-        <div class="feature-card">
-          <i class="fas fa-shield-alt feature-icon"></i>
-          <h3>Fair Play</h3>
-          <p>Anti-cheat monitoring and strict rules ensure every tournament is 100% fair and competitive.</p>
-        </div>
-        <div class="feature-card">
-          <i class="fas fa-rupee-sign feature-icon"></i>
-          <h3>Cash Prizes</h3>
-          <p>Win real money sent directly to your UPI/bank. No delays, no hassle — instant payouts.</p>
-        </div>
-        <div class="feature-card">
-          <i class="fas fa-broadcast-tower feature-icon"></i>
-          <h3>Live Broadcast</h3>
-          <p>Watch all finals live on our YouTube channel with professional commentary and highlights.</p>
-        </div>
+        <div class="feature-card"><i class="fas fa-trophy feature-icon"></i><h3>Premium Tournaments</h3><p>Compete in high-stakes battles with massive prize pools.</p></div>
+        <div class="feature-card"><i class="fas fa-users feature-icon"></i><h3>Team Building</h3><p>Build your dream squad and dominate every match together.</p></div>
+        <div class="feature-card"><i class="fas fa-chart-line feature-icon"></i><h3>Live Statistics</h3><p>Track your kills, wins and performance with real-time stats.</p></div>
+        <div class="feature-card"><i class="fas fa-shield-alt feature-icon"></i><h3>Fair Play</h3><p>Anti-cheat monitoring ensures every tournament is 100% fair.</p></div>
+        <div class="feature-card"><i class="fas fa-rupee-sign feature-icon"></i><h3>Cash Prizes</h3><p>Win real money sent directly to your UPI/bank.</p></div>
+        <div class="feature-card"><i class="fas fa-broadcast-tower feature-icon"></i><h3>Live Broadcast</h3><p>Watch all finals live on our YouTube channel.</p></div>
       </div>
     </div>
   </section>
 
-  <!-- ── TOURNAMENTS ── -->
-  <section class="tournaments-section" id="tournaments">
+  <section class="tournaments-section">
     <div class="section-inner">
       <h2 class="section-title">Upcoming Tournaments</h2>
-      <p class="section-sub">Find tournaments for BGMI, Valorant, Free Fire & more. Register before slots fill up!</p>
-      <div class="tournaments-grid" id="tournamentsContainer">
-        <div style="grid-column:1/-1;text-align:center;padding:40px 0;">
-          <div class="spinner" style="width:32px;height:32px;border-width:3px;"></div>
-          <p style="color:#9ca3af;margin-top:14px;font-size:0.9rem;">Loading tournaments...</p>
-        </div>
-      </div>
+      <div class="tournaments-grid" id="tournamentsContainer"><div class="no-data"><div class="spinner"></div><p>Loading tournaments...</p></div></div>
     </div>
   </section>
 
-  <!-- ── TOP TEAMS ── -->
   <section class="teams-section">
     <div class="section-inner">
       <h2 class="section-title">Top Teams</h2>
-      <p class="section-sub">The most feared squads in Fire Village</p>
-      <div class="teams-grid" id="teamsContainer">
-        <div style="grid-column:1/-1;text-align:center;padding:40px 0;">
-          <div class="spinner" style="width:32px;height:32px;border-width:3px;"></div>
-        </div>
-      </div>
+      <div class="teams-grid" id="teamsContainer"><div class="no-data"><div class="spinner"></div></div></div>
     </div>
   </section>
 
-  <!-- ── LEADERBOARD PREVIEW ── -->
   <section class="leaderboard-section">
     <div class="section-inner">
-      <div class="lb-header">
-        <div>
-          <h2>Leaderboard</h2>
-          <p>Top performers this season</p>
-        </div>
-        <a href="leaderboard.html" class="lb-view-all">
-          View Full Leaderboard <i class="fas fa-arrow-right"></i>
-        </a>
-      </div>
-      <div class="lb-table-wrap">
-        <div style="overflow-x:auto;">
-          <table class="lb-table">
-            <thead>
-              <tr>
-                <th>RANK</th>
-                <th>PLAYER</th>
-                <th>TEAM</th>
-                <th>KILLS</th>
-                <th>WINS</th>
-                <th>POINTS</th>
-              </tr>
-            </thead>
-            <tbody id="leaderboardPreview">
-              <tr>
-                <td colspan="6" style="text-align:center;padding:30px;color:#6b7280;">
-                  <div class="spinner" style="display:inline-block;"></div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
+      <div class="lb-header"><div><h2>Leaderboard</h2></div><a href="leaderboard.html" class="lb-view-all">View Full Leaderboard <i class="fas fa-arrow-right"></i></a></div>
+      <div class="lb-table-wrap"><table class="lb-table"><thead><tr><th>RANK</th><th>PLAYER</th><th>TEAM</th><th>POINTS</th></tr></thead><tbody id="leaderboardPreview"><tr><td colspan="4"><div class="spinner" style="margin:20px auto;"></div></td></tr></tbody></table></div>
     </div>
   </section>
 
-  <!-- ── FOUNDERS ── -->
-  <section class="founders-section" id="founders">
+  <section class="founders-section">
     <div class="section-inner">
       <h2 class="section-title">Our Leadership</h2>
-      <p class="section-sub">The passionate team behind Fire Village</p>
       <div class="founders-grid">
-        <div class="founder-card">
-          <div class="founder-avatar">
-            <img src="./assets/Founders1.jpg" alt="Aarush Sharma" onerror="this.parentElement.innerHTML='<span style=font-size:2rem;line-height:110px>🎮</span>'">
-          </div>
-          <div class="founder-name">Aarush Sharma</div>
-          <div class="founder-role">Founder & Visionary</div>
-          <p class="founder-bio">Creative mastermind behind Fire Village, building bridges from rural talent to national glory.</p>
-          <div class="founder-social">
-            <a href="https://www.instagram.com/pandit.2.0/" target="_blank" rel="noopener"><i class="fab fa-instagram"></i></a>
-          </div>
-        </div>
-        <div class="founder-card">
-          <div class="founder-avatar">
-            <img src="./assets/Founders2.jpg" alt="Abhishek Sharma" onerror="this.parentElement.innerHTML='<span style=font-size:2rem;line-height:110px>⚔️</span>'">
-          </div>
-          <div class="founder-name">Abhishek Sharma</div>
-          <div class="founder-role">Co-Founder & Operations</div>
-          <p class="founder-bio">Fueling the tournament mechanics with strategy, structure and discipline.</p>
-          <div class="founder-social">
-            <a href="https://www.instagram.com/_abhishek_sharmaaa/" target="_blank" rel="noopener"><i class="fab fa-instagram"></i></a>
-          </div>
-        </div>
-        <div class="founder-card">
-          <div class="founder-avatar">
-            <img src="./assets/Founders3.jpg" alt="Uplaksh Sharma" onerror="this.parentElement.innerHTML='<span style=font-size:2rem;line-height:110px>📡</span>'">
-          </div>
-          <div class="founder-name">Uplaksh Sharma</div>
-          <div class="founder-role">Tech & Broadcast Head</div>
-          <p class="founder-bio">Making tournaments shine on YouTube with seamless streaming and live support.</p>
-          <div class="founder-social">
-            <a href="https://www.instagram.com/uplaksh.sharma._/" target="_blank" rel="noopener"><i class="fab fa-instagram"></i></a>
-          </div>
-        </div>
+        <div class="founder-card"><div class="founder-avatar"><img src="./assets/Founders1.jpg" alt="Aarush" onerror="this.innerHTML='🎮'"></div><div class="founder-name">Aarush Sharma</div><div class="founder-role">Founder & Visionary</div><p class="founder-bio">Building bridges from rural talent to national glory.</p><a href="https://www.instagram.com/pandit.2.0/" target="_blank"><i class="fab fa-instagram" style="font-size:1.5rem;color:#facc15;"></i></a></div>
+        <div class="founder-card"><div class="founder-avatar"><img src="./assets/Founders2.jpg" alt="Abhishek" onerror="this.innerHTML='⚔️'"></div><div class="founder-name">Abhishek Sharma</div><div class="founder-role">Co-Founder & Operations</div><p class="founder-bio">Fueling tournament mechanics with strategy and discipline.</p><a href="https://www.instagram.com/_abhishek_sharmaaa/" target="_blank"><i class="fab fa-instagram" style="font-size:1.5rem;color:#facc15;"></i></a></div>
+        <div class="founder-card"><div class="founder-avatar"><img src="./assets/Founders3.jpg" alt="Uplaksh" onerror="this.innerHTML='📡'"></div><div class="founder-name">Uplaksh Sharma</div><div class="founder-role">Tech & Broadcast Head</div><p class="founder-bio">Making tournaments shine with seamless streaming.</p><a href="https://www.instagram.com/uplaksh.sharma._/" target="_blank"><i class="fab fa-instagram" style="font-size:1.5rem;color:#facc15;"></i></a></div>
       </div>
-      <div style="text-align:center;margin-top:36px;">
-        <a href="https://www.instagram.com/firevillage.in/" target="_blank" rel="noopener" class="ig-link">
-          <i class="fab fa-instagram" style="font-size:1.6rem;"></i> @firevillage.in
-        </a>
-      </div>
+      <div style="text-align:center;margin-top:36px;"><a href="https://www.instagram.com/firevillage.in/" target="_blank" class="ig-link"><i class="fab fa-instagram" style="font-size:1.6rem;"></i> @firevillage.in</a></div>
     </div>
   </section>
 
-  <!-- ── CTA ── -->
-  <section class="cta-section">
-    <div class="section-inner" style="text-align:center;">
-      <h2>Ready to Join the Battle?</h2>
-      <p>Create your account now and start your journey to becoming a gaming legend.</p>
-      <a href="register.html" class="btn-cta">
-        <i class="fas fa-user-plus"></i> Register Now — It's Free!
-      </a>
-    </div>
-  </section>
+  <section class="cta-section"><div class="section-inner"><h2>Ready to Join the Battle?</h2><p>Create your account now and start your journey.</p><a href="register.html" class="btn-cta"><i class="fas fa-user-plus"></i> Register Now — It's Free!</a></div></section>
 
-  <!-- ── FOOTER ── */
-  <footer>
-    <div class="footer-links">
-      <a href="privacy-policy.html">Privacy Policy</a>
-      <a href="terms.html">Terms of Service</a>
-      <a href="shipping.html">Shipping Policy</a>
-      <a href="contact.html">Contact Us</a>
-    </div>
-    <p>&copy; <span id="copyright-year"></span> Fire Village Tournament. All rights reserved.</p>
-  </footer>
+  <footer><div class="footer-links"><a href="privacy-policy.html">Privacy Policy</a><a href="terms.html">Terms of Service</a><a href="contact.html">Contact Us</a></div><p>&copy; <span id="copyright-year"></span> Fire Village Tournament. All rights reserved.</p></footer>
 
-  <!-- ── TOAST ── -->
-  <div class="toast" id="toast">
-    <i class="fas fa-check-circle"></i>
-    <span id="toastMsg"></span>
-  </div>
+  <div class="toast" id="toast"><i class="fas fa-check-circle"></i><span id="toastMsg"></span></div>
 
-  <!-- Firebase -->
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
 
-  <script>
-  // ════════════════════════════════════════════════
-  // FIREBASE CONFIG  ← apna config yahan paste karo
-  // ════════════════════════════════════════════════
+<script>
   const firebaseConfig = {
     apiKey: "AIzaSyDFjHR5_D6yQ9tXrEut-3c2o4oA1ddz6hQ",
     authDomain: "firevillagetournament.firebaseapp.com",
     projectId: "firevillagetournament",
     storageBucket: "firevillagetournament.firebasestorage.app",
     messagingSenderId: "511246704009",
-    appId: "1:511246704009:web:8ae5e484591a64bb735558",
-    measurementId: "G-ZCQ2V6DEGX"
+    appId: "1:511246704009:web:8ae5e484591a64bb735558"
   };
 
-  let db = null, auth = null;
-  let firebaseReady = false;
+  let db, auth;
 
-  try {
-    firebase.initializeApp(firebaseConfig);
-    db   = firebase.firestore();
-    auth = firebase.auth();
-    firebaseReady = true;
-  } catch(e) {
-    console.warn("Firebase not configured — using demo data.", e);
+  firebase.initializeApp(firebaseConfig);
+  db = firebase.firestore();
+  auth = firebase.auth();
+
+  function showToast(msg, type = 'success') {
+    const toast = document.getElementById('toast');
+    toast.querySelector('#toastMsg').textContent = msg;
+    toast.className = `toast ${type}`;
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 3500);
   }
 
-  // ════════════════════════════════
-  // DEMO / FALLBACK DATA
-  // ════════════════════════════════
-  const DEMO_TOURNAMENTS = [
-    {
-      id:'t1', name:'BGMI Chicken Dinner', status:'open',
-      date:'April 15, 2026', time:'6:00 PM', mode:'Squad (4v4)',
-      slots:25, registered:11, prize:'₹10,000',
-      fee:'₹100 per team', game: 'BGMI'
-    },
-    {
-      id:'t2', name:'Valorant Spike Rush', status:'upcoming',
-      date:'April 22, 2026', time:'7:00 PM', mode:'Team (5v5)',
-      slots:16, registered:4, prize:'₹15,000',
-      fee:'₹250 per team', game: 'Valorant'
-    },
-    {
-      id:'t3', name:'Free Fire Village Cup', status:'open',
-      date:'May 1, 2026', time:'5:30 PM', mode:'Squad (4v4)',
-      slots:20, registered:18, prize:'₹8,000',
-      fee:'₹80 per team', game: 'Free Fire'
-    }
-  ];
-  const DEMO_TEAMS = [
-    { id:'tm1', name:'Soul Esports', members:4, wins:25, initials:'SL' },
-    { id:'tm2', name:'Godlike', members:4, wins:21, initials:'GL' },
-    { id:'tm3', name:'Global Esports', members:5, wins:19,  initials:'GE' },
-    { id:'tm4', name:'Orangutan', members:4, wins:17,  initials:'OG' },
-    { id:'tm5', name:'Team XSpark',   members:4, wins:15,  initials:'TX' },
-    { id:'tm6', name:'Enigma Gaming',  members:5, wins:12,  initials:'EG' },
-    { id:'tm7', name:'Blind Esports', members:4, wins:10,  initials:'BL' },
-    { id:'tm8', name:'Revenant Esports',  members:5, wins:8,  initials:'RV' },
-  ];
-  const DEMO_LEADERS = [
-    { rank:1, name:'xHunter_99',    team:'Shadow Squad', kills:487, wins:22, points:4200 },
-    { rank:2, name:'BloodRayne_FF', team:'Fire Wolves',  kills:412, wins:18, points:3750 },
-    { rank:3, name:'DeathStrike',   team:'Blood Rush',   kills:398, wins:15, points:3400 },
-    { rank:4, name:'ShadowBlade',   team:'Iron Fist',    kills:365, wins:14, points:3100 },
-    { rank:5, name:'FirePhoenix',   team:'Toxic Elite',  kills:340, wins:12, points:2900 },
-    { rank:6, name:'NightOwl_FF',   team:'Night Raid',   kills:310, wins:10, points:2600 },
-    { rank:7, name:'GhostKiller',   team:'Venom Squad',  kills:285, wins:9,  points:2300 },
-    { rank:8, name:'ChaosLord',     team:'Chaos Crew',   kills:260, wins:7,  points:2000 },
-  ];
-
-  // ════════════════════════════════
-  // TOAST UTILITY
-  // ════════════════════════════════
-  let toastTimer;
-  function showToast(msg, type='success') {
-    const t = document.getElementById('toast');
-    const i = t.querySelector('i');
-    t.querySelector('#toastMsg').textContent = msg;
-    t.className = `toast ${type}`;
-    i.className = type==='success' ? 'fas fa-check-circle' : 'fas fa-exclamation-circle';
-    t.classList.add('show');
-    clearTimeout(toastTimer);
-    toastTimer = setTimeout(()=>t.classList.remove('show'), 3500);
-  }
-
-  // ════════════════════════════════
-  // NAVBAR: sticky + hamburger
-  // ════════════════════════════════
-  const navbar       = document.getElementById('navbar');
-  const hamburger    = document.getElementById('hamburger');
-  const hamburgerIcon= document.getElementById('hamburgerIcon');
-  const mobileMenu   = document.getElementById('mobileMenu');
-
-  window.addEventListener('scroll', ()=>{
-    navbar.classList.toggle('scrolled', window.scrollY > 40);
-  }, {passive:true});
-
-  hamburger.addEventListener('click', ()=>{
-    const open = mobileMenu.classList.toggle('open');
-    hamburgerIcon.className = open ? 'fas fa-times' : 'fas fa-bars';
-    hamburger.setAttribute('aria-expanded', open);
-  });
-
-  // Close mobile menu on link click
-  mobileMenu.querySelectorAll('a').forEach(a=>{
-    a.addEventListener('click', ()=>{
-      mobileMenu.classList.remove('open');
-      hamburgerIcon.className = 'fas fa-bars';
-    });
-  });
-
-  // ════════════════════════════════
-  // AUTH UI
-  // ════════════════════════════════
   function renderAuth(user) {
-    const authArea   = document.getElementById('authArea');
-    const mobileAuth = document.getElementById('mobileAuthArea');
+    const authArea = document.getElementById('authArea');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const navRegisterLink = document.querySelector('.nav-links a[href="register.html"]');
+    const heroBtnSecondary = document.querySelector('.btn-hero-secondary');
+    const ctaBtn = document.querySelector('.btn-cta');
 
     if (user) {
-      const displayName = user.displayName || user.email?.split('@')[0] || 'Player';
-      authArea.innerHTML = `
-        <div class="user-menu-wrap">
-          <button class="user-btn" id="userBtn">
-            <i class="fas fa-user-circle"></i>
-            <span>${displayName}</span>
-            <i class="fas fa-chevron-down" style="font-size:.7rem;"></i>
-          </button>
-          <div class="user-dropdown" id="userDropdown">
-            <a href="profile.html"><i class="fas fa-user-circle" style="margin-right:8px;color:var(--fire-yellow)"></i>Profile</a>
-            <a href="#" id="logoutBtn" class="logout"><i class="fas fa-sign-out-alt" style="margin-right:8px;"></i>Logout</a>
-          </div>
-        </div>`;
-      mobileAuth.innerHTML = `
-        <a href="profile.html"><i class="fas fa-user-circle" style="margin-right:10px;color:var(--fire-yellow)"></i>${displayName}'s Profile</a>
-        <a href="#" id="mobileLogout" style="color:#f87171;"><i class="fas fa-sign-out-alt" style="margin-right:10px;"></i>Logout</a>`;
+      const name = user.displayName || user.email?.split('@')[0] || 'Player';
+      if (navRegisterLink) navRegisterLink.parentElement.style.display = 'none';
+      if (heroBtnSecondary) heroBtnSecondary.style.display = 'none';
+      if (ctaBtn) {
+        ctaBtn.href = 'tournaments.html';
+        ctaBtn.innerHTML = '<i class="fas fa-trophy"></i> View Tournaments';
+      }
 
-      document.getElementById('userBtn')?.addEventListener('click', e=>{
-        e.stopPropagation();
-        document.getElementById('userDropdown')?.classList.toggle('open');
-      });
-      document.getElementById('logoutBtn')?.addEventListener('click', e=>{
-        e.preventDefault(); doLogout();
-      });
-      document.getElementById('mobileLogout')?.addEventListener('click', e=>{
-        e.preventDefault(); doLogout();
-      });
+      authArea.innerHTML = `<div class="user-menu-wrap"><button class="user-btn" id="userBtn"><i class="fas fa-user-circle"></i> ${name} <i class="fas fa-chevron-down"></i></button><div class="user-dropdown" id="userDropdown"><a href="profile.html">Profile</a><a href="#" id="logoutBtn" class="logout">Logout</a></div></div>`;
+      mobileMenu.innerHTML = `<a href="index.html" class="active">Home</a><a href="tournaments.html">Tournaments</a><a href="leaderboard.html">Leaderboard</a><a href="teams.html">Teams</a><a href="profile.html">Profile</a><a href="#" id="mobileLogout">Logout</a>`;
+      document.getElementById('userBtn')?.addEventListener('click', (e) => { e.stopPropagation(); document.getElementById('userDropdown')?.classList.toggle('open'); });
+      document.getElementById('logoutBtn')?.addEventListener('click', (e) => { e.preventDefault(); auth.signOut(); });
+      document.getElementById('mobileLogout')?.addEventListener('click', (e) => { e.preventDefault(); auth.signOut(); });
     } else {
-      authArea.innerHTML = `
-        <a href="login.html" class="btn-login"><i class="fas fa-sign-in-alt" style="margin-right:6px;"></i>Login</a>
-        <a href="register.html" class="btn-join"><i class="fas fa-user-plus" style="margin-right:6px;"></i>Join Now</a>`;
-      mobileAuth.innerHTML = `
-        <a href="login.html"><i class="fas fa-sign-in-alt" style="margin-right:10px;color:var(--fire-yellow)"></i>Login</a>
-        <a href="register.html" class="btn-join-mobile"><i class="fas fa-user-plus" style="margin-right:8px;"></i>Join Now</a>`;
-    }
+      if (navRegisterLink) navRegisterLink.parentElement.style.display = '';
+      if (heroBtnSecondary) heroBtnSecondary.style.display = 'flex';
+      if (ctaBtn) {
+        ctaBtn.href = 'register.html';
+        ctaBtn.innerHTML = `<i class="fas fa-user-plus"></i> Register Now — It's Free!`;
+      }
 
-    // Close dropdown on outside click
-    document.addEventListener('click', ()=>{
-      document.getElementById('userDropdown')?.classList.remove('open');
-    });
+      authArea.innerHTML = `<a href="login.html" class="btn-login">Login</a><a href="register.html" class="btn-join">Join Now</a>`;
+      mobileMenu.innerHTML = `<a href="index.html" class="active">Home</a><a href="tournaments.html">Tournaments</a><a href="leaderboard.html">Leaderboard</a><a href="teams.html">Teams</a><a href="login.html">Login</a><a href="register.html">Register</a>`;
+    }
+    document.addEventListener('click', () => document.getElementById('userDropdown')?.classList.remove('open'));
   }
 
-  function doLogout() {
-    if(auth) {
-      auth.signOut().then(()=>{
-        showToast('Logged out successfully.');
-        renderAuth(null);
+  function loadHomepageStats() {
+    // Using static values as requested (unlinked from backend)
+    animateStats('statPlayers', 5000, '', '+');
+    animateStats('statTeams', 250, '', '+');
+    animateStats('statTournaments', 50, '', '+');
+    animateStats('statPrize', 100000, '₹', '+');
+  }
+
+  function animateStats(elementId, target, prefix = '', suffix = '') {
+    const el = document.getElementById(elementId);
+    if (!el) return;
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          let current = 0;
+          const duration = 2000;
+          const stepTime = 20;
+          const steps = duration / stepTime;
+          const increment = target / steps;
+
+          const updateCounter = () => {
+            current += increment;
+            if (current < target) {
+              el.innerText = prefix + Math.ceil(current).toLocaleString('en-IN');
+              setTimeout(updateCounter, stepTime);
+            } else {
+              el.innerText = prefix + target.toLocaleString('en-IN') + suffix;
+            }
+          };
+          updateCounter();
+          observer.unobserve(el);
+        }
       });
-    } else {
-      showToast('Logged out.');
-      renderAuth(null);
+    }, { threshold: 0.5 });
+
+    observer.observe(el);
+  }
+
+  async function loadTournaments() {
+    const container = document.getElementById('tournamentsContainer');
+    if (!db) {
+      container.innerHTML = '<div class="no-data">Error: Database not connected.</div>';
+      return;
+    }
+    try {
+      const snap = await db.collection('tournaments')
+        .where('status', 'in', ['open', 'upcoming'])
+        .orderBy('startDate', 'asc')
+        .limit(3)
+        .get();
+
+      if (snap.empty) {
+        container.innerHTML = '<div class="no-data">No upcoming tournaments at the moment.</div>';
+        return;
+      }
+
+      container.innerHTML = snap.docs.map(doc => {
+        const t = doc.data();
+        const pct = Math.min(100, Math.round(((t.registeredTeams || 0) / t.maxTeams) * 100));
+        const isFull = (t.registeredTeams || 0) >= t.maxTeams;
+        let statusClass = isFull ? 'full' : t.status;
+        let statusLabel = isFull ? 'FULL' : (t.status || 'UPCOMING').toUpperCase();
+
+        return `
+          <div class="t-card" style="cursor: pointer;" onclick="window.location.href='tournament-details.html?id=${doc.id}'">
+            <div class="t-card-header">
+              <h3>${t.name}</h3>
+              <span class="t-status ${statusClass}">${statusLabel}</span>
+            </div>
+            <div class="t-card-body">
+              <div class="t-meta">
+                <div class="t-meta-item"><i class="fas fa-calendar"></i><span>${new Date(t.startDate).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })}</span></div>
+                <div class="t-meta-item"><i class="fas fa-gamepad"></i><span>${t.game}</span></div>
+                <div class="t-meta-item"><i class="fas fa-rupee-sign"></i><span>${t.fee > 0 ? `₹${t.fee}` : 'Free'}</span></div>
+              </div>
+              <div class="t-prize">₹${(t.prizePool || 0).toLocaleString('en-IN')}<small>Prize Pool</small></div>
+              <div class="t-progress-wrap">
+                <div class="t-progress-label"><span>Teams</span><span>${t.registeredTeams || 0}/${t.maxTeams}</span></div>
+                <div class="t-progress-bar"><div class="t-progress-fill" style="width:${pct}%"></div></div>
+              </div>
+              <a href="tournament-details.html?id=${doc.id}" class="btn-register ${isFull || t.status !== 'open' ? 'disabled' : ''}">${isFull ? 'Slots Full' : 'View & Register'}</a>
+            </div>
+          </div>`;
+      }).join('');
+    } catch (err) {
+      console.error("Error loading tournaments:", err);
+      container.innerHTML = '<div class="no-data">Error loading tournaments.</div>';
     }
   }
 
-  if (firebaseReady && auth) {
-    auth.onAuthStateChanged(user => renderAuth(user));
-  } else {
-    renderAuth(null); // Show login/join buttons by default
+  async function loadTeams() {
+    const container = document.getElementById('teamsContainer');
+    if (!db) {
+      container.innerHTML = '<div class="no-data">Error: Database not connected.</div>';
+      return;
+    }
+    try {
+      const snap = await db.collection('teams')
+        .where('status', '==', 'active')
+        .orderBy('totalPoints', 'desc')
+        .limit(6)
+        .get();
+
+      if (snap.empty) {
+        container.innerHTML = '<div class="no-data">No active teams found.</div>';
+        return;
+      }
+
+      container.innerHTML = snap.docs.map(doc => {
+        const t = doc.data();
+        const initial = t.tag || t.name?.substring(0, 2).toUpperCase() || 'TM';
+        return `
+          <a href="team-details.html?id=${doc.id}" class="team-card">
+            <div class="team-avatar">${initial}</div>
+            <h3>${t.name}</h3>
+            <div class="team-wins"><i class="fas fa-trophy"></i> ${t.wins || 0} Wins</div>
+          </a>`;
+      }).join('');
+    } catch (err) {
+      console.error("Error loading teams:", err);
+      container.innerHTML = '<div class="no-data">Error loading top teams.</div>';
+    }
   }
 
-  // ════════════════════════════════
-  // PARTICLES (canvas)
-  // ════════════════════════════════
-  (function initParticles(){
-    const canvas  = document.getElementById('particles');
+  async function loadLeaderboard() {
+    const tbody = document.getElementById('leaderboardPreview');
+    if (!db) {
+      tbody.innerHTML = '<tr><td colspan="4">Error: Database not connected.</td></tr>';
+      return;
+    }
+    try {
+      const teamsSnap = await db.collection('teams').where('status', '==', 'active').get();
+
+      if (teamsSnap.empty) {
+        tbody.innerHTML = '<tr><td colspan="4" class="no-data">No player data available yet.</td></tr>';
+        return;
+      }
+
+      let allPlayers = [];
+      teamsSnap.forEach(doc => {
+        const team = doc.data();
+        if (team.members && Array.isArray(team.members)) {
+          team.members.forEach(member => {
+            if (member.gameId) {
+              allPlayers.push({
+                name: member.gameId,
+                teamName: team.name,
+                points: member.points || 0
+              });
+            }
+          });
+        }
+      });
+
+      allPlayers.sort((a, b) => b.points - a.points);
+
+      const topPlayers = allPlayers.slice(0, 5);
+
+      if (topPlayers.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="4" class="no-data">No player data available yet.</td></tr>';
+        return;
+      }
+
+      tbody.innerHTML = topPlayers.map((p, index) => {
+        const rank = index + 1;
+        const rankClass = rank <= 3 ? `rank-${rank}` : 'rank-other';
+        return `
+          <tr>
+            <td><span class="rank-badge ${rankClass}">${rank}</span></td>
+            <td><span class="player-name">${p.name}</span></td>
+            <td>${p.teamName}</td>
+            <td><span class="points-count">${p.points.toLocaleString('en-IN')}</span></td>
+          </tr>`;
+      }).join('');
+    } catch (err) {
+      console.error("Error loading leaderboard preview:", err);
+      tbody.innerHTML = '<tr><td colspan="4" class="no-data">Error loading leaderboard.</td></tr>';
+    }
+  }
+
+  function initParticles() {
+    const canvas = document.getElementById('particles');
     if (!canvas) return;
-    const ctx     = canvas.getContext('2d');
-    const colors  = ['#facc15','#f59e0b','#ef4444','#ff6b00'];
+    const ctx = canvas.getContext('2d');
     let particles = [];
     let W, H;
-
-    function resize(){
-      W = canvas.width  = window.innerWidth;
-      H = canvas.height = window.innerHeight;
-    }
+    function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
     resize();
-    window.addEventListener('resize', resize, {passive:true});
-
-    function createParticle(){
-      return {
-        x: Math.random() * W,
-        y: H + Math.random() * 50,
-        r: Math.random() * 3 + 1,
-        speed: Math.random() * 1.5 + 0.5,
-        opacity: 0,
-        color: colors[Math.floor(Math.random()*colors.length)],
-        sway: (Math.random()-0.5)*0.8
-      };
+    window.addEventListener('resize', resize);
+    for (let i = 0; i < 50; i++) {
+      particles.push({ x: Math.random() * W, y: Math.random() * H, r: Math.random() * 2 + 1, speed: Math.random() * 1 + 0.5, opacity: Math.random() * 0.5, color: ['#facc15', '#f59e0b', '#ef4444'][Math.floor(Math.random() * 3)] });
     }
-
-    for(let i=0;i<60;i++){
-      const p = createParticle();
-      p.y = Math.random() * H; // spread initially
-      particles.push(p);
-    }
-
-    function animate(){
-      ctx.clearRect(0,0,W,H);
-      particles.forEach((p,i)=>{
-        p.y -= p.speed;
-        p.x += p.sway;
-        if(p.y < H*0.1) p.opacity -= 0.015;
-        else if(p.opacity < 0.8) p.opacity += 0.02;
-
-        ctx.save();
-        ctx.globalAlpha = Math.max(0, p.opacity);
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
-        ctx.fillStyle = p.color;
-        ctx.shadowBlur = 6;
-        ctx.shadowColor = p.color;
-        ctx.fill();
-        ctx.restore();
-
-        if(p.y < -10 || p.opacity <= 0) particles[i] = createParticle();
-      });
+    function animate() {
+      ctx.clearRect(0, 0, W, H);
+      particles.forEach(p => { p.y -= p.speed; if (p.y < -10) p.y = H + 10; ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2); ctx.fillStyle = p.color; ctx.fill(); });
       requestAnimationFrame(animate);
     }
     animate();
-  })();
-
-  // ════════════════════════════════
-  // COUNT-UP ANIMATION
-  // ════════════════════════════════
-  function countUp(el) {
-    const target = parseInt(el.dataset.target);
-    const prefix = el.dataset.prefix || '';
-    const suffix = el.dataset.suffix || '';
-    const duration = 2000;
-    const step = target / (duration / 16);
-    let current = 0;
-    const timer = setInterval(()=>{
-      current = Math.min(current + step, target);
-      el.textContent = prefix + (target >= 1000
-        ? Math.floor(current).toLocaleString('en-IN')
-        : Math.floor(current)) + suffix;
-      if(current >= target) clearInterval(timer);
-    }, 16);
   }
 
-  const statsObserver = new IntersectionObserver(entries=>{
-    entries.forEach(e=>{
-      if(e.isIntersecting){
-        countUp(e.target);
-        statsObserver.unobserve(e.target);
-      }
-    });
-  }, {threshold:0.5});
+  const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobileMenu');
+  hamburger.addEventListener('click', () => mobileMenu.classList.toggle('open'));
 
-  document.querySelectorAll('.stat-number').forEach(el=>statsObserver.observe(el));
-
-  // ════════════════════════════════
-  // FADE-IN ON SCROLL
-  // ════════════════════════════════
-  const fadeObserver = new IntersectionObserver(entries=>{
-    entries.forEach(e=>{
-      if(e.isIntersecting){
-        e.target.style.opacity='1';
-        e.target.style.transform='translateY(0)';
-        fadeObserver.unobserve(e.target);
-      }
-    });
-  },{threshold:0.1});
-
-  function setupFadeIn(selectors){
-    document.querySelectorAll(selectors).forEach((el,i)=>{
-      el.style.opacity='0';
-      el.style.transform='translateY(24px)';
-      el.style.transition=`opacity .55s ease ${(i%4)*0.08}s, transform .55s ease ${(i%4)*0.08}s`;
-      fadeObserver.observe(el);
-    });
-  }
-
-  // ════════════════════════════════
-  // RENDER TOURNAMENTS
-  // ════════════════════════════════
-  function renderTournaments(list) {
-    const container = document.getElementById('tournamentsContainer');
-    if(!list || list.length===0){
-      container.innerHTML='<div class="no-data"><i class="fas fa-calendar-times" style="font-size:2.5rem;color:#374151;display:block;margin-bottom:12px;"></i>No upcoming tournaments right now. Check back soon!</div>';
-      return;
-    }
-    container.innerHTML = list.map(t=>{
-      const pct   = Math.round((t.registered / t.slots) * 100);
-      const isFull = t.registered >= t.slots;
-      const statusClass = isFull ? 'full' : (t.status === 'upcoming' ? 'upcoming' : 'open');
-      const statusLabel = isFull ? 'FULL' : (t.status === 'upcoming' ? 'UPCOMING' : 'OPEN');
-      return `
-        <div class="t-card">
-          <div class="t-card-header">
-            <h3>${t.name}</h3>
-            <span class="t-status ${statusClass}">${statusLabel}</span>
-          </div>
-          <div class="t-card-body">
-            <div class="t-meta">
-              <div class="t-meta-item"><i class="fas fa-calendar"></i><span>${t.date}</span></div>
-              <div class="t-meta-item"><i class="fas fa-clock"></i><span>${t.time}</span></div>
-              <div class="t-meta-item"><i class="fas fa-gamepad"></i><span>${t.mode}</span></div>
-              <div class="t-meta-item"><i class="fas fa-rupee-sign"></i><span>${t.fee}</span></div>
-            </div>
-            <div class="t-prize">
-              ${t.prize}
-              <small>Prize Pool</small>
-            </div>
-            <div class="t-progress-wrap">
-              <div class="t-progress-label">
-                <span>Teams Registered</span>
-                <span>${t.registered}/${t.slots}</span>
-              </div>
-              <div class="t-progress-bar">
-                <div class="t-progress-fill" style="width:0%" data-width="${pct}%"></div>
-              </div>
-            </div>
-            <a href="tournaments.html?id=${t.id}" class="btn-register ${isFull ? 'disabled' : ''}">
-              ${isFull ? '<i class="fas fa-ban"></i> Slots Full' : '<i class="fas fa-user-plus"></i> Register Now'}
-            </a>
-          </div>
-        </div>`;
-    }).join('');
-
-    // Animate progress bars
-    requestAnimationFrame(()=>{
-      document.querySelectorAll('.t-progress-fill').forEach(bar=>{
-        setTimeout(()=>{ bar.style.width = bar.dataset.width; }, 300);
-      });
-    });
-    setupFadeIn('.t-card');
-  }
-
-  // ════════════════════════════════
-  // RENDER TEAMS
-  // ════════════════════════════════
-  function renderTeams(list) {
-    const container = document.getElementById('teamsContainer');
-    if(!list||list.length===0){
-      container.innerHTML='<div class="no-data">No teams found.</div>';
-      return;
-    }
-    container.innerHTML = list.map(t=>`
-      <div class="team-card">
-        <div class="team-avatar">${t.initials||t.name.substring(0,2).toUpperCase()}</div>
-        <h3>${t.name}</h3>
-        <div class="team-members"><i class="fas fa-users" style="margin-right:5px;color:var(--fire-orange)"></i>${t.members} Members</div>
-        <div class="team-wins"><i class="fas fa-trophy"></i> ${t.wins} Wins</div>
-      </div>`).join('');
-    setupFadeIn('.team-card');
-  }
-
-  // ════════════════════════════════
-  // RENDER LEADERBOARD
-  // ════════════════════════════════
-  function renderLeaderboard(list) {
-    const tbody = document.getElementById('leaderboardPreview');
-    if(!list||list.length===0){
-      tbody.innerHTML='<tr><td colspan="6" style="text-align:center;padding:30px;color:#6b7280;">No data yet.</td></tr>';
-      return;
-    }
-    tbody.innerHTML = list.slice(0,8).map(p=>{
-      const rankClass = p.rank<=3 ? `rank-${p.rank}` : 'rank-other';
-      return `
-        <tr>
-          <td><span class="rank-badge ${rankClass}">${p.rank}</span></td>
-          <td><span class="player-name">${p.name}</span></td>
-          <td>${p.team}</td>
-          <td><span class="kills-count"><i class="fas fa-skull-crossbones" style="margin-right:5px;font-size:.8rem;"></i>${p.kills}</span></td>
-          <td>${p.wins}</td>
-          <td><span class="points-count">${p.points.toLocaleString('en-IN')}</span></td>
-        </tr>`;
-    }).join('');
-  }
-
-  // ════════════════════════════════
-  // DATA LOADING (Firebase or Demo)
-  // ════════════════════════════════
-  async function loadData() {
-    if(firebaseReady && db) {
-      try {
-        // Tournaments
-        const tSnap = await db.collection('tournaments')
-          .where('status','in',['open','upcoming'])
-          .orderBy('date','asc')
-          .limit(6)
-          .get();
-        const tList = tSnap.empty ? DEMO_TOURNAMENTS : tSnap.docs.map(d=>({id:d.id,...d.data()}));
-        renderTournaments(tList);
-
-        // Teams
-        const tmSnap = await db.collection('teams')
-          .orderBy('wins','desc')
-          .limit(8)
-          .get();
-        const tmList = tmSnap.empty ? DEMO_TEAMS : tmSnap.docs.map(d=>({id:d.id,...d.data()}));
-        renderTeams(tmList);
-
-        // Leaderboard
-        const lSnap = await db.collection('leaderboard')
-          .orderBy('points','desc')
-          .limit(8)
-          .get();
-        const lList = lSnap.empty ? DEMO_LEADERS : lSnap.docs.map((d,i)=>({rank:i+1,...d.data()}));
-        renderLeaderboard(lList);
-
-      } catch(err) {
-        console.warn('Firestore error, using demo data:', err);
-        renderTournaments(DEMO_TOURNAMENTS);
-        renderTeams(DEMO_TEAMS);
-        renderLeaderboard(DEMO_LEADERS);
-      }
-    } else {
-      // Firebase not configured → show demo data
-      setTimeout(()=>{
-        renderTournaments(DEMO_TOURNAMENTS);
-        renderTeams(DEMO_TEAMS);
-        renderLeaderboard(DEMO_LEADERS);
-      }, 600);
-    }
-  }
-
-  // ════════════════════════════════
-  // INIT
-  // ════════════════════════════════
+  auth.onAuthStateChanged(user => { renderAuth(user); });
+  loadHomepageStats();
+  loadTournaments();
+  loadTeams();
+  loadLeaderboard();
+  initParticles();
   document.getElementById('copyright-year').textContent = new Date().getFullYear();
-  loadData();
-  setupFadeIn('.feature-card, .founder-card, .stat-card');
-  </script>
+</script>
 </body>
 </html>
