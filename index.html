@@ -879,10 +879,10 @@
       return;
     }
     try {
+      // Fetch without orderBy (client-side sorting instead)
       const snap = await db.collection('tournaments')
         .where('status', 'in', ['open', 'upcoming'])
-        .orderBy('startDate', 'asc')
-        .limit(3)
+        .limit(10) // Fetch more to account for filtering
         .get();
 
       if (snap.empty) {
@@ -890,37 +890,45 @@
         return;
       }
 
-      container.innerHTML = snap.docs.map(doc => {
-        const t = doc.data();
-        const pct = Math.min(100, Math.round(((t.registeredTeams || 0) / t.maxTeams) * 100));
-        const isFull = (t.registeredTeams || 0) >= t.maxTeams;
-        let statusClass = isFull ? 'full' : t.status;
+      // Sort on client side
+      const tournaments = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      tournaments.sort((a, b) => new Date(a.startDate) - new Date(b.startDate));
+      
+      // Take only top 3
+      const topTournaments = tournaments.slice(0, 3);
+
+      container.innerHTML = topTournaments.map(doc => {
+        const t = doc;
+        const tid = doc.id;
+        const pct = Math.min(100, Math.round(((t.registeredTeams || 0) / (t.maxTeams || 1)) * 100));
+        const isFull = (t.registeredTeams || 0) >= (t.maxTeams || 0);
+        let statusClass = isFull ? 'full' : (t.status || 'upcoming');
         let statusLabel = isFull ? 'FULL' : (t.status || 'UPCOMING').toUpperCase();
 
         return `
-          <div class="t-card" style="cursor: pointer;" onclick="window.location.href='tournament-details.html?id=${doc.id}'">
+          <div class="t-card" style="cursor: pointer;" onclick="window.location.href='tournament-details.html?id=${tid}'">
             <div class="t-card-header">
-              <h3>${t.name}</h3>
+              <h3>${t.name || 'Tournament'}</h3>
               <span class="t-status ${statusClass}">${statusLabel}</span>
             </div>
             <div class="t-card-body">
               <div class="t-meta">
-                <div class="t-meta-item"><i class="fas fa-calendar"></i><span>${new Date(t.startDate).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })}</span></div>
-                <div class="t-meta-item"><i class="fas fa-gamepad"></i><span>${t.game}</span></div>
-                <div class="t-meta-item"><i class="fas fa-rupee-sign"></i><span>${t.fee > 0 ? `₹${t.fee}` : 'Free'}</span></div>
+                <div class="t-meta-item"><i class="fas fa-calendar"></i><span>${t.startDate ? new Date(t.startDate).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' }) : 'TBD'}</span></div>
+                <div class="t-meta-item"><i class="fas fa-gamepad"></i><span>${t.game || 'Game'}</span></div>
+                <div class="t-meta-item"><i class="fas fa-rupee-sign"></i><span>${t.fee > 0 ? '₹' + t.fee : 'Free'}</span></div>
               </div>
-              <div class="t-prize">₹${(t.prizePool || 0).toLocaleString('en-IN')}<small>Prize Pool</small></div>
+              <div class="t-prize">₹${((t.prizePool || 0).toLocaleString('en-IN'))}<small>Prize Pool</small></div>
               <div class="t-progress-wrap">
-                <div class="t-progress-label"><span>Teams</span><span>${t.registeredTeams || 0}/${t.maxTeams}</span></div>
+                <div class="t-progress-label"><span>Teams</span><span>${t.registeredTeams || 0}/${t.maxTeams || '∞'}</span></div>
                 <div class="t-progress-bar"><div class="t-progress-fill" style="width:${pct}%"></div></div>
               </div>
-              <a href="tournament-details.html?id=${doc.id}" class="btn-register ${isFull || t.status !== 'open' ? 'disabled' : ''}">${isFull ? 'Slots Full' : 'View & Register'}</a>
+              <a href="tournament-details.html?id=${tid}" class="btn-register ${isFull || t.status !== 'open' ? 'disabled' : ''}">${isFull ? 'Slots Full' : 'View & Register'}</a>
             </div>
           </div>`;
       }).join('');
     } catch (err) {
       console.error("Error loading tournaments:", err);
-      container.innerHTML = '<div class="no-data">Error loading tournaments.</div>';
+      container.innerHTML = '<div class="no-data">Error loading tournaments. Please refresh the page.</div>';
     }
   }
 
@@ -931,30 +939,36 @@
       return;
     }
     try {
+      // Fetch without orderBy (client-side sorting instead)
       const snap = await db.collection('teams')
         .where('status', '==', 'active')
-        .orderBy('totalPoints', 'desc')
-        .limit(6)
+        .limit(20) // Fetch more to account for sorting
         .get();
 
       if (snap.empty) {
-        container.innerHTML = '<div class="no-data">No active teams found.</div>';
+        container.innerHTML = '<div class="no-data">No active teams found yet.</div>';
         return;
       }
 
-      container.innerHTML = snap.docs.map(doc => {
-        const t = doc.data();
+      // Sort on client side by totalPoints (descending)
+      const teams = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      teams.sort((a, b) => (b.totalPoints || 0) - (a.totalPoints || 0));
+      
+      // Take only top 6
+      const topTeams = teams.slice(0, 6);
+
+      container.innerHTML = topTeams.map(t => {
         const initial = t.tag || t.name?.substring(0, 2).toUpperCase() || 'TM';
         return `
-          <a href="team-details.html?id=${doc.id}" class="team-card">
+          <a href="team-details.html?id=${t.id}" class="team-card">
             <div class="team-avatar">${initial}</div>
-            <h3>${t.name}</h3>
+            <h3>${t.name || 'Team'}</h3>
             <div class="team-wins"><i class="fas fa-trophy"></i> ${t.wins || 0} Wins</div>
           </a>`;
       }).join('');
     } catch (err) {
       console.error("Error loading teams:", err);
-      container.innerHTML = '<div class="no-data">Error loading top teams.</div>';
+      container.innerHTML = '<div class="no-data">Error loading top teams. Please refresh the page.</div>';
     }
   }
 
@@ -1039,10 +1053,26 @@
   hamburger.addEventListener('click', () => mobileMenu.classList.toggle('open'));
 
   auth.onAuthStateChanged(user => { renderAuth(user); });
+  
+  // Load data with proper error handling and timing
   loadHomepageStats();
-  loadTournaments();
-  loadTeams();
-  loadLeaderboard();
+  
+  // Ensure Firebase is initialized before loading data
+  if (db) {
+    loadTournaments();
+    loadTeams();
+    loadLeaderboard();
+  } else {
+    console.warn('Firebase not initialized yet');
+    setTimeout(() => {
+      if (db) {
+        loadTournaments();
+        loadTeams();
+        loadLeaderboard();
+      }
+    }, 1000);
+  }
+  
   initParticles();
   document.getElementById('copyright-year').textContent = new Date().getFullYear();
 </script>
