@@ -308,6 +308,15 @@
       color: var(--text-tertiary);
     }
 
+    .admin-email {
+      font-size: 0.7rem;
+      color: var(--text-secondary);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin-top: 2px;
+    }
+
     .btn-logout {
       width: 100%;
       padding: 12px;
@@ -1010,6 +1019,7 @@
     @media (max-width: 1024px) {
       .sidebar {
         transform: translateX(-100%);
+        width: 250px;
       }
 
       .sidebar.open {
@@ -1024,35 +1034,280 @@
         padding: 16px 20px;
       }
 
+      .topbar-left {
+        gap: 12px;
+      }
+
+      .page-title {
+        font-size: 1.3rem;
+      }
+
       .content-area {
         padding: 20px;
       }
 
       .stats-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+      }
+
+      .stat-card {
+        padding: 16px;
+      }
+
+      .stat-value {
+        font-size: 1.8rem;
       }
     }
 
-    @media (max-width: 640px) {
+    @media (max-width: 768px) {
+      .sidebar {
+        width: 240px;
+      }
+
+      .page-title {
+        font-size: 1.1rem;
+      }
+
+      .breadcrumb {
+        display: none;
+      }
+
+      .topbar-right {
+        gap: 12px;
+      }
+
       .topbar-search {
         display: none;
       }
 
-      .page-title {
-        font-size: 1.2rem;
+      .topbar-icon {
+        font-size: 0.9rem;
+        padding: 8px;
+      }
+
+      .content-area {
+        padding: 16px;
+      }
+
+      .stats-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+
+      .stat-card {
+        padding: 14px;
+      }
+
+      .stat-header {
+        margin-bottom: 10px;
+      }
+
+      .stat-title {
+        font-size: 0.85rem;
       }
 
       .stat-value {
-        font-size: 2rem;
+        font-size: 1.6rem;
+      }
+
+      .stat-footer {
+        font-size: 0.75rem;
+      }
+
+      .card {
+        margin-bottom: 16px;
+        border-radius: 8px;
+      }
+
+      .card-header {
+        padding: 16px;
+      }
+
+      .card-body {
+        padding: 16px;
+      }
+
+      .card-title {
+        font-size: 1rem;
       }
 
       .table {
-        font-size: 0.8rem;
+        font-size: 0.75rem;
       }
 
       .table th,
       .table td {
+        padding: 8px 10px;
+      }
+
+      .btn {
+        padding: 8px 16px;
+        font-size: 0.85rem;
+      }
+
+      .btn-sm {
+        padding: 5px 10px;
+        font-size: 0.75rem;
+      }
+
+      .form-group {
+        margin-bottom: 15px;
+      }
+
+      .form-label {
+        font-size: 0.85rem;
+      }
+
+      .form-control {
         padding: 10px 12px;
+        font-size: 0.9rem;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .topbar-right {
+        gap: 8px;
+      }
+
+      .topbar-icon {
+        font-size: 0.85rem;
+        padding: 6px;
+      }
+
+      .page-title {
+        font-size: 1rem;
+      }
+
+      .content-area {
+        padding: 12px;
+      }
+
+      .stats-grid {
+        gap: 10px;
+      }
+
+      .stat-card {
+        padding: 12px;
+      }
+
+      .stat-icon {
+        font-size: 1.5rem;
+      }
+
+      .stat-title {
+        font-size: 0.8rem;
+      }
+
+      .stat-value {
+        font-size: 1.4rem;
+      }
+
+      .stat-footer {
+        font-size: 0.7rem;
+        gap: 4px;
+      }
+
+      .stat-trend {
+        font-size: 0.7rem;
+      }
+
+      .card-header {
+        padding: 14px;
+      }
+
+      .card-body {
+        padding: 14px;
+      }
+
+      .card-title {
+        font-size: 0.95rem;
+      }
+
+      .table {
+        font-size: 0.7rem;
+      }
+
+      .table th,
+      .table td {
+        padding: 6px 8px;
+      }
+
+      .btn {
+        padding: 7px 14px;
+        font-size: 0.8rem;
+      }
+
+      .modal {
+        padding: 16px;
+      }
+
+      .modal-title {
+        font-size: 1.1rem;
+      }
+
+      .form-label {
+        font-size: 0.8rem;
+      }
+
+      .form-control {
+        padding: 8px 10px;
+        font-size: 0.85rem;
+      }
+
+      .quick-action-card {
+        padding: 12px;
+      }
+
+      .quick-action-title {
+        font-size: 0.85rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .page-title {
+        font-size: 0.95rem;
+      }
+
+      .content-area {
+        padding: 8px;
+      }
+
+      .stats-grid {
+        gap: 8px;
+      }
+
+      .stat-card {
+        padding: 10px;
+      }
+
+      .stat-title {
+        font-size: 0.75rem;
+      }
+
+      .stat-value {
+        font-size: 1.2rem;
+      }
+
+      .topbar {
+        padding: 12px 16px;
+      }
+
+      .sidebar {
+        width: 220px;
+      }
+
+      .table {
+        font-size: 0.65rem;
+      }
+
+      .card {
+        margin-bottom: 12px;
+      }
+
+      .modal {
+        padding: 14px;
+        margin: 16px;
       }
     }
 
@@ -1195,6 +1450,7 @@
           <div class="admin-avatar" id="adminAvatar">A</div>
           <div class="admin-info">
             <div class="admin-name" id="adminName">Admin</div>
+            <div class="admin-email" id="adminEmail">admin@example.com</div>
             <div class="admin-role" id="adminRole">Super Admin</div>
           </div>
         </div>
@@ -3155,6 +3411,7 @@
         const displayName = userData.fullName || user.email?.split('@')[0] || 'Admin';
         
         document.getElementById('adminName').textContent = displayName;
+        document.getElementById('adminEmail').textContent = user.email || 'No email';
         document.getElementById('adminAvatar').textContent = displayName.charAt(0).toUpperCase();
         document.getElementById('adminRole').textContent = userData.adminLevel || 'Super Admin';
         
