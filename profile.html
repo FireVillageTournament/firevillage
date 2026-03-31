@@ -461,6 +461,15 @@
         return timeA - timeB; // Ascending: nearest first
       });
 
+      // Fetch user's confirmed registrations to check for access
+      const userRegsSnap = await db.collection('registrations')
+        .where('userId', '==', uid)
+        .where('status', '==', 'confirmed')
+        .get();
+      
+      const confirmedTournamentIds = new Set();
+      userRegsSnap.forEach(doc => { confirmedTournamentIds.add(doc.data().tournamentId); });
+
       allTournaments = allTournaments.slice(0, 8);
       
       if (allTournaments.length === 0) {
@@ -486,22 +495,25 @@
           let now = new Date();
           
           let roomId = tournament.roomId || '🔒 Hidden';
-          let roomPass = tournament.roomPassword || '🔒 Hidden';
+          let roomPass = tournament.roomPassword || '🔒 Hidden'; // Keep placeholder for UI
           let showCredentials = false;
           let isUpcoming = false;
           
-          // Show to everyone: Exactly 5 minutes before start, up to 2 hours after
+          // NEW: Check if user is confirmed for this tournament
+          const isUserConfirmed = confirmedTournamentIds.has(tournament.id);
+
+          // Show credentials only if user is confirmed and time is right
           if (startDateObj && tournament.status !== 'completed' && tournament.status !== 'closed') {
             const timeToStart = startDateObj - now;
             const fiveMins = 5 * 60 * 1000;
             const twoHours = 2 * 60 * 60 * 1000;
             
-            if (timeToStart <= fiveMins && timeToStart > -twoHours) { 
+            if (isUserConfirmed && timeToStart <= fiveMins && timeToStart > -twoHours) { 
               showCredentials = true;
             } else if (timeToStart > fiveMins) {
               isUpcoming = true;
               const revealTime = timeToStart - fiveMins;
-              if (revealTime > 0 && revealTime < 48 * 60 * 60 * 1000) {
+              if (isUserConfirmed && revealTime > 0 && revealTime < 48 * 60 * 60 * 1000) {
                 const timerKey = `${tournament.id}_reveal`;
                 if (activeTimers.has(timerKey)) clearTimeout(activeTimers.get(timerKey));
                 const tid = setTimeout(() => {
@@ -520,7 +532,7 @@
           if (isUpcoming && startDateObj && startDateObj > now) {
             const updateCountdown = () => {
               const currentTime = new Date();
-              const diff = startDateObj - currentTime;
+              const diff = startDateObj - currentTime;              
               if (diff <= 5 * 60 * 1000 && diff > 0 && !thresholdCrossed) {
                 thresholdCrossed = true;
                 db.collection('tournaments').doc(tournament.id).get().then(doc => updateUI({ id: doc.id, ...doc.data() }));
@@ -553,7 +565,7 @@
           }
           
           let credentialsHtml = '';
-          if (showCredentials && roomId && roomId.trim() !== '' && roomPass) {
+          if (showCredentials && roomId !== '🔒 Hidden' && roomPass !== '🔒 Hidden') {
             credentialsHtml = `
               <div class="credentials-box">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
@@ -568,11 +580,11 @@
               </div>
             `;
           } else if (showCredentials) {
-            credentialsHtml = `<div class="credentials-box" style="border-color:rgba(250,204,21,0.4); text-align:center;">
+            credentialsHtml = `<div class="credentials-box" style="border-color:rgba(250,204,21,0.4); text-align:center; color: var(--primary);">
               <i class="fas fa-clock lock-icon"></i> Room credentials will be posted here soon. Stay tuned!
             </div>`;
           } else if (isUpcoming) {
-            credentialsHtml = `<div class="credentials-box" style="border-color:rgba(250,204,21,0.4); text-align:center;">
+            credentialsHtml = `<div class="credentials-box" style="border-color:rgba(250,204,21,0.4); text-align:center; color: var(--text-tertiary);">
               <i class="fas fa-lock lock-icon"></i> Room ID & Password will be revealed in the countdown above exactly 5 minutes before match start.
             </div>`;
           }
