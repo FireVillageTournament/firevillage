@@ -258,6 +258,28 @@
       cursor: not-allowed;
       pointer-events: none;
     }
+    
+    /* Share Button */
+    .btn-share {
+      display: block;
+      width: 100%;
+      text-align: center;
+      padding: 12px; /* Slightly less padding than btn-main */
+      border-radius: 8px;
+      border: 1px solid var(--fire-yellow); /* Bordered style */
+      background: transparent;
+      color: var(--fire-yellow);
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 15px; /* Spacing from the register button */
+      transition: all .3s;
+    }
+    .btn-share:hover {
+      background: rgba(250,204,21,0.1);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(250,204,21,0.2);
+    }
+    .btn-share:active { transform: translateY(0); box-shadow: none; }
 
     /* Registered Teams Table */
     .teams-table-container {
@@ -313,6 +335,28 @@
     }
     @keyframes spin { to { transform: rotate(360deg); } }
 
+    /* Toast Notification (local for this page) */
+    #toast {
+      position: fixed;
+      bottom: 28px; right: 28px;
+      background: #1f2937;
+      border: 1px solid rgba(250,204,21,0.3);
+      border-radius: 10px;
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.9rem;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+      z-index: 9999;
+      transform: translateY(80px);
+      opacity: 0;
+      transition: all .35s cubic-bezier(0.4,0,0.2,1);
+      max-width: 340px;
+    }
+    #toast.show { transform: translateY(0); opacity: 1; }
+    #toast.success { border-color: rgba(74,222,128,0.4); }
+    #toast.success i { color: #4ade80; }
     footer {
       background: #111827;
       border-top: 1px solid rgba(255,255,255,0.06);
@@ -503,7 +547,7 @@
       });
     }
 
-    function renderTournament() {
+    function renderTournament(isUserConfirmed = false) {
       const container = document.getElementById('contentContainer');
       if (!tournament) {
         container.innerHTML = `<div class="loading-view"><i class="fas fa-exclamation-triangle" style="font-size:3rem;"></i><h2>Tournament Not Found</h2><a href="tournaments.html" style="color:var(--fire-yellow);">Back to Tournaments</a></div>`;
@@ -522,6 +566,46 @@
         'Respect all players and admins'
       ];
 
+      let registeredTeamsHtml = '';
+      if (isUserConfirmed) {
+        registeredTeamsHtml = `
+          <section>
+            <h2 class="sec-title">
+              <i class="fas fa-users"></i> Registered Teams 
+              <span style="font-size: 0.9rem; color: var(--fire-yellow);">(${tournament.registeredTeams || 0}/${tournament.maxTeams})</span>
+            </h2>
+            <div class="teams-table-container">
+              <table class="teams-table">
+                <thead>
+                  <tr>
+                    <th style="width: 70px;">#</th>
+                    <th>Team Name</th>
+                    <th>Team Captain</th>
+                    <th>Registered On</th>
+                  </tr>
+                </thead>
+                <tbody id="registeredTeamsList">
+                  <tr><td colspan="4" style="text-align: center; padding: 40px;"><div class="spinner"></div><p>Loading registered teams...</p></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+        `;
+      } else {
+        registeredTeamsHtml = `
+          <section>
+            <h2 class="sec-title">
+              <i class="fas fa-users"></i> Registered Teams
+            </h2>
+            <div style="background: rgba(0,0,0,0.3); border-radius: 10px; padding: 40px; text-align: center; color: #9ca3af;">
+              <i class="fas fa-lock" style="font-size: 2rem; color: var(--fire-yellow); margin-bottom: 16px;"></i>
+              <h3 style="font-size: 1.2rem; color: #fff; margin-bottom: 8px;">Access Restricted</h3>
+              <p>You must be a confirmed participant in this tournament to view the list of registered teams.</p>
+            </div>
+          </section>
+        `;
+      }
+
       container.innerHTML = `
         <section class="page-header">
           <h1 class="t-title">${escapeHtml(tournament.name)}</h1>
@@ -538,27 +622,7 @@
                 <h2 class="sec-title">Rules & Guidelines</h2>
                 <ul class="rules-list">${rules.map(r => `<li><i class="fas fa-check-circle"></i> <span>${escapeHtml(r)}</span></li>`).join('')}</ul>
               </section>
-              <section>
-                <h2 class="sec-title">
-                  <i class="fas fa-users"></i> Registered Teams 
-                  <span style="font-size: 0.9rem; color: var(--fire-yellow);">(${tournament.registeredTeams || 0}/${tournament.maxTeams})</span>
-                </h2>
-                <div class="teams-table-container">
-                  <table class="teams-table">
-                    <thead>
-                      <tr>
-                        <th style="width: 70px;">#</th>
-                        <th>Team Name</th>
-                        <th>Team Captain</th>
-                        <th>Registered On</th>
-                      </tr>
-                    </thead>
-                    <tbody id="registeredTeamsList">
-                      <tr><td colspan="4" style="text-align: center; padding: 40px;"><div class="spinner"></div><p>Loading registered teams...</p></td></tr>
-                    </tbody>
-                  </table>
-                </div>
-              </section>
+              ${registeredTeamsHtml}
             </div>
             <div class="right-col">
               <div class="sidebar-card">
@@ -579,14 +643,18 @@
                     isFull ? '<i class="fas fa-ban"></i> Slots Full' :
                     tournament.status !== 'open' ? `<i class="fas fa-clock"></i> ${tournament.status?.toUpperCase() || 'Closed'}` : '<i class="fas fa-user-plus"></i> Register Now'}
                 </button>
+                <button class="btn-share" onclick="shareTournament('${tournament.id}', '${escapeHtml(tournament.name)}')">
+                  <i class="fas fa-share-alt"></i> Share Tournament
+                </button>
               </div>
             </div>
           </div>
         </main>
       `;
 
-      // Load registered teams after rendering
-      loadRegisteredTeams(tournament.id);
+      if (isUserConfirmed) {
+        loadRegisteredTeams(tournament.id);
+      }
     }
 
     async function loadTournament() {
@@ -594,23 +662,37 @@
       const tId = params.get('id');
       if (!tId) {
         tournament = null;
-        renderTournament();
+        renderTournament(false);
         return;
       }
 
       try {
         const doc = await db.collection('tournaments').doc(tId).get();
+        let isUserConfirmed = false;
+
         if (doc.exists) {
           tournament = { id: doc.id, ...doc.data() };
-          renderTournament();
+          
+          if (currentUser) {
+            const regSnap = await db.collection('registrations')
+              .where('userId', '==', currentUser.uid)
+              .where('tournamentId', '==', tId)
+              .where('status', '==', 'confirmed')
+              .limit(1)
+              .get();
+            if (!regSnap.empty) {
+              isUserConfirmed = true;
+            }
+          }
+          renderTournament(isUserConfirmed);
         } else {
           tournament = null;
-          renderTournament();
+          renderTournament(false);
         }
       } catch (err) {
         console.error(err);
         tournament = null;
-        renderTournament();
+        renderTournament(false);
       }
     }
 
