@@ -81,6 +81,8 @@
       color: var(--primary);
       font-weight: 700;
       font-size: 1.5rem;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
     }
 
     .logo i {
@@ -90,8 +92,9 @@
     .back-btn {
       display: inline-flex;
       align-items: center;
+      justify-content: center;
       gap: 8px;
-      padding: 8px 20px;
+      padding: 10px 20px;
       background: rgba(250, 204, 21, 0.1);
       border: 1px solid rgba(250, 204, 21, 0.3);
       border-radius: 8px;
@@ -99,11 +102,18 @@
       text-decoration: none;
       font-weight: 500;
       transition: all 0.2s;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+      min-height: 40px;
     }
 
     .back-btn:hover {
       background: var(--primary);
       color: var(--bg-primary);
+    }
+
+    .back-btn:active {
+      transform: scale(0.95);
     }
 
     /* Hero Section */
@@ -169,6 +179,10 @@
       gap: 12px;
       flex: 1;
       cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+      min-width: 60px;
+      padding: 8px 4px;
     }
 
     .progress-step-circle {
@@ -182,6 +196,7 @@
       justify-content: center;
       font-weight: 700;
       transition: all 0.3s;
+      flex-shrink: 0;
     }
 
     .progress-step.active .progress-step-circle {
@@ -314,6 +329,9 @@
       font-size: 0.95rem;
       font-family: var(--font-main);
       transition: all 0.2s;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
     }
 
     .form-input:focus {
@@ -324,6 +342,11 @@
 
     .form-input::placeholder {
       color: var(--text-tertiary);
+    }
+
+    /* Select styling for mobile */
+    select.form-input {
+      cursor: pointer;
     }
 
     /* Game Selection */
@@ -343,6 +366,17 @@
       cursor: pointer;
       transition: all 0.2s;
       position: relative;
+      min-height: 120px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+    }
+
+    .game-option:active {
+      transform: scale(0.98);
     }
 
     .game-option:hover {
@@ -434,17 +468,27 @@
       background: rgba(239, 68, 68, 0.1);
       border: 1px solid var(--danger);
       color: var(--danger);
-      padding: 6px 12px;
+      padding: 8px 12px;
       border-radius: 6px;
       cursor: pointer;
       font-size: 0.8rem;
       font-weight: 600;
       transition: all 0.2s;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+      min-height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .remove-member-btn:hover {
       background: var(--danger);
       color: white;
+    }
+
+    .remove-member-btn:active {
+      transform: scale(0.95);
     }
 
     .member-fields {
@@ -467,11 +511,18 @@
       align-items: center;
       justify-content: center;
       gap: 8px;
+      min-height: 44px;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
     }
 
     .add-member-btn:hover {
       background: rgba(250, 204, 21, 0.2);
       border-style: solid;
+    }
+
+    .add-member-btn:active {
+      transform: scale(0.98);
     }
 
     /* Tournament Selection */
@@ -483,10 +534,17 @@
       cursor: pointer;
       transition: all 0.2s;
       margin-bottom: 16px;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+    }
+
+    .tournament-option:active {
+      transform: scale(0.98);
     }
 
     .tournament-option:hover {
       border-color: var(--primary);
+      transform: translateY(-2px);
     }
 
     .tournament-option.selected {
@@ -610,12 +668,21 @@
       transition: all 0.2s;
       display: inline-flex;
       align-items: center;
+      justify-content: center;
       gap: 6px;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+      min-height: 40px;
+      width: 100%;
     }
 
     .copy-btn:hover {
       background: var(--primary);
       color: var(--bg-primary);
+    }
+
+    .copy-btn:active {
+      transform: scale(0.95);
     }
 
     .cashfree-btn {
@@ -755,7 +822,7 @@
     /* Checkbox */
     .checkbox-group {
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       gap: 12px;
       padding: 16px;
       background: var(--bg-tertiary);
@@ -768,12 +835,21 @@
       height: 20px;
       cursor: pointer;
       accent-color: var(--primary);
+      margin-top: 2px;
+      flex-shrink: 0;
+      min-height: 20px;
+      min-width: 20px;
     }
 
     .checkbox-group label {
       cursor: pointer;
       color: var(--text-secondary);
       font-size: 0.9rem;
+      line-height: 1.5;
+      user-select: none;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
     }
 
     /* Navigation Buttons */
@@ -796,6 +872,9 @@
       align-items: center;
       justify-content: center;
       gap: 8px;
+      min-height: 44px;
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
     }
 
     .btn-primary {
@@ -898,39 +977,133 @@
     /* Responsive */
     @media (max-width: 768px) {
       .form-card {
-        padding: 24px;
+        padding: 20px;
+        border-radius: 12px;
       }
 
       .hero-title {
-        font-size: 2rem;
+        font-size: 1.8rem;
+      }
+
+      .hero-subtitle {
+        font-size: 1rem;
+      }
+
+      .progress-container {
+        padding: 0 16px;
       }
 
       .progress-steps {
-        margin-bottom: 40px;
+        margin-bottom: 50px;
+      }
+
+      .progress-step-circle {
+        width: 40px;
+        height: 40px;
+        font-size: 0.85rem;
       }
 
       .progress-step-label {
-        font-size: 0.7rem;
+        font-size: 0.65rem;
+        max-width: 60px;
       }
 
       .form-grid {
         grid-template-columns: 1fr;
+        gap: 16px;
+        margin-bottom: 16px;
       }
 
       .member-fields {
         grid-template-columns: 1fr;
+        gap: 12px;
       }
 
       .game-grid {
         grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+      }
+
+      .game-option {
+        padding: 12px;
+      }
+
+      .game-icon {
+        font-size: 1.5rem;
+      }
+
+      .game-name {
+        font-size: 0.75rem;
       }
 
       .payment-methods {
         grid-template-columns: 1fr;
+        gap: 16px;
       }
 
       .fee-amount {
-        font-size: 2.5rem;
+        font-size: 2.2rem;
+      }
+
+      .tournament-option {
+        padding: 16px;
+        margin-bottom: 12px;
+      }
+
+      .tournament-name {
+        font-size: 1rem;
+      }
+
+      .tournament-details {
+        grid-template-columns: 1fr;
+        gap: 8px;
+      }
+
+      .form-navigation {
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .btn {
+        padding: 12px 16px;
+        font-size: 0.95rem;
+      }
+
+      .member-card {
+        padding: 16px;
+      }
+
+      .member-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+      }
+
+      .remove-member-btn {
+        width: 100%;
+      }
+
+      .file-upload {
+        padding: 20px;
+      }
+
+      .checkbox-group {
+        padding: 12px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+      }
+
+      .fee-display {
+        padding: 16px;
+      }
+
+      .step-title {
+        font-size: 1.4rem;
+      }
+
+      .step-description {
+        font-size: 0.9rem;
       }
     }
 
@@ -939,16 +1112,251 @@
         display: none;
       }
 
+      .progress-step-circle {
+        width: 36px;
+        height: 36px;
+        font-size: 0.75rem;
+      }
+
       .nav {
-        padding: 0 16px;
+        padding: 0 12px;
+        height: 60px;
+      }
+
+      .logo {
+        font-size: 1.2rem;
+      }
+
+      .logo i {
+        font-size: 1.4rem;
+      }
+
+      .back-btn {
+        padding: 6px 12px;
+        font-size: 0.8rem;
+      }
+
+      .back-btn span {
+        display: none;
+      }
+
+      .back-btn i {
+        margin: 0;
       }
 
       .hero {
-        padding: 40px 16px 24px;
+        padding: 30px 16px 20px;
+      }
+
+      .hero-title {
+        font-size: 1.5rem;
+        margin-bottom: 8px;
+      }
+
+      .hero-subtitle {
+        font-size: 0.9rem;
       }
 
       .main-container {
-        padding: 24px 16px 60px;
+        padding: 20px 12px 60px;
+      }
+
+      .form-card {
+        padding: 16px;
+      }
+
+      .progress-container {
+        padding: 0 12px;
+      }
+
+      .progress-steps {
+        margin-bottom: 40px;
+      }
+
+      .form-label {
+        font-size: 0.85rem;
+      }
+
+      .form-input {
+        padding: 10px 12px;
+        font-size: 0.9rem;
+      }
+
+      .game-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+      }
+
+      .game-option {
+        padding: 10px;
+      }
+
+      .game-icon {
+        font-size: 1.3rem;
+        margin-bottom: 4px;
+      }
+
+      .game-name {
+        font-size: 0.7rem;
+      }
+
+      .member-card {
+        padding: 12px;
+      }
+
+      .member-fields {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .member-fields input {
+        width: 100%;
+      }
+
+      .members-list {
+        max-height: 400px;
+      }
+
+      .tournament-option {
+        padding: 12px;
+        margin-bottom: 10px;
+      }
+
+      .tournament-name {
+        font-size: 0.95rem;
+      }
+
+      .tournament-detail {
+        font-size: 0.75rem;
+      }
+
+      .tournament-fee {
+        font-size: 1.5rem;
+      }
+
+      .payment-method {
+        padding: 16px;
+      }
+
+      .payment-method-icon {
+        font-size: 2.5rem;
+      }
+
+      .payment-method-title {
+        font-size: 1rem;
+      }
+
+      .upi-id {
+        padding: 10px;
+        font-size: 0.85rem;
+      }
+
+      .copy-btn {
+        width: 100%;
+        justify-content: center;
+        padding: 10px 12px;
+        font-size: 0.8rem;
+      }
+
+      .btn {
+        padding: 12px 16px;
+        font-size: 0.9rem;
+        min-height: 44px;
+      }
+
+      .form-navigation {
+        gap: 8px;
+      }
+
+      .file-upload {
+        padding: 16px;
+      }
+
+      .file-upload-icon {
+        font-size: 2.5rem;
+      }
+
+      .fee-display {
+        padding: 16px;
+        margin: 16px 0;
+      }
+
+      .fee-label {
+        font-size: 0.85rem;
+      }
+
+      .fee-amount {
+        font-size: 2rem;
+      }
+
+      .step-title {
+        font-size: 1.3rem;
+        gap: 8px;
+      }
+
+      .step-description {
+        font-size: 0.85rem;
+      }
+
+      .step-header {
+        margin-bottom: 20px;
+      }
+
+      .checkbox-group {
+        padding: 12px;
+        gap: 8px;
+        margin: 16px 0;
+      }
+
+      .checkbox-group label {
+        font-size: 0.85rem;
+      }
+
+      footer {
+        padding: 24px 16px;
+        font-size: 0.8rem;
+      }
+
+      .form-step {
+        animation: fadeIn 0.3s ease;
+      }
+    }
+
+    @media (max-width: 360px) {
+      .logo {
+        font-size: 1rem;
+      }
+
+      .hero-title {
+        font-size: 1.3rem;
+      }
+
+      .progress-step-circle {
+        width: 32px;
+        height: 32px;
+        font-size: 0.7rem;
+      }
+
+      .game-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .game-option {
+        padding: 8px;
+      }
+
+      .game-icon {
+        font-size: 1.2rem;
+      }
+
+      .fee-amount {
+        font-size: 1.8rem;
+      }
+
+      .btn {
+        padding: 10px 12px;
+        font-size: 0.85rem;
       }
     }
   </style>
@@ -1316,6 +1724,39 @@
     let memberCount = 0;
     let selectedTournamentData = null;
 
+    // ===== DATA SANITIZATION =====
+    // Remove any DOM elements from data before saving to Firebase
+    function sanitizeData(obj) {
+      if (obj === null || obj === undefined) return obj;
+      
+      // Check if it's a DOM element
+      if (obj instanceof HTMLElement) {
+        console.warn('⚠️ Attempted to save a DOM element - this will be filtered', obj);
+        return null;
+      }
+      
+      // If it's an array, sanitize each element
+      if (Array.isArray(obj)) {
+        return obj.map(item => sanitizeData(item)).filter(item => item !== null);
+      }
+      
+      // If it's an object, sanitize all properties
+      if (typeof obj === 'object') {
+        const cleaned = {};
+        for (const key in obj) {
+          if (obj.hasOwnProperty(key)) {
+            const value = obj[key];
+            if (!(value instanceof HTMLElement) && value !== null) {
+              cleaned[key] = sanitizeData(value);
+            }
+          }
+        }
+        return cleaned;
+      }
+      
+      return obj;
+    }
+
     // Alert System
     function showAlert(message, type = 'success') {
       const container = document.getElementById('alertContainer');
@@ -1485,15 +1926,21 @@
     function collectMembers() {
       const members = [];
       document.querySelectorAll('.member-card').forEach((card, index) => {
-        const name = card.querySelector('.member-name')?.value.trim();
-        const gameId = card.querySelector('.member-gameid')?.value.trim();
-        const role = card.querySelector('.member-role')?.value;
+        // Extract values (not elements!)
+        const nameInput = card.querySelector('.member-name');
+        const gameIdInput = card.querySelector('.member-gameid');
+        const roleSelect = card.querySelector('.member-role');
+        
+        // Get the TEXT VALUES, not the elements
+        const name = nameInput ? nameInput.value.trim() : '';
+        const gameId = gameIdInput ? gameIdInput.value.trim() : '';
+        const role = roleSelect ? roleSelect.value : 'Player';
         
         if (name && gameId) {
           members.push({
-            name,
-            gameId,
-            role,
+            name: name,
+            gameId: gameId,
+            role: role,
             isCaptain: index === 0
           });
         }
@@ -1696,14 +2143,65 @@
           return;
         }
         const user = auth.currentUser;
+        
+        // Extract all form values properly (NOT form elements!)
+        const teamName = document.getElementById('teamName').value.trim();
         const teamTag = document.getElementById('teamTag').value.trim();
         const captainName = document.getElementById('captainName').value.trim();
         const email = document.getElementById('teamEmail').value.trim();
         const contact = document.getElementById('contactNumber').value.trim();
         const members = collectMembers();
         const tournamentId = document.getElementById('selectedTournament').value;
-        const tournamentFee = parseInt(document.getElementById('tournamentFee').value);
+        const tournamentFee = parseInt(document.getElementById('tournamentFee').value) || 0;
         const transactionRef = document.getElementById('transactionRef').value.trim();
+        
+        // Validation: Make sure all required data is present
+        if (!teamName || !captainName || !email || !contact || !tournamentId || !transactionRef) {
+          showAlert('Please fill in all required fields', 'error');
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = '<i class="fas fa-check-double"></i> Submit Registration';
+          return;
+        }
+        
+        if (!members || members.length === 0) {
+          showAlert('Please add team members', 'error');
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = '<i class="fas fa-check-double"></i> Submit Registration';
+          return;
+        }
+        
+        if (!selectedGame) {
+          showAlert('Please select a game', 'error');
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = '<i class="fas fa-check-double"></i> Submit Registration';
+          return;
+        }
+        
+        if (!selectedTournamentData) {
+          showAlert('Please select a tournament', 'error');
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = '<i class="fas fa-check-double"></i> Submit Registration';
+          return;
+        }
+        
+        // Email validation
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+          showAlert('Please enter a valid email address', 'error');
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = '<i class="fas fa-check-double"></i> Submit Registration';
+          return;
+        }
+        
+        // Phone validation (basic)
+        const phoneRegex = /^[0-9]{10}$/;
+        const phoneDigits = contact.replace(/\D/g, '');
+        if (phoneDigits.length < 10) {
+          showAlert('Please enter a valid phone number', 'error');
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = '<i class="fas fa-check-double"></i> Submit Registration';
+          return;
+        }
         
         // File references
         const logoFile = document.getElementById('teamLogo').files[0];
@@ -1719,67 +2217,76 @@
             ign: members[0]?.gameId || captainName,
             role: 'player',
             createdAt: firebase.firestore.FieldValue.serverTimestamp()
-          });
+          }, { merge: true });
         }
 
         // --- Start Atomic Batch Write ---
         const batch = db.batch();
 
-        // 1. Create Team Document
-        const teamData = {
+        // 1. Create Team Document (SANITIZE THE DATA!)
+        const teamData = sanitizeData({
           name: teamName,
-          tag: teamTag || null,
+          tag: teamTag || '',
           captainName: captainName,
           captainId: user.uid,
           email: email,
-          contact: contact,
+          contact: phoneDigits, // Save only digits
           primaryGame: selectedGame,
           members: members,
           ownerId: user.uid,
-          logoUrl: null, // Placeholder, will be updated after upload
+          logoUrl: logoUrl, // Initial null, will be updated after upload
           status: 'pending_payment',
           tournaments: [tournamentId],
           wins: 0,
           totalMatches: 0,
           totalKills: 0,
           totalPoints: 0,
-          createdAt: firebase.firestore.FieldValue.serverTimestamp()
-        };
+          createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+          updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
         
         const teamRef = db.collection('teams').doc(); // Generate a new doc reference
         batch.set(teamRef, teamData);
         
         // 2. Create Payment Record
-        const paymentData = {
+        const paymentData = sanitizeData({
           userId: user.uid,
           teamId: teamRef.id,
           teamName: teamName,
           tournamentId: tournamentId,
-          tournamentName: selectedTournamentData.name,
+          tournamentName: selectedTournamentData.name || '',
           amount: tournamentFee,
           transactionRef: transactionRef,
           paymentMethod: 'UPI',
-          screenshotUrl: null, // Placeholder
+          screenshotUrl: logoUrl, // Placeholder
           status: 'pending_verification',
-          createdAt: firebase.firestore.FieldValue.serverTimestamp()
-        };
+          createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+          updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
         const paymentRef = db.collection('payments').doc();
         batch.set(paymentRef, paymentData);
         
         // 3. Create Registration Record
-        const registrationData = {
+        const registrationData = sanitizeData({
           userId: user.uid,
           teamId: teamRef.id,
           teamName: teamName,
           captainName: captainName,
           tournamentId: tournamentId,
-          tournamentName: selectedTournamentData.name,
+          tournamentName: selectedTournamentData.name || '',
           fee: tournamentFee,
           status: 'pending',
-          createdAt: firebase.firestore.FieldValue.serverTimestamp()
-        };
+          createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+          updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
         const registrationRef = db.collection('registrations').doc();
         batch.set(registrationRef, registrationData);
+        
+        // 4. Increment tournament registered teams count
+        const tournamentRef = db.collection('tournaments').doc(tournamentId);
+        batch.update(tournamentRef, {
+          registeredTeams: firebase.firestore.FieldValue.increment(1)
+        });
 
         // Commit all writes
         await batch.commit();
@@ -1788,7 +2295,16 @@
         // Now upload files and update the doc URLs
         if (logoFile) {
           logoUrl = await uploadFile(logoFile, `team-logos/${teamRef.id}`);
-          await teamRef.update({ logoUrl: logoUrl });
+          await teamRef.update({ 
+            logoUrl: logoUrl,
+            updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+          });
+          
+          // Also update payment with screenshot URL
+          await paymentRef.update({
+            screenshotUrl: logoUrl,
+            updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+          });
         }
         
         // Show greeting message
@@ -1808,7 +2324,7 @@
         step5.querySelector('.checkbox-group').style.display = 'none';
         step5.querySelector('.form-navigation').style.display = 'none';
 
-        showAlert(`Team "${teamName}" registered successfully!`, 'success');
+        showAlert(`Team "${teamName}" registered successfully! Payment pending verification.`, 'success');
 
         // Redirect after 5 seconds
         setTimeout(() => {
