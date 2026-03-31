@@ -2182,6 +2182,10 @@
               <input type="number" id="editTournamentMaxTeams" class="form-control" required>
             </div>
             <div class="form-group">
+              <label class="form-label">Registered Teams</label>
+              <input type="number" id="editTournamentRegisteredTeams" class="form-control" placeholder="e.g., 32">
+            </div>
+            <div class="form-group">
               <label class="form-label">Registration Fee (₹) *</label>
               <input type="number" id="editTournamentFee" class="form-control" required>
             </div>
@@ -2691,6 +2695,7 @@
           
           document.getElementById('editTournamentPrize').value = data.prizePool || 0;
           document.getElementById('editTournamentMaxTeams').value = data.maxTeams || 0;
+          document.getElementById('editTournamentRegisteredTeams').value = data.registeredTeams || 0;
           document.getElementById('editTournamentFee').value = data.fee || 0;
           document.getElementById('editTournamentFormat').value = data.format || 'Single Elimination';
           document.getElementById('editTournamentStatus').value = data.status || 'upcoming';
@@ -2729,6 +2734,7 @@
           endDate: document.getElementById('editTournamentEnd').value,
           prizePool: parseInt(document.getElementById('editTournamentPrize').value) || 0,
           maxTeams: parseInt(document.getElementById('editTournamentMaxTeams').value) || 0,
+          registeredTeams: parseInt(document.getElementById('editTournamentRegisteredTeams').value),
           fee: parseInt(document.getElementById('editTournamentFee').value) || 0,
           format: document.getElementById('editTournamentFormat').value,
           status: document.getElementById('editTournamentStatus').value,
